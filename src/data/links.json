@@ -1,0 +1,36 @@
+{
+  "siteInfo": {
+    "title": "DY Kong Shan",
+    "description": "子域名导航中心",
+    "logo": "/vite.svg"
+  },
+  "categories": [
+    {
+      "id": "dev",
+      "name": "开发工具",
+      "icon": "⚙️"
+    },
+    {
+      "id": "docs",
+      "name": "文档中心",
+      "icon": "📚"
+    },
+    {
+      "id": "services",
+      "name": "在线服务",
+      "icon": "🌐"
+    }
+  ],
+  "links": [
+    {
+      "id": "cicd",
+      "title": "CI/CD Action",
+      "url": "https://cicdaction.dykongshan.com",
+      "description": "持续集成与部署工具",
+      "categoryId": "dev",
+      "icon": "🚀",
+      "clickCount": 0,
+      "createdAt": "2024-01-01"
+    }
+  ]
+}
