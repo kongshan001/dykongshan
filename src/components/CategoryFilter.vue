@@ -4,7 +4,7 @@
       @click="selectCategory('')"
       :class="[
         'px-4 py-2 rounded-lg font-medium transition-all duration-200',
-        selectedCategory === ''
+        linksStore.selectedCategory === ''
           ? 'bg-primary-500 text-white shadow-lg'
           : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
       ]"
@@ -17,7 +17,7 @@
       @click="selectCategory(category.id)"
       :class="[
         'px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2',
-        selectedCategory === category.id
+        linksStore.selectedCategory === category.id
           ? 'bg-primary-500 text-white shadow-lg'
           : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
       ]"
@@ -30,17 +30,17 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useLinks } from '../composables/useLinks'
+import { useLinksStore } from '../stores/links'
 import linksData from '../data/links.json'
 
 const categories = ref([])
-const { selectedCategory } = useLinks()
+const linksStore = useLinksStore()
 
 onMounted(() => {
   categories.value = linksData.categories || []
 })
 
 const selectCategory = (categoryId) => {
-  selectedCategory.value = categoryId
+  linksStore.setSelectedCategory(categoryId)
 }
 </script>

@@ -1,7 +1,8 @@
 <template>
   <div class="relative">
     <input
-      v-model="searchQuery"
+      :value="linksStore.searchQuery"
+      @input="handleSearchInput"
       type="text"
       placeholder="搜索子域名..."
       class="w-full px-4 py-3 pl-12 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
@@ -21,7 +22,7 @@
       />
     </svg>
     <button
-      v-if="searchQuery"
+      v-if="linksStore.searchQuery"
       @click="clearSearch"
       class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
     >
@@ -44,11 +45,15 @@
 </template>
 
 <script setup>
-import { useLinks } from '../composables/useLinks'
+import { useLinksStore } from '../stores/links'
 
-const { searchQuery } = useLinks()
+const linksStore = useLinksStore()
+
+const handleSearchInput = (e) => {
+  linksStore.setSearchQuery(e.target.value)
+}
 
 const clearSearch = () => {
-  searchQuery.value = ''
+  linksStore.setSearchQuery('')
 }
 </script>

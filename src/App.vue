@@ -19,40 +19,24 @@
 <script setup>
 import { computed, onMounted } from 'vue'
 import { useTheme } from './composables/useTheme'
-import { useLinks } from './composables/useLinks'
+import { useLinksStore } from './stores/links'
 import Header from './components/Header.vue'
 import SearchBar from './components/SearchBar.vue'
 import CategoryFilter from './components/CategoryFilter.vue'
 import LinkCard from './components/LinkCard.vue'
 
 const { isDark } = useTheme()
-const { links, searchQuery, selectedCategory, loadClickStats, incrementClickCount } = useLinks()
+const linksStore = useLinksStore()
 
-const filteredLinks = computed(() => {
-  let result = links.value
-
-  if (selectedCategory.value) {
-    result = result.filter(link => link.categoryId === selectedCategory.value)
-  }
-
-  if (searchQuery.value) {
-    const query = searchQuery.value.toLowerCase()
-    result = result.filter(link =>
-      link.title.toLowerCase().includes(query) ||
-      link.description.toLowerCase().includes(query)
-    )
-  }
-
-  return result
-})
+const filteredLinks = computed(() => linksStore.filteredLinks())
 
 const handleLinkClick = (link) => {
-  incrementClickCount(link.id)
+  linksStore.incrementClickCount(link.id)
   window.open(link.url, '_blank')
 }
 
 onMounted(() => {
-  loadClickStats()
+  linksStore.loadClickStats()
 })
 </script>
 
