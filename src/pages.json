@@ -1,0 +1,22 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "DY Kong Shan",
+        "navigationBarBackgroundColor": "#ffffff",
+        "navigationBarTextStyle": "black"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "DY Kong Shan",
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#f8f9fa"
+  },
+  "easycom": {
+    "autoscan": true,
+    "custom": {}
+  }
+}

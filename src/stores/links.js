@@ -2,6 +2,31 @@ import { defineStore } from 'pinia'
 import { ref, reactive } from 'vue'
 import linksData from '../data/links.json'
 
+const getStorage = (key) => {
+  return new Promise((resolve) => {
+    if (typeof uni !== 'undefined') {
+      uni.getStorage({
+        key,
+        success: (res) => resolve(res.data),
+        fail: () => resolve(null)
+      })
+    } else if (typeof localStorage !== 'undefined') {
+      const data = localStorage.getItem(key)
+      resolve(data ? JSON.parse(data) : null)
+    } else {
+      resolve(null)
+    }
+  })
+}
+
+const setStorage = (key, data) => {
+  if (typeof uni !== 'undefined') {
+    uni.setStorage({ key, data })
+  } else if (typeof localStorage !== 'undefined') {
+    localStorage.setItem(key, JSON.stringify(data))
+  }
+}
+
 export const useLinksStore = defineStore('links', () => {
   const links = ref([])
   const searchQuery = ref('')
@@ -12,14 +37,13 @@ export const useLinksStore = defineStore('links', () => {
     links.value = linksData.links || []
   }
 
-  const loadClickStats = () => {
-    const saved = localStorage.getItem('clickStats')
+  const loadClickStats = async () => {
+    const saved = await getStorage('clickStats')
     if (saved) {
-      const stats = JSON.parse(saved)
-      Object.keys(stats).forEach(linkId => {
+      Object.keys(saved).forEach(linkId => {
         const link = links.value.find(l => l.id === linkId)
         if (link) {
-          link.clickCount = stats[linkId].count
+          link.clickCount = saved[linkId].count
         }
       })
     }
@@ -31,7 +55,7 @@ export const useLinksStore = defineStore('links', () => {
     }
     clickStats[linkId].count++
     clickStats[linkId].lastClickAt = new Date().toISOString()
-    localStorage.setItem('clickStats', JSON.stringify(clickStats))
+    setStorage('clickStats', clickStats)
 
     const link = links.value.find(l => l.id === linkId)
     if (link) {
