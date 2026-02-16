@@ -102,6 +102,10 @@ const selectCategory = (categoryId) => {
 
 const handleLinkClick = (link) => {
   linksStore.incrementClickCount(link.id)
+  // #ifdef H5
+  window.open(link.url, '_blank')
+  // #endif
+  // #ifdef MP-WEIXIN
   uni.setClipboardData({
     data: link.url,
     success: () => {
@@ -111,6 +115,7 @@ const handleLinkClick = (link) => {
       })
     }
   })
+  // #endif
 }
 
 onMounted(() => {
