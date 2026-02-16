@@ -2,28 +2,29 @@ import { defineStore } from 'pinia'
 import { ref, reactive } from 'vue'
 import linksData from '../data/links.json'
 
-const getStorage = (key) => {
-  return new Promise((resolve) => {
+const getStorageSync = (key) => {
+  try {
     if (typeof uni !== 'undefined') {
-      uni.getStorage({
-        key,
-        success: (res) => resolve(res.data),
-        fail: () => resolve(null)
-      })
+      return uni.getStorageSync(key)
     } else if (typeof localStorage !== 'undefined') {
       const data = localStorage.getItem(key)
-      resolve(data ? JSON.parse(data) : null)
-    } else {
-      resolve(null)
+      return data ? JSON.parse(data) : null
     }
-  })
+    return null
+  } catch (e) {
+    return null
+  }
 }
 
-const setStorage = (key, data) => {
-  if (typeof uni !== 'undefined') {
-    uni.setStorage({ key, data })
-  } else if (typeof localStorage !== 'undefined') {
-    localStorage.setItem(key, JSON.stringify(data))
+const setStorageSync = (key, data) => {
+  try {
+    if (typeof uni !== 'undefined') {
+      uni.setStorageSync(key, data)
+    } else if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(key, JSON.stringify(data))
+    }
+  } catch (e) {
+    console.error('setStorage error:', e)
   }
 }
 
@@ -37,9 +38,10 @@ export const useLinksStore = defineStore('links', () => {
     links.value = linksData.links || []
   }
 
-  const loadClickStats = async () => {
-    const saved = await getStorage('clickStats')
+  const loadClickStats = () => {
+    const saved = getStorageSync('clickStats')
     if (saved) {
+      Object.assign(clickStats, saved)
       Object.keys(saved).forEach(linkId => {
         const link = links.value.find(l => l.id === linkId)
         if (link) {
@@ -55,7 +57,7 @@ export const useLinksStore = defineStore('links', () => {
     }
     clickStats[linkId].count++
     clickStats[linkId].lastClickAt = new Date().toISOString()
-    setStorage('clickStats', clickStats)
+    setStorageSync('clickStats', clickStats)
 
     const link = links.value.find(l => l.id === linkId)
     if (link) {
