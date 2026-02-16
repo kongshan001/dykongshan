@@ -31,6 +31,46 @@
       "icon": "🚀",
       "clickCount": 0,
       "createdAt": "2024-01-01"
+    },
+    {
+      "id": "dykongshan",
+      "title": "DY Kongshan 主站",
+      "url": "https://dykongshan.vercel.app",
+      "description": "DY Kongshan 导航主站",
+      "categoryId": "services",
+      "icon": "🏠",
+      "clickCount": 0,
+      "createdAt": "2026-02-14"
+    },
+    {
+      "id": "my_open_code",
+      "title": "My Open Code",
+      "url": "https://kongshan001.github.io/my_open_code",
+      "description": "开源代码项目集合",
+      "categoryId": "docs",
+      "icon": "💻",
+      "clickCount": 0,
+      "createdAt": "2026-02-09"
+    },
+    {
+      "id": "pmgo",
+      "title": "PMGo",
+      "url": "https://kongshan001.github.io/pmgo",
+      "description": "PMGo 项目管理工具",
+      "categoryId": "dev",
+      "icon": "📋",
+      "clickCount": 0,
+      "createdAt": "2026-02-08"
+    },
+    {
+      "id": "teach_math",
+      "title": "Teach Math",
+      "url": "https://kongshan001.github.io/teach_math",
+      "description": "数学教学工具",
+      "categoryId": "docs",
+      "icon": "📐",
+      "clickCount": 0,
+      "createdAt": "2026-02-04"
     }
   ]
 }
