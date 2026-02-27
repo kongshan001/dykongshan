@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>赞助 DevEnv AI</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+    }
+    h1 {
+      color: #fff;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      color: #aaa;
+      margin-bottom: 40px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .card h2 {
+      color: #fff;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+    .qr-code {
+      width: 150px;
+      height: 150px;
+      background: #fff;
+      border-radius: 10px;
+      margin: 0 auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-size: 12px;
+    }
+    .qr-code img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+    .amount {
+      color: #ffd700;
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .note {
+      color: #888;
+      font-size: 0.85rem;
+      margin-top: 15px;
+      line-height: 1.5;
+    }
+    .contact {
+      margin-top: 40px;
+      color: #666;
+      font-size: 0.9rem;
+    }
+    .contact a {
+      color: #4fc3f7;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>❤️ 赞助 DevEnv AI</h1>
+    <p class="subtitle">感谢你的支持！</p>
+
+    <div class="cards">
+      <!-- 支付宝 -->
+      <div class="card">
+        <h2>💙 支付宝</h2>
+        <div class="qr-code">
+          <!-- 替换为你的支付宝二维码图片URL -->
+          <img src="/devenv/alipay-qr.jpg" alt="支付宝付款码" onerror="this.style.display='none';this.parentNode.innerHTML='请添加二维码图片'">
+        </div>
+        <div class="amount">￥9.9</div>
+        <p class="note">扫码支付任意金额</p>
+      </div>
+
+      <!-- 微信 -->
+      <div class="card">
+        <h2>💚 微信</h2>
+        <div class="qr-code">
+          <!-- 替换为你的微信二维码图片URL -->
+          <img src="/devenv/wechat-qr.jpg" alt="微信付款码" onerror="this.style.display='none';this.parentNode.innerHTML='请添加二维码图片'">
+        </div>
+        <div class="amount">￥9.9</div>
+        <p class="note">扫码支付任意金额</p>
+      </div>
+    </div>
+
+    <div class="contact">
+      <p>付款后请联系：<a href="mailto:your@email.com">your@email.com</a></p>
+    </div>
+  </div>
+</body>
+</html>
