@@ -33,6 +33,16 @@
       "createdAt": "2024-01-01"
     },
     {
+      "id": "devenv",
+      "title": "DevEnv AI",
+      "url": "https://dykongshan.com/devenv",
+      "description": "一键安装 AI 开发环境",
+      "categoryId": "dev",
+      "icon": "🤖",
+      "clickCount": 0,
+      "createdAt": "2026-02-27"
+    },
+    {
       "id": "dykongshan",
       "title": "DY Kongshan 主站",
       "url": "https://dykongshan.vercel.app",
