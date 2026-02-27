@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Monitor, Key, Code, Terminal, Copy, Check, Cpu } from 'lucide-react';
+import { Monitor, Key, Code, Copy, Check, Cpu, Download } from 'lucide-react';
 
 type System = 'macos-intel' | 'macos-apple' | 'linux-ubuntu' | 'linux-centos' | 'windows-wsl' | 'windows';
 
@@ -7,116 +7,195 @@ interface Tool {
   id: string;
   name: string;
   icon: string;
-  installCmd: (system: System) => string;
-}
-
-interface ModelProvider {
-  id: string;
-  name: string;
-  keyPlaceholder: string;
 }
 
 const tools: Tool[] = [
-  {
-    id: 'opencode',
-    name: 'OpenCode',
-    icon: '⚡',
-    installCmd: (system) => {
-      if (system.startsWith('macos')) return 'brew install opencode';
-      if (system.startsWith('linux')) return 'brew install opencode';
-      if (system.startsWith('windows-wsl')) return 'brew install opencode';
-      return 'winget install opencode';
-    }
-  },
-  {
-    id: 'cursor',
-    name: 'Cursor',
-    icon: '💻',
-    installCmd: (system) => {
-      if (system.startsWith('macos')) return 'brew install --cask cursor';
-      if (system.startsWith('linux')) return 'brew install --cask cursor';
-      if (system.startsWith('windows-wsl')) return 'winget install Cursor';
-      return 'winget install Cursor';
-    }
-  },
-  {
-    id: 'claude-code',
-    name: 'Claude Code',
-    icon: '🧠',
-    installCmd: (system) => {
-      if (system.startsWith('macos')) return 'npm install -g @anthropic-ai/claude-code';
-      if (system.startsWith('linux')) return 'npm install -g @anthropic-ai/claude-code';
-      return 'npm install -g @anthropic-ai/claude-code';
-    }
-  },
-  {
-    id: 'vscode-copilot',
-    name: 'VS Code + Copilot',
-    icon: '📝',
-    installCmd: (system) => {
-      if (system.startsWith('macos')) return 'code --install-extension github.copilot';
-      if (system.startsWith('linux')) return 'code --install-extension github.copilot';
-      return 'code --install-extension github.copilot';
-    }
-  },
-  {
-    id: 'windsurf',
-    name: 'Windsurf',
-    icon: '🌊',
-    installCmd: (system) => {
-      if (system.startsWith('macos')) return 'brew install --cask windsurf';
-      if (system.startsWith('linux')) return 'brew install --cask windsurf';
-      return 'winget install Windsurf';
-    }
-  },
-  {
-    id: 'jan',
-    name: 'Jan',
-    icon: '⚙️',
-    installCmd: (system) => {
-      if (system.startsWith('macos')) return 'brew install jan';
-      if (system.startsWith('linux')) return 'curl -fsSL https://jan.ai/install.sh | bash';
-      return 'curl -fsSL https://jan.ai/install.sh | bash';
-    }
-  }
+  { id: 'opencode', name: 'OpenCode', icon: '⚡' },
+  { id: 'cursor', name: 'Cursor', icon: '💻' },
+  { id: 'claude-code', name: 'Claude Code', icon: '🧠' },
+  { id: 'vscode-copilot', name: 'VS Code + Copilot', icon: '📝' },
+  { id: 'windsurf', name: 'Windsurf', icon: '🌊' },
+  { id: 'jan', name: 'Jan', icon: '⚙️' }
 ];
 
-const modelProviders: ModelProvider[] = [
+const modelProviders = [
   { id: 'openai', name: 'OpenAI (GPT-4)', keyPlaceholder: 'sk-xxxxxxxxxxxxxxxx' },
   { id: 'claude', name: 'Anthropic (Claude)', keyPlaceholder: 'sk-ant-xxxxxxxxxxxxxxxx' },
-  { id: 'gemini', name: 'Google (Gemini)', keyPlaceholder: 'xxxxxxxxxxxxxxxx' },
-  { id: 'qwen', name: '阿里 (通义千问)', keyPlaceholder: 'sk-xxxxxxxxxxxxxxxx' },
   { id: 'minimax', name: 'MiniMax', keyPlaceholder: 'xxxxxxxxxxxxxxxx' },
-  { id: 'wenxin', name: '百度 (文心一言)', keyPlaceholder: 'xxxxxxxxxxxxxxxx' }
+  { id: 'qwen', name: '阿里 (通义千问)', keyPlaceholder: 'sk-xxxxxxxxxxxxxxxx' }
 ];
 
-const systemLabels: Record<System, string> = {
-  'macos-intel': 'macOS (Intel)',
-  'macos-apple': 'macOS (Apple Silicon)',
-  'linux-ubuntu': 'Linux (Ubuntu/Debian)',
-  'linux-centos': 'Linux (CentOS)',
-  'windows-wsl': 'Windows (WSL2)',
-  'windows': 'Windows (Native)'
+const systemLabels: Record<System, { label: string; isMac: boolean; isLinux: boolean; isWindows: boolean }> = {
+  'macos-intel': { label: 'macOS (Intel)', isMac: true, isLinux: false, isWindows: false },
+  'macos-apple': { label: 'macOS (Apple Silicon)', isMac: true, isLinux: false, isWindows: false },
+  'linux-ubuntu': { label: 'Linux (Ubuntu/Debian)', isMac: false, isLinux: true, isWindows: false },
+  'linux-centos': { label: 'Linux (CentOS)', isMac: false, isLinux: true, isWindows: false },
+  'windows-wsl': { label: 'Windows (WSL2)', isMac: false, isLinux: true, isWindows: true },
+  'windows': { label: 'Windows (原生)', isMac: false, isLinux: false, isWindows: true }
 };
+
+function generateBashScript(_system: System, selectedTools: string[], apiKeys: Record<string, string>): string {
+  const sys = systemLabels[_system];
+  const isMac = sys.isMac;
+  
+  let script = `#!/bin/bash
+
+# DevEnv AI Installer - 一键安装脚本
+# 生成时间: ${new Date().toLocaleString()}
+
+set -e
+
+echo "========================================"
+echo "       DevEnv AI 一键安装器"
+echo "========================================"
+echo ""
+
+# 配置
+INSTALL_OPENCODE=${selectedTools.includes('opencode')}
+INSTALL_CURSOR=${selectedTools.includes('cursor')}
+INSTALL_CLAUDE_CODE=${selectedTools.includes('claude-code')}
+OPENAI_API_KEY="${apiKeys.openai || ''}"
+CLAUDE_API_KEY="${apiKeys.claude || ''}"
+MINIMAX_API_KEY="${apiKeys.minimax || ''}"
+
+# 检测系统
+detect_os() {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        echo "macOS"
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        echo "Linux"
+    else
+        echo "unknown"
+    fi
+}
+
+echo "检测到系统: $(detect_os)"
+echo ""
+
+# 安装 Homebrew
+install_homebrew() {
+    if ! command -v brew &> /dev/null; then
+        echo "正在安装 Homebrew..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    fi
+}
+
+${selectedTools.includes('opencode') ? `
+# 安装 OpenCode
+install_opencode() {
+    echo "正在安装 OpenCode..."
+    if command -v brew &> /dev/null; then
+        brew install opencode
+    fi
+    
+    # 配置 API Keys
+    if [ -n "$OPENAI_API_KEY" ]; then
+        echo "配置 OpenAI API Key..."
+    fi
+    if [ -n "$CLAUDE_API_KEY" ]; then
+        echo "配置 Claude API Key..."
+    fi
+    if [ -n "$MINIMAX_API_KEY" ]; then
+        echo "配置 MiniMax API Key..."
+    fi
+}
+` : ''}
+
+${selectedTools.includes('cursor') ? `
+# 安装 Cursor
+install_cursor() {
+    echo "正在安装 Cursor..."
+    if command -v brew &> /dev/null; then
+        brew install --cask cursor
+    fi
+}
+` : ''}
+
+${selectedTools.includes('claude-code') ? `
+# 安装 Claude Code
+install_claude_code() {
+    echo "正在安装 Claude Code..."
+    npm install -g @anthropic-ai/claude-code
+    
+    if [ -n "$CLAUDE_API_KEY" ]; then
+        echo "配置 Claude API Key..."
+    fi
+}
+` : ''}
+
+# 安装 Homebrew (macOS/Linux)
+${isMac ? `install_homebrew` : ''}
+
+# 安装选中的工具
+${selectedTools.includes('opencode') ? `install_opencode` : ''}
+${selectedTools.includes('cursor') ? `install_cursor` : ''}
+${selectedTools.includes('claude-code') ? `install_claude_code` : ''}
+
+echo ""
+echo "========================================"
+echo "       安装完成！"
+echo "========================================"
+echo ""
+echo "下一步："
+echo "  1. 打开已安装的应用"
+echo "  2. 在设置中配置 API Key"
+echo ""
+`;
+
+  return script;
+}
+
+function generatePowerShellScript(_system: System, selectedTools: string[], _apiKeys: Record<string, string>): string {
+  const script = `# DevEnv AI Installer - Windows 一键安装脚本
+# 生成时间: ${new Date().toLocaleString()}
+
+$ErrorActionPreference = "Stop"
+
+Write-Host "========================================"
+Write-Host "       DevEnv AI 一键安装器"
+Write-Host "========================================"
+Write-Host ""
+
+${selectedTools.includes('cursor') ? `
+# 安装 Cursor
+Write-Host "正在安装 Cursor..."
+if (Get-Command winget -ErrorAction SilentlyContinue) {
+    winget install -e --id Cursor.Cursor --silent --accept-source-agreements --accept-package-agreements
+} else {
+    Write-Host "请手动安装 Cursor: https://cursor.sh"
+}
+` : ''}
+
+${selectedTools.includes('opencode') ? `
+# 安装 OpenCode
+Write-Host "正在安装 OpenCode..."
+if (Get-Command winget -ErrorAction SilentlyContinue) {
+    winget install -e --id opencode.OpenCode --silent --accept-source-agreements --accept-package-agreements
+} else {
+    Write-Host "请手动安装 OpenCode: https://opencode.com"
+}
+` : ''}
+
+Write-Host ""
+Write-Host "========================================"
+Write-Host "       安装完成！"
+Write-Host "========================================"
+Write-Host ""
+Write-Host "下一步："
+Write-Host "  1. 打开已安装的应用"
+Write-Host "  2. 在设置中配置 API Key"
+Write-Host ""
+`;
+
+  return script;
+}
 
 function App() {
   const [step, setStep] = useState(1);
   const [system, setSystem] = useState<System>('macos-apple');
   const [selectedTools, setSelectedTools] = useState<string[]>([]);
   const [apiKeys, setApiKeys] = useState<Record<string, string>>({});
-  const [generatedCommands, setGeneratedCommands] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
-  // 检测系统
-  useState(() => {
-    const ua = navigator.userAgent;
-    if (ua.includes('Mac')) {
-      setSystem('macos-apple');
-    } else if (ua.includes('Linux')) {
-      setSystem('linux-ubuntu');
-    } else if (ua.includes('Windows')) {
-      setSystem('windows');
-    }
-  });
 
   const toggleTool = (toolId: string) => {
     setSelectedTools(prev => 
@@ -126,45 +205,35 @@ function App() {
     );
   };
 
-  const generateCommands = () => {
-    const commands: string[] = [];
+  const downloadScript = () => {
+    const sys = systemLabels[system];
+    const isWindows = sys.isWindows;
     
-    // 安装工具
-    selectedTools.forEach(toolId => {
-      const tool = tools.find(t => t.id === toolId);
-      if (tool) {
-        commands.push(`# 安装 ${tool.name}`);
-        commands.push(tool.installCmd(system));
-        commands.push('');
-      }
-    });
-
-    // 配置 API Keys
-    const hasApiKeys = Object.values(apiKeys).some(v => v.trim());
-    if (hasApiKeys) {
-      commands.push('# 配置 API Keys');
-      
-      if (selectedTools.includes('opencode')) {
-        if (apiKeys.openai) commands.push(`opencode config set openai ${apiKeys.openai}`);
-        if (apiKeys.claude) commands.push(`opencode config set claude ${apiKeys.claude}`);
-        if (apiKeys.minimax) commands.push(`opencode config set minimax ${apiKeys.minimax}`);
-      }
-      
-      if (selectedTools.includes('cursor')) {
-        commands.push('# Cursor: 在设置中输入 API Key');
-      }
-      
-      if (selectedTools.includes('claude-code')) {
-        if (apiKeys.claude) commands.push(`CLAUDE_API_KEY=${apiKeys.claude}`);
-      }
-    }
-
-    setGeneratedCommands(commands);
+    const script = isWindows 
+      ? generatePowerShellScript(system, selectedTools, apiKeys)
+      : generateBashScript(system, selectedTools, apiKeys);
+    
+    const blob = new Blob([script], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = isWindows ? 'devenv-install.ps1' : 'devenv-install.sh';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
     setStep(3);
   };
 
   const copyCommands = () => {
-    navigator.clipboard.writeText(generatedCommands.join('\n'));
+    const sys = systemLabels[system];
+    const isWindows = sys.isWindows;
+    const script = isWindows 
+      ? generatePowerShellScript(system, selectedTools, apiKeys)
+      : generateBashScript(system, selectedTools, apiKeys);
+    
+    navigator.clipboard.writeText(script);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -180,7 +249,8 @@ function App() {
             </div>
             <h1 className="text-4xl font-bold">DevEnv AI</h1>
           </div>
-          <p className="text-slate-400 text-lg">一键配置 AI 开发环境</p>
+          <p className="text-slate-400 text-lg">一键安装 AI 开发环境</p>
+          <p className="text-slate-500 text-sm mt-2">无需任何技术基础，下载脚本双击即可</p>
         </div>
 
         {/* Progress */}
@@ -202,15 +272,15 @@ function App() {
           <div className="bg-slate-800/50 rounded-2xl p-6 backdrop-blur">
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
               <Monitor className="w-5 h-5 text-purple-400" />
-              选择你的系统
+              选择你的电脑系统
             </h2>
             
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {(Object.entries(systemLabels) as [System, string][]).map(([id, label]) => (
+              {(Object.entries(systemLabels) as [System, typeof systemLabels['macos-apple']][]).map(([id, { label }]) => (
                 <button
                   key={id}
                   onClick={() => setSystem(id)}
-                  className={`p-3 rounded-xl text-left transition-all ${
+                  className={`p-3 rounded-xl text-center transition-all ${
                     system === id 
                       ? 'bg-purple-500/20 border-2 border-purple-500' 
                       : 'bg-slate-700/50 border-2 border-transparent hover:bg-slate-700'
@@ -237,7 +307,7 @@ function App() {
             <div className="bg-slate-800/50 rounded-2xl p-6 backdrop-blur">
               <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                 <Code className="w-5 h-5 text-purple-400" />
-                选择要安装的工具
+                选择要安装的工具（可多选）
               </h2>
               
               <div className="grid grid-cols-2 gap-3">
@@ -245,7 +315,7 @@ function App() {
                   <button
                     key={tool.id}
                     onClick={() => toggleTool(tool.id)}
-                    className={`p-4 rounded-xl text-left transition-all flex items-center gap-3 ${
+                    className={`p-4 rounded-xl text-center transition-all flex items-center gap-2 ${
                       selectedTools.includes(tool.id) 
                         ? 'bg-purple-500/20 border-2 border-purple-500' 
                         : 'bg-slate-700/50 border-2 border-transparent hover:bg-slate-700'
@@ -262,16 +332,16 @@ function App() {
             <div className="bg-slate-800/50 rounded-2xl p-6 backdrop-blur">
               <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                 <Key className="w-5 h-5 text-purple-400" />
-                配置 API Keys（可选）
+                API Keys（可以不填，安装后手动配置）
               </h2>
               
               <div className="space-y-3">
                 {modelProviders.map(provider => (
                   <div key={provider.id} className="flex items-center gap-3">
-                    <label className="w-40 text-slate-300 text-sm">{provider.name}</label>
+                    <label className="w-36 text-slate-300 text-sm">{provider.name}</label>
                     <input
                       type="password"
-                      placeholder={provider.keyPlaceholder}
+                      placeholder="选填"
                       value={apiKeys[provider.id] || ''}
                       onChange={e => setApiKeys(prev => ({ ...prev, [provider.id]: e.target.value }))}
                       className="flex-1 bg-slate-700/50 border border-slate-600 rounded-lg px-3 py-2 text-sm focus:border-purple-500 focus:outline-none"
@@ -282,11 +352,12 @@ function App() {
             </div>
 
             <button
-              onClick={generateCommands}
+              onClick={downloadScript}
               disabled={selectedTools.length === 0}
-              className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-medium hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl font-medium hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              ⚡ 生成配置命令
+              <Download className="w-5 h-5" />
+              ⬇️ 下载安装脚本
             </button>
           </div>
         )}
@@ -294,34 +365,39 @@ function App() {
         {/* Step 3: Result */}
         {step === 3 && (
           <div className="bg-slate-800/50 rounded-2xl p-6 backdrop-blur">
-            <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <Terminal className="w-5 h-5 text-purple-400" />
-              配置完成！
-            </h2>
-
-            <div className="bg-slate-900 rounded-xl p-4 font-mono text-sm overflow-x-auto">
-              <pre className="text-green-400">{generatedCommands.join('\n')}</pre>
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Check className="w-8 h-8 text-green-400" />
+              </div>
+              <h2 className="text-2xl font-bold">🎉 安装脚本已准备好！</h2>
+              <p className="text-slate-400 mt-2">下载脚本后，双击运行即可自动安装</p>
             </div>
 
-            <div className="flex gap-3 mt-6">
+            <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-4 mb-6">
+              <h3 className="font-medium text-yellow-300 mb-2">📝 使用说明：</h3>
+              <ul className="text-sm text-yellow-200/80 space-y-1">
+                <li>1. 点击上方「下载安装脚本」按钮</li>
+                <li>2. 将脚本保存到电脑</li>
+                <li>3. <strong>Windows</strong>：右键点击 → 「使用 PowerShell 运行」</li>
+                <li>4. <strong>Mac/Linux</strong>：打开终端 → 输入 <code>chmod +x</code> 然后运行</li>
+              </ul>
+            </div>
+
+            <div className="flex gap-3">
               <button
                 onClick={copyCommands}
                 className="flex-1 py-3 bg-slate-700 rounded-xl font-medium hover:bg-slate-600 transition flex items-center justify-center gap-2"
               >
                 {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
-                {copied ? '已复制!' : '复制命令'}
+                {copied ? '已复制!' : '复制脚本内容'}
               </button>
               
               <button
-                onClick={() => { setStep(1); setSelectedTools([]); setApiKeys({}); setGeneratedCommands([]); }}
+                onClick={() => { setStep(1); setSelectedTools([]); setApiKeys({}); }}
                 className="flex-1 py-3 bg-purple-500/20 rounded-xl font-medium hover:bg-purple-500/30 transition"
               >
                 重新配置
               </button>
-            </div>
-
-            <div className="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl text-sm text-yellow-200">
-              <strong>⚠️ 提示：</strong>复制命令后，在终端中执行即可。API Key 会被配置到对应工具中。
             </div>
           </div>
         )}
