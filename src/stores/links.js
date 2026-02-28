@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, reactive } from 'vue'
 import linksData from '../data/links.json'
+import gitHubReposData from '../data/github-repos.json'
 
 const GITHUB_USERNAME = 'kongshan001'
 
@@ -115,6 +116,28 @@ export const useLinksStore = defineStore('links', () => {
     
     loading.value = true
     try {
+      // 先尝试加载本地的静态 JSON 文件（由 GitHub Actions 定时更新）
+      if (gitHubReposData && gitHubReposData.length > 0) {
+        gitHubRepos.value = filterFeaturedRepos(gitHubReposData)
+        
+        const existingIds = new Set(links.value.map(l => l.id))
+        const newRepos = gitHubRepos.value.filter(r => !existingIds.has(r.id))
+        links.value = [...links.value, ...newRepos]
+      } else {
+        // 如果本地没有，回退到直接调用 GitHub API
+        await fetchFromGitHubAPI()
+      }
+    } catch (error) {
+      console.error('Failed to load GitHub repos:', error)
+      // 回退到 GitHub API
+      await fetchFromGitHubAPI()
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const fetchFromGitHubAPI = async () => {
+    try {
       const response = await fetch(
         `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`,
         {
@@ -128,15 +151,12 @@ export const useLinksStore = defineStore('links', () => {
         const repos = await response.json()
         gitHubRepos.value = filterFeaturedRepos(repos)
         
-        // 合并到 links（GitHub repos 放在后面）
         const existingIds = new Set(links.value.map(l => l.id))
         const newRepos = gitHubRepos.value.filter(r => !existingIds.has(r.id))
         links.value = [...links.value, ...newRepos]
       }
     } catch (error) {
-      console.error('Failed to fetch GitHub repos:', error)
-    } finally {
-      loading.value = false
+      console.error('Failed to fetch from GitHub API:', error)
     }
   }
 

@@ -1,0 +1,27 @@
+name: Sync GitHub Repos
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # 每6小时运行一次
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Fetch repos
+        run: |
+          curl -s "https://api.github.com/users/kongshan001/repos?per_page=100&sort=updated" \
+            -H "Accept: application/vnd.github.v3+json" \
+            | jq '[.[] | select(.description != null and .fork == false and .size > 0)]' \
+            > src/data/github-repos.json
+      
+      - name: Commit and push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add src/data/github-repos.json
+          git commit -m "chore: sync GitHub repos" || echo "No changes to commit"
+          git push
