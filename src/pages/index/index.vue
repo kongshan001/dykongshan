@@ -121,6 +121,7 @@ const handleLinkClick = (link) => {
 onMounted(() => {
   categories.value = linksData.categories || []
   linksStore.loadClickStats()
+  linksStore.fetchGitHubRepos()
 })
 </script>
 
