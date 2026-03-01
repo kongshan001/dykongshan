@@ -31,6 +31,14 @@
         "navigationBarBackgroundColor": "#ffffff",
         "navigationBarTextStyle": "black"
       }
+    },
+    {
+      "path": "pages/research/index",
+      "style": {
+        "navigationBarTitleText": "文档中心",
+        "navigationBarBackgroundColor": "#6366f1",
+        "navigationBarTextStyle": "white"
+      }
     }
   ],
   "globalStyle": {
