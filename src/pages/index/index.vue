@@ -102,6 +102,22 @@ const selectCategory = (categoryId) => {
 
 const handleLinkClick = (link) => {
   linksStore.incrementClickCount(link.id)
+  
+  // 处理内部页面链接
+  if (link.isInternal && link.url.startsWith('/pages/')) {
+    // #ifdef H5
+    uni.navigateTo({
+      url: link.url
+    })
+    // #endif
+    // #ifdef MP-WEIXIN
+    uni.navigateTo({
+      url: link.url
+    })
+    // #endif
+    return
+  }
+  
   // #ifdef H5
   window.open(link.url, '_blank')
   // #endif
