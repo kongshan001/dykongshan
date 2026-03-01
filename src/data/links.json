@@ -16,6 +16,11 @@
       "icon": "🤖"
     },
     {
+      "id": "research",
+      "name": "AI 研究",
+      "icon": "🔬"
+    },
+    {
       "id": "games",
       "name": "游戏",
       "icon": "🎮"
@@ -32,6 +37,26 @@
     }
   ],
   "links": [
+    {
+      "id": "clawhub-lab",
+      "title": "ClawHub Skills 实验室",
+      "url": "https://github.com/kongshan001/clawhub-lab",
+      "description": "13+ AI Skills 深度分析报告 | MCP、GitHub、Canvas 等",
+      "categoryId": "research",
+      "icon": "🔺",
+      "clickCount": 0,
+      "createdAt": "2026-02-28"
+    },
+    {
+      "id": "wangzhe-chess",
+      "title": "王者之奕",
+      "url": "https://github.com/kongshan001/wangzhe-chess",
+      "description": "生产级自走棋游戏 | 87,600+ 行代码 | 8人对战",
+      "categoryId": "games",
+      "icon": "🎮",
+      "clickCount": 0,
+      "createdAt": "2026-03-01"
+    },
     {
       "id": "cicd",
       "title": "CI/CD Action",
