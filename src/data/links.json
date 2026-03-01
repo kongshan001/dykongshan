@@ -73,6 +73,16 @@
       "createdAt": "2026-02-09"
     },
     {
+      "id": "ai_coding_research",
+      "title": "AI 编程工具研究",
+      "url": "https://kongshan001.github.io/ai-coding-tools-research",
+      "description": "OpenCode vs Claude Code 等 AI 编程工具对比分析",
+      "categoryId": "docs",
+      "icon": "🔬",
+      "clickCount": 0,
+      "createdAt": "2026-03-01"
+    },
+    {
       "id": "pmgo",
       "title": "PMGo",
       "url": "https://kongshan001.github.io/pmgo",
