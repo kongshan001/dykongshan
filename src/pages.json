@@ -7,6 +7,14 @@
         "navigationBarBackgroundColor": "#ffffff",
         "navigationBarTextStyle": "black"
       }
+    },
+    {
+      "path": "pages/skills/index",
+      "style": {
+        "navigationBarTitleText": "Skills 实验室",
+        "navigationBarBackgroundColor": "#667eea",
+        "navigationBarTextStyle": "white"
+      }
     }
   ],
   "globalStyle": {

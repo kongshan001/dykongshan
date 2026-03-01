@@ -1,0 +1,158 @@
+{
+  "stats": {
+    "totalSkills": 13,
+    "categories": {
+      "开发工具": 5,
+      "图像视频": 2,
+      "AI集成": 4,
+      "系统安全": 1,
+      "智能家居": 1
+    },
+    "lastUpdated": "2026-03-01"
+  },
+  "skills": [
+    {
+      "id": "code",
+      "name": "Code",
+      "emoji": "💻",
+      "category": "开发工具",
+      "rating": 5,
+      "description": "编码工作流指导，提供规划、执行、验证完整流程",
+      "features": ["任务规划", "代码执行", "验证测试", "偏好记忆"],
+      "source": "OpenClaw 内置",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/reports/skill-analysis-code-testrunner.md"
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "emoji": "🐙",
+      "category": "开发工具",
+      "rating": 5,
+      "description": "GitHub 操作集成，通过 gh CLI 管理 Issues、PRs、CI",
+      "features": ["PR管理", "Issue处理", "CI查看", "API查询"],
+      "source": "OpenClaw 内置",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/github-skill-deep.md"
+    },
+    {
+      "id": "coding-agent",
+      "name": "Coding Agent",
+      "emoji": "🧩",
+      "category": "开发工具",
+      "rating": 5,
+      "description": "委托编码任务给 Codex、Claude Code 等 AI 代理",
+      "features": ["并行处理", "PTY支持", "PR审查", "批量修复"],
+      "source": "OpenClaw 内置",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/coding-agent-skill-deep.md"
+    },
+    {
+      "id": "gh-issues",
+      "name": "GitHub Issues",
+      "emoji": "📋",
+      "category": "开发工具",
+      "rating": 5,
+      "description": "自动修复 GitHub Issues，生成 PR，处理审查评论",
+      "features": ["自动修复", "PR创建", "审查处理", "并行代理"],
+      "source": "OpenClaw 内置",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/gh-issues-skill-deep.md"
+    },
+    {
+      "id": "mcporter",
+      "name": "MCP Porter",
+      "emoji": "📦",
+      "category": "开发工具",
+      "rating": 4,
+      "description": "MCP 服务器/工具的直接调用和管理",
+      "features": ["工具调用", "OAuth认证", "代码生成", "守护进程"],
+      "source": "OpenClaw 内置",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/mcporter-skill-deep.md"
+    },
+    {
+      "id": "skill-creator",
+      "name": "Skill Creator",
+      "emoji": "🎨",
+      "category": "开发工具",
+      "rating": 4,
+      "description": "创建和打包 AgentSkills 的完整指南",
+      "features": ["技能设计", "资源打包", "渐进披露", "验证发布"],
+      "source": "OpenClaw 内置",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/skill-creator-skill-deep.md"
+    },
+    {
+      "id": "canvas",
+      "name": "Canvas",
+      "emoji": "🖼️",
+      "category": "图像视频",
+      "rating": 5,
+      "description": "跨设备 UI 展示，支持 WebGL 和实时重载",
+      "features": ["LiveReload", "Tailscale", "WebGL支持", "跨设备"],
+      "source": "OpenClaw 内置",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/canvas-skill-deep.md"
+    },
+    {
+      "id": "video-frames",
+      "name": "Video Frames",
+      "emoji": "🎬",
+      "category": "图像视频",
+      "rating": 4,
+      "description": "基于 ffmpeg 的视频帧提取工具",
+      "features": ["首帧提取", "时间戳定位", "多格式输出", "AI分析"],
+      "source": "OpenClaw 内置",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/video-frames-skill-deep.md"
+    },
+    {
+      "id": "openai-image-gen",
+      "name": "OpenAI Image Gen",
+      "emoji": "🎨",
+      "category": "图像视频",
+      "rating": 5,
+      "description": "通过 OpenAI Images API 批量生成图像",
+      "features": ["多模型支持", "批量生成", "HTML画廊", "XSS防护"],
+      "source": "OpenClaw 内置",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/openai-image-gen-skill-deep.md"
+    },
+    {
+      "id": "mcp-skill",
+      "name": "MCP Skill",
+      "emoji": "🔌",
+      "category": "AI集成",
+      "rating": 5,
+      "description": "Model Context Protocol - 连接 AI 与外部系统的开源标准",
+      "features": ["JSON-RPC", "Tools", "Resources", "Prompts"],
+      "source": "ClawHub (3.814)",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/mcp-skill-deep.md"
+    },
+    {
+      "id": "mcp-hass",
+      "name": "MCP Home Assistant",
+      "emoji": "🏠",
+      "category": "智能家居",
+      "rating": 4,
+      "description": "Home Assistant 智能家居平台与 MCP 协议集成",
+      "features": ["设备控制", "实时更新", "自动化", "HACS集成"],
+      "source": "ClawHub (2.681)",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/mcp-hass-skill-deep.md"
+    },
+    {
+      "id": "gemini",
+      "name": "Gemini",
+      "emoji": "✨",
+      "category": "AI集成",
+      "rating": 4,
+      "description": "Google 多模态 AI 集成，支持长上下文窗口",
+      "features": ["多模态", "1M上下文", "多格式输出", "简单易用"],
+      "source": "OpenClaw 内置",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/gemini-skill-deep.md"
+    },
+    {
+      "id": "healthcheck",
+      "name": "Healthcheck",
+      "emoji": "🛡️",
+      "category": "系统安全",
+      "rating": 5,
+      "description": "主机安全加固和风险容忍度配置",
+      "features": ["安全审计", "防火墙配置", "SSH加固", "定期检查"],
+      "source": "OpenClaw 内置",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/healthcheck-skill-deep.md"
+    }
+  ]
+}

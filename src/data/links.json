@@ -40,10 +40,21 @@
     {
       "id": "clawhub-lab",
       "title": "ClawHub Skills 实验室",
-      "url": "https://github.com/kongshan001/clawhub-lab",
+      "url": "/pages/skills/index",
       "description": "13+ AI Skills 深度分析报告 | MCP、GitHub、Canvas 等",
       "categoryId": "research",
       "icon": "🔺",
+      "clickCount": 0,
+      "createdAt": "2026-02-28",
+      "isInternal": true
+    },
+    {
+      "id": "clawhub-github",
+      "title": "ClawHub Lab (GitHub)",
+      "url": "https://github.com/kongshan001/clawhub-lab",
+      "description": "查看完整源码和原始分析报告",
+      "categoryId": "research",
+      "icon": "📦",
       "clickCount": 0,
       "createdAt": "2026-02-28"
     },
