@@ -21,6 +21,11 @@
       "icon": "🔬"
     },
     {
+      "id": "ideas",
+      "name": "头脑风暴",
+      "icon": "🧠"
+    },
+    {
       "id": "games",
       "name": "游戏",
       "icon": "🎮"
@@ -37,6 +42,27 @@
     }
   ],
   "links": [
+    {
+      "id": "brainstorm",
+      "title": "🧠 头脑风暴",
+      "url": "/pages/brainstorm/index",
+      "description": "记录灵感、想法、创意 | 随时捕捉闪念",
+      "categoryId": "ideas",
+      "icon": "💡",
+      "clickCount": 0,
+      "createdAt": "2026-03-01",
+      "isInternal": true
+    },
+    {
+      "id": "brainstorm-github",
+      "title": "Brainstorm (GitHub)",
+      "url": "https://github.com/kongshan001/brainstorm",
+      "description": "查看原始想法记录",
+      "categoryId": "ideas",
+      "icon": "📦",
+      "clickCount": 0,
+      "createdAt": "2026-03-01"
+    },
     {
       "id": "clawhub-lab",
       "title": "ClawHub Skills 实验室",

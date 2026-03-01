@@ -9,6 +9,14 @@
       }
     },
     {
+      "path": "pages/brainstorm/index",
+      "style": {
+        "navigationBarTitleText": "头脑风暴",
+        "navigationBarBackgroundColor": "#f093fb",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
       "path": "pages/skills/index",
       "style": {
         "navigationBarTitleText": "Skills 实验室",
