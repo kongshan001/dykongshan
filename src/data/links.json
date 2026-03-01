@@ -137,7 +137,7 @@
     {
       "id": "research_index",
       "title": "📚 文档中心",
-      "url": "/research/",
+      "url": "/pages/research/index",
       "description": "调研报告与技术文档集合",
       "categoryId": "docs",
       "icon": "📚",

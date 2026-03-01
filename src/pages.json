@@ -23,6 +23,14 @@
         "navigationBarBackgroundColor": "#667eea",
         "navigationBarTextStyle": "white"
       }
+    },
+    {
+      "path": "pages/webview/index",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationBarBackgroundColor": "#ffffff",
+        "navigationBarTextStyle": "black"
+      }
     }
   ],
   "globalStyle": {
