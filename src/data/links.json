@@ -135,14 +135,26 @@
       "createdAt": "2026-02-09"
     },
     {
+      "id": "research_index",
+      "title": "📚 文档中心",
+      "url": "/research/",
+      "description": "调研报告与技术文档集合",
+      "categoryId": "docs",
+      "icon": "📚",
+      "clickCount": 0,
+      "createdAt": "2026-03-01",
+      "isInternal": true
+    },
+    {
       "id": "ai_coding_research",
       "title": "AI 编程工具研究",
-      "url": "https://kongshan001.github.io/ai-coding-tools-research",
+      "url": "/research/ai-coding/opencode-vs-claude-code.html",
       "description": "OpenCode vs Claude Code 等 AI 编程工具对比分析",
       "categoryId": "docs",
       "icon": "🔬",
       "clickCount": 0,
-      "createdAt": "2026-03-01"
+      "createdAt": "2026-03-01",
+      "isInternal": true
     },
     {
       "id": "pmgo",

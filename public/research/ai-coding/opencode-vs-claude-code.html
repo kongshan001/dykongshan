@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenCode vs Claude Code - AI 编程工具对比分析</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: #24292f; background: #f6f8fa; padding: 20px; }
+    .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); overflow: hidden; }
+    .header { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; padding: 40px; }
+    .header h1 { font-size: 1.8em; margin-bottom: 10px; }
+    .header p { opacity: 0.95; }
+    .nav { background: #f6f8fa; padding: 16px 40px; border-bottom: 1px solid #d0d7de; }
+    .nav a { color: #6366f1; text-decoration: none; margin-right: 20px; }
+    .nav a:hover { text-decoration: underline; }
+    .content { padding: 40px; }
+    h2 { margin: 1.8em 0 0.8em; color: #24292f; border-bottom: 1px solid #d0d7de; padding-bottom: 0.3em; }
+    table { width: 100%; border-collapse: collapse; margin: 1em 0; }
+    th, td { border: 1px solid #d0d7de; padding: 12px; text-align: left; }
+    th { background: #f6f8fa; }
+    ul { margin: 1em 0; padding-left: 2em; }
+    li { margin: 0.5em 0; }
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+    .tag.green { background: #d1fae5; color: #065f46; }
+    .tag.red { background: #fee2e2; color: #991b1b; }
+    .tag.blue { background: #dbeafe; color: #1e40af; }
+    .footer { background: #f6f8fa; padding: 20px; text-align: center; border-top: 1px solid #d0d7de; color: #57606a; font-size: 14px; }
+    a { color: #6366f1; }
+    .back-link { display: inline-block; margin-bottom: 20px; color: #6366f1; text-decoration: none; }
+    .back-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <a href="../">← 返回文档中心</a>
+    </div>
+    <div class="header">
+      <h1>🔬 OpenCode vs Claude Code</h1>
+      <p>AI 编程工具对比分析研究</p>
+    </div>
+    <div class="content">
+      <a class="back-link" href="../">← 返回文档中心</a>
+
+      <h2>📊 核心对比</h2>
+      <table>
+        <tr><th>维度</th><th>OpenCode</th><th>Claude Code</th></tr>
+        <tr><td>Stars</td><td>11,164</td><td>72,157 ⭐</td></tr>
+        <tr><td>开发语言</td><td>Go</td><td>Shell/TypeScript</td></tr>
+        <tr><td>状态</td><td>⚠️ 已归档 → <a href="https://github.com/charmbracelet/crush">Crush</a></td><td>✅ 活跃维护</td></tr>
+        <tr><td>支持模型</td><td>多提供商 (7+)</td><td>仅 Claude</td></tr>
+        <tr><td>TUI 界面</td><td>✅ Bubble Tea</td><td>✅</td></tr>
+        <tr><td>MCP 扩展</td><td>✅</td><td>✅</td></tr>
+        <tr><td>LSP 集成</td><td>✅</td><td>✅</td></tr>
+        <tr><td>自定义命令</td><td>✅ (Markdown)</td><td>✅ (插件)</td></tr>
+      </table>
+
+      <h2>✅ OpenCode 优点</h2>
+      <ul>
+        <li>支持任意 LLM 提供商（OpenAI/Gemini/Claude/Copilot 等），灵活性高</li>
+        <li>可以用 Gemini、Copilot 等低成本模型</li>
+        <li>Go 语言编写，性能好</li>
+        <li>自定义命令功能强大（支持命名参数）</li>
+        <li>Auto Compact 自动压缩上下文</li>
+      </ul>
+
+      <h2>❌ OpenCode 缺点</h2>
+      <ul>
+        <li><span class="tag red">已停止维护</span> - 项目已迁移到 Crush</li>
+        <li>生态不如 Claude Code 完善</li>
+        <li>文档和社区支持较少</li>
+      </ul>
+
+      <h2>✅ Claude Code 优点</h2>
+      <ul>
+        <li>官方维护，更新频繁</li>
+        <li>与 Claude 模型深度集成，AI 能力最强</li>
+        <li>社区活跃（72k+ stars）</li>
+        <li>GitHub 原生集成（@claude 机器人）</li>
+        <li>插件生态丰富</li>
+      </ul>
+
+      <h2>❌ Claude Code 缺点</h2>
+      <ul>
+        <li>仅支持 Claude 模型（成本较高）</li>
+        <li>不支持其他 LLM 提供商</li>
+      </ul>
+
+      <h2>🔧 其他 AI 编程工具</h2>
+      <table>
+        <tr><th>工具</th><th>模型</th><th>特点</th></tr>
+        <tr><td>Cursor</td><td>OpenAI + Claude</td><td>IDE 集成，功能强大</td></tr>
+        <tr><td>Windsurf</td><td>Claude (Codeium)</td><td>AI-first IDE</td></tr>
+        <tr><td>GitHub Copilot</td><td>OpenAI</td><td>集成广泛，用户量大</td></tr>
+        <tr><td>Tabnine</td><td>多种</td><td>老牌 AI 代码补全</td></tr>
+      </table>
+
+      <h2>📌 结论与建议</h2>
+      <ul>
+        <li>如果想要 <strong>稳定和生态</strong> → 选择 <span class="tag blue">Claude Code</span></li>
+        <li>如果想要 <strong>多模型选择/低成本</strong> → 可以考虑 <span class="tag">Crush</span> (OpenCode 继任者)</li>
+        <li>如果想要 <strong>IDE 深度集成</strong> → 可以用 <span class="tag">Cursor</span> 或 <span class="tag">Windsurf</span></li>
+      </ul>
+
+      <h2>🔗 相关链接</h2>
+      <ul>
+        <li><a href="https://github.com/charmbracelet/crush">Crush</a> - OpenCode 继任者</li>
+        <li><a href="https://github.com/anthropics/claude-code">Claude Code</a> - 官方 AI 编程工具</li>
+        <li><a href="https://github.com/anthropics/claude-code">Claude Code 官网</a></li>
+      </ul>
+    </div>
+    <div class="footer">
+      <p>📅 更新于 2026-03-01 | 由 AI 助手维护</p>
+    </div>
+  </div>
+</body>
+</html>

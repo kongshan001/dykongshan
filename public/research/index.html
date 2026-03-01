@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文档中心 - DY Kongshan</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: #24292f; background: #f6f8fa; padding: 20px; }
+    .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); overflow: hidden; }
+    .header { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; padding: 40px; text-align: center; }
+    .header h1 { font-size: 2em; margin-bottom: 10px; }
+    .header p { opacity: 0.95; }
+    .content { padding: 40px; }
+    .doc-list { display: grid; gap: 20px; }
+    .doc-card { display: block; padding: 24px; border: 1px solid #d0d7de; border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.2s; }
+    .doc-card:hover { border-color: #6366f1; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15); transform: translateY(-2px); }
+    .doc-card h3 { color: #6366f1; margin-bottom: 8px; }
+    .doc-card p { color: #57606a; font-size: 14px; }
+    .doc-card .tag { display: inline-block; background: #f3f4f6; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-top: 10px; }
+    .footer { background: #f6f8fa; padding: 20px; text-align: center; border-top: 1px solid #d0d7de; color: #57606a; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📚 文档中心</h1>
+      <p>DY Kongshan 调研报告与技术文档</p>
+    </div>
+    <div class="content">
+      <div class="doc-list">
+        <a href="ai-coding/opencode-vs-claude-code.html" class="doc-card">
+          <h3>🔬 OpenCode vs Claude Code 对比分析</h3>
+          <p>AI 编程工具功能对比、优缺点分析，以及其他同类工具推荐</p>
+          <span class="tag">AI 编程</span>
+        </a>
+      </div>
+    </div>
+    <div class="footer">
+      <p>📅 由 AI 助手维护 | 持续更新中</p>
+    </div>
+  </div>
+</body>
+</html>
