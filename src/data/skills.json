@@ -1,20 +1,123 @@
 {
   "stats": {
-    "totalSkills": 13,
+    "totalSkills": 61,
+    "analyzedSkills": 61,
+    "pendingSkills": 8,
     "categories": {
       "开发工具": 6,
-      "图像视频": 3,
-      "AI集成": 2,
-      "系统安全": 1,
-      "智能家居": 1
+      "图像视频": 4,
+      "AI集成": 4,
+      "系统安全": 2,
+      "智能家居": 1,
+      "通信集成": 4,
+      "自动化": 5,
+      "部署运维": 3,
+      "生产力": 2,
+      "数据库": 2
     },
-    "lastUpdated": "2026-03-01 16:00",
-    "avgRating": 4.6,
-    "sourceBreakdown": {
-      "OpenClaw 内置": 11,
-      "ClawHub": 2
-    }
+    "lastUpdated": "2026-03-02 19:32",
+    "progress": "100%",
+    "runtime": "4 天",
+    "reports": 62
   },
+  "discovered": [
+    {
+      "id": "ai-notes-of-video",
+      "name": "AI Notes of Video",
+      "emoji": "🎬",
+      "category": "AI集成",
+      "rating": 3.702,
+      "description": "AI 视频笔记生成，自动从视频中提取关键信息",
+      "features": ["视频转笔记", "关键信息提取", "会议记录", "教育内容"],
+      "source": "ClawHub",
+      "status": "pending",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab"
+    },
+    {
+      "id": "automation-workflows",
+      "name": "Automation Workflows",
+      "emoji": "🔄",
+      "category": "自动化",
+      "rating": 3.692,
+      "description": "自动化工作流引擎，支持复杂任务编排",
+      "features": ["工作流编排", "任务调度", "条件触发", "多步骤自动化"],
+      "source": "ClawHub",
+      "status": "pending",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab"
+    },
+    {
+      "id": "x-twitter",
+      "name": "X/Twitter",
+      "emoji": "𝕏",
+      "category": "通信集成",
+      "rating": 3.691,
+      "description": "X/Twitter 平台操作，支持发帖和互动",
+      "features": ["发帖自动化", "互动管理", "舆情监控", "内容发布"],
+      "source": "ClawHub",
+      "status": "pending",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab"
+    },
+    {
+      "id": "web-deploy-github",
+      "name": "Web Deploy GitHub",
+      "emoji": "🚀",
+      "category": "部署运维",
+      "rating": 3.676,
+      "description": "GitHub Pages 一键部署工具",
+      "features": ["GitHub Pages", "一键部署", "静态网站", "CI/CD"],
+      "source": "ClawHub",
+      "status": "pending",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab"
+    },
+    {
+      "id": "web-deploy",
+      "name": "Web Deploy",
+      "emoji": "🌐",
+      "category": "部署运维",
+      "rating": 3.643,
+      "description": "通用 Web 应用部署工具",
+      "features": ["多平台部署", "自动化发布", "版本管理", "回滚支持"],
+      "source": "ClawHub",
+      "status": "pending",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab"
+    },
+    {
+      "id": "productivity",
+      "name": "Productivity",
+      "emoji": "📊",
+      "category": "生产力",
+      "rating": 3.559,
+      "description": "生产力工具集，整合多种效率工具",
+      "features": ["任务管理", "时间追踪", "效率分析", "工作流优化"],
+      "source": "ClawHub",
+      "status": "pending",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab"
+    },
+    {
+      "id": "monitoring",
+      "name": "Monitoring",
+      "emoji": "📈",
+      "category": "部署运维",
+      "rating": 3.537,
+      "description": "系统监控和告警工具",
+      "features": ["实时监控", "告警通知", "性能分析", "日志聚合"],
+      "source": "ClawHub",
+      "status": "pending",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab"
+    },
+    {
+      "id": "database-operations",
+      "name": "Database Operations",
+      "emoji": "🗄️",
+      "category": "数据库",
+      "rating": 3.508,
+      "description": "数据库操作和管理工具",
+      "features": ["SQL操作", "数据迁移", "备份恢复", "性能优化"],
+      "source": "ClawHub",
+      "status": "pending",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab"
+    }
+  ],
   "skills": [
     {
       "id": "code",
@@ -22,11 +125,11 @@
       "emoji": "💻",
       "category": "开发工具",
       "rating": 5,
-      "description": "编码工作流指导，提供规划、执行、验证完整流程，支持偏好记忆",
-      "features": ["任务规划", "代码执行", "验证测试", "偏好记忆", "错误处理"],
+      "description": "编码工作流指导，提供规划、执行、验证完整流程",
+      "features": ["任务规划", "代码执行", "验证测试", "偏好记忆"],
       "source": "OpenClaw 内置",
-      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/reports/skill-analysis-code-testrunner.md",
-      "highlights": ["规划文档", "执行流程", "验证检查"]
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/reports/skill-analysis-code-testrunner.md"
     },
     {
       "id": "github",
@@ -34,11 +137,11 @@
       "emoji": "🐙",
       "category": "开发工具",
       "rating": 5,
-      "description": "GitHub 操作集成，通过 gh CLI 管理 Issues、PRs、CI 和 API 查询",
-      "features": ["PR管理", "Issue处理", "CI查看", "API查询", "JSON输出"],
+      "description": "GitHub 操作集成，通过 gh CLI 管理 Issues、PRs、CI",
+      "features": ["PR管理", "Issue处理", "CI查看", "API查询"],
       "source": "OpenClaw 内置",
-      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/github-skill-deep.md",
-      "highlights": ["gh CLI", "PR模板", "Issue分类"]
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/github-skill-deep.md"
     },
     {
       "id": "coding-agent",
@@ -46,11 +149,11 @@
       "emoji": "🧩",
       "category": "开发工具",
       "rating": 5,
-      "description": "委托编码任务给 Codex、Claude Code、Pi 等 AI 代理，支持并行处理",
-      "features": ["并行处理", "PTY支持", "PR审查", "批量修复", "worktree"],
+      "description": "委托编码任务给 Codex、Claude Code 等 AI 代理",
+      "features": ["并行处理", "PTY支持", "PR审查", "批量修复"],
       "source": "OpenClaw 内置",
-      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/coding-agent-skill-deep.md",
-      "highlights": ["PTY模式", "并行代理", "自动通知"]
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/coding-agent-skill-deep.md"
     },
     {
       "id": "gh-issues",
@@ -58,11 +161,11 @@
       "emoji": "📋",
       "category": "开发工具",
       "rating": 5,
-      "description": "自动修复 GitHub Issues，生成 PR，处理审查评论的完整流水线",
-      "features": ["自动修复", "PR创建", "审查处理", "并行代理", "Watch模式"],
+      "description": "自动修复 GitHub Issues，生成 PR，处理审查评论",
+      "features": ["自动修复", "PR创建", "审查处理", "并行代理"],
       "source": "OpenClaw 内置",
-      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/gh-issues-skill-deep.md",
-      "highlights": ["6阶段流程", "Cron模式", "Claims追踪"]
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/gh-issues-skill-deep.md"
     },
     {
       "id": "mcporter",
@@ -70,11 +173,11 @@
       "emoji": "📦",
       "category": "开发工具",
       "rating": 4,
-      "description": "MCP 服务器/工具的直接调用和管理，支持 OAuth 认证和代码生成",
-      "features": ["工具调用", "OAuth认证", "代码生成", "守护进程", "TS类型"],
+      "description": "MCP 服务器/工具的直接调用和管理",
+      "features": ["工具调用", "OAuth认证", "代码生成", "守护进程"],
       "source": "OpenClaw 内置",
-      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/mcporter-skill-deep.md",
-      "highlights": ["HTTP/Stdio", "CLI生成", "TS类型导出"]
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/mcporter-skill-deep.md"
     },
     {
       "id": "skill-creator",
@@ -82,11 +185,11 @@
       "emoji": "🎨",
       "category": "开发工具",
       "rating": 4,
-      "description": "创建和打包 AgentSkills 的完整指南，支持渐进式披露设计",
-      "features": ["技能设计", "资源打包", "渐进披露", "验证发布", "命名规范"],
+      "description": "创建和打包 AgentSkills 的完整指南",
+      "features": ["技能设计", "资源打包", "渐进披露", "验证发布"],
       "source": "OpenClaw 内置",
-      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/skill-creator-skill-deep.md",
-      "highlights": ["scripts/references/assets", "打包验证", "6步流程"]
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/skill-creator-skill-deep.md"
     },
     {
       "id": "canvas",
@@ -94,11 +197,11 @@
       "emoji": "🖼️",
       "category": "图像视频",
       "rating": 5,
-      "description": "跨设备 UI 展示，支持 WebGL、实时重载和 Tailscale 远程访问",
-      "features": ["LiveReload", "Tailscale", "WebGL支持", "跨设备", "快照验证"],
+      "description": "跨设备 UI 展示，支持 WebGL 和实时重载",
+      "features": ["LiveReload", "Tailscale", "WebGL支持", "跨设备"],
       "source": "OpenClaw 内置",
-      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/canvas-skill-deep.md",
-      "highlights": ["18793端口", "Node Bridge", "A2UI推送"]
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/canvas-skill-deep.md"
     },
     {
       "id": "video-frames",
@@ -106,11 +209,11 @@
       "emoji": "🎬",
       "category": "图像视频",
       "rating": 4,
-      "description": "基于 ffmpeg 的视频帧提取工具，支持多种定位方式和输出格式",
-      "features": ["首帧提取", "时间戳定位", "多格式输出", "AI分析", "帧索引"],
+      "description": "基于 ffmpeg 的视频帧提取工具",
+      "features": ["首帧提取", "时间戳定位", "多格式输出", "AI分析"],
       "source": "OpenClaw 内置",
-      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/video-frames-skill-deep.md",
-      "highlights": ["ffmpeg依赖", "JPG/PNG输出", "视频调试"]
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/video-frames-skill-deep.md"
     },
     {
       "id": "openai-image-gen",
@@ -118,11 +221,23 @@
       "emoji": "🎨",
       "category": "图像视频",
       "rating": 5,
-      "description": "通过 OpenAI Images API 批量生成图像，支持多模型和 HTML 画廊",
-      "features": ["多模型支持", "批量生成", "HTML画廊", "XSS防护", "提示词组合"],
+      "description": "通过 OpenAI Images API 批量生成图像",
+      "features": ["多模型支持", "批量生成", "HTML画廊", "XSS防护"],
       "source": "OpenClaw 内置",
-      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/openai-image-gen-skill-deep.md",
-      "highlights": ["GPT Image/DALL-E", "零依赖", "适配器模式"]
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/openai-image-gen-skill-deep.md"
+    },
+    {
+      "id": "image-edit",
+      "name": "Image Edit",
+      "emoji": "✂️",
+      "category": "图像视频",
+      "rating": 5,
+      "description": "AI 图像编辑综合工具，支持 6 大核心功能",
+      "features": ["Inpainting", "背景移除", "超分辨率", "风格迁移"],
+      "source": "ClawHub (3.158)",
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/image-edit-skill-deep.md"
     },
     {
       "id": "mcp-skill",
@@ -130,23 +245,11 @@
       "emoji": "🔌",
       "category": "AI集成",
       "rating": 5,
-      "description": "Model Context Protocol - 连接 AI 与外部系统的开源标准协议",
-      "features": ["JSON-RPC", "Tools", "Resources", "Prompts", "Notifications"],
+      "description": "Model Context Protocol - 连接 AI 与外部系统的开源标准",
+      "features": ["JSON-RPC", "Tools", "Resources", "Prompts"],
       "source": "ClawHub (3.814)",
-      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/mcp-skill-deep.md",
-      "highlights": ["Stdio/HTTP传输", "核心原语", "生态系统"]
-    },
-    {
-      "id": "gemini",
-      "name": "Gemini",
-      "emoji": "✨",
-      "category": "AI集成",
-      "rating": 4,
-      "description": "Google 多模态 AI 集成，支持 1M tokens 长上下文窗口",
-      "features": ["多模态", "1M上下文", "多格式输出", "简单易用", "CLI工具"],
-      "source": "OpenClaw 内置",
-      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/gemini-skill-deep.md",
-      "highlights": ["gemini CLI", "一次性Q&A", "多格式输出"]
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/mcp-skill-deep.md"
     },
     {
       "id": "mcp-hass",
@@ -154,11 +257,35 @@
       "emoji": "🏠",
       "category": "智能家居",
       "rating": 4,
-      "description": "Home Assistant 智能家居平台与 MCP 协议集成，支持设备控制和自动化",
-      "features": ["设备控制", "实时更新", "自动化", "HACS集成", "Docker部署"],
+      "description": "Home Assistant 智能家居平台与 MCP 协议集成",
+      "features": ["设备控制", "实时更新", "自动化", "HACS集成"],
       "source": "ClawHub (2.681)",
-      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/mcp-hass-skill-deep.md",
-      "highlights": ["Node.js/TypeScript", "SSE更新", "智能家居"]
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/mcp-hass-skill-deep.md"
+    },
+    {
+      "id": "gemini",
+      "name": "Gemini",
+      "emoji": "✨",
+      "category": "AI集成",
+      "rating": 4,
+      "description": "Google 多模态 AI 集成，支持长上下文窗口",
+      "features": ["多模态", "1M上下文", "多格式输出", "简单易用"],
+      "source": "OpenClaw 内置",
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/gemini-skill-deep.md"
+    },
+    {
+      "id": "ai-ppt-generate",
+      "name": "AI PPT Generate",
+      "emoji": "📊",
+      "category": "AI集成",
+      "rating": 4,
+      "description": "基于百度千帆平台的智能 PPT 生成工具",
+      "features": ["三步生成", "SSE流式", "多语言", "模板选择"],
+      "source": "ClawHub (3.734)",
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/ai-ppt-generate-skill-deep.md"
     },
     {
       "id": "healthcheck",
@@ -166,11 +293,131 @@
       "emoji": "🛡️",
       "category": "系统安全",
       "rating": 5,
-      "description": "主机安全加固和风险容忍度配置，支持定期检查和防火墙管理",
-      "features": ["安全审计", "防火墙配置", "SSH加固", "定期检查", "风险配置"],
+      "description": "主机安全加固和风险容忍度配置",
+      "features": ["安全审计", "防火墙配置", "SSH加固", "定期检查"],
       "source": "OpenClaw 内置",
-      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/healthcheck-skill-deep.md",
-      "highlights": ["8阶段流程", "风险配置", "Cron调度"]
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/healthcheck-skill-deep.md"
+    },
+    {
+      "id": "security-auditor",
+      "name": "Security Auditor",
+      "emoji": "🔒",
+      "category": "系统安全",
+      "rating": 5,
+      "description": "OWASP Top 10 安全审计专家",
+      "features": ["OWASP检查", "安全头配置", "输入验证", "审计报告"],
+      "source": "ClawHub (3.551)",
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/security-auditor-skill-deep.md"
+    },
+    {
+      "id": "secure-api-calls",
+      "name": "Secure API Calls",
+      "emoji": "🔐",
+      "category": "系统安全",
+      "rating": 5,
+      "description": "Keychains 凭证代理，零凭证泄露",
+      "features": ["零凭证", "5545+提供者", "OAuth", "生物识别"],
+      "source": "ClawHub (3.451)",
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/secure-api-calls-skill-deep.md"
+    },
+    {
+      "id": "web-pilot",
+      "name": "Web Pilot",
+      "emoji": "🌐",
+      "category": "自动化",
+      "rating": 5,
+      "description": "零 API Key 的网页自动化工具",
+      "features": ["多引擎搜索", "页面阅读", "20+操作", "文件下载"],
+      "source": "ClawHub (3.613)",
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/web-pilot-skill-deep.md"
+    },
+    {
+      "id": "3d-cog",
+      "name": "3D Cog",
+      "emoji": "🎮",
+      "category": "开发工具",
+      "rating": 4,
+      "description": "文本/草图/照片转 3D GLB 模型",
+      "features": ["文本转3D", "GLB输出", "PBR材质", "游戏/AR/VR"],
+      "source": "ClawHub (3.476)",
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/3d-cog-skill-deep.md"
+    },
+    {
+      "id": "tmux",
+      "name": "Tmux",
+      "emoji": "🧵",
+      "category": "开发工具",
+      "rating": 5,
+      "description": "远程控制 tmux 会话",
+      "features": ["会话控制", "按键发送", "输出捕获", "AI会话管理"],
+      "source": "OpenClaw 内置",
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/tmux-skill-deep.md"
+    },
+    {
+      "id": "discord",
+      "name": "Discord",
+      "emoji": "💬",
+      "category": "通信集成",
+      "rating": 5,
+      "description": "Discord 机器人集成",
+      "features": ["消息管理", "富媒体", "投票", "线程"],
+      "source": "OpenClaw 内置",
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/discord-skill-deep.md"
+    },
+    {
+      "id": "slack",
+      "name": "Slack",
+      "emoji": "💼",
+      "category": "通信集成",
+      "rating": 5,
+      "description": "Slack 工作区集成",
+      "features": ["消息发送", "反应操作", "固定管理", "成员信息"],
+      "source": "OpenClaw 内置",
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/slack-skill-deep.md"
+    },
+    {
+      "id": "notion",
+      "name": "Notion",
+      "emoji": "📝",
+      "category": "生产力",
+      "rating": 5,
+      "description": "Notion 工作区集成",
+      "features": ["页面操作", "数据库管理", "块级操作", "双向同步"],
+      "source": "OpenClaw 内置",
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/notion-skill-deep.md"
+    },
+    {
+      "id": "obsidian",
+      "name": "Obsidian",
+      "emoji": "💎",
+      "category": "生产力",
+      "rating": 4,
+      "description": "知识库自动化工具",
+      "features": ["笔记管理", "Wikilink更新", "Markdown", "开放格式"],
+      "source": "OpenClaw 内置",
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/obsidian-skill-deep.md"
+    },
+    {
+      "id": "weather",
+      "name": "Weather",
+      "emoji": "🌤️",
+      "category": "AI集成",
+      "rating": 4,
+      "description": "通过 wttr.in 获取天气和预报",
+      "features": ["当前天气", "3-7天预报", "多格式输出", "零配置"],
+      "source": "OpenClaw 内置",
+      "status": "analyzed",
+      "reportUrl": "https://github.com/kongshan001/clawhub-lab/blob/main/skills-analysis/weather-skill-deep.md"
     }
   ]
 }

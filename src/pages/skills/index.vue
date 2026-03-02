@@ -1,5 +1,5 @@
 <template>
-  <view class="container" :class="{ dark: isDark }">
+  <view class="container">
     <!-- Header with gradient -->
     <view class="header">
       <view class="header-bg"></view>
@@ -15,20 +15,38 @@
         <!-- Quick Stats -->
         <view class="quick-stats">
           <view class="stat-item">
-            <text class="stat-value">{{ stats.totalSkills }}</text>
-            <text class="stat-label">Skills</text>
+            <text class="stat-value">{{ stats.analyzedSkills }}</text>
+            <text class="stat-label">已分析</text>
           </view>
           <view class="stat-divider"></view>
           <view class="stat-item">
-            <text class="stat-value">{{ categoryCount }}</text>
-            <text class="stat-label">分类</text>
+            <text class="stat-value">{{ stats.pendingSkills }}</text>
+            <text class="stat-label">待安装</text>
           </view>
           <view class="stat-divider"></view>
           <view class="stat-item">
-            <text class="stat-value">{{ avgRating }}</text>
-            <text class="stat-label">均分</text>
+            <text class="stat-value">{{ stats.reports }}</text>
+            <text class="stat-label">报告</text>
           </view>
         </view>
+        
+        <!-- Progress Bar -->
+        <view class="progress-section">
+          <view class="progress-bar">
+            <view class="progress-fill" :style="{ width: '100%' }"></view>
+          </view>
+          <text class="progress-text">{{ stats.progress }} 完成 | {{ stats.runtime }} 运行</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- Tab Switcher -->
+    <view class="tab-switcher">
+      <view class="tab" :class="{ active: activeTab === 'discovered' }" @click="activeTab = 'discovered'">
+        <text class="tab-text">🆕 待安装 ({{ discovered.length }})</text>
+      </view>
+      <view class="tab" :class="{ active: activeTab === 'analyzed' }" @click="activeTab = 'analyzed'">
+        <text class="tab-text">✅ 已分析 ({{ skills.length }})</text>
       </view>
     </view>
 
@@ -46,114 +64,152 @@
       </view>
     </view>
 
-    <!-- Category Filter with Icons -->
-    <view class="category-filter">
-      <scroll-view scroll-x class="category-scroll">
-        <view class="category-list">
-          <view
-            class="category-item"
-            :class="{ active: selectedCategory === '' }"
-            @click="selectCategory('')"
-          >
-            <text class="cat-icon">📋</text>
-            <text class="cat-name">全部</text>
-            <text class="cat-count">{{ skills.length }}</text>
+    <!-- Discovered Skills (Pending) -->
+    <view v-if="activeTab === 'discovered'" class="section">
+      <view class="section-header">
+        <text class="section-title">🆕 最新发现</text>
+        <text class="section-desc">高评分 Skills 等待安装</text>
+      </view>
+      
+      <view class="skills-list">
+        <view
+          v-for="(skill, index) in filteredDiscovered"
+          :key="skill.id"
+          class="skill-card pending"
+          :style="{ animationDelay: index * 0.05 + 's' }"
+          @click="openReport(skill)"
+        >
+          <view class="pending-badge">待安装</view>
+          <view class="rating-badge" :class="'rating-' + Math.round(skill.rating)">
+            <text>{{ skill.rating.toFixed(1) }}</text>
           </view>
-          <view
-            v-for="(name, id) in categoriesWithIcons"
-            :key="id"
-            class="category-item"
-            :class="{ active: selectedCategory === id }"
-            @click="selectCategory(id)"
-          >
-            <text class="cat-icon">{{ getCategoryIcon(id) }}</text>
-            <text class="cat-name">{{ name }}</text>
-            <text class="cat-count">{{ getCategoryCount(id) }}</text>
+          
+          <view class="skill-header">
+            <view class="emoji-wrapper">
+              <text class="skill-emoji">{{ skill.emoji }}</text>
+            </view>
+            <view class="skill-info">
+              <text class="skill-name">{{ skill.name }}</text>
+              <view class="skill-meta">
+                <text class="skill-category-tag">{{ skill.category }}</text>
+                <text class="skill-source-tag">{{ skill.source }}</text>
+              </view>
+            </view>
+          </view>
+          
+          <text class="skill-desc">{{ skill.description }}</text>
+          
+          <view class="skill-features">
+            <text
+              v-for="(feature, idx) in skill.features.slice(0, 4)"
+              :key="idx"
+              class="feature-tag"
+            >
+              {{ feature }}
+            </text>
           </view>
         </view>
-      </scroll-view>
-    </view>
-
-    <!-- Sort Options -->
-    <view class="sort-section">
-      <text class="result-count">{{ filteredSkills.length }} 个结果</text>
-      <view class="sort-options">
-        <text
-          class="sort-btn"
-          :class="{ active: sortBy === 'rating' }"
-          @click="setSortBy('rating')"
-        >
-          按评分
-        </text>
-        <text
-          class="sort-btn"
-          :class="{ active: sortBy === 'name' }"
-          @click="setSortBy('name')"
-        >
-          按名称
-        </text>
       </view>
     </view>
 
-    <!-- Skills List -->
-    <view class="skills-list">
-      <view
-        v-for="(skill, index) in sortedSkills"
-        :key="skill.id"
-        class="skill-card"
-        :style="{ animationDelay: index * 0.05 + 's' }"
-        @click="openReport(skill)"
-      >
-        <!-- Rating Badge -->
-        <view class="rating-badge" :class="'rating-' + skill.rating">
-          <text>{{ skill.rating }}</text>
-        </view>
-        
-        <view class="skill-header">
-          <view class="emoji-wrapper">
-            <text class="skill-emoji">{{ skill.emoji }}</text>
+    <!-- Analyzed Skills -->
+    <view v-if="activeTab === 'analyzed'" class="section">
+      <!-- Category Filter -->
+      <view class="category-filter">
+        <scroll-view scroll-x class="category-scroll">
+          <view class="category-list">
+            <view
+              class="category-item"
+              :class="{ active: selectedCategory === '' }"
+              @click="selectCategory('')"
+            >
+              <text class="cat-name">全部</text>
+              <text class="cat-count">{{ skills.length }}</text>
+            </view>
+            <view
+              v-for="(name, id) in limitedCategories"
+              :key="id"
+              class="category-item"
+              :class="{ active: selectedCategory === id }"
+              @click="selectCategory(id)"
+            >
+              <text class="cat-name">{{ name }}</text>
+              <text class="cat-count">{{ getCategoryCount(id) }}</text>
+            </view>
           </view>
-          <view class="skill-info">
-            <text class="skill-name">{{ skill.name }}</text>
-            <view class="skill-meta">
-              <text class="skill-category-tag">{{ skill.category }}</text>
-              <text class="skill-source-tag">{{ skill.source }}</text>
+        </scroll-view>
+      </view>
+
+      <!-- Sort Options -->
+      <view class="sort-section">
+        <text class="result-count">{{ filteredSkills.length }} 个结果</text>
+        <view class="sort-options">
+          <text
+            class="sort-btn"
+            :class="{ active: sortBy === 'rating' }"
+            @click="sortBy = 'rating'"
+          >
+            按评分
+          </text>
+          <text
+            class="sort-btn"
+            :class="{ active: sortBy === 'name' }"
+            @click="sortBy = 'name'"
+          >
+            按名称
+          </text>
+        </view>
+      </view>
+
+      <!-- Skills List -->
+      <view class="skills-list">
+        <view
+          v-for="(skill, index) in sortedSkills"
+          :key="skill.id"
+          class="skill-card"
+          :style="{ animationDelay: index * 0.03 + 's' }"
+          @click="openReport(skill)"
+        >
+          <view class="rating-badge" :class="'rating-' + skill.rating">
+            <text>{{ skill.rating }}</text>
+          </view>
+          
+          <view class="skill-header">
+            <view class="emoji-wrapper">
+              <text class="skill-emoji">{{ skill.emoji }}</text>
+            </view>
+            <view class="skill-info">
+              <text class="skill-name">{{ skill.name }}</text>
+              <view class="skill-meta">
+                <text class="skill-category-tag">{{ skill.category }}</text>
+                <text class="skill-source-tag">{{ skill.source }}</text>
+              </view>
+            </view>
+          </view>
+          
+          <text class="skill-desc">{{ skill.description }}</text>
+          
+          <view class="skill-features">
+            <text
+              v-for="(feature, idx) in skill.features.slice(0, 3)"
+              :key="idx"
+              class="feature-tag"
+            >
+              {{ feature }}
+            </text>
+          </view>
+          
+          <view class="skill-footer">
+            <view class="footer-left">
+              <text class="star-rating">{{ '⭐'.repeat(skill.rating) }}</text>
+            </view>
+            <view class="view-report-btn">
+              <text class="btn-text">查看报告</text>
+              <text class="btn-arrow">→</text>
             </view>
           </view>
         </view>
-        
-        <text class="skill-desc">{{ skill.description }}</text>
-        
-        <view class="skill-features">
-          <text
-            v-for="(feature, idx) in skill.features.slice(0, 4)"
-            :key="idx"
-            class="feature-tag"
-          >
-            {{ feature }}
-          </text>
-          <text v-if="skill.features.length > 4" class="feature-more">
-            +{{ skill.features.length - 4 }}
-          </text>
-        </view>
-        
-        <view class="skill-footer">
-          <view class="footer-left">
-            <text class="star-rating">{{ '⭐'.repeat(skill.rating) }}</text>
-          </view>
-          <view class="view-report-btn">
-            <text class="btn-text">查看报告</text>
-            <text class="btn-arrow">→</text>
-          </view>
-        </view>
       </view>
-    </view>
-
-    <!-- Empty State -->
-    <view v-if="filteredSkills.length === 0" class="empty-state">
-      <text class="empty-icon">🔍</text>
-      <text class="empty-text">没有找到匹配的 Skills</text>
-      <text class="empty-hint">尝试其他搜索词或分类</text>
     </view>
 
     <!-- Footer -->
@@ -162,7 +218,7 @@
         <text class="footer-icon">📊</text>
         <view class="footer-info">
           <text class="footer-title">数据来源</text>
-          <text class="footer-desc">ClawHub Lab 每小时自动探索更新</text>
+          <text class="footer-desc">每 30 分钟自动探索更新</text>
         </view>
       </view>
       <view class="footer-links">
@@ -179,40 +235,34 @@
 import { ref, computed, onMounted } from 'vue'
 import skillsData from '@/data/skills.json'
 
-const isDark = ref(false)
+const activeTab = ref('discovered')
 const searchQuery = ref('')
 const selectedCategory = ref('')
 const sortBy = ref('rating')
+
 const stats = ref(skillsData.stats)
 const skills = ref(skillsData.skills)
-
-// Category icons mapping
-const categoryIcons = {
-  '开发工具': '⚙️',
-  '图像视频': '🖼️',
-  'AI集成': '🤖',
-  '系统安全': '🛡️',
-  '智能家居': '🏠'
-}
+const discovered = ref(skillsData.discovered)
 
 const categories = computed(() => stats.value.categories)
 
-const categoriesWithIcons = computed(() => stats.value.categories)
-
-const categoryCount = computed(() => Object.keys(stats.value.categories).length)
-
-const avgRating = computed(() => {
-  const total = skills.value.reduce((sum, s) => sum + s.rating, 0)
-  return (total / skills.value.length).toFixed(1)
+const limitedCategories = computed(() => {
+  const entries = Object.entries(stats.value.categories)
+  return Object.fromEntries(entries.slice(0, 6))
 })
-
-const getCategoryIcon = (categoryId) => {
-  return categoryIcons[categoryId] || '📁'
-}
 
 const getCategoryCount = (categoryId) => {
   return skills.value.filter(s => s.category === categoryId).length
 }
+
+const filteredDiscovered = computed(() => {
+  if (!searchQuery.value) return discovered.value
+  const query = searchQuery.value.toLowerCase()
+  return discovered.value.filter(s =>
+    s.name.toLowerCase().includes(query) ||
+    s.description.toLowerCase().includes(query)
+  )
+})
 
 const filteredSkills = computed(() => {
   let result = skills.value
@@ -249,10 +299,6 @@ const selectCategory = (categoryId) => {
   selectedCategory.value = categoryId
 }
 
-const setSortBy = (type) => {
-  sortBy.value = type
-}
-
 const clearSearch = () => {
   searchQuery.value = ''
 }
@@ -286,8 +332,18 @@ const openClawHub = () => {
   // #endif
 }
 
-onMounted(() => {
-  // 可以添加动态数据加载
+onMounted(async () => {
+  try {
+    const res = await fetch('https://raw.githubusercontent.com/kongshan001/dykongshan/main/src/data/skills.json')
+    if (res.ok) {
+      const data = await res.json()
+      stats.value = data.stats
+      skills.value = data.skills
+      discovered.value = data.discovered || []
+    }
+  } catch (e) {
+    console.log('Using local data')
+  }
 })
 </script>
 
@@ -295,16 +351,11 @@ onMounted(() => {
 .container {
   min-height: 100vh;
   background-color: #f0f2f5;
-  
-  &.dark {
-    background-color: #111827;
-  }
 }
 
-// Header with gradient background
+// Header
 .header {
   position: relative;
-  padding-bottom: 32rpx;
   overflow: hidden;
 }
 
@@ -315,16 +366,12 @@ onMounted(() => {
   right: 0;
   height: 100%;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-  
-  .dark & {
-    background: linear-gradient(135deg, #3730a3 0%, #4c1d95 50%, #701a75 100%);
-  }
 }
 
 .header-content {
   position: relative;
   z-index: 1;
-  padding: 48rpx 32rpx 24rpx;
+  padding: 48rpx 32rpx 32rpx;
 }
 
 .logo-row {
@@ -365,6 +412,7 @@ onMounted(() => {
   backdrop-filter: blur(10px);
   border-radius: 20rpx;
   padding: 24rpx 32rpx;
+  margin-bottom: 20rpx;
 }
 
 .stat-item {
@@ -392,10 +440,65 @@ onMounted(() => {
   background: rgba(255, 255, 255, 0.3);
 }
 
-// Search Section
+.progress-section {
+  margin-top: 16rpx;
+}
+
+.progress-bar {
+  height: 8rpx;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #34d399);
+  border-radius: 4rpx;
+}
+
+.progress-text {
+  display: block;
+  text-align: center;
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 8rpx;
+}
+
+// Tab Switcher
+.tab-switcher {
+  display: flex;
+  padding: 16rpx 32rpx;
+  gap: 16rpx;
+  background-color: #ffffff;
+  border-bottom: 1rpx solid #e5e7eb;
+}
+
+.tab {
+  flex: 1;
+  padding: 20rpx;
+  text-align: center;
+  border-radius: 12rpx;
+  background-color: #f3f4f6;
+  
+  &.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+    .tab-text {
+      color: #ffffff;
+    }
+  }
+}
+
+.tab-text {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #374151;
+}
+
+// Search
 .search-section {
   padding: 24rpx 32rpx;
-  margin-top: -16rpx;
 }
 
 .search-wrapper {
@@ -405,10 +508,6 @@ onMounted(() => {
   border-radius: 16rpx;
   padding: 20rpx 24rpx;
   box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.08);
-  
-  .dark & {
-    background-color: #1f2937;
-  }
 }
 
 .search-icon {
@@ -420,10 +519,6 @@ onMounted(() => {
   flex: 1;
   font-size: 28rpx;
   color: #111827;
-  
-  .dark & {
-    color: #ffffff;
-  }
 }
 
 .clear-btn {
@@ -432,9 +527,30 @@ onMounted(() => {
   font-size: 28rpx;
 }
 
+// Section
+.section {
+  padding: 0 32rpx;
+}
+
+.section-header {
+  padding: 24rpx 0;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #111827;
+}
+
+.section-desc {
+  font-size: 24rpx;
+  color: #6b7280;
+  margin-top: 4rpx;
+}
+
 // Category Filter
 .category-filter {
-  padding: 0 32rpx 24rpx;
+  padding: 0 0 24rpx;
 }
 
 .category-scroll {
@@ -444,68 +560,49 @@ onMounted(() => {
 .category-list {
   display: flex;
   flex-wrap: nowrap;
-  gap: 16rpx;
+  gap: 12rpx;
 }
 
 .category-item {
   display: inline-flex;
   align-items: center;
-  padding: 16rpx 24rpx;
-  border-radius: 16rpx;
+  padding: 12rpx 20rpx;
+  border-radius: 12rpx;
   background-color: #ffffff;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
-  
-  .dark & {
-    background-color: #1f2937;
-  }
   
   &.active {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    box-shadow: 0 4rpx 12rpx rgba(102, 126, 234, 0.4);
     
-    .cat-icon, .cat-name, .cat-count {
+    .cat-name, .cat-count {
       color: #ffffff;
     }
   }
 }
 
-.cat-icon {
-  font-size: 28rpx;
-  margin-right: 8rpx;
-}
-
 .cat-name {
-  font-size: 26rpx;
+  font-size: 24rpx;
   color: #374151;
-  
-  .dark & {
-    color: #d1d5db;
-  }
 }
 
 .cat-count {
-  font-size: 22rpx;
+  font-size: 20rpx;
   color: #9ca3af;
   margin-left: 8rpx;
   background-color: #f3f4f6;
-  padding: 4rpx 12rpx;
-  border-radius: 8rpx;
-  
-  .dark & {
-    background-color: #374151;
-  }
+  padding: 2rpx 10rpx;
+  border-radius: 6rpx;
 }
 
-// Sort Section
+// Sort
 .sort-section {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 32rpx 24rpx;
+  padding-bottom: 24rpx;
 }
 
 .result-count {
-  font-size: 26rpx;
+  font-size: 24rpx;
   color: #6b7280;
 }
 
@@ -515,7 +612,7 @@ onMounted(() => {
 }
 
 .sort-btn {
-  font-size: 24rpx;
+  font-size: 22rpx;
   color: #9ca3af;
   padding: 8rpx 16rpx;
   border-radius: 8rpx;
@@ -523,16 +620,12 @@ onMounted(() => {
   &.active {
     color: #667eea;
     background-color: #e0e7ff;
-    
-    .dark & {
-      background-color: #312e81;
-    }
   }
 }
 
 // Skills List
 .skills-list {
-  padding: 0 32rpx;
+  padding-bottom: 24rpx;
 }
 
 .skill-card {
@@ -546,8 +639,9 @@ onMounted(() => {
   animation: fadeInUp 0.4s ease-out forwards;
   opacity: 0;
   
-  .dark & {
-    background-color: #1f2937;
+  &.pending {
+    border: 2rpx dashed #f59e0b;
+    background: linear-gradient(135deg, #fffbeb 0%, #ffffff 100%);
   }
 }
 
@@ -562,6 +656,17 @@ onMounted(() => {
   }
 }
 
+.pending-badge {
+  position: absolute;
+  top: 16rpx;
+  left: 16rpx;
+  padding: 6rpx 16rpx;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #ffffff;
+  font-size: 20rpx;
+  border-radius: 8rpx;
+}
+
 .rating-badge {
   position: absolute;
   top: 24rpx;
@@ -572,7 +677,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24rpx;
+  font-size: 22rpx;
   font-weight: bold;
   color: #ffffff;
   
@@ -585,185 +690,115 @@ onMounted(() => {
   &.rating-3 {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   }
-  &.rating-2 {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  }
 }
 
 .skill-header {
   display: flex;
   align-items: center;
-  margin-bottom: 20rpx;
+  margin-bottom: 16rpx;
+  padding-right: 60rpx;
 }
 
 .emoji-wrapper {
-  width: 96rpx;
-  height: 96rpx;
+  width: 80rpx;
+  height: 80rpx;
   background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-  border-radius: 20rpx;
+  border-radius: 16rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 20rpx;
-  
-  .dark & {
-    background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
-  }
+  margin-right: 16rpx;
 }
 
 .skill-emoji {
-  font-size: 56rpx;
+  font-size: 48rpx;
 }
 
 .skill-info {
   flex: 1;
-  padding-right: 60rpx;
 }
 
 .skill-name {
-  font-size: 34rpx;
+  font-size: 32rpx;
   font-weight: bold;
   color: #111827;
-  
-  .dark & {
-    color: #ffffff;
-  }
 }
 
 .skill-meta {
   display: flex;
-  gap: 12rpx;
-  margin-top: 8rpx;
+  gap: 8rpx;
+  margin-top: 6rpx;
 }
 
 .skill-category-tag {
-  font-size: 22rpx;
+  font-size: 20rpx;
   color: #667eea;
   background-color: #e0e7ff;
-  padding: 4rpx 12rpx;
+  padding: 4rpx 10rpx;
   border-radius: 6rpx;
-  
-  .dark & {
-    background-color: #312e81;
-  }
 }
 
 .skill-source-tag {
-  font-size: 22rpx;
+  font-size: 20rpx;
   color: #6b7280;
   background-color: #f3f4f6;
-  padding: 4rpx 12rpx;
+  padding: 4rpx 10rpx;
   border-radius: 6rpx;
-  
-  .dark & {
-    background-color: #374151;
-  }
 }
 
 .skill-desc {
-  font-size: 28rpx;
+  font-size: 26rpx;
   color: #4b5563;
-  line-height: 1.6;
-  margin-bottom: 20rpx;
-  
-  .dark & {
-    color: #9ca3af;
-  }
+  line-height: 1.5;
+  margin-bottom: 16rpx;
 }
 
 .skill-features {
   display: flex;
   flex-wrap: wrap;
-  gap: 12rpx;
-  margin-bottom: 24rpx;
+  gap: 10rpx;
 }
 
 .feature-tag {
-  padding: 10rpx 18rpx;
+  padding: 8rpx 14rpx;
   background-color: #f0fdf4;
   color: #166534;
-  font-size: 22rpx;
-  border-radius: 10rpx;
+  font-size: 20rpx;
+  border-radius: 8rpx;
   border: 1rpx solid #bbf7d0;
-  
-  .dark & {
-    background-color: #14532d;
-    color: #86efac;
-    border-color: #166534;
-  }
-}
-
-.feature-more {
-  padding: 10rpx 18rpx;
-  background-color: #f3f4f6;
-  color: #6b7280;
-  font-size: 22rpx;
-  border-radius: 10rpx;
 }
 
 .skill-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 20rpx;
+  padding-top: 16rpx;
+  margin-top: 16rpx;
   border-top: 1rpx solid #f3f4f6;
-  
-  .dark & {
-    border-top-color: #374151;
-  }
 }
 
 .star-rating {
-  font-size: 20rpx;
+  font-size: 18rpx;
 }
 
 .view-report-btn {
   display: flex;
   align-items: center;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 12rpx 24rpx;
-  border-radius: 12rpx;
+  padding: 10rpx 20rpx;
+  border-radius: 10rpx;
 }
 
 .btn-text {
-  font-size: 26rpx;
+  font-size: 24rpx;
   color: #ffffff;
   font-weight: 500;
 }
 
 .btn-arrow {
-  font-size: 26rpx;
+  font-size: 24rpx;
   color: #ffffff;
   margin-left: 8rpx;
-}
-
-// Empty State
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 80rpx 32rpx;
-}
-
-.empty-icon {
-  font-size: 80rpx;
-  margin-bottom: 24rpx;
-}
-
-.empty-text {
-  font-size: 32rpx;
-  color: #374151;
-  font-weight: 500;
-  
-  .dark & {
-    color: #d1d5db;
-  }
-}
-
-.empty-hint {
-  font-size: 26rpx;
-  color: #9ca3af;
-  margin-top: 12rpx;
 }
 
 // Footer
@@ -778,10 +813,6 @@ onMounted(() => {
   border-radius: 16rpx;
   padding: 24rpx;
   margin-bottom: 24rpx;
-  
-  .dark & {
-    background-color: #1f2937;
-  }
 }
 
 .footer-icon {
@@ -798,10 +829,6 @@ onMounted(() => {
   font-size: 28rpx;
   font-weight: 500;
   color: #111827;
-  
-  .dark & {
-    color: #ffffff;
-  }
 }
 
 .footer-desc {
