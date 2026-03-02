@@ -7,6 +7,13 @@
     </view>
     <view class="content">
       <view class="doc-list">
+        <view class="doc-card" @click="openDoc('ai-trending.html')">
+          <text class="doc-icon">🤖</text>
+          <view class="doc-info">
+            <text class="doc-title">AI 热门项目趋势</text>
+            <text class="doc-desc">定期更新的 AI 领域热门项目榜单</text>
+          </view>
+        </view>
         <view class="doc-card" @click="openDoc('ai-coding/opencode-vs-claude-code.html')">
           <text class="doc-icon">🔬</text>
           <view class="doc-info">

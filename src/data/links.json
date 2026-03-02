@@ -146,6 +146,17 @@
       "isInternal": true
     },
     {
+      "id": "ai_trending",
+      "title": "🤖 AI 热门项目",
+      "url": "/pages/research/index",
+      "description": "定期更新的 AI 领域热门项目榜单",
+      "categoryId": "research",
+      "icon": "🤖",
+      "clickCount": 0,
+      "createdAt": "2026-03-02",
+      "isInternal": true
+    },
+    {
       "id": "ai_coding_research",
       "title": "AI 编程工具研究",
       "url": "/research/ai-coding/opencode-vs-claude-code.html",
