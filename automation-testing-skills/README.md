@@ -260,6 +260,48 @@
 
 ---
 
+## 8. Playwright 高级专题
+
+### 8.1 核心特性
+
+```markdown
+### 自动化能力
+- 自动检测开发服务器
+- 编写测试脚本到 /tmp
+- 默认使用可见浏览器
+- URL 参数化配置
+
+### 常见模式
+- 页面测试 (多视口)
+- 登录流程测试
+- 表单填写和提交
+- 链接检查
+- 响应式设计测试
+```
+
+### 8.2 快速开始
+
+```bash
+# 首次安装
+cd $SKILL_DIR && npm run setup
+
+# 检测开发服务器
+cd $SKILL_DIR && node -e "require('./lib/helpers').detectDevServers().then(s => console.log(JSON.stringify(s)))"
+
+# 执行测试
+cd $SKILL_DIR && node run.js /tmp/playwright-test-*.js
+```
+
+### 8.3 典型交互
+
+```
+"测试这个登录流程"
+"检查响应式设计"
+"验证表单提交"
+```
+
+---
+
 ## 8. 优缺点分析
 
 ### ✅ 优点
