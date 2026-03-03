@@ -24,6 +24,10 @@
 | [antigravity-awesome-skills](./antigravity-awesome-skills/README.md) | 968+ 通用 Agentic Skills 集合，10+ AI 助手平台支持，12 大类分类 | ✅ 已调研 |
 | [book-factory](./book-factory/README.md) | 非小说类书籍创作流水线，6 个 Skills 覆盖概念开发、市场验证、架构设计、研究规划、章节规划 | ✅ 已调研 |
 | [cc_devops_skills](./cc_devops_skills/README.md) | 31 个 DevOps 工程技能，覆盖 IaC、CI/CD、容器编排、可观测性 | ✅ 已调研 |
+| [game-dev-skills](./game-dev-skills/README.md) | 游戏客户端开发 Skills，覆盖 Unity/Godot/Unreal 主流引擎，ECS/DOTS 架构 | ✅ 已调研 |
+| [python-dev-skills](./python-dev-skills/README.md) | Python 开发 Skills，Python 3.12+ 现代工具链，FastAPI/异步/测试/性能优化 | ✅ 已调研 |
+| [automation-testing-skills](./automation-testing-skills/README.md) | 自动化测试 Skills，AI 驱动测试、Playwright/Cypress E2E、pytest、TDD | ✅ 已调研 |
+| [developer-tools-skills](./developer-tools-skills/README.md) | 开发者工具 Skills，浏览器自动化、GitHub/GitLab 自动化、CI/CD 流水线 | ✅ 已调研 |
 
 ## 📝 文档规范
 
