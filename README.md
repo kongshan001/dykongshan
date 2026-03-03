@@ -21,6 +21,7 @@
 | [claude-scientific-skills](./claude-scientific-skills/README.md) | 148+ 科学研究 Skills，250+ 数据库，跨生物信息、药物发现、临床研究、材料科学等领域 | ✅ 已调研 |
 | [python-type-safety](./python-type-safety/README.md) | Python 类型安全最佳实践，10 个核心模式，mypy/pyright 严格检查 | ✅ 已调研 |
 | [antigravity-awesome-skills](./antigravity-awesome-skills/README.md) | 968+ 通用 Agentic Skills 集合，10+ AI 助手平台支持，12 大类分类 | ✅ 已调研 |
+| [book-factory](./book-factory/README.md) | 非小说类书籍创作流水线，6 个 Skills 覆盖概念开发、市场验证、架构设计、研究规划、章节规划 | ✅ 已调研 |
 | [cc_devops_skills](./cc_devops_skills/README.md) | 31 个 DevOps 工程技能，覆盖 IaC、CI/CD、容器编排、可观测性 | ✅ 已调研 |
 
 ## 📝 文档规范
