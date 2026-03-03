@@ -5,9 +5,77 @@
 ## 📋 文档信息
 
 - **Skill 类别**: 游戏客户端开发
-- **来源**: Antigravity Awesome Skills (968+ Skills)
+- **来源**: Antigravity Awesome Skills (968+ Skills) + 社区精选
 - **定位**: 游戏引擎开发全覆盖
 - **状态**: ✅ 已调研
+
+---
+
+## 0. Unity AI Workflow (2026 新增)
+
+### 0.1 简介
+
+> 🎉 **2026 年新增** - 专为 Claude Code 和 Google Antigravity IDE 设计的 Unity 6.2+ AI 开发工作流
+
+**项目地址**: [David-GD13/unity-ai-workflow](https://github.com/David-GD13/unity-ai-workflow)
+**GitHub Stars**: 4⭐ (2026-03 新增)
+
+### 0.2 核心特性
+
+```markdown
+### 🎮 Dev Modes (三种开发模式)
+| 模式 | 角色 | 适用场景 |
+|------|------|---------|
+| Assistant | 你构建，AI 辅助文档和解释 | 学习、创意控制 |
+| Mix (默认) | 协作模式，AI 建议，你确认 | 大多数项目 |
+| Automatic | AI 构建，短的 onboarding Q&A | 快速原型、游戏 jam |
+
+### 🧃 核心哲学: Game Feel 不是可选的
+- 每项功能使用 /implement-feature 完整构建
+- AI 在写代码前询问 VFX、SFX、相机反馈和触觉
+- 迭代打磨，不是单独阶段
+
+### 🧠 技术架构
+- TCREI Prompting: Task-Context-References-Evaluate-Iterate 方法论
+- 验证系统: 每个 AI 推荐标记 [VERIFIED]/[SYNTHESIZED]/[UNVERIFIED]
+- 专家 Skills: UI Toolkit、ScriptableObject、Netcode、game feel、测试、调试
+```
+
+### 0.3 项目阶段
+
+```markdown
+1. 00: Ideation — 从想法到 GDD + GFD
+2. 01: Pre-Production — 技术选型、栈定义、命名规范
+3. 02: Technical Design — 架构、程序集定义、模式
+4. 03: Project Setup — 自动文件夹脚手架和包安装
+5. 04: Production — 特性循环 (interrogate → implement → feel → commit)
+6. 05: Polish — 最终调优、视觉细化、性能分析
+```
+
+### 0.4 快速开始
+
+```bash
+# 1. 创建工作区
+mkdir MyGame && cd MyGame
+
+# 2. 复制工具包
+git clone https://github.com/David-GD13/unity-ai-workflow.git .
+
+# 3. 通过 Unity Hub 创建 Unity 项目 (如 MyGameUnity/)
+
+# 4. 在终端或 VS Code 中打开工作区
+# CLAUDE.md 会自动加载
+
+# 5. 运行 /setup-project
+# AI 引导你完成开发模式选择和项目初始化
+```
+
+### 0.5 适用场景
+
+- ✅ Unity 6.2+ 项目开发
+- ✅ AI 辅助游戏开发工作流
+- ✅ 团队协作开发规范
+- ✅ 快速原型和游戏 jam
 
 ---
 
@@ -310,6 +378,7 @@ npx antigravity-awesome-skills --claude
 ## 📎 相关链接
 
 - [Antigravity Awesome Skills](https://github.com/sickn33/antigravity-awesome-skills)
+- [Unity AI Workflow](https://github.com/David-GD13/unity-ai-workflow) - 2026 新增
 - [Unity 官方文档](https://docs.unity.com/)
 - [Godot 文档](https://docs.godotengine.org/)
 - [Unreal Engine 文档](https://docs.unrealengine.com/)
