@@ -3,7 +3,7 @@
 **调研日期**: 2026-03-04  
 **技能来源**: GitHub 热门仓库 + ClawHub 实时搜索 + Antigravity Awesome Skills (970+ Skills)  
 **目标仓库**: https://github.com/kongshan001/cc_skills  
-**状态**: ✅ 调研完成
+**状态**: ✅ 调研完成 (第九轮更新)
 
 ---
 
@@ -32,16 +32,89 @@
 | Skill 名称 | 来源 | 核心能力 | 评分/星标 |
 |------------|------|---------|----------|
 | game-development | antigravity | 游戏开发编排器 | 18.5K⭐ |
+| openclaw-godot-skill | ClawHub | Godot 场景管理、节点操作 | **3.497** 🆕 |
+| godot-dev-guide | ClawHub | Godot 4 开发指南 | **3.442** 🆕 |
 | unity-developer | antigravity | Unity 6 LTS 专家 | 高 |
+| unity | ClawHub | Unity 开发 | **3.030** 🆕 |
+| openclaw-unreal-skill | ClawHub | Unreal 技能 | **3.376** 🆕 |
 | unity-ai-workflow-2026 | antigravity | Unity AI Workflow 2026 | 高 |
 | godot-gdscript-patterns | antigravity | Godot 4 GDScript | 高 |
 | unreal-engine-cpp-pro | antigravity | UE5 C++ 开发 | 高 |
 | bevy-ecs-expert | antigravity | Bevy ECS (Rust) | 中 |
 | game-audio | antigravity | 游戏音频 | 中 |
 | game-art | antigravity | 游戏美术管线 | 中 |
-| openclaw-godot-skill | ClawHub | 场景管理、节点操作 | 0.911 |
 
-### 1.2 Game Development Orchestrator 详解
+### 1.2 OpenClaw Godot Skill 详解 (评分: 3.497)
+
+**来源**: ClawHub
+
+```markdown
+### 核心能力
+- 场景管理 (Scene Tree)
+- 节点操作 (Node operations)
+- 信号系统 (Signals)
+- 资源加载 (Resource loading)
+- GDScript 编写
+
+### 适用场景
+- ✅ Godot 4 项目开发
+- ✅ 2D/3D 游戏制作
+- ✅ 跨平台部署 (Windows/Linux/macOS/Android/iOS)
+- ✅ 开源游戏开发
+```
+
+### 1.3 Godot Dev Guide 详解 (评分: 3.442)
+
+**来源**: ClawHub
+
+```markdown
+### 核心能力
+- Godot 4 完整开发指南
+- 项目架构设计
+- 最佳实践
+- 性能优化
+
+### 适用场景
+- ✅ Godot 初学者入门
+- ✅ 项目架构规划
+- ✅ 性能调优
+```
+
+### 1.4 OpenClaw Unreal Skill 详解 (评分: 3.376)
+
+**来源**: ClawHub
+
+```markdown
+### 核心能力
+- Unreal Engine 开发
+- C++ / Blueprint 集成
+- 蓝图可视化编程
+- 引擎定制
+
+### 适用场景
+- ✅ UE5 项目开发
+- ✅ AAA 游戏制作
+- ✅ 虚拟制作
+```
+
+### 1.5 Unity Skill 详解 (评分: 3.030)
+
+**来源**: ClawHub
+
+```markdown
+### 核心能力
+- Unity 基础开发
+- C# 脚本编写
+- 组件系统
+- 场景管理
+
+### 适用场景
+- ✅ Unity 初学者
+- ✅ 快速原型开发
+- ✅ 跨平台发布
+```
+
+### 1.6 Game Development Orchestrator 详解
 
 **来源**: Antigravity Awesome Skills
 
@@ -73,7 +146,7 @@
 | 音效/音乐 | game-development/game-audio |
 ```
 
-### 1.3 游戏开发核心原则
+### 1.7 游戏开发核心原则
 
 ```markdown
 ### 1. 游戏循环 (Game Loop)
@@ -97,54 +170,6 @@ INPUT → UPDATE (固定时间步 50Hz) → RENDER (插值)
 | AI | 2ms |
 | 游戏逻辑 | 4ms |
 | 渲染 | 5ms |
-```
-
-### 1.4 Unity Developer 核心能力
-
-**来源**: Antigravity Awesome Skills
-
-```markdown
-### 核心能力
-- Unity 6 LTS 特性和长期支持优势
-- URP/HDRP 渲染管线优化
-- Shader Graph 可视化着色器
-- DOTS/ECS 架构
-- Job System 和 Burst Compiler
-- Unity Netcode for GameObjects
-- 客户端-服务器同步
-
-### 典型交互
-- "使用 Unity Netcode 架构多人游戏"
-- "使用 URP 优化移动游戏性能"
-- "使用 Shader Graph 创建风格化渲染"
-```
-
-### 1.5 Godot GDScript Patterns
-
-```markdown
-### GDScript 2.0 特性
-- 改进的类型推断
-- @export 注解
-- await/awaited signals
-- 更好的性能
-
-### 核心模式
-- Signal 信号系统
-- Scene 场景管理
-- State Machine 状态机
-- 对象池和优化
-```
-
-### 1.6 Unreal Engine C++ Pro
-
-```markdown
-### UE5 C++ 开发专家
-- UObject 卫生和生命周期
-- 性能模式
-- Slate UI 系统
-- 网络复制
-- Niagara VFX
-- Lumen 和 Nanite
 ```
 
 ---
@@ -183,7 +208,24 @@ INPUT → UPDATE (固定时间步 50Hz) → RENDER (插值)
 - 数据可视化
 ```
 
-### 2.3 Async Python Patterns 详解
+### 2.3 Python Dataviz 详解 (评分: 3.428)
+
+**来源**: ClawHub
+
+```markdown
+### 核心能力
+- Matplotlib 可视化
+- Pandas 数据处理
+- 图表定制
+- 导出功能
+
+### 适用场景
+- 数据分析展示
+- 报告生成
+- 探索性数据分析
+```
+
+### 2.4 Async Python Patterns 详解
 
 **来源**: Antigravity Awesome Skills
 
@@ -216,7 +258,7 @@ asyncio.run(fetch_all(["url1", "url2"]))
 ```
 ```
 
-### 2.4 Python Testing Patterns
+### 2.5 Python Testing Patterns
 
 ```markdown
 ### 核心能力
@@ -251,7 +293,7 @@ asyncio.run(fetch_all(["url1", "url2"]))
 | e2e-testing-patterns | antigravity | E2E 测试模式 | 2.406 |
 | browser-automation | antigravity | 浏览器自动化 | 高 |
 
-### 3.2 Test Runner (评分: 3.639)
+### 3.2 Test Runner 详解 (评分: 3.639)
 
 **来源**: ClawHub
 
@@ -265,7 +307,31 @@ asyncio.run(fetch_all(["url1", "url2"]))
 - CI/CD 集成
 ```
 
-### 3.3 Playwright Skills 专题
+### 3.3 Test Master 详解 (评分: 3.576)
+
+**来源**: ClawHub
+
+```markdown
+### 核心能力
+- 测试策略规划
+- 测试用例设计
+- 质量度量
+- 测试报告分析
+```
+
+### 3.4 Test Patterns 详解 (评分: 3.548)
+
+**来源**: ClawHub
+
+```markdown
+### 核心能力
+- 测试设计模式
+- 最佳实践
+- 代码覆盖率
+- Mock 策略
+```
+
+### 3.5 Playwright Skills 专题
 
 **来源**: ClawHub 实时搜索
 
@@ -287,7 +353,7 @@ asyncio.run(fetch_all(["url1", "url2"]))
 - MCP 协议集成
 ```
 
-### 3.4 E2E Testing Patterns
+### 3.6 E2E Testing Patterns
 
 **来源**: Antigravity Awesome Skills
 
@@ -312,12 +378,14 @@ asyncio.run(fetch_all(["url1", "url2"]))
 
 ### 4.1 GitHub 专题
 
-| Skill | 评分 |
-|-------|------|
-| github | 3.790 |
-| github-cli | 3.501 |
-| github-mcp | 3.456 |
-| github-actions-generator | 3.238 |
+| Skill | 评分 | 说明 |
+|-------|------|------|
+| github | 3.790 | GitHub 基础操作 |
+| openclaw-github-assistant | 3.615 🆕 | OpenClaw GitHub 助手 |
+| github-cli | 3.501 | GitHub CLI |
+| github-trending-cn | 3.458 | GitHub 中文趋势 |
+| github-ops | 3.345 | GitHub 运维 |
+| github-actions-generator | 3.238 | Actions 生成器 |
 
 ```markdown
 ### 核心能力
@@ -330,12 +398,15 @@ asyncio.run(fetch_all(["url1", "url2"]))
 
 ### 4.2 Docker 专题
 
-| Skill | 评分 |
-|-------|------|
-| docker-essentials | 3.694 |
-| docker | 3.577 |
-| docker-compose | 3.511 |
-| docker-sandbox | 3.548 |
+| Skill | 评分 | 说明 |
+|-------|------|------|
+| docker-essentials | 3.694 | Docker 基础 |
+| docker | 3.577 | Docker 完整版 |
+| docker-sandbox | 3.548 | Docker 沙箱 |
+| docker-ctl | 3.531 🆕 | Docker 控制 |
+| docker-compose | 3.511 | Docker Compose |
+| docker-essentials-1-0-0 | 3.498 🆕 | Docker 基础 v1.0.0 |
+| docker-diag | 3.474 🆕 | Docker 诊断 |
 
 ```markdown
 ### 核心能力
@@ -356,25 +427,30 @@ asyncio.run(fetch_all(["url1", "url2"]))
 
 ---
 
-## 📈 Skills 评分排行榜 (Top 15)
+## 📈 Skills 评分排行榜 (Top 20)
 
-| 排名 | Skill | 类别 | 评分 |
-|------|-------|------|------|
-| 1 | github | DevOps | 3.790 |
-| 2 | automation-workflows | Automation | 3.699 |
-| 3 | docker-essentials | DevOps | 3.694 |
-| 4 | test-runner | Testing | 3.639 |
-| 5 | playwright-scraper-skill | Automation | 3.584 |
-| 6 | playwright-mcp | Automation | 3.581 |
-| 7 | test-master | Testing | 3.576 |
-| 8 | docker | DevOps | 3.577 |
-| 9 | test-patterns | Testing | 3.548 |
-| 10 | playwright | Automation | 3.538 |
-| 11 | python-executor | Python | 3.480 |
-| 12 | python-dataviz | Python | 3.428 |
-| 13 | docker-compose | DevOps | 3.511 |
-| 14 | windows-ui-automation | Automation | 3.536 |
-| 15 | github-cli | DevOps | 3.501 |
+| 排名 | Skill | 类别 | 评分 | 趋势 |
+|------|-------|------|------|------|
+| 1 | github | DevOps | 3.790 | - |
+| 2 | automation-workflows | Automation | 3.699 | - |
+| 3 | docker-essentials | DevOps | 3.694 | - |
+| 4 | test-runner | Testing | 3.639 | 🆕 |
+| 5 | openclaw-github-assistant | DevOps | 3.615 | 🆕 |
+| 6 | playwright-scraper-skill | Automation | 3.584 | - |
+| 7 | playwright-mcp | Automation | 3.581 | - |
+| 8 | docker | DevOps | 3.577 | - |
+| 9 | test-master | Testing | 3.576 | 🆕 |
+| 10 | docker-sandbox | DevOps | 3.548 | - |
+| 11 | test-patterns | Testing | 3.548 | 🆕 |
+| 12 | playwright | Automation | 3.538 | - |
+| 13 | docker-ctl | DevOps | 3.531 | 🆕 |
+| 14 | docker-compose | DevOps | 3.511 | - |
+| 15 | playwright-browser-automation | Automation | 3.509 | - |
+| 16 | docker-essentials-1-0-0 | DevOps | 3.498 | 🆕 |
+| 17 | openclaw-godot-skill | Game | 3.497 | 🆕 |
+| 18 | github-cli | DevOps | 3.501 | - |
+| 19 | godot-dev-guide | Game | 3.442 | 🆕 |
+| 20 | docker-diag | DevOps | 3.474 | 🆕 |
 
 ---
 
@@ -407,5 +483,16 @@ npx antigravity-awesome-skills --claude
 
 ---
 
-**文档版本**: 2026.03.04.1  
+**文档版本**: 2026.03.04.2  
+**本轮更新**: 
+- 新增 OpenClaw Godot Skill (3.497)
+- 新增 Godot Dev Guide (3.442)
+- 新增 OpenClaw Unreal Skill (3.376)
+- 新增 Unity Skill (3.030)
+- 新增 OpenClaw GitHub Assistant (3.615)
+- 新增 Docker CTL (3.531)
+- 新增 Docker Essentials 1.0.0 (3.498)
+- 新增 Docker Diag (3.474)
+- 更新 Skills 评分排行榜 Top 20
+
 **调研完成**: ✅

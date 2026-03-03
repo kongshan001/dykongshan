@@ -28,16 +28,24 @@
 
 ## 2. 核心 Skills 概览
 
-| Skill 名称 | 核心能力 | 适用场景 |
-|-----------|---------|---------|
-| browser-automation | 浏览器自动化 | 测试/爬虫 |
-| github-automation | GitHub 自动化 | PR/Issue/Workflow |
-| github-workflow-automation | GitHub Actions | CI/CD |
-| gitlab-automation | GitLab 自动化 | 项目管理 |
-| cicd-automation-workflow-automate | CI/CD 自动化 | 流水线 |
-| changelog-automation | Changelog 生成 | 版本发布 |
-| test-fixing | 测试修复 | 失败测试 |
-| cli-tool-development | CLI 工具开发 | 工具构建 |
+| Skill 名称 | 核心能力 | 适用场景 | 评分 |
+|-----------|---------|---------|------|
+| browser-automation | 浏览器自动化 | 测试/爬虫 | 高 |
+| github | GitHub 基础操作 | PR/Issue/Workflow | 3.790 |
+| openclaw-github-assistant | OpenClaw GitHub 助手 | 增强 GitHub 操作 | **3.615** 🆕 |
+| github-cli | GitHub CLI | 命令行操作 | 3.501 |
+| github-workflow-automation | GitHub Actions | CI/CD | 高 |
+| docker-essentials | Docker 基础 | 容器化 | 3.694 |
+| docker | Docker 完整版 | 容器管理 | 3.577 |
+| docker-sandbox | Docker 沙箱 | 安全测试 | 3.548 |
+| docker-ctl | Docker 控制 | 容器控制 | **3.531** 🆕 |
+| docker-compose | Docker Compose | 多容器编排 | 3.511 |
+| docker-diag | Docker 诊断 | 问题排查 | **3.474** 🆕 |
+| gitlab-automation | GitLab 自动化 | 项目管理 | 高 |
+| cicd-automation-workflow-automate | CI/CD 自动化 | 流水线 | 高 |
+| changelog-automation | Changelog 生成 | 版本发布 | 高 |
+| test-fixing | 测试修复 | 失败测试 | 高 |
+| cli-tool-development | CLI 工具开发 | 工具构建 | 高 |
 
 ---
 
@@ -127,7 +135,24 @@
 "Set up branch protection rules"
 ```
 
-### 4.3 适用场景
+### 4.3 OpenClaw GitHub Assistant 详解 (评分: 3.615)
+
+**来源**: ClawHub
+
+```markdown
+### 核心能力
+- 增强 GitHub 操作
+- PR 管理
+- Issue 自动化
+- 仓库配置
+
+### 适用场景
+- ✅ 自动化 PR 流程
+- ✅ Issue 管理和分类
+- ✅ 仓库维护
+```
+
+### 4.4 适用场景
 
 - ✅ 自动化 PR 流程
 - ✅ Issue 管理和分类
@@ -214,6 +239,62 @@
 - ✅ 自动化测试
 - ✅ 制品管理
 - ✅ 环境配置
+
+---
+
+## 6.5 Docker Skills 专题
+
+### 6.5.1 Docker Essentials (评分: 3.694)
+
+**来源**: ClawHub
+
+```markdown
+### 核心能力
+- Dockerfile 最佳实践
+- 镜像构建优化
+- 多阶段构建
+- 容器网络配置
+- 安全加固
+
+### 适用场景
+- ✅ 容器化应用部署
+- ✅ 开发环境标准化
+- ✅ 微服务封装
+```
+
+### 6.5.2 Docker CTL (评分: 3.531)
+
+**来源**: ClawHub
+
+```markdown
+### 核心能力
+- 容器生命周期管理
+- 镜像操作
+- 网络和存储管理
+- 日志查看
+
+### 适用场景
+- ✅ 容器日常运维
+- ✅ 快速问题排查
+- ✅ 批量操作
+```
+
+### 6.5.3 Docker Diag (评分: 3.474)
+
+**来源**: ClawHub
+
+```markdown
+### 核心能力
+- 容器诊断
+- 资源分析
+- 问题定位
+- 性能监控
+
+### 适用场景
+- ✅ 容器故障排查
+- ✅ 性能瓶颈分析
+- ✅ 健康检查
+```
 
 ---
 

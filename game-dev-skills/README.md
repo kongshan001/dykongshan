@@ -98,12 +98,70 @@ git clone https://github.com/David-GD13/unity-ai-workflow.git .
 
 | Skill 名称 | 引擎 | 核心能力 | 评分 |
 |-----------|------|---------|------|
-| unity-developer | Unity 6 LTS | C# 优化、URP/HDRP、ECS、DOTS、跨平台 | ⭐⭐⭐⭐⭐ |
-| godot-gdscript-patterns | Godot 4 | GDScript 2.0、信号、状态机、优化 | ⭐⭐⭐⭐ |
-| unreal-engine-cpp-pro | Unreal 5.x | C++ 开发、UObject、性能模式 | ⭐⭐⭐⭐⭐ |
-| unity-ecs-patterns | Unity DOTS | ECS 架构、Jobs、Burst 编译 | ⭐⭐⭐⭐ |
-| 2d-games | 通用 | 精灵、瓦片地图、物理、相机 | ⭐⭐⭐ |
-| 3d-games | 通用 | 渲染、着色器、物理、相机 | ⭐⭐⭐ |
+| openclaw-godot-skill | ClawHub | Godot 4 场景管理、节点操作 | 3.497 ⭐⭐⭐⭐⭐ |
+| godot-dev-guide | ClawHub | Godot 4 开发指南 | 3.442 ⭐⭐⭐⭐ |
+| openclaw-unreal-skill | ClawHub | Unreal Engine 开发 | 3.376 ⭐⭐⭐⭐⭐ |
+| unity | ClawHub | Unity 开发 | 3.030 ⭐⭐⭐ |
+| unity-developer | antigravity | Unity 6 LTS 专家 | ⭐⭐⭐⭐⭐ |
+| godot-gdscript-patterns | antigravity | Godot 4 GDScript | ⭐⭐⭐⭐ |
+| unreal-engine-cpp-pro | antigravity | Unreal 5.x C++ 开发 | ⭐⭐⭐⭐⭐ |
+| unity-ecs-patterns | antigravity | Unity DOTS/ECS 架构 | ⭐⭐⭐⭐ |
+| 2d-games | antigravity | 2D 游戏开发 | ⭐⭐⭐ |
+| 3d-games | antigravity | 3D 游戏开发 | ⭐⭐⭐ |
+
+### 1.5 OpenClaw Godot Skill 详解 (评分: 3.497)
+
+**来源**: ClawHub
+
+```markdown
+### 核心能力
+- 场景管理 (Scene Tree)
+- 节点操作 (Node operations)
+- 信号系统 (Signals)
+- 资源加载 (Resource loading)
+- GDScript 编写
+
+### 适用场景
+- ✅ Godot 4 项目开发
+- ✅ 2D/3D 游戏制作
+- ✅ 跨平台部署
+```
+
+### 1.6 Godot Dev Guide 详解 (评分: 3.442)
+
+**来源**: ClawHub
+
+```markdown
+### 核心能力
+- Godot 4 完整开发指南
+- 项目架构设计
+- 最佳实践
+- 性能优化
+```
+
+### 1.7 OpenClaw Unreal Skill 详解 (评分: 3.376)
+
+**来源**: ClawHub
+
+```markdown
+### 核心能力
+- Unreal Engine 开发
+- C++ / Blueprint 集成
+- 蓝图可视化编程
+- 引擎定制
+```
+
+### 1.8 Unity Skill 详解 (评分: 3.030)
+
+**来源**: ClawHub
+
+```markdown
+### 核心能力
+- Unity 基础开发
+- C# 脚本编写
+- 组件系统
+- 场景管理
+```
 
 ---
 
