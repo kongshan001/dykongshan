@@ -40,6 +40,7 @@
 | [SKILLS_SUPPLEMENT_2026_03_WEEK10](./SKILLS_SUPPLEMENT_2026_03_WEEK10.md) | Claude Code Skills 补充调研报告（第十周），ClawHub 搜索发现新兴 Skills、Game Cog/Playwright/GitHub 自动化专题 | 🆕 新增 |
 | [SKILLS_SUPPLEMENT_2026_03_WEEK13](./SKILLS_SUPPLEMENT_2026_03_WEEK13.md) | Claude Code Skills 补充调研报告（第十三周），游戏客户端开发/Python开发/自动化测试/开发者工具完整覆盖 | 🆕 新增 |
 | [SKILLS_SUPPLEMENT_2026_03_WEEK12](./SKILLS_SUPPLEMENT_2026_03_WEEK12.md) | Claude Code Skills 补充调研报告（第十二周），Unity AI Workflow 2026/DBOS Python/Temporal/Playwright 高级专题 | 🆕 新增 |
+| [SKILLS_SUPPLEMENT_2026_03_WEEK13](./SKILLS_SUPPLEMENT_2026_03_WEEK13.md) | Claude Code Skills 补充调研报告（第十三周），ClawHub 高分 Skills 专题，Docker/Git/FastAPI/Test 工具 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V3](./SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V3.md) | Claude Code Skills 完整调研报告 V3，游戏客户端开发/Python开发/自动化测试/开发者工具完整覆盖，新增 Unity AI Workflow 2026 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V4](./SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V4.md) | Claude Code Skills 完整调研报告 V4，游戏客户端开发/Python开发/自动化测试/开发者工具完整覆盖 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V5](./SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V5.md) | Claude Code Skills 完整调研报告 V5，**最新完整版**，覆盖 Antigravity 958+ Skills 和 VoltAgent 506+ 官方 Skills | 🆕 新增 |
