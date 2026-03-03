@@ -18,6 +18,7 @@
 | [fullstack-dev-skills](./fullstack-dev-skills/README.md) | 66+ Skills 全栈开发框架，9 个工作流命令，覆盖 12 个技术类别 | ✅ 已调研 |
 | [everything-claude-code](./everything-claude-code/README.md) | 50K⭐ AI Agent 性能优化系统，13 agents, 56 skills, Anthropic Hackathon Winner | ✅ 已调研 |
 | [claude-scientific-skills](./claude-scientific-skills/README.md) | 148+ 科学研究 Skills，250+ 数据库，跨生物信息、药物发现、临床研究、材料科学等领域 | ✅ 已调研 |
+| [python-type-safety](./python-type-safety/README.md) | Python 类型安全最佳实践，10 个核心模式，mypy/pyright 严格检查 | ✅ 已调研 |
 
 ## 📝 文档规范
 
