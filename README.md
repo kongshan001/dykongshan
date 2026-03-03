@@ -46,6 +46,7 @@
 | [SKILLS_SURVEY_2026_03_LATEST](./SKILLS_SURVEY_2026_03_LATEST.md) | Claude Code Skills 调研报告最新完整版，ClawHub 实时评分排行榜，Top 20 Skills 详解 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V9](./SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V9.md) | Claude Code Skills 调研报告 V9，游戏客户端开发/Python开发/自动化测试/开发者工具完整覆盖，ClawHub Top 30 Skills 排行榜 | 🆕 新增 |
 | [SKILLS_SUPPLEMENT_2026_03_WEEK15](./SKILLS_SUPPLEMENT_2026_03_WEEK15.md) | Claude Code Skills 补充调研报告（第十五周），ClawHub Top 30 Skills 排行榜，Docker/K8s/Playwright/FastAPI 完整覆盖 | 🆕 新增 |
+| [SKILLS_SURVEY_2026_03_V11](./SKILLS_SURVEY_2026_03_V11.md) | Claude Code Skills 调研报告 2026年3月第十一周，GitHub Topics 新发现 Skills，Unity AI Workflow 2026，评分 Top 30 | 🆕 新增 |
 
 ## 📝 文档规范
 
