@@ -34,6 +34,7 @@
 | [SKILLS_SUPPLEMENT_2026_03_WEEK4](./SKILLS_SUPPLEMENT_2026_03_WEEK4.md) | Claude Code Skills 补充调研报告（第四周），游戏客户端开发/Python开发/测试自动化/开发者工具 | 🆕 新增 |
 | [SKILLS_SUPPLEMENT_2026_03_WEEK5](./SKILLS_SUPPLEMENT_2026_03_WEEK5.md) | Claude Code Skills 补充调研报告（第五周），Temporal/DBOS 工作流/uv/Playwright 云测试/GitOps 专题 | 🆕 新增 |
 | [SKILLS_SUPPLEMENT_2026_03_WEEK6](./SKILLS_SUPPLEMENT_2026_03_WEEK6.md) | Claude Code Skills 补充调研报告（第六周），game-development 编排 Skill/FastAPI Pro/Temporal/游戏客户端测试专题 | 🆕 新增 |
+| [SKILLS_SUPPLEMENT_2026_03_WEEK7](./SKILLS_SUPPLEMENT_2026_03_WEEK7.md) | Claude Code Skills 补充调研报告（第七周），游戏客户端开发/Python开发/自动化测试/开发者工具完整覆盖 | 🆕 新增 |
 
 ## 📝 文档规范
 
