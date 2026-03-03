@@ -38,6 +38,7 @@
 | [SKILLS_SUPPLEMENT_2026_03_WEEK8](./SKILLS_SUPPLEMENT_2026_03_WEEK8.md) | Claude Code Skills 补充调研报告（第八周），游戏引擎 Unity/Unreal/Godot/Bevy、FastAPI Pro/Django Pro、TDD/Playwright、CI/CD/GitOps 完整覆盖 | 🆕 新增 |
 | [SKILLS_SUPPLEMENT_2026_03_WEEK9](./SKILLS_SUPPLEMENT_2026_03_WEEK9.md) | Claude Code Skills 补充调研报告（第九周），游戏客户端开发/Python开发/自动化测试/开发者工具完整覆盖，新增近期更新亮点 | 🆕 新增 |
 | [SKILLS_SUPPLEMENT_2026_03_WEEK10](./SKILLS_SUPPLEMENT_2026_03_WEEK10.md) | Claude Code Skills 补充调研报告（第十周），ClawHub 搜索发现新兴 Skills、Game Cog/Playwright/GitHub 自动化专题 | 🆕 新增 |
+| [SKILLS_SUPPLEMENT_2026_03_WEEK12](./SKILLS_SUPPLEMENT_2026_03_WEEK12.md) | Claude Code Skills 补充调研报告（第十二周），Unity AI Workflow 2026/DBOS Python/Temporal/Playwright 高级专题 | 🆕 新增 |
 
 ## 📝 文档规范
 
