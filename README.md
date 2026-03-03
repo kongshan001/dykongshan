@@ -15,6 +15,7 @@
 | [planning-with-files](./planning-with-files/README.md) | Manus 风格持久化 Markdown 规划系统，15k⭐ | ✅ 已调研 |
 | [deep-research](./deep-research/README.md) | Gemini 深度研究技能，自主多步骤市场分析 | ✅ 已调研 |
 | [trailofbits-security](./trailofbits-security/README.md) | Trail of Bits 安全技能集，20+安全插件 | ✅ 已调研 |
+| [everything-claude-code](./everything-claude-code/README.md) | 50K⭐ AI Agent 性能优化系统，13 agents, 56 skills, Anthropic Hackathon Winner | ✅ 已调研 |
 
 ## 📝 文档规范
 
