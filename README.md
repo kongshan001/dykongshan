@@ -43,7 +43,8 @@
 | [SKILLS_SUPPLEMENT_2026_03_WEEK13](./SKILLS_SUPPLEMENT_2026_03_WEEK13.md) | Claude Code Skills 补充调研报告（第十三周），ClawHub 高分 Skills 专题，Docker/Git/FastAPI/Test 工具 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V3](./SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V3.md) | Claude Code Skills 完整调研报告 V3，游戏客户端开发/Python开发/自动化测试/开发者工具完整覆盖，新增 Unity AI Workflow 2026 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V4](./SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V4.md) | Claude Code Skills 完整调研报告 V4，游戏客户端开发/Python开发/自动化测试/开发者工具完整覆盖 | 🆕 新增 |
-| [SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V5](./SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V5.md) | Claude Code Skills 完整调研报告 V5，**最新完整版**，覆盖 Antigravity 958+ Skills 和 VoltAgent 506+ 官方 Skills | 🆕 新增 |
+| [SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V5](./SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V5.md) | Claude Code Skills 完整调研报告 V5，覆盖 Antigravity 958+ Skills 和 VoltAgent 506+ 官方 Skills | 🆕 新增 |
+| [SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V7](./SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V7.md) | Claude Code Skills 完整调研报告 V7，**最新完整版**，覆盖 ClawHub 高分 Skills：Python Executor (13.1K)/Playwright CLI (3.2K)/Docker Expert (4.7K) 等 | 🆕 新增 |
 
 ## 📝 文档规范
 
