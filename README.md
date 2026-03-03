@@ -44,6 +44,7 @@
 | [SKILLS_SUPPLEMENT_2026_03_WEEK14_PART2](./SKILLS_SUPPLEMENT_2026_03_WEEK14_PART2.md) | Claude Code Skills 补充调研报告（第十四周续），Unity/Unreal/移动端开发/Kubernetes/移动端测试专题 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V8](./SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V8.md) | Claude Code Skills 调研报告 V8，游戏/Python/测试/开发者工具完整覆盖，970+ Antigravity Skills 深度分析 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_LATEST](./SKILLS_SURVEY_2026_03_LATEST.md) | Claude Code Skills 调研报告最新完整版，ClawHub 实时评分排行榜，Top 20 Skills 详解 | 🆕 新增 |
+| [SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V9](./SKILLS_SURVEY_2026_03_GAME_PYTHON_TEST_V9.md) | Claude Code Skills 调研报告 V9，游戏客户端开发/Python开发/自动化测试/开发者工具完整覆盖，ClawHub Top 30 Skills 排行榜 | 🆕 新增 |
 
 ## 📝 文档规范
 
