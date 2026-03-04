@@ -59,10 +59,11 @@
 | [SKILLS_SURVEY_2026_03_WEEK24](./SKILLS_SURVEY_2026_03_WEEK24.md) | Claude Code Skills 完整调研报告（第二十四周），2026年2-3月新增 Skills 完整分析，ClawHub Top 30 排行榜更新 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_WEEK25](./SKILLS_SURVEY_2026_03_WEEK25.md) | Claude Code Skills 完整调研报告（第二十五周），ClawHub Top 30 Skills 排行榜，游戏/Python/测试/开发者工具完整覆盖 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_WEEK26](./SKILLS_SURVEY_2026_03_WEEK26.md) | Claude Code Skills 完整调研报告（第二十六周），ClawHub Top 30 Skills 排行榜，游戏/Python/测试/开发者工具完整覆盖，最新 Skills 缺口分析 | 🆕 新增 |
-| [SKILLS_SURVEY_2026_03_WEEK27](./SKILLS_SURVEY_2026_03_WEEK27.md) | Claude Code Skills 完整调研报告（第二十七周），ClawHub Top 30 Skills 排行榜，游戏/Python/测试/开发者工具完整覆盖，本周更新亮点 | 🆕 新增 |
+| [SKILLS_SURVEY_2026_03_WEEK27](./SKILLS_SURVEY_2026_03_WEEK27.md) | Claude Code Skills 完整调研报告（第二十七周），ClawHub Top 30 Skills 排行榜，游戏/Python/测试/开发者工具完整覆盖，本周更新亮点 | ✅ 已调研 |
 | [SKILLS_SURVEY_2026_03_WEEK27_SUPPLEMENT](./SKILLS_SURVEY_2026_03_WEEK27_SUPPLEMENT.md) | Claude Code Skills 补充调研报告（第二十七周），skills.sh 官方排行榜分析，Claude Code Game Studios 详解，Python 专业 Skills 包 | 🆕 新增 |
 | [claude-code-game-studios](./claude-code-game-studios.md) | Claude Code Game Studios 完整工作室架构，48 agents + 36 skills，Godot/Unity/Unreal 多引擎支持 | 🆕 新增 |
 | [ricko12vpl-python-skills](./ricko12vpl-python-skills.md) | Ricko12vPL Python Skills 专业技能包，8 个 Skills ~135 KB，Python/软件工程/机器学习/量化金融 | 🆕 新增 |
+| [SKILLS_SURVEY_2026_03_WEEK28](./SKILLS_SURVEY_2026_03_WEEK28.md) | Claude Code Skills 完整调研报告（第二十八周），GitHub 热门 Skills 搜索，游戏工作室/自学习系统/代码审查/安全评估，新增 16+ Skills | 🆕 新增 |
 
 ## 📝 文档规范
 
