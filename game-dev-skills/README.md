@@ -27,11 +27,21 @@
 
 | 技能 | 评分 | 说明 |
 |------|------|------|
-| game-cog | 1.132 | 游戏开发编排器 TOP 1 |
+| game-ai | 3.133 | 游戏 AI 系统 TOP 1 ⭐ |
+| unity | 3.033 | Unity 开发 ⭐ |
+| game-cog | 1.132 | 游戏开发编排器 |
 | openclaw-unity-skill | 1.013 | Unity 开发 |
 | godot-dev-guide | 0.983 | Godot 4 开发 |
-| unity | 0.945 | Unity 基础 |
-| unreal-engine | 0.935 | Unreal 开发 |
+
+---
+
+## 2026 新增热门 Skills
+
+| 技能 | 来源 | 评分 | 说明 |
+|------|------|------|------|
+| Claude-Code-Game-Studios | GitHub | 30+⭐ | 完整游戏开发工作室 (48 agents) |
+| skills-weaver | GitHub | 15⭐ | RPG 游戏 Agent SDK |
+| roblox-game-skill | GitHub | 新增 | Roblox 游戏开发 |
 
 ---
 
@@ -39,4 +49,5 @@
 
 - Antigravity Awesome Skills (968+ Skills)
 - ClawHub 实时搜索
+- GitHub CLI 搜索
 - 社区精选

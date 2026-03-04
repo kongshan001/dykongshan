@@ -1,16 +1,25 @@
 # developer-tools-skills - 开发者工具 Skills
 
-> 版本控制、容器化、CI/CD、云服务
+> 版本控制、容器化、CI/CD、云服务、MCP
 
 ## 📋 目录
 
 ### 版本控制
 
-- [git-essentials.md](./git-essentials.md) - Git 基础 (评分 1.298, TOP 1)
+- [git-essentials.md](./git-essentials.md) - Git 基础 (评分 1.183)
 
 ### 容器化
 
-- [docker-essentials.md](./docker-essentials.md) - Docker 基础 (评分 3.694, TOP 1)
+- [docker-essentials.md](./docker-essentials.md) - Docker 基础 (评分 1.297)
+
+### CI/CD
+
+- cicd-pipeline (1.006⭐) - CI/CD 流水线
+- gitlab-cli-skills (1.071⭐) - GitLab CLI
+
+### MCP 工具
+
+- mcp-adapter (1.075⭐) - MCP 适配器
 
 ### 更多技能
 
@@ -22,11 +31,31 @@
 
 | 技能 | 评分 | 说明 |
 |------|------|------|
-| docker-essentials | 3.694 | DevOps TOP 1 |
-| docker | 3.577 | Docker 完整功能 |
-| github | 3.790 | GitHub 自动化 |
-| agent-browser | 3.772 | 浏览器自动化 |
-| automation-workflows | 3.699 | 工作流自动化 |
+| docker-essentials | 1.297 | DevOps TOP 1 ⭐ |
+| docker | 1.192 | Docker 完整功能 |
+| git-essentials | 1.183 | Git 基础 ⭐ |
+| container-debug | 1.134 | 容器调试 |
+| git | 1.104 | Git 工作流 |
+
+---
+
+## 2026 新增热门 Skills
+
+| 技能 | 来源 | 评分 | 说明 |
+|------|------|------|------|
+| jarbitechture/claude-skills | GitHub | 1253⭐ | 1253 个 Skills 集合 |
+| context-engineering-kit | GitHub | 新增 | 上下文工程工具包 |
+| trailofbits/skills | GitHub | 安全相关 | 安全研究 skills |
+
+---
+
+## MCP 相关 Skills
+
+| 技能 | 评分 | 说明 |
+|------|------|------|
+| mcp-adapter | 1.075 | MCP 适配器 TOP |
+| basecamp-cli-mcp | 1.007 | Basecamp CLI MCP |
+| web-mcp | 0.930 | Web MCP |
 
 ---
 
@@ -34,4 +63,5 @@
 
 - Antigravity Awesome Skills (968+ Skills)
 - ClawHub 实时搜索
+- GitHub CLI 搜索
 - 社区精选
