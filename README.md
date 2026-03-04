@@ -2,6 +2,7 @@
 
 > 记录每个 Skill 的落地实践过程
 
+| [SKILLS_SURVEY_2026_03_WEEK41](./SKILLS_SURVEY_2026_03_WEEK41.md) | Claude Code Skills 补充调研报告（第四十一周），GitHub API 实时搜索热门 Skills，游戏/Python/测试/开发者工具完整覆盖 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_WEEK40](./SKILLS_SURVEY_2026_03_WEEK40.md) | Claude Code Skills 补充调研报告（第四十周），GitHub API 实时搜索热门 Skills，游戏/Python/测试/开发者工具完整覆盖，ClawHub Top 10 排行榜 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_WEEK39](./SKILLS_SURVEY_2026_03_WEEK39.md) | Claude Code Skills 补充调研报告（第三十九周），GitHub API 实时搜索热门 Skills，游戏/Python/测试/开发者工具完整覆盖 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_WEEK37](./SKILLS_SURVEY_2026_03_WEEK37.md) | Claude Code Skills 完整调研报告（第三十七周），GitHub API 实时搜索热门 Skills，ClawHub Top 10 排行榜，游戏/Python/测试/开发者工具完整覆盖 | 🆕 新增 |
