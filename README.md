@@ -2,6 +2,7 @@
 
 > 记录每个 Skill 的落地实践过程
 
+| [SKILLS_SURVEY_2026_03_WEEK54](./SKILLS_SURVEY_2026_03_WEEK54.md) | Claude Code Skills 调研报告（第五十四周），ClawHub 实时搜索热门 Skills，游戏客户端开发（godot-dev-guide 0.940）/Python开发（py 1.051）/自动化测试（test-runner 1.206）/开发者工具（github 1.397）完整覆盖，Top 20 Skills 排行榜 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_WEEK53](./SKILLS_SURVEY_2026_03_WEEK53.md) | Claude Code Skills 调研报告（第五十三周），GitHub 实时搜索热门 Skills，游戏客户端开发（Claude-Code-Game-Studios 30⭐）/Python开发（claudex 223⭐）/自动化测试（Playwright 1.9k⭐）/开发者工具完整覆盖 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_WEEK52](./SKILLS_SURVEY_2026_03_WEEK52.md) | Claude Code Skills 调研报告（第五十二周），GitHub API 实时搜索热门 Skills，游戏客户端开发/Python开发/自动化测试/开发者工具完整覆盖，ClawHub Top Skills 排行榜，Game Cog(1.133)/FastAPI(1.075)/QA Testing(1.931) 深度分析 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_WEEK50_SUPPLEMENT](./SKILLS_SURVEY_2026_03_WEEK50_SUPPLEMENT.md) | Claude Code Skills 调研报告（第五十周）补充，GitHub 热门 Skills 实时搜索 Top 50 排行榜，重点 Skills 深度分析，游戏/Python/测试/开发者工具完整覆盖 | 🆕 新增 |
