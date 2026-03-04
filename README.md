@@ -2,7 +2,8 @@
 
 > 记录每个 Skill 的落地实践过程
 
-| [SKILLS_SURVEY_2026_03_WEEK34](./SKILLS_SURVEY_2026_03_WEEK34.md) | Claude Code Skills 完整调研报告（第三十四周），ClawHub 实时搜索 Top Skills 排行榜，游戏/Python/测试/开发者工具完整覆盖 | 🆕 新增 |
+| [SKILLS_SURVEY_2026_03_WEEK35](./SKILLS_SURVEY_2026_03_WEEK35.md) | Claude Code Skills 完整调研报告（第三十五周），ClawHub 实时搜索 Top Skills 排行榜，游戏/Python/测试/开发者工具完整覆盖 | 🆕 新增 |
+| [SKILLS_SURVEY_2026_03_WEEK34](./SKILLS_SURVEY_2026_03_WEEK34.md) | Claude Code Skills 完整调研报告（第三十四周），ClawHub 实时搜索 Top Skills 排行榜，游戏/Python/测试/开发者工具完整覆盖 | ✅ 已调研 |
 | [SKILLS_SURVEY_2026_03_WEEK33](./SKILLS_SURVEY_2026_03_WEEK33.md) | Claude Code Skills 完整调研报告（第三十三周）， Antigravity 968+ Skills 深度分析，游戏/Python/测试/开发者工具完整覆盖 | ✅ 已调研 |
 | [SKILLS_SURVEY_2026_03_WEEK32](./SKILLS_SURVEY_2026_03_WEEK32.md) | Claude Code Skills 完整调研报告（第三十二周），ClawHub 实时搜索 Top Skills 排行榜，游戏/Python/测试/开发者工具完整覆盖 | ✅ 已调研 |
 
