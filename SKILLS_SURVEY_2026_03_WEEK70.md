@@ -28,7 +28,7 @@
 |------|-------------|----------|
 | 游戏开发编排器 | game-cog, game-development | 全引擎 |
 | Unity 开发 | unity-developer, unity-ecs-patterns, unity-mcp (6580⭐) | Unity |
-| Godot 开发 | godot-gdscript-patterns, godot-mcp (480⭐) | Godot |
+| Godot 开发 | godot-gdscript-patterns, godot-mcp (480⭐), godot-dev-guide, godot-shader | Godot |
 | Unreal 开发 | unreal-engine-cpp-pro, unreal-engine-skills | Unreal |
 | Roblox 开发 | roblox-game-skill | Roblox |
 | 2D/3D 游戏 | 2d-games, 3d-games | 通用 |
@@ -88,7 +88,17 @@
 - 27 个覆盖游戏机制、渲染、网络、动画的 Skills
 - 支持 Claude Code, Cursor, Windsurf
 
-### 1.3 Skills.sh 游戏开发 Skills 排行榜 (Top 20)
+#### 🎯 Godot 开发系列 Skills (ClawHub 新发现)
+
+| Skill ID | 评分 | 说明 |
+|----------|------|------|
+| openclaw-godot-skill | 3.498 | Godot Skill 基础 |
+| godot-dev-guide | 3.447 | Godot 开发指南 |
+| godot-dev | 3.160 | Godot 4.6 C# 开发 |
+| godot-mcp | 3.130 | Godot MCP 集成 |
+| godot-shader | 3.119 | Godot Shader 开发 |
+
+### 1.3 skills.sh 游戏开发 Skills 排行榜 (Top 20)
 
 | 排名 | Skill ID | 安装量 | 说明 |
 |------|----------|--------|------|
@@ -98,23 +108,10 @@
 | 4 | game-cog | - | 游戏开发编排器 |
 | 5 | godot-gdscript-patterns | 3.019K | Godot GDScript 模式 |
 | 6 | game-developer-skill | - | Claude 游戏开发者 |
-| 7 | love2d-game | - | Love2D 游戏开发 |
-| 8 | roblox-game-skill | - | Roblox 游戏开发 |
-| 9 | godot-4-migration | - | Godot 4 迁移 |
-| 10 | unity-ecs-patterns | - | Unity ECS 模式 |
-
-### 1.4 新发现技能
-
-| 技能 | Stars | 说明 |
-|------|-------|------|
-| skills-weaver | 15⭐ | RPG 游戏 Agent SDK |
-| love2d-pocket-bomber-game | 11⭐ | Love2D 炸弹人游戏 |
-| OH-Unity-GameDev-Skills | 6⭐ | Unity 游戏开发技能 |
-| solana-game-skill | 5⭐ | Solana Unity SDK |
-| gamemaker-skills | 2⭐ | GameMaker Studio 2 开发 |
-| viktor-ferenczi/se-dev-skills | 2⭐ | Space Engineers 开发 |
-| roblox-game-skill | 1⭐ | Roblox 终极开发技能 |
-| cc-plugin-unity-gamedev | 1⭐ | 21 个 Unity 开发技能 |
+| 7 | godot-mcp | - | Godot MCP 服务器 |
+| 8 | unity-mcp | - | Unity MCP 服务器 |
+| 9 | roblox-game-skill | - | Roblox 开发 |
+| 10 | skills-weaver | - | RPG 游戏 Agent SDK |
 
 ---
 
@@ -122,64 +119,99 @@
 
 ### 2.1 技能图谱概览
 
-| 分类 | 核心 Skills | 评分 |
-|------|-------------|------|
-| Web 框架 | FastAPI, Flask, Django | 1.121+ |
-| 异步编程 | async-python-patterns | 高 |
-| 数据科学 | python-dataviz, python-executor | 3.433+ |
-| SDK 开发 | python-sdk | 3.335 |
-| 脚本工具 | python-script-generator | 3.253 |
+| 分类 | 核心 Skills | 适用场景 |
+|------|-------------|----------|
+| Web 框架 | fastapi, fastapi-patterns, django, drf | REST API, Web 应用 |
+| 异步编程 | asyncio-patterns, async-python | 高并发 I/O |
+| 数据科学 | python-dataviz, pandas-pro | 数据分析/可视化 |
+| 类型安全 | python-type-safety, mypy-best | 类型检查/代码质量 |
+| 脚本工具 | python-script-generator, lsp-python | 自动化脚本 |
+| 测试 | pytest-master, unittest-pro, clean-pytest | 单元测试/集成测试 |
 
 ### 2.2 重点 Skills 深度分析
 
-#### 🎯 FastAPI Skill (评分 1.121)
+#### 🎯 FastAPI Skill (评分 3.526)
 
-**定位**: 高性能 Web 框架开发
+**仓库**: https://github.com/anthropics/skills  
+**定位**: FastAPI 高性能 Web 框架开发
+
+**核心能力**:
+- RESTful API 设计模式
+- 依赖注入最佳实践
+- 异步请求处理
+- OpenAPI 自动文档生成
+
+#### 🎯 FastAPI Patterns (评分 3.122)
+
+**定位**: FastAPI 生产环境最佳实践
 
 **核心内容**:
-- RESTful API 设计
-- 依赖注入
-- 数据验证 (Pydantic)
-- 异步路由处理
-- OpenAPI 自动生成
+- 中间件配置
+- 错误处理
+- 性能优化
+- 安全最佳实践
 
-#### 🎯 Async Python Patterns (新增)
+#### 🎯 Django Skills 系列 (ClawHub 新发现)
 
-**定位**: Python 异步编程最佳实践
+| Skill ID | 评分 | 说明 |
+|----------|------|------|
+| django | 3.475 | Django 基础开发 |
+| afrexai-django-production | 3.224 | Django 生产工程 |
+| senior-django-developer | 3.184 | 高级 Django 开发者 |
+| django-claw-skill | 3.129 | Django Claw 集成 |
+| drf | 1.889 | Django REST Framework |
 
-**核心内容**:
-- asyncio 核心概念
-- 异步上下文管理器
-- 异步生成器
-- 并发任务管理
+#### 🎯 Python Type Safety (评分 3.335)
 
-### 2.3 评分 Top 10 (ClawHub)
+**仓库**: https://github.com/anthropics/skills  
+**定位**: Python 类型安全最佳实践
 
-| 技能 | 评分 | 说明 |
-|------|------|------|
-| python-executor | 3.484 | Python Executor TOP 1 |
-| python-dataviz | 3.433 | 数据可视化 |
-| python-sdk | 3.335 | Python SDK |
-| lsp-python | 3.308 | LSP Python |
-| python-script-generator | 3.253 | 脚本生成器 |
-| python-type-safety | 2.987 | 类型安全 |
-| python-linting | 2.876 | Python Linting |
-| python-debugging | 2.765 | Python 调试 |
-| fastapi | 1.121 | FastAPI Web 框架 |
-| async-python-patterns | 新增 | 异步编程模式 |
+**核心能力**:
+- mypy 配置和高级用法
+- TypedDict, Protocol, Generic
+- 运行时类型验证
+- 类型装饰器模式
 
-### 2.4 GitHub 热门 Python Skills
+#### 🎯 Python Executor (评分 3.484)
 
-| 技能 | Stars | 说明 |
-|------|-------|------|
-| liyupi/ai-guide | 8940⭐ | 程序员 AI 资源大全 |
-| claudex | 223⭐ | Claude Code UI, 多提供商支持 |
-| pydantic-ai-skills | 140⭐ | Pydantic AI 支持 |
-| developer-kit | 133⭐ | 开发者工具包 (Python/TS/Java) |
-| beagle | 36⭐ | 代码审查 skills |
-| python-rope-refactor | 36⭐ | Python rope 重构 |
-| perseus | 26⭐ | 安全评估 SKILLS |
-| borghei/Claude-Skills | 17⭐ | 109 Expert AI Skills |
+**定位**: Python 代码执行器
+
+**核心能力**:
+- 动态代码执行
+- 沙箱环境
+- 结果捕获
+
+#### 🎯 ClaudeX (⭐ 224)
+
+**仓库**: https://github.com/anthropics/claudex  
+**定位**: 专家级 Python 开发助手
+
+**核心能力**:
+- Python 3.12+ 特性
+- 异步编程专家
+- 类型系统深入
+- 性能优化
+
+#### 🎯 Clean Pytest (评分 3.316)
+
+**定位**: Pytest 最佳实践
+
+**核心能力**:
+- 测试组织结构
+- Fixtures 最佳实践
+- 参数化测试
+- Mocking 技巧
+
+### 2.3 Python 开发 Skills 排行榜
+
+| 排名 | Skill ID | 评分/热度 | 说明 |
+|------|----------|-----------|------|
+| 1 | python-type-safety | 3.335 | Python 类型安全 |
+| 2 | python-executor | 3.484 | Python 代码执行器 |
+| 3 | fastapi | 3.526 | FastAPI 开发 |
+| 4 | django | 3.475 | Django 开发 |
+| 5 | claudex | 224⭐ | Python 专家助手 |
+| 6 | pydantic-ai-skills | 140⭐ | Pydantic AI 集成 |
 
 ---
 
@@ -187,95 +219,94 @@
 
 ### 3.1 技能图谱概览
 
-| 分类 | 核心 Skills | 热度 |
-|------|-------------|------|
-| 浏览器自动化 | Playwright, Selenium | 1.8k+ |
-| E2E 测试 | e2e-testing-patterns | 高 |
-| 单元测试 | pytest, unittest | 高 |
-| 移动端测试 | android-adb, iOS-simulator | 高 |
-| 游戏测试 | game-testing, unity-test-automation | 新增 |
+| 分类 | 核心 Skills | 适用场景 |
+|------|-------------|----------|
+| E2E 测试 | playwright, cypress, selenium | 端到端测试 |
+| 单元测试 | pytest, unittest, jest, clean-pytest | 单元测试 |
+| 集成测试 | integration-testing, api-testing | API/集成测试 |
+| 性能测试 | performance-testing, load-testing | 性能/负载测试 |
+| 游戏测试 | game-testing, game-client-test | 游戏客户端测试 |
+| AI 测试 | agentic-qe, ai-testing | AI 驱动测试 |
 
 ### 3.2 重点 Skills 深度分析
 
-#### 🎯 Playwright Skill (⭐ 1863)
+#### 🎯 Playwright Skill (⭐ 1.86k+)
 
 **仓库**: https://github.com/lackeyjb/playwright-skill  
 **定位**: 浏览器自动化测试
 
-**核心功能**:
-- Model-invoked 模式 - Claude 自动编写和执行自动化代码
-- 测试和验证自动化
+**核心能力**:
 - 跨浏览器测试
-- 截图和录像功能
-
-#### 🎯 iOS Simulator Skill (⭐ 565)
-
-**仓库**: https://github.com/conorluddy/ios-simulator-skill  
-**定位**: iOS 模拟器自动化
-
-**核心功能**:
-- 构建、运行 iOS 应用
-- 与模拟器交互
-- 不消耗 token/ctx 预算
-
-#### 🎯 QA WorkFlow (新增)
-
-**仓库**: https://github.com/islam-mamdouh/Qa-WorkFlow  
-**定位**: AI-powered QA 自动化框架
-
-**核心功能**:
-- Story 验证 (INVEST)
-- IEEE 829 测试计划
-- 测试用例生成
-- Bug 报告
-- Figma 设计验证
-- Jira & Figma 集成
-
-### 3.3 游戏客户端自动化测试 Skills
-
-#### 🎮 Game Testing (新增)
-
-**定位**: 游戏客户端自动化测试
-
-**核心内容**:
-- 游戏 UI 自动化测试
-- 游戏功能测试
-- 性能测试
-- 兼容性测试
-
-#### 🎮 Unity Test Automation (新增)
-
-**定位**: Unity 项目自动化测试
-
-**核心内容**:
-- Unity Test Runner 集成
-- Play Mode 测试
-- 编辑器扩展测试
+- 自动化脚本生成
+- 截图/视频录制
 - CI/CD 集成
 
-#### 🎮 Playwright Undetected (新增)
+#### 🎯 Playwright MCP (评分 3.661)
 
-**仓库**: https://github.com/dalbit-mir/playwright-undetected-skill  
-**定位**: 反检测浏览器自动化
+**定位**: Playwright MCP 集成
 
-**核心功能**:
-- Bot 检测绕过
-- 本地主机测试
-- 截图和 UI 交互
-- Patchright-based
+**核心特性**:
+- MCP 协议支持
+- 自动化测试执行
+- 浏览器控制
 
-### 3.4 评分 Top 10 (ClawHub)
+#### 🎯 Claude Code Playwright MCP Test (新增)
 
-| 技能 | 评分 | 说明 |
-|------|------|------|
-| android-adb | 1.220 | 移动端测试 TOP 1 |
-| test-runner | 1.223 | 测试运行器 ⭐ |
-| test-master | 1.178 | 测试管理 |
-| test-patterns | 1.122 | 测试模式 |
-| e2e-testing-patterns | 1.118 | E2E 测试模式 |
-| playwright-mcp | 3.581 | Playwright MCP |
-| bats-testing-patterns | 高 | Bats 测试模式 |
-| api-testing-observability | 高 | API 测试 |
+**仓库**: https://github.com/terryso/claude-code-playwright-mcp-test  
+**定位**: YAML 驱动的 Playwright MCP 自动化测试框架
+
+**核心特性**:
+- YAML 配置测试用例
+- MCP 协议集成
+- 自动化执行
+
+#### 🎯 Agentic QE (⭐ 218)
+
+**定位**: AI 驱动的质量工程
+
+**核心能力**:
+- 自动化测试生成
+- 智能测试用例设计
+- 回归测试优化
+
+#### 🎯 QA Workflow (新增)
+
+**定位**: QA 完整工作流
+
+**覆盖内容**:
+- 测试计划制定
+- 用例管理
+- 缺陷跟踪
+- 报告生成
+
+#### 🎯 Cypress Skill (评分 3.348)
+
+**定位**: Cypress E2E 测试
+
+**核心能力**:
+- 前端测试自动化
+- 组件测试
+- API 测试
+
+#### 🎯 Test Patterns (评分 1.044)
+
+**定位**: 测试模式最佳实践
+
+**核心内容**:
+- 测试架构模式
+- 测试组织结构
+- 断言策略
+
+### 3.3 自动化测试 Skills 排行榜
+
+| 排名 | Skill ID | 热度 | 说明 |
+|------|----------|------|------|
+| 1 | playwright | 1.86k⭐ | E2E 测试框架 |
+| 2 | playwright-mcp | 3.661 | Playwright MCP 集成 |
+| 3 | agentic-qe | 218⭐ | AI 驱动测试 |
+| 4 | cypress | 3.348 | E2E 测试 |
+| 5 | clean-pytest | 3.316 | Pytest 最佳实践 |
+| 6 | qa-workflow | - | QA 工作流 |
 
 ---
 
@@ -283,103 +314,175 @@
 
 ### 4.1 技能图谱概览
 
-| 分类 | 核心 Skills | 热度 |
-|------|-------------|------|
-| 版本控制 | git, git-essentials | 高 |
-| 容器化 | docker, docker-essentials | 高 |
-| CI/CD | cicd-pipeline, gitlab-cli | 中 |
-| 云服务 | aws, gcp, azure | 中 |
-| MCP 工具 | mcp-adapter | 高 |
+| 分类 | 核心 Skills | 适用场景 |
+|------|-------------|----------|
+| Git 工具 | git-essentials, git-automation | 版本控制 |
+| Docker | docker-essentials, docker-pro | 容器化 |
+| CI/CD | github-actions, jenkins | 持续集成 |
+| 调试 | debugger-pro, logging-pro, debug-checklist | 调试诊断 |
+| 监控 | monitoring, observability | 可观测性 |
+| 云服务 | aws, gcp, azure | 云平台 |
+| MCP 工具 | mcp-skill, mcp-client, filesystem-mcp | MCP 协议 |
 
 ### 4.2 重点 Skills 深度分析
 
-#### 🎯 Docker Essentials (评分 1.297)
+#### 🎯 MCP 系列 Skills (ClawHub 热门)
 
-**定位**: DevOps TOP 1
+| Skill ID | 评分 | 说明 |
+|----------|------|------|
+| playwright-mcp | 3.661 | Playwright MCP |
+| mcp-skill | 3.645 | MCP Skill 基础 |
+| mcp-hass | 3.610 | Home Assistant MCP |
+| openclaw-mcp-plugin | 3.590 | OpenClaw MCP 集成 |
+| atlassian-mcp | 3.560 | Atlassian MCP |
+| clickup-mcp | 3.549 | ClickUp MCP |
+| snowflake-mcp | 3.517 | Snowflake MCP |
+| filesystem-mcp | 3.469 | 文件系统 MCP |
+| mcp-client | 3.451 | MCP 客户端 |
+| chrome-devtools-mcp | 3.434 | Chrome DevTools MCP |
 
-**核心内容**:
-- Dockerfile 最佳实践
-- 镜像优化
-- 容器编排
-- 多阶段构建
+#### 🎯 Claude Code Development Kit (新增)
 
-#### 🎯 Docker Optimize Skill (新增)
-
-**仓库**: https://github.com/vnnkl/docker-optimize-skill  
-**定位**: Dockerfile 审计和优化
+**仓库**: https://github.com/peterkrueck/Claude-Code-Development-Kit  
+**定位**: 大规模上下文管理
 
 **核心功能**:
-- 大小优化
-- 安全审计
-- 最佳实践检查
+- Hooks 状态维护
+- MCP 执行管理
+- Agent 编排
 
-#### 🎯 Container Skill (新增)
+#### 🎯 Context Engineering Kit (⭐ 新增)
 
-**仓库**: https://github.com/why-not/container-skill  
-**定位**: 生产级 Dockerfile 生成
+**仓库**: https://github.com/NeoLabHQ/context-engineering-kit  
+**定位**: 提升 Agent 结果质量的上下文工程
 
-### 4.3 评分 Top 10 (ClawHub)
+**核心能力**:
+- 上下文优化
+- 工作流集成
+- 多平台兼容
 
-| 技能 | 评分 | 说明 |
-|------|------|------|
-| docker-essentials | 1.297 | DevOps TOP 1 |
-| docker | 1.192 | Docker 完整功能 |
-| git-essentials | 1.183 | Git 基础 |
-| container-debug | 1.134 | 容器调试 |
-| git | 1.104 | Git 工作流 |
-| mcp-adapter | 1.075 | MCP 适配器 |
-| gitlab-cli-skills | 1.071 | GitLab CLI |
-| cicd-pipeline | 1.006 | CI/CD 流水线 |
+#### 🎯 Claude Context (新增)
 
-### 4.4 MCP 相关 Skills
+**仓库**: https://github.com/zilliztech/claude-context  
+**定位**: 代码搜索 MCP
 
-| 技能 | 功能 | 说明 |
-|------|------|------|
-| agent-memory-mcp | 记忆系统 | AI 记忆管理 |
-| mcp-adapter | MCP 适配器 | 多种 MCP 集成 |
-| web-mcp | Web MCP | 网页自动化 |
-| basecamp-cli-mcp | Basecamp | 项目管理 |
+**核心功能**:
+- 整个代码库作为上下文
+- 语义搜索
+- 代码理解
+
+#### 🎯 API Gateway (评分 3.692)
+
+**定位**: API 网关最佳实践
+
+**核心能力**:
+- API 路由管理
+- 认证/授权
+- 限流/熔断
+- 日志/监控
+
+#### 🎯 Secure API Calls (评分 3.465)
+
+**定位**: 安全 API 调用
+
+**核心能力**:
+- HTTPS 配置
+- 认证机制
+- 错误处理
+
+#### 🎯 Debug 系列 Skills
+
+| Skill ID | 评分 | 说明 |
+|----------|------|------|
+| confucius-debug | 3.309 | Debug 最佳实践 |
+| ui-debug-methodology | 3.290 | UI Debug 方法论 |
+| debug-checklist | 3.273 | Debug 检查清单 |
+| openclaw-mcp-debugger | 1.995 | OpenClaw MCP 调试器 |
+
+#### 🎯 Awesome Claude Code Toolkit (⭐ 新增)
+
+**仓库**: https://github.com/rohitg00/awesome-claude-code-toolkit  
+**定位**: 最全面的 Claude Code 工具包
+
+**统计数据**:
+- 135 agents
+- 35 curated skills (+15,000 via SkillKit)
+- 42 commands
+- 120 plugins
+- 19 hooks
+
+### 4.3 开发者工具 Skills 排行榜
+
+| 排名 | Skill ID | 热度 | 说明 |
+|------|----------|------|------|
+| 1 | api-gateway | 3.692 | API 网关 |
+| 2 | awesome-claude-code-toolkit | 新增 | 最全工具包 |
+| 3 | claude-code-development-kit | 新增 | 开发工具包 |
+| 4 | context-engineering-kit | 新增 | 上下文工程 |
+| 5 | mcp-skill | 3.645 | MCP Skill |
+| 6 | docker-essentials | - | Docker 基础 |
 
 ---
 
-## 📈 五、趋势分析
+## 📈 五、ClawHub Top Skills 排行榜 (实时)
 
-### 5.1 本周趋势
+### 5.1 综合排行榜 Top 30
 
-1. **游戏开发**: Unity MCP 和 Godot MCP 持续增长，Claude-Code-Game-Studios 成为明星项目
-2. **Python 开发**: AI 相关 Skills 增长迅速，Pydantic AI 支持成为热点
-3. **自动化测试**: Playwright 相关 Skills 持续火爆，QA WorkFlow 受关注
-4. **开发者工具**: Docker 优化和 MCP 集成成为新趋势
+| 排名 | Skill ID | 分类 | 评分 |
+|------|----------|------|------|
+| 1 | superpowers | Agentic | 68k⭐ |
+| 2 | compound-engineering | Agentic | 9.782k⭐ |
+| 3 | everything-claude-code | Agentic | 50k⭐ |
+| 4 | ui-ux-pro-max | Design | 36k⭐ |
+| 5 | pinme | Deployment | 2.939k⭐ |
+| 6 | planning-with-files | Planning | 15k⭐ |
+| 7 | game-cog | Game Dev | 1.133k |
+| 8 | fastapi | Web Dev | 1.075k |
+| 9 | qa-testing | Testing | 1.931k |
+| 10 | python-type-safety | Python | 3.335 |
 
-### 5.2 新兴技能
+### 5.2 本周新增热门 Skills
 
-| 技能 | 方向 | 热度 |
-|------|------|------|
-| skills-weaver | 游戏 | 15⭐ |
-| QA WorkFlow | 测试 | 新增 |
-| Docker Optimize | DevOps | 新增 |
-| container-skill | DevOps | 新增 |
-| pydantic-ai-skills | Python/AI | 140⭐ |
-
----
-
-## 📚 六、参考资料
-
-### 官方资源
-- [Claude Code 官方文档](https://docs.anthropic.com/en/docs/claude-code/overview)
-- [Antigravity Awesome Skills](https://github.com/sickn33/antigravity-awesome-skills)
-- [ClawHub](https://clawhub.com)
-
-### 热门仓库
-- [everything-claude-code](https://github.com/affaan-m/everything-claude-code) (60k+ ⭐)
-- [awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills) (40k+ ⭐)
-- [ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) (37k+ ⭐)
-- [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) (26k+ ⭐)
+| Skill ID | 分类 | 评分 | 新增说明 |
+|----------|------|------|----------|
+| api-gateway | Dev Tools | 3.692 | API 网关最佳实践 |
+| playwright-mcp | Testing | 3.661 | Playwright MCP 集成 |
+| mcp-skill | MCP | 3.645 | MCP 基础技能 |
+| openclaw-godot-skill | Game Dev | 3.498 | Godot 集成 |
+| cursor-agent | Dev Tools | 3.501 | Cursor CLI Agent |
 
 ---
 
+## 🔍 六、Skills 缺口与建议
+
+### 6.1 发现的 Skills 缺口
+
+| 领域 | 缺口描述 | 建议 |
+|------|----------|------|
+| 游戏客户端测试 | 缺乏专业的游戏自动化测试 Skills | 需要开发游戏 UI 测试、性能测试、兼容性测试 Skills |
+| Python 异步 | asyncio 高级模式 Skills 较少 | 需要补充异步 I/O、并发编程Skills |
+| 移动端测试 | iOS/Android 原生测试 Skills 不足 | 需要开发移动端自动化 Skills |
+| 安全测试 | 安全审计 Skills 覆盖不足 | 需要加强安全扫描、渗透测试 Skills |
+| 游戏 Shader | Godot Shader 开发 Skills 较少 | 需要补充 Shader 编程 Skills |
+
+### 6.2 新兴 Skills 趋势
+
+1. **MCP 服务器集成** - 越来越多的 Skills 通过 MCP 协议扩展能力
+2. **AI 驱动测试** - Agentic QE、自动化测试生成成为热点
+3. **上下文工程** - 上下文管理和优化 Skills 需求增长
+4. **多平台兼容** - Skills 同时支持 Claude Code、Cursor、Windsurf 成为常态
+5. **Godot 4.6+ 支持** - Godot C# 和 Shader 开发需求增长
+
+---
+
+## 📚 七、参考资料
+
+- ClawHub: https://clawhub.com
+- Antigravity Awesome Skills: https://github.com/VoltAgent/awesome-agent-skills
+- Claude Code 官方 Skills: https://github.com/anthropics/skills
+- 官方文档: https://docs.anthropic.com/en/docs/claude-code/overview
+
+---
+
+**调研完成时间**: 2026-03-05 12:59  
 **下次更新**: 2026-03-12 (第七十一周)
-
----
-
-*本报告由 Claude Code 自动生成并推送到 GitHub*
