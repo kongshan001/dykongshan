@@ -23,6 +23,20 @@
 
 - [android-adb.md](./android-adb.md) - Android ADB (评分 1.220, 测试 TOP 1)
 
+### 移动端测试
+
+- [android-adb.md](./android-adb.md) - Android ADB (评分 1.220, 测试 TOP 1)
+- ios-simulator-skill (567⭐) - iOS 模拟器测试
+
+### AI 测试
+
+- agentic-qe (218⭐) - AI 驱动质量工程
+
+### 游戏客户端测试
+
+- game-testing - 游戏客户端测试
+- game-automation - 游戏自动化测试
+
 ### 更多技能
 
 > 详见 Antigravity Awesome Skills (970+ Skills)

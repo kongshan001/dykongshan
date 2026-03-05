@@ -21,6 +21,24 @@
 
 - mcp-adapter (1.075⭐) - MCP 适配器
 
+### MCP 工具
+
+- mcp-adapter (1.075⭐) - MCP 适配器
+- claude-code-mcp (1153⭐) - Claude Code MCP 服务器
+- web-mcp (0.930⭐) - Web MCP
+
+### 云服务
+
+- aws-skills - AWS 云服务
+- azure-skills - Azure 云服务
+- gcp-skills - GCP 云服务
+
+### 数据库
+
+- db-skills - 数据库操作
+- sql-skills - SQL 技能
+- postgres-skills - PostgreSQL
+
 ### 更多技能
 
 > 详见 Antigravity Awesome Skills (970+ Skills)

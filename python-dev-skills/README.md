@@ -19,6 +19,15 @@
 - lsp-python (3.308⭐) - LSP Python
 - python-script-generator (3.253⭐) - Python 脚本生成器
 
+### 异步编程
+
+- async-python-patterns - Python asyncio 异步编程模式
+
+### AI Agent
+
+- pydantic-ai-skills (140⭐) - Pydantic AI Agent Skills
+- claudex (223⭐) - Claude Code UI，多提供商支持
+
 ### 更多技能
 
 > 详见 Antigravity Awesome Skills (970+ Skills)
