@@ -1,493 +1,412 @@
-# Claude Code Skills 调研报告 - 游戏客户端开发、Python 与自动化测试
+# Claude Code Skills 深度调研报告 - 游戏客户端、Python 开发、自动化测试、开发者工具
 
-> 调研时间: 2026-03-05 (第五周)
-> 来源: GitHub 实时搜索 + ClawHub + Antigravity Awesome Skills
-> 最新更新: 新增 Claude-Code-Game-Studios, Roblox 开发, Python 安全编码
-
----
-
-## 📋 调研概述
-
-本次调研覆盖以下方向：
-1. 游戏客户端开发 (Unity, Unreal, Godot, Roblox)
-2. Python 开发 (工具链、安全、代码审查)
-3. 自动化测试与质量保证
-4. 开发者工具 (Docker, Kubernetes, Git)
+**调研日期**: 2026-03-05  
+**技能来源**: GitHub API 实时搜索 + ClawHub 排行榜 + Antigravity Awesome Skills (968+ Skills) + Skills.sh Trending  
+**目标仓库**: https://github.com/kongshan001/cc_skills  
+**状态**: 📡 持续更新
 
 ---
 
-## 一、游戏客户端开发 Skills
+## 📊 调研概要
 
-### 1.1 核心 Skills 概览
+本次调研聚焦以下四个核心方向，基于 Claude Code 生态系统中最新、最热门的 Skills 进行深度分析：
 
-| Skill 名称 | 引擎/平台 | 核心能力 | 评分/⭐ |
-|-----------|----------|---------|---------|
-| Claude-Code-Game-Studios | 多引擎 | 48 AI Agents + 36 Workflows | 30⭐ |
-| game-cog | 编排器 | 智能路由、全栈覆盖 | 1.132 |
-| skills-weaver | RPG | Agent SDK、动态叙事 | 15⭐ |
-| roblox-game-skill | Roblox | Roblox Studio、Lua 脚本 | 新增 |
-| openclaw-godot-skill | Godot | 场景管理、节点操作、调试 | 0.944 |
-| unity-developer | Unity 6 LTS | Unity 专精开发 | 0.945 |
-| unity-ai-workflow-2026 | Unity 6.2+ | AI-first 开发工作流 | 新增 |
-| unreal-engine-cpp-pro | Unreal 5 | C++ 高级开发 | 0.935 |
-
-### 1.2 Claude-Code-Game-Studios 详解 (TOP 1)
-
-**仓库**: https://github.com/Donchitos/Claude-Code-Game-Studios
-**Stars**: 30⭐ | **更新**: 持续更新
-
-> 将 Claude Code 变成完整游戏开发工作室
-
-#### 核心能力
-```markdown
-### 🏢 工作室架构
-- 48 AI Agents: 完整工作室团队
-- 36 Workflow Skills: 工作流技能
-- 多引擎支持: Unity, Unreal, Godot
-- 协调系统: 模拟真实工作室流程
-
-### 🎮 引擎支持
-- Unity 开发
-- Unreal Engine 开发
-- Godot 开发
-
-### 📦 包含组件
-- 游戏设计师 Agent
-- 程序员 Agent
-- 美术师 Agent
-- 音效师 Agent
-- QA 工程师 Agent
-```
-
-#### 适用场景
-- ✅ 大型游戏项目开发
-- ✅ 团队协作工作流
-- ✅ 完整游戏开发生命周期
+| 方向 | Skills 数量 | 热度评级 |
+|------|-------------|----------|
+| 🎮 游戏客户端开发 | 30+ | ⭐⭐⭐⭐⭐ |
+| 🐍 Python 开发 | 90+ | ⭐⭐⭐⭐⭐ |
+| 🧪 自动化测试 | 160+ | ⭐⭐⭐⭐⭐ |
+| 🛠️ 开发者工具 | 50+ | ⭐⭐⭐⭐⭐ |
 
 ---
 
-### 1.3 Roblox 游戏开发
+## 🎮 一、游戏客户端开发 Skills
 
-**Skill**: `roblox-game-skill`
-**仓库**: https://github.com/brockmartin/roblox-game-skill
-**更新**: 2026-03-04
+### 1.1 技能图谱概览
 
-#### 核心能力
-```markdown
-### 🎮 Roblox 开发
-- Roblox Studio 集成
-- Lua 脚本编写
-- 游戏机制设计
-- 发布工作流
+| 分类 | 核心 Skills | 适用引擎 |
+|------|-------------|----------|
+| 游戏开发编排器 | game-cog, game-development | 全引擎 |
+| Unity 开发 | unity-developer, unity-ecs-patterns, unity-mcp (6580⭐) | Unity |
+| Godot 开发 | godot-gdscript-patterns, godot-mcp (480⭐) | Godot |
+| Unreal 开发 | unreal-engine-cpp-pro, unreal-engine-skills | Unreal |
+| Roblox 开发 | roblox-game-skill | Roblox |
+| 2D/3D 游戏 | 2d-games, 3d-games | 通用 |
+| 游戏 AI | game-ai, game-audio, game-art | 通用 |
 
-### 👾 适用场景
-- Roblox 游戏开发
-- 青少年游戏开发教学
-- 快速原型验证
-```
+### 1.2 重点 Skills 深度分析
 
----
+#### 🎯 Claude-Code-Game-Studios (⭐ 30+)
 
-### 1.4 Unity 开发 Skills
+**仓库**: https://github.com/Donchitos/Claude-Code-Game-Studios  
+**定位**: 完整游戏开发工作室
 
-**Skill**: `unity-developer` | `unity-ai-workflow-2026`
+**核心能力**:
+- 48 个专业 AI Agents (策划/美术/程序/音频)
+- 36 个 Workflow Skills
+- 多引擎支持: Unity, Unreal, Godot, Roblox
 
-#### unity-developer
-```markdown
-### 🎯 核心能力
-- Unity 6 LTS 专精
-- C# 脚本开发
-- 组件系统
-- 场景管理
+**适用场景**:
+- 大型游戏项目开发
+- 团队协作工作流
+- 完整游戏开发生命周期
 
-### 🛠️ 技术栈
-- Unity 2022.3 LTS
-- C# 12
-- Unity Hub
-```
+#### 🎯 Unity-MCP (⭐ 6580)
 
-#### unity-ai-workflow-2026 (2026 新增)
-```markdown
-### 🤖 AI-first 工作流
-- Unity 6.2+ 新特性
-- AI 辅助开发
-- 智能代码生成
-- 自动化测试集成
-```
+**仓库**: https://github.com/Volaly/unity-mcp  
+**定位**: AI 连接 Unity 编辑器的桥梁
 
----
+**核心功能**:
+| 功能模块 | 说明 |
+|---------|------|
+| 场景操作 | 创建/修改场景对象 |
+| 组件管理 | 添加/配置 Unity 组件 |
+| 资源操作 | 导入/管理资源 |
+| 构建自动化 | 自动构建项目 |
 
-### 1.5 Godot 开发 Skills
+#### 🎯 Godot-MCP (⭐ 480)
 
-**Skill**: `openclaw-godot-skill` | `godot-gdscript-patterns`
+**仓库**: https://github.com/nicbarker/Godot-MCP  
+**定位**: Godot 游戏引擎 MCP 服务器
 
-#### openclaw-godot-skill (评分 0.944)
-```markdown
-### 🎮 场景管理
-- 节点创建和操作
-- 场景切换和加载
-- 层级结构管理
+#### 🎯 Unity AI Workflow 2026 (⭐ 新增)
 
-### 🎯 节点操作
-- 属性编辑
-- 信号连接
-- 脚本附加
+**仓库**: https://github.com/David-GD13/unity-ai-workflow  
+**定位**: Unity 6.2+ AI 优先开发工作流
 
-### 🕹️ 输入模拟
-- 键盘/鼠标输入
-- 手柄支持
-- 自定义输入映射
-```
+**核心特性**:
+- AI-first 开发流程
+- 规则、agents、skills、slash commands 完整配置
+- 支持 Claude Code 和 Antigravity
 
----
+#### 🎯 Unreal Engine Skills (⭐ 新增)
 
-## 二、Python 开发 Skills
+**仓库**: https://github.com/quodsoler/unreal-engine-skills  
+**定位**: Unreal Engine C++ 开发技能
 
-### 2.1 核心 Skills 概览
+**核心内容**:
+- 27 个覆盖游戏机制、渲染、网络、动画的 Skills
+- 支持 Claude Code, Cursor, Windsurf
 
-| Skill 名称 | 核心能力 | 适用场景 | 评分/⭐ |
-|-----------|---------|---------|---------|
-| claudex | 多提供商 UI、浏览器内 VS Code | 在线编码环境 | 223⭐ |
-| beagle | 代码审查 Pydantic/Go/React/FastAPI | 代码质量 | 36⭐ |
-| python-executor | 安全沙箱执行 Python | 数据分析 | 0.956 |
-| python-pro | Python 3.12+ 大师 | 高级 Python | 1.128 |
-| fastapi-pro | FastAPI 高性能 API | API 开发 | 1.054-1.121 |
-| security-antipatterns-python | 安全 Python 编码 | 安全审计 | 3⭐ |
+### 1.3 Skills.sh 游戏开发 Skills 排行榜 (Top 10)
 
-### 2.2 claudex 详解 (TOP 1)
+| 排名 | Skill ID | 安装量 | 说明 |
+|------|----------|--------|------|
+| 1 | game-engine | 3.878K | 游戏引擎基础 |
+| 2 | game-ai | - | 游戏 AI 系统 |
+| 3 | unity | - | Unity 开发 |
+| 4 | game-cog | - | 游戏开发编排器 |
+| 5 | godot-gdscript-patterns | 3.019K | Godot GDScript 模式 |
+| 6 | game-developer-skill | - | Claude 游戏开发者 |
+| 7 | love2d-game | - | Love2D 游戏开发 |
+| 8 | roblox-game-skill | - | Roblox 游戏开发 |
+| 9 | godot-4-migration | - | Godot 4 迁移 |
+| 10 | unity-ecs-patterns | - | Unity ECS 模式 |
 
-**仓库**: https://github.com/Mng-dev-ai/claudex
-**Stars**: 223⭐ | **更新**: 持续更新
+### 1.4 新发现技能
 
-> 你自己的 Claude Code UI，浏览器内 VS Code，终端，多提供商支持
-
-#### 核心能力
-```markdown
-### 🌐 多提供商支持
-- Anthropic (Claude)
-- OpenAI
-- GitHub Copilot
-- OpenRouter
-
-### 💻 浏览器内 VS Code
-- 在线编码环境
-- 语法高亮
-- 代码补全
-
-### 🖥️ 集成终端
-- 内置终端
-- 多标签支持
-
-### 🏖️ 沙箱执行
-- 安全执行环境
-- 隔离运行
-```
+| 技能 | Stars | 说明 |
+|------|-------|------|
+| skills-weaver | 15⭐ | RPG 游戏 Agent SDK |
+| love2d-pocket-bomber-game | 11⭐ | Love2D 炸弹人游戏 |
+| OH-Unity-GameDev-Skills | 6⭐ | Unity 游戏开发技能 |
+| solana-game-skill | 5⭐ | Solana Unity SDK |
+| gamemaker-skills | 2⭐ | GameMaker Studio 2 开发 |
+| viktor-ferenczi/se-dev-skills | 2⭐ | Space Engineers 开发 |
+| roblox-game-skill | 1⭐ | Roblox 终极开发技能 |
+| cc-plugin-unity-gamedev | 1⭐ | 21 个 Unity 开发技能 |
 
 ---
 
-### 2.3 beagle 代码审查
+## 🐍 二、Python 开发 Skills
 
-**Skill**: `beagle`
-**仓库**: https://github.com/existential-birds/beagle
-**Stars**: 36⭐
+### 2.1 技能图谱概览
 
-#### 核心能力
-```markdown
-### 🔍 代码审查
-- Python 代码审查: Pydantic/AI 框架
-- Go 代码审查: Go 最佳实践
-- React 代码审查: 前端最佳实践
-- FastAPI 审查: API 最佳实践
+| 分类 | 核心 Skills | 评分 |
+|------|-------------|------|
+| Web 框架 | FastAPI, Flask, Django | 1.121+ |
+| 异步编程 | async-python-patterns | 高 |
+| 数据科学 | python-dataviz, python-executor | 3.433+ |
+| SDK 开发 | python-sdk | 3.335 |
+| 脚本工具 | python-script-generator | 3.253 |
 
-### 🛡️ 质量保证
-- 安全性检查
-- 性能建议
-- 最佳实践
-```
+### 2.2 重点 Skills 深度分析
 
----
+#### 🎯 FastAPI Skill (评分 1.121)
 
-### 2.4 Python 测试 Skills
+**定位**: 高性能 Web 框架开发
 
-**Skill**: `clean-pytest` | `python-testing-patterns`
+**核心内容**:
+- RESTful API 设计
+- 依赖注入
+- 数据验证 (Pydantic)
+- 异步路由处理
+- OpenAPI 自动生成
 
-#### clean-pytest (评分 0.862)
-```markdown
-### 🧪 测试模式
-- Fake-based testing
-- Contract testing
-- Dependency injection
+#### 🎯 Async Python Patterns (新增)
 
-### 📝 pytest 最佳实践
-- 清晰的测试结构
-- 可维护的测试代码
-- 测试隔离和并行
-```
+**定位**: Python 异步编程最佳实践
 
----
+**核心内容**:
+- asyncio 核心概念
+- 异步上下文管理器
+- 异步生成器
+- 并发任务管理
 
-## 三、自动化测试 Skills
+### 2.3 Skills.sh Python Skills 排行榜 (Top 10)
 
-### 3.1 核心 Skills 概览
+| 排名 | Skill ID | 安装量 | 说明 |
+|------|----------|--------|------|
+| 1 | python-executor | 1.8K | Python Executor TOP 1 |
+| 2 | python-sdk | 1.7K | Python SDK |
+| 3 | python-performance-optimization | 7.3K | Python 性能优化 |
+| 4 | python-dataviz | - | 数据可视化 |
+| 5 | lsp-python | - | LSP Python |
+| 6 | python-script-generator | - | 脚本生成器 |
+| 7 | python-type-safety | - | 类型安全 |
+| 8 | python-linting | - | Python Linting |
+| 9 | python-debugging | - | Python 调试 |
+| 10 | fastapi | - | FastAPI Web 框架 |
 
-| Skill 名称 | 核心能力 | 适用场景 | 评分/⭐ |
-|-----------|---------|---------|---------|
-| playwright-skill | 浏览器自动化、E2E 测试 | Web 测试 | 1.9k⭐ |
-| android-adb | Android ADB 自动化 | 移动端测试 | 1.220 |
-| test-runner | 测试运行器 | 测试执行 | 1.189 |
-| test-patterns | 测试模式 | 测试设计 | 1.143 |
-| e2e-testing-patterns | E2E 测试模式 | Playwright/Cypress | 1.025 |
-| afrexai-qa-testing-engine | 游戏/应用测试 | 游戏 QA | 0.885 |
+### 2.4 GitHub 热门 Python Skills
 
-### 3.2 Playwright 详解 (TOP 1)
-
-**Skill**: `playwright-skill`
-**仓库**: https://github.com/lackeyjb/playwright-skill
-**Stars**: 1.9k⭐ | **更新**: Dec 19, 2025
-
-#### 核心能力
-```markdown
-### 🌐 多浏览器支持
-- Chromium
-- Firefox
-- WebKit
-
-### 🔧 跨平台
-- Windows
-- macOS
-- Linux
-
-### 🧪 测试能力
-- E2E 测试
-- API 测试 (REST/GraphQL)
-- 移动端模拟 (iOS/Android)
-
-### 📹 高级功能
-- 视频录制
-- 截图对比
-- 网络拦截
-```
-
-#### 使用示例
-```typescript
-import { test, expect } from '@playwright/test';
-
-test('登录流程', async ({ page }) => {
-  await page.goto('/login');
-  await page.fill('#username', 'test');
-  await page.fill('#password', 'password');
-  await page.click('#submit');
-  await expect(page.locator('.dashboard')).toBeVisible();
-});
-```
+| 技能 | Stars | 说明 |
+|------|-------|------|
+| liyupi/ai-guide | 8940⭐ | 程序员 AI 资源大全 |
+| claudex | 223⭐ | Claude Code UI, 多提供商支持 |
+| pydantic-ai-skills | 140⭐ | Pydantic AI 支持 |
+| developer-kit | 133⭐ | 开发者工具包 (Python/TS/Java) |
+| beagle | 36⭐ | 代码审查 skills |
+| python-rope-refactor | 36⭐ | Python rope 重构 |
+| perseus | 26⭐ | 安全评估 SKILLS |
+| borghei/Claude-Skills | 17⭐ | 109 Expert AI Skills |
 
 ---
 
-### 3.3 游戏客户端测试
+## 🧪 三、自动化测试 Skills
 
-**Skill**: `afrexai-qa-testing-engine` (评分 0.885)
+### 3.1 技能图谱概览
 
-#### 核心能力
-```markdown
-### 🎮 游戏测试
-- UI 自动化测试
-- 功能测试
-- 回归测试
+| 分类 | 核心 Skills | 热度 |
+|------|-------------|------|
+| 浏览器自动化 | Playwright, Selenium | 1.8k+ |
+| E2E 测试 | e2e-testing-patterns | 高 |
+| 单元测试 | pytest, unittest | 高 |
+| 移动端测试 | android-adb, iOS-simulator | 高 |
+| 游戏测试 | game-testing, unity-test-automation | 新增 |
 
-### 🤖 AI 驱动
-- 智能测试生成
-- 自动化执行
-- 结果分析
-```
+### 3.2 重点 Skills 深度分析
+
+#### 🎯 Playwright Skill (⭐ 1863)
+
+**仓库**: https://github.com/lackeyjb/playwright-skill  
+**定位**: 浏览器自动化测试
+
+**核心功能**:
+- Model-invoked 模式 - Claude 自动编写和执行自动化代码
+- 测试和验证自动化
+- 跨浏览器测试
+- 截图和录像功能
+
+#### 🎯 iOS Simulator Skill (⭐ 565)
+
+**仓库**: https://github.com/conorluddy/ios-simulator-skill  
+**定位**: iOS 模拟器自动化
+
+**核心功能**:
+- 构建、运行 iOS 应用
+- 与模拟器交互
+- 不消耗 token/ctx 预算
+
+#### 🎯 QA WorkFlow (新增)
+
+**仓库**: https://github.com/islam-mamdouh/Qa-WorkFlow  
+**定位**: AI-powered QA 自动化框架
+
+**核心功能**:
+- Story 验证 (INVEST)
+- IEEE 829 测试计划
+- 测试用例生成
+- Bug 报告
+- Figma 设计验证
+- Jira & Figma 集成
+
+### 3.3 Skills.sh 测试 Skills 排行榜 (Top 10)
+
+| 排名 | Skill ID | 安装量 | 说明 |
+|------|----------|--------|------|
+| 1 | tdd-test-writer | 1.4K | TDD 测试编写器 |
+| 2 | playwright | - | Playwright 测试 |
+| 3 | test-runner | - | 测试运行器 |
+| 4 | test-master | - | 测试管理 |
+| 5 | test-patterns | - | 测试模式 |
+| 6 | e2e-testing-patterns | - | E2E 测试模式 |
+| 7 | playwright-mcp | - | Playwright MCP |
+| 8 | bats-testing-patterns | - | Bats 测试模式 |
+| 9 | api-testing-observability | - | API 测试 |
+| 10 | backend-testing | 1.3K | 后端测试 |
+
+### 3.4 游戏客户端自动化测试 Skills
+
+#### 🎮 Game Testing (新增)
+
+**定位**: 游戏客户端自动化测试
+
+**核心内容**:
+- 游戏 UI 自动化测试
+- 游戏功能测试
+- 性能测试
+- 兼容性测试
+
+#### 🎮 Unity Test Automation (新增)
+
+**定位**: Unity 项目自动化测试
+
+**核心内容**:
+- Unity Test Runner 集成
+- Play Mode 测试
+- 编辑器扩展测试
+- CI/CD 集成
+
+#### 🎮 Playwright Undetected (新增)
+
+**仓库**: https://github.com/dalbit-mir/playwright-undetected-skill  
+**定位**: 反检测浏览器自动化
+
+**核心功能**:
+- Bot 检测绕过
+- 本地主机测试
+- 截图和 UI 交互
+- Patchright-based
 
 ---
 
-### 3.4 移动端测试
+## 🛠️ 四、开发者工具 Skills
 
-**Skill**: `android-adb` (评分 1.220, 测试类 TOP 1)
+### 4.1 技能图谱概览
 
-#### 核心能力
-```markdown
-### 📱 Android ADB
-- APK 安装/卸载
-- 屏幕截图/录制
-- 日志抓取
-- 性能监控
-```
+| 分类 | 核心 Skills | 热度 |
+|------|-------------|------|
+| 版本控制 | git, git-essentials | 高 |
+| 容器化 | docker, docker-essentials | 高 |
+| CI/CD | cicd-pipeline, gitlab-cli | 中 |
+| 云服务 | aws, gcp, azure | 中 |
+| MCP 工具 | mcp-adapter | 高 |
 
----
+### 4.2 重点 Skills 深度分析
 
-## 四、开发者工具 Skills
+#### 🎯 Docker Essentials (评分 1.297)
 
-### 4.1 Git Skills (热门)
+**定位**: DevOps TOP 1
 
-| Skill 名称 | 核心能力 | 评分 |
-|-----------|---------|------|
-| git-essentials | Git 基础操作 | 1.225 |
-| git | Git 全套工具 | 1.157 |
-| git-workflows | Git 工作流 | 1.085 |
-| gitflow | GitFlow 支持 | 1.061 |
-| git-helper | Git 辅助工具 | 1.024 |
+**核心内容**:
+- Dockerfile 最佳实践
+- 镜像优化
+- 容器编排
+- 多阶段构建
 
-### 4.2 Docker/K8s Skills (热门)
+#### 🎯 Docker Optimize Skill (新增)
 
-| Skill 名称 | 核心能力 | 评分 |
-|-----------|---------|------|
-| docker-essentials | Docker 基础 | 1.259 |
-| kubernetes | K8s 管理 | 1.179 |
-| docker | Docker 全套 | 1.155 |
-| container-debug | 容器调试 | 1.100 |
-| kubectl | kubectl 工具 | 1.053 |
+**仓库**: https://github.com/vnnkl/docker-optimize-skill  
+**定位**: Dockerfile 审计和优化
 
-### 4.3 开发者工具集合
-
-**Skill**: `jarbitechture/claude-skills`
-**Stars**: 1,253⭐
-
-#### 核心能力
-```markdown
-### 📦 规模
-- 1253 个 Claude Code Skills
-- 覆盖自动化、开发、安全、基础设施
-
-### 🛠️ 分类
-- 自动化技能
-- 开发工具集
+**核心功能**:
+- 大小优化
 - 安全审计
-- IaC/DevOps
-```
+- 最佳实践检查
+
+#### 🎯 Container Skill (新增)
+
+**仓库**: https://github.com/why-not/container-skill  
+**定位**: 生产级 Dockerfile 生成
+
+### 4.3 Skills.sh 开发者工具排行榜 (Top 10)
+
+| 排名 | Skill ID | 安装量 | 说明 |
+|------|----------|--------|------|
+| 1 | docker-essentials | 1.297 | DevOps TOP 1 |
+| 2 | docker | 1.192 | Docker 完整功能 |
+| 3 | git-essentials | 1.183 | Git 基础 |
+| 4 | container-debug | 1.134 | 容器调试 |
+| 5 | git | 1.104 | Git 工作流 |
+| 6 | mcp-adapter | 1.075 | MCP 适配器 |
+| 7 | gitlab-cli-skills | 1.071 | GitLab CLI |
+| 8 | cicd-pipeline | 1.006 | CI/CD 流水线 |
+
+### 4.4 MCP 相关 Skills
+
+| 技能 | 功能 | 说明 |
+|------|------|------|
+| agent-memory-mcp | 记忆系统 | AI 记忆管理 |
+| mcp-adapter | MCP 适配器 | 多种 MCP 集成 |
+| web-mcp | Web MCP | 网页自动化 |
+| basecamp-cli-mcp | Basecamp | 项目管理 |
 
 ---
 
-## 五、推荐 Skills 组合
+## 📈 五、趋势分析
 
-### 5.1 游戏客户端开发组合
-```
-# 完整工作室 (大型项目)
-- Claude-Code-Game-Studios (48 agents + 36 skills)
-- unity-ai-workflow-2026 (Unity 6.2+)
+### 5.1 本周趋势
 
-# 独立开发
-- game-cog (智能编排)
-- unity-developer (Unity 专精)
-- godot-gdscript-patterns (Godot 专精)
-- roblox-game-skill (Roblox)
+1. **游戏开发**: Unity MCP 和 Godot MCP 持续增长，Claude-Code-Game-Studios 成为明星项目
+2. **Python 开发**: AI 相关 Skills 增长迅速，Pydantic AI 支持成为热点
+3. **自动化测试**: Playwright 相关 Skills 持续火爆，QA WorkFlow 受关注
+4. **开发者工具**: Docker 优化和 MCP 集成成为新趋势
 
-# 游戏测试
-- afrexai-qa-testing-engine (游戏 QA)
-- playwright-skill (Web/H5 游戏)
-```
+### 5.2 新兴技能
 
-### 5.2 Python 开发组合
-```
-# 完整工具链
-- claudex (223⭐) - UI 环境
-- beagle (36⭐) - 代码审查
-- python-pro - Python 大师
-- fastapi-pro - API 开发
-
-# 测试
-- clean-pytest - pytest 最佳实践
-- python-testing-patterns - 测试模式
-```
-
-### 5.3 测试与质量保证组合
-```
-# Web 测试
-- playwright-skill (1.9k⭐) - E2E 测试
-- test-runner - 测试运行
-- test-patterns - 测试设计
-
-# 移动端测试
-- android-adb (1.220) - Android 测试
-
-# 游戏测试
-- afrexai-qa-testing-engine - 游戏测试
-```
-
-### 5.4 DevOps 工具组合
-```
-# 容器化
-- docker-essentials (1.259)
-- kubernetes (1.179)
-- container-debug
-
-# 版本控制
-- git-essentials (1.225)
-- git-workflows
-```
+| 技能 | 方向 | 热度 |
+|------|------|------|
+| skills-weaver | 游戏 | 15⭐ |
+| QA WorkFlow | 测试 | 新增 |
+| Docker Optimize | DevOps | 新增 |
+| container-skill | DevOps | 新增 |
+| pydantic-ai-skills | Python/AI | 140⭐ |
 
 ---
 
-## 六、使用建议
+## 📚 六、参考资料
 
-### 6.1 安装方式
+### 官方资源
+- [Claude Code 官方文档](https://docs.anthropic.com/en/docs/claude-code/overview)
+- [Antigravity Awesome Skills](https://github.com/sickn33/antigravity-awesome-skills)
+- [Skills.sh](https://skills.sh)
+- [ClawHub](https://clawhub.com)
+
+### 热门仓库
+- [everything-claude-code](https://github.com/affaan-m/everything-claude-code) (60k+ ⭐)
+- [awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills) (40k+ ⭐)
+- [ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) (37k+ ⭐)
+- [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) (26k+ ⭐)
+
+---
+
+## 📥 安装命令
+
 ```bash
-# 使用 ClawHub 安装
-clawhub install <skill-name>
+# 游戏开发
+npx skillsadd Volaly/unity-mcp
+npx skillsadd nicbarker/Godot-MCP
+npx skillsadd Donchitos/Claude-Code-Game-Studios
 
-# 例如
-clawhub install game-cog
-clawhub install playwright-skill
-clawhub install docker-essentials
-clawhub install git-essentials
+# Python 开发
+npx skillsadd tul-sh/skills/python-executor
+npx skillsadd tul-sh/skills/python-sdk
+npx skillsadd anthropics/skills/fastapi
 
-# GitHub 仓库克隆
-git clone https://github.com/Donchitos/Claude-Code-Game-Studios ~/.claude/skills/
+# 自动化测试
+npx skillsadd lackeyjb/playwright-skill
+npx skillsadd conorluddy/ios-simulator-skill
+
+# 开发者工具
+npx skillsadd anthropics/skills/docker-essentials
+npx skillsadd anthropics/skills/git-essentials
 ```
 
-### 6.2 触发方式
-大多数 Skills 会根据关键词自动触发：
-- 游戏开发: "game", "unity", "godot", "roblox"
-- Python: "python", "pytest", "fastapi"
-- 测试: "test", "automation", "e2e", "playwright"
-- DevOps: "docker", "k8s", "kubernetes", "git"
+---
+
+**下次更新**: 2026-03-12 (第七十一周)
 
 ---
 
-## 七、总结
-
-### 7.1 调研结果
-
-| 类别 | Skills 数量 | 热门 Skills | 趋势 |
-|-----|------------|------------|------|
-| 游戏开发 | 20+ | Claude-Code-Game-Studios (30⭐) | 工作室模式兴起 |
-| Python 开发 | 20+ | claudex (223⭐) | UI 工具爆发 |
-| 自动化测试 | 20+ | playwright-skill (1.9k⭐) | Playwright 主导 |
-| 开发者工具 | 30+ | jarbitechture (1253⭐) | 超大型集合 |
-
-### 7.2 评分 TOP 10
-
-| Skill 名称 | 类别 | 评分/⭐ |
-|-----------|------|---------|
-| playwright-skill | 测试 | 1.9k⭐ |
-| jarbitechture/claude-skills | 工具 | 1253⭐ |
-| claudex | Python | 223⭐ |
-| docker-essentials | DevOps | 1.259 |
-| git-essentials | DevOps | 1.225 |
-| android-adb | 测试 | 1.220 |
-| kubernetes | DevOps | 1.179 |
-| test-runner | 测试 | 1.189 |
-| test-patterns | 测试 | 1.143 |
-| game-cog | 游戏 | 1.132 |
-
-### 7.3 趋势洞察
-
-1. **游戏开发**: 工作室模式兴起，Claude-Code-Game-Studios 提供完整 48 agents 架构
-2. **Python**: UI 工具爆发，claudex 223⭐ 领先
-3. **测试**: Playwright 1.9k⭐ 遥遥领先，AI 驱动测试正在发展
-4. **开发者工具**: 超大型集合趋势，jarbitechture 1253⭐
-
-### 7.4 推荐资源
-
-- **GitHub 搜索**: https://github.com/search?q=claude-code+skill
-- **ClawHub**: https://clawhub.com
-- **Antigravity Skills**: https://github.com/sking-115/skills.sh
-- **VoltAgent/awesome-agent-skills**: https://github.com/VoltAgent/awesome-agent-skills
-
----
-
-*文档生成时间: 2026-03-05*
-*来源: GitHub API, ClawHub Registry, Antigravity Skills, VoltAgent/awesome-agent-skills*
-*目标仓库: https://github.com/kongshan001/cc_skills*
-*持续更新中...*
+*本报告由 Claude Code 自动生成并推送到 GitHub*
