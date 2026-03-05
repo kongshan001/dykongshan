@@ -2,8 +2,8 @@
 
 > 记录每个 Skill 的落地实践过程
 
+| [SKILLS_SURVEY_2026_03_WEEK63](./SKILLS_SURVEY_2026_03_WEEK63.md) | Claude Code Skills 调研报告（第六十三周），GitHub/ClawHub 实时搜索热门 Skills，游戏客户端开发（unity-mcp 6580⭐/Godot-MCP 480⭐/roblox-game-skill 新增）/Python开发（ai-guide 8922⭐/claudex 223⭐/django-ai-plugins 新增）/自动化测试（Playwright 1.86k⭐/agentic-qe 218⭐）/开发者工具（awesome-claude-skills 40k⭐/specweave 84⭐ 新增）完整覆盖 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_WEEK62](./SKILLS_SURVEY_2026_03_WEEK62.md) | Claude Code Skills 调研报告（第六十二周），GitHub/ClawHub 实时搜索热门 Skills，游戏客户端开发（Claude-Code-Game-Studios 30⭐/orchestkit 101⭐/unity-claude-code 新增）/Python开发（python-executor 3.484⭐/claudex 223⭐/pyccsl 81⭐ 新增）/自动化测试（Playwright 1.86k⭐/agentic-qe 218⭐）/开发者工具（terraform-skill 1.27k⭐）完整覆盖 | 🆕 新增 |
-| [SKILLS_SURVEY_2026_03_WEEK61](./SKILLS_SURVEY_2026_03_WEEK61.md) | Claude Code Skills 调研报告（第六十一周），GitHub/ClawHub 实时搜索热门 Skills，游戏客户端开发（Claude-Code-Game-Studios 30⭐/orchestkit 101⭐/Roblox 新兴）/Python开发（python-executor 3.484⭐/claudex 223⭐）/自动化测试（Playwright 1.86k⭐/agentic-qe 218⭐）/开发者工具（terraform-skill 1.27k⭐/Axiom 561⭐）完整覆盖 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_WEEK60](./SKILLS_SURVEY_2026_03_WEEK60.md) | Claude Code Skills 调研报告（第六十周），GitHub/ClawHub 实时搜索热门 Skills，游戏客户端开发/Python开发/自动化测试/开发者工具完整覆盖，ClawHub Top Skills 排行榜 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_WEEK58](./SKILLS_SURVEY_2026_03_WEEK58.md) | Claude Code Skills 调研报告（第五十八周），GitHub/ClawHub 实时搜索热门 Skills，游戏客户端开发/Python开发/自动化测试/开发者工具完整覆盖，ClawHub Top Skills 排行榜 | 🆕 新增 |
 | [SKILLS_SURVEY_2026_03_WEEK57](./SKILLS_SURVEY_2026_03_WEEK57.md) | Claude Code Skills 调研报告（第五十七周），GitHub 实时搜索热门 Skills，游戏客户端开发（Claude-Code-Game-Studios 30⭐/Roblox 新兴）/Python开发（claudex 223⭐）/自动化测试（Playwright 1.9k⭐）/开发者工具（jarbitechture 1253⭐）完整覆盖 | 🆕 新增 |
