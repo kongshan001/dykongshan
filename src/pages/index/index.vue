@@ -118,6 +118,25 @@ const handleLinkClick = (link) => {
     return
   }
   
+  // GitHub 链接跳转到预览页面
+  if (link.url.includes('github.com')) {
+    const match = link.url.match(/github\.com\/([^\/]+)\/([^\/]+)/)
+    if (match) {
+      const repoPath = `${match[1]}/${match[2].replace(/\/$/, '')}`
+      // #ifdef H5
+      uni.navigateTo({
+        url: `/pages/repo-preview/index?repo=${encodeURIComponent(repoPath)}`
+      })
+      // #endif
+      // #ifdef MP-WEIXIN
+      uni.navigateTo({
+        url: `/pages/repo-preview/index?repo=${encodeURIComponent(repoPath)}`
+      })
+      // #endif
+      return
+    }
+  }
+  
   // #ifdef H5
   window.open(link.url, '_blank')
   // #endif

@@ -39,6 +39,14 @@
         "navigationBarBackgroundColor": "#6366f1",
         "navigationBarTextStyle": "white"
       }
+    },
+    {
+      "path": "pages/repo-preview/index",
+      "style": {
+        "navigationBarTitleText": "仓库预览",
+        "navigationBarBackgroundColor": "#e73c7e",
+        "navigationBarTextStyle": "white"
+      }
     }
   ],
   "globalStyle": {
