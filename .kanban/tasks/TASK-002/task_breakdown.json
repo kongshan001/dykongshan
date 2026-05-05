@@ -1,0 +1,11 @@
+{
+  "task_id": "TASK-002",
+  "title": "多城市旅行路线优化算法",
+  "subtasks": [
+    {"id": "S1", "title": "距离矩阵构建", "description": "集成地图API，构建城市间距离/时间矩阵", "estimate_hours": 4, "dependencies": []},
+    {"id": "S2", "title": "TSP求解器实现", "description": "实现基于遗传算法的TSP求解器", "estimate_hours": 6, "dependencies": ["S1"]},
+    {"id": "S3", "title": "多目标优化", "description": "支持距离/费用/时间/体验均衡多种优化目标", "estimate_hours": 4, "dependencies": ["S2"]},
+    {"id": "S4", "title": "路线可视化API", "description": "提供路线GeoJSON输出，支持地图渲染", "estimate_hours": 3, "dependencies": ["S2"]},
+    {"id": "S5", "title": "性能测试", "description": "5-50城市规模性能基准测试", "estimate_hours": 3, "dependencies": ["S3", "S4"]}
+  ]
+}
