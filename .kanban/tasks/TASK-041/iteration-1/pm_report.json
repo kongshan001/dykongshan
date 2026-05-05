@@ -1,1 +1,1 @@
-{"role":"pm","score":9.0,"improvements":["语言偏好自动记忆","用户自定义翻译"],"risks":["翻译质量依赖语料"],"extended_requirements":["自定义翻译","语言偏好记忆"],"requirement_coverage":0.88,"timestamp":"2026-05-05T18:00:00Z"}
+{"role":"pm","score":9.0,"improvements":["预警偏好设置","天气趋势图表"],"risks":["替代方案质量依赖活动库"],"extended_requirements":["预警偏好","天气图表"],"requirement_coverage":0.87,"timestamp":"2026-05-05T18:30:00Z"}

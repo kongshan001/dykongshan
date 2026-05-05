@@ -1,1 +1,1 @@
-{"role":"code_reviewer","score":8.5,"improvements":["i18n资源需要版本管理","RTL语言支持"],"risks":["字体子集化可能有遗漏字符"],"architecture_issues":["i18n服务与PDF服务耦合"],"code_style_violations":["缺少语言检测注释"],"timestamp":"2026-05-05T18:00:00Z"}
+{"role":"code_reviewer","score":8.5,"improvements":["规则引擎需要版本管理","天气API需要降级策略"],"risks":["API供应商变更"],"architecture_issues":["天气服务与预警服务耦合"],"code_style_violations":["缺少错误处理"],"timestamp":"2026-05-05T18:30:00Z"}
