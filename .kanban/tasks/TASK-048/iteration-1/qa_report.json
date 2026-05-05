@@ -1,0 +1,1 @@
+{"role":"qa","score":8.5,"improvements":["档期冲突测试","支付幂等测试"],"risks":["旺季导游超卖"],"missing_tests":["档期冲突测试","导游爽约处理测试"],"test_coverage":0.83,"timestamp":"2026-05-06T00:25:00Z"}

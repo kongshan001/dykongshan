@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":8.5,"improvements":["JWT需要定期轮换","短码需要防暴力枚举"],"risks":["分享链接泄露风险"],"architecture_issues":["权限服务与分享服务耦合"],"code_style_violations":["缺少权限注解"],"timestamp":"2026-05-06T00:10:00Z"}

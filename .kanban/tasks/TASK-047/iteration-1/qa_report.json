@@ -1,0 +1,1 @@
+{"role":"qa","score":8.5,"improvements":["各公司API兼容性测试","材料完整性边界测试"],"risks":["材料泄露隐私风险"],"missing_tests":["API兼容性测试","隐私安全测试"],"test_coverage":0.84,"timestamp":"2026-05-06T00:20:00Z"}

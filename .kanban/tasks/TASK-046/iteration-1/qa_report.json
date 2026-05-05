@@ -1,0 +1,1 @@
+{"role":"qa","score":8.5,"improvements":["嘈杂环境测试","多人会议稳定性测试"],"risks":["弱网环境语音质量"],"missing_tests":["弱网语音测试","降噪效果测试","多人识别准确率"],"test_coverage":0.82,"timestamp":"2026-05-06T00:15:00Z"}

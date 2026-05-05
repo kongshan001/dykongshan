@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":8.0,"improvements":["材料API需要标准化中间格式","安全存储需加强"],"risks":["保险公司API稳定性"],"architecture_issues":["理赔服务与保险API耦合"],"code_style_violations":["缺少错误码映射"],"timestamp":"2026-05-06T00:20:00Z"}

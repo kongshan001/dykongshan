@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":8.0,"improvements":["搜索引擎需要全文索引","支付接口需要幂等"],"risks":["导游爽约风险"],"architecture_issues":["预约服务与搜索紧耦合"],"code_style_violations":["缺少接口文档"],"timestamp":"2026-05-06T00:25:00Z"}

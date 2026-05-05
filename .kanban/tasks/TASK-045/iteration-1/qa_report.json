@@ -1,0 +1,1 @@
+{"role":"qa","score":9.0,"improvements":["权限绕过场景测试","链接枚举测试"],"risks":["CRDT与JWT结合的边界情况"],"missing_tests":["权限绕过测试","枚举攻击测试","过期令牌测试"],"test_coverage":0.87,"timestamp":"2026-05-06T00:10:00Z"}
