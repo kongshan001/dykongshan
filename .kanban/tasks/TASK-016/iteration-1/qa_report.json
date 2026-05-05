@@ -1,0 +1,1 @@
+{"role":"qa","score":8.5,"improvements":["大批量照片上传测试","离线同步冲突测试"],"risks":["特产推荐数据不够丰富"],"missing_tests":["大批量上传测试","离线同步冲突测试","删除恢复测试"],"test_coverage":0.82,"timestamp":"2026-05-05T06:15:00Z"}

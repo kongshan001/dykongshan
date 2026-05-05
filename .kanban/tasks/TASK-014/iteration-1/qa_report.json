@@ -1,0 +1,1 @@
+{"role":"qa","score":8.5,"improvements":["LLM幻觉检测测试","多语言对话测试"],"risks":["Prompt注入攻击"],"missing_tests":["幻觉检测测试","Prompt注入测试","多语言测试"],"test_coverage":0.80,"timestamp":"2026-05-05T06:05:00Z"}

@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":8.0,"improvements":["ES索引需要定期优化","模板JSON Schema需要向前兼容"],"risks":["ES集群故障影响搜索可用性"],"architecture_issues":["搜索服务与模板服务耦合"],"code_style_violations":["缺少ES查询构建器的类型封装"],"timestamp":"2026-05-05T06:00:00Z"}

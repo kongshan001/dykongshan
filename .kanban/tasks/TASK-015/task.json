@@ -1,0 +1,63 @@
+{
+  "id": "TASK-015",
+  "title": "旅行费用AA记账本",
+  "description": "high",
+  "engine": "claude-code",
+  "status": "archive",
+  "phase": "archive",
+  "phase_lock": "archive",
+  "assignee": null,
+  "worktree": {
+    "branch": "feature/TASK-015",
+    "path": "/root/.openclaw/workspace/.kanban/worktrees/TASK-015",
+    "base": "main"
+  },
+  "iteration": 1,
+  "max_iterations": 6,
+  "token_budget": 500000,
+  "token_used": 0,
+  "scores": {},
+  "depends_on": [],
+  "modified_files": [],
+  "task_breakdown": {
+    "file": "",
+    "subtasks": []
+  },
+  "history": [
+    {
+      "phase": "plan",
+      "status": "entered",
+      "entered_at": "2026-05-05T06:03:23Z"
+    },
+    {
+      "phase": "execute",
+      "status": "entered",
+      "entered_at": "2026-05-05T06:03:46Z"
+    },
+    {
+      "phase": "evaluate",
+      "status": "entered",
+      "entered_at": "2026-05-05T06:04:09Z"
+    },
+    {
+      "phase": "retrospective",
+      "status": "entered",
+      "entered_at": "2026-05-05T06:04:34Z"
+    },
+    {
+      "phase": "user_decision",
+      "status": "entered",
+      "entered_at": "2026-05-05T06:04:34Z"
+    },
+    {
+      "phase": "archive",
+      "status": "entered",
+      "entered_at": "2026-05-05T06:04:34Z"
+    }
+  ],
+  "user_decision": "approve_and_archive",
+  "requires_archive_confirmation": true,
+  "created_at": "2026-05-05T06:00:28Z",
+  "updated_at": "2026-05-05T06:00:28Z",
+  "entered_at": "2026-05-05T06:04:34Z"
+}

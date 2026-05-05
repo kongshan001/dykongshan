@@ -1,0 +1,1 @@
+{"role":"pm","score":9.0,"improvements":["可视化结算关系图","导出结算报告"],"risks":["用户可能不理解汇率锁定机制"],"extended_requirements":["结算关系图","导出报告","微信/支付宝转账链接"],"requirement_coverage":0.88,"timestamp":"2026-05-05T06:10:00Z"}

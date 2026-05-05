@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":9.0,"improvements":["Prompt模板需要版本管理","LLM调用需要熔断和降级"],"risks":["LLM API不可用时功能完全失效"],"architecture_issues":["AI服务与行程服务耦合"],"code_style_violations":["缺少Prompt注入防护"],"timestamp":"2026-05-05T06:05:00Z"}
