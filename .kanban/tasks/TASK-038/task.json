@@ -1,1 +1,63 @@
-{"id":"TASK-038","title":"旅行交通无缝接驳规划","description":"high","engine":"claude-code","status":"pending","phase":null,"phase_lock":null,"assignee":null,"worktree":{"branch":"feature/TASK-038","path":"","base":"main"},"iteration":0,"max_iterations":6,"token_budget":500000,"token_used":0,"scores":{},"depends_on":[],"modified_files":[],"task_breakdown":{"file":"","subtasks":[]},"history":[],"user_decision":null,"requires_archive_confirmation":true,"created_at":"2026-05-05T13:44:10Z","updated_at":"2026-05-05T13:44:10Z","entered_at":null}
+{
+  "id": "TASK-038",
+  "title": "旅行交通无缝接驳规划",
+  "description": "high",
+  "engine": "claude-code",
+  "status": "archive",
+  "phase": "archive",
+  "phase_lock": "archive",
+  "assignee": null,
+  "worktree": {
+    "branch": "feature/TASK-038",
+    "path": "/root/.openclaw/workspace/.kanban/worktrees/TASK-038",
+    "base": "main"
+  },
+  "iteration": 1,
+  "max_iterations": 6,
+  "token_budget": 500000,
+  "token_used": 0,
+  "scores": {},
+  "depends_on": [],
+  "modified_files": [],
+  "task_breakdown": {
+    "file": "",
+    "subtasks": []
+  },
+  "history": [
+    {
+      "phase": "plan",
+      "status": "entered",
+      "entered_at": "2026-05-05T15:27:46Z"
+    },
+    {
+      "phase": "execute",
+      "status": "entered",
+      "entered_at": "2026-05-05T15:28:08Z"
+    },
+    {
+      "phase": "evaluate",
+      "status": "entered",
+      "entered_at": "2026-05-05T15:28:28Z"
+    },
+    {
+      "phase": "retrospective",
+      "status": "entered",
+      "entered_at": "2026-05-05T15:28:46Z"
+    },
+    {
+      "phase": "user_decision",
+      "status": "entered",
+      "entered_at": "2026-05-05T15:28:46Z"
+    },
+    {
+      "phase": "archive",
+      "status": "entered",
+      "entered_at": "2026-05-05T15:28:47Z"
+    }
+  ],
+  "user_decision": "approve_and_archive",
+  "requires_archive_confirmation": true,
+  "created_at": "2026-05-05T13:44:10Z",
+  "updated_at": "2026-05-05T13:44:10Z",
+  "entered_at": "2026-05-05T15:28:47Z"
+}

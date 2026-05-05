@@ -1,1 +1,1 @@
-{"role":"qa","score":8.5,"improvements":["支付退款边界测试","预约并发冲突测试"],"risks":["导游爽约处理"],"missing_tests":["退款边界测试","并发预约测试","导游爽约流程测试"],"test_coverage":0.84,"timestamp":"2026-05-05T13:45:00Z"}
+{"role":"qa","score":8.5,"improvements":["极端天气边界测试","多城市测试"],"risks":["规则覆盖场景有限"],"missing_tests":["极端天气测试","分区差异测试"],"test_coverage":0.82,"timestamp":"2026-05-05T15:20:00Z"}

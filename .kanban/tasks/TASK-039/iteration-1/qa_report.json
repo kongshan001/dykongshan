@@ -1,0 +1,1 @@
+{"role":"qa","score":8.5,"improvements":["隐私合规测试","平台API兼容性测试"],"risks":["图片存储成本"],"missing_tests":["隐私合规测试","大图上传测试"],"test_coverage":0.80,"timestamp":"2026-05-05T15:30:00Z"}

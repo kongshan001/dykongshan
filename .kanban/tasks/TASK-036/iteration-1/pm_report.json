@@ -1,1 +1,1 @@
-{"role":"pm","score":9.0,"improvements":["导游保险保障","评价激励机制"],"risks":["导游质量参差"],"extended_requirements":["导游保险","评价激励","VIP导游"],"requirement_coverage":0.88,"timestamp":"2026-05-05T13:45:00Z"}
+{"role":"pm","score":8.5,"improvements":["穿搭单品购买链接","历史穿搭记录"],"risks":["用户可能不信任规则判断"],"extended_requirements":["购买链接","穿搭记录","AI穿搭建议"],"requirement_coverage":0.84,"timestamp":"2026-05-05T15:20:00Z"}

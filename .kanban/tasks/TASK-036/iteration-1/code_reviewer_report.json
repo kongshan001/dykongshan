@@ -1,1 +1,1 @@
-{"role":"code_reviewer","score":8.5,"improvements":["支付需要安全审计","IM需要消息加密"],"risks":["支付安全风险"],"architecture_issues":["支付服务与预约服务耦合"],"code_style_violations":["缺少支付状态机注释"],"timestamp":"2026-05-05T13:45:00Z"}
+{"role":"code_reviewer","score":8.0,"improvements":["规则需要版本化管理","分区规则需要数据支撑"],"risks":["规则覆盖不足"],"architecture_issues":["规则引擎可独立"],"code_style_violations":["缺少配置外置"],"timestamp":"2026-05-05T15:20:00Z"}
