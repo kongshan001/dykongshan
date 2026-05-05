@@ -196,8 +196,8 @@
     },
     {
       "id": "TASK-033",
-      "status": "planning",
-      "phase": "plan",
+      "status": "archive",
+      "phase": "archive",
       "iteration": 1
     },
     {

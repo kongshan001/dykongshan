@@ -3,13 +3,13 @@
   "title": "旅行城市间交通预订整合",
   "description": "high",
   "engine": "claude-code",
-  "status": "planning",
-  "phase": "plan",
-  "phase_lock": "plan",
+  "status": "archive",
+  "phase": "archive",
+  "phase_lock": "archive",
   "assignee": null,
   "worktree": {
     "branch": "feature/TASK-033",
-    "path": "",
+    "path": "/root/.openclaw/workspace/.kanban/worktrees/TASK-033",
     "base": "main"
   },
   "iteration": 1,
@@ -28,11 +28,36 @@
       "phase": "plan",
       "status": "entered",
       "entered_at": "2026-05-05T14:14:28Z"
+    },
+    {
+      "phase": "execute",
+      "status": "entered",
+      "entered_at": "2026-05-05T14:46:18Z"
+    },
+    {
+      "phase": "evaluate",
+      "status": "entered",
+      "entered_at": "2026-05-05T14:47:10Z"
+    },
+    {
+      "phase": "retrospective",
+      "status": "entered",
+      "entered_at": "2026-05-05T14:47:49Z"
+    },
+    {
+      "phase": "user_decision",
+      "status": "entered",
+      "entered_at": "2026-05-05T14:47:49Z"
+    },
+    {
+      "phase": "archive",
+      "status": "entered",
+      "entered_at": "2026-05-05T14:47:50Z"
     }
   ],
-  "user_decision": null,
+  "user_decision": "approve_and_archive",
   "requires_archive_confirmation": true,
   "created_at": "2026-05-05T14:14:12Z",
   "updated_at": "2026-05-05T14:14:12Z",
-  "entered_at": "2026-05-05T14:14:28Z"
+  "entered_at": "2026-05-05T14:47:50Z"
 }
