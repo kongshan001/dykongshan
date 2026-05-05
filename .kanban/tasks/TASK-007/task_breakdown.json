@@ -1,0 +1,11 @@
+{
+  "task_id": "TASK-007",
+  "title": "旅行证件管理与到期提醒",
+  "subtasks": [
+    {"id": "S1", "title": "证件数据模型与加密", "description": "证件CRUD + AES-256加密存储", "estimate_hours": 4, "dependencies": []},
+    {"id": "S2", "title": "到期提醒引擎", "description": "多级提醒策略（90/30/7/1天），Cron调度", "estimate_hours": 3, "dependencies": ["S1"]},
+    {"id": "S3", "title": "签证信息库", "description": "全球签证政策数据（免签/落地签/电子签）", "estimate_hours": 5, "dependencies": []},
+    {"id": "S4", "title": "多渠道通知", "description": "飞书/邮件/短信通知集成", "estimate_hours": 3, "dependencies": ["S2"]},
+    {"id": "S5", "title": "安全审计与测试", "description": "加密验证、权限测试、渗透测试", "estimate_hours": 4, "dependencies": ["S1","S4"]}
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "task_id": "TASK-008",
+  "title": "旅行地图离线包下载",
+  "subtasks": [
+    {"id": "S1", "title": "瓦片下载引擎", "description": "矢量瓦片按区域打包下载，支持断点续传", "estimate_hours": 5, "dependencies": []},
+    {"id": "S2", "title": "本地存储层", "description": "SQLite瓦片存储，支持空间索引查询", "estimate_hours": 4, "dependencies": ["S1"]},
+    {"id": "S3", "title": "离线搜索", "description": "基于本地数据的POI搜索和路径规划", "estimate_hours": 5, "dependencies": ["S2"]},
+    {"id": "S4", "title": "差量更新", "description": "对比版本差异，只下载变更瓦片", "estimate_hours": 4, "dependencies": ["S1"]},
+    {"id": "S5", "title": "下载管理与测试", "description": "下载队列、进度展示、存储空间检查", "estimate_hours": 3, "dependencies": ["S3","S4"]}
+  ]
+}

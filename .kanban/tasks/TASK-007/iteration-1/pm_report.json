@@ -1,0 +1,1 @@
+{"role":"pm","score":9.0,"improvements":["增加证件拍照OCR自动识别","签证申请进度追踪"],"risks":["用户可能不信任平台存储敏感信息"],"extended_requirements":["OCR证件识别","签证申请进度追踪","证件分享给同行人"],"requirement_coverage":0.85,"timestamp":"2026-05-05T05:00:00Z"}

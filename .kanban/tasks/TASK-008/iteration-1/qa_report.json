@@ -1,0 +1,1 @@
+{"role":"qa","score":8.5,"improvements":["弱网环境下载测试","磁盘空间不足边界测试"],"risks":["差量更新包损坏导致地图不一致"],"missing_tests":["弱网下载测试","磁盘满测试","数据校验测试"],"test_coverage":0.78,"timestamp":"2026-05-05T05:05:00Z"}

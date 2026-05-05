@@ -3,16 +3,16 @@
   "title": "旅行证件管理与到期提醒",
   "description": "high",
   "engine": "claude-code",
-  "status": "pending",
-  "phase": null,
-  "phase_lock": null,
+  "status": "archive",
+  "phase": "archive",
+  "phase_lock": "archive",
   "assignee": null,
   "worktree": {
     "branch": "feature/TASK-007",
-    "path": "",
+    "path": "/root/.openclaw/workspace/.kanban/worktrees/TASK-007",
     "base": "main"
   },
-  "iteration": 0,
+  "iteration": 1,
   "max_iterations": 6,
   "token_budget": 500000,
   "token_used": 0,
@@ -23,10 +23,41 @@
     "file": "",
     "subtasks": []
   },
-  "history": [],
-  "user_decision": null,
+  "history": [
+    {
+      "phase": "plan",
+      "status": "entered",
+      "entered_at": "2026-05-05T05:00:24Z"
+    },
+    {
+      "phase": "execute",
+      "status": "entered",
+      "entered_at": "2026-05-05T05:00:56Z"
+    },
+    {
+      "phase": "evaluate",
+      "status": "entered",
+      "entered_at": "2026-05-05T05:01:26Z"
+    },
+    {
+      "phase": "retrospective",
+      "status": "entered",
+      "entered_at": "2026-05-05T05:01:49Z"
+    },
+    {
+      "phase": "user_decision",
+      "status": "entered",
+      "entered_at": "2026-05-05T05:02:05Z"
+    },
+    {
+      "phase": "archive",
+      "status": "entered",
+      "entered_at": "2026-05-05T05:02:05Z"
+    }
+  ],
+  "user_decision": "approve_and_archive",
   "requires_archive_confirmation": true,
   "created_at": "2026-05-05T04:27:20Z",
   "updated_at": "2026-05-05T04:27:20Z",
-  "entered_at": null
+  "entered_at": "2026-05-05T05:02:05Z"
 }
