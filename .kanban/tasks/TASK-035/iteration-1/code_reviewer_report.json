@@ -1,1 +1,1 @@
-{"role":"code_reviewer","score":9.0,"improvements":["WorldTracer API密钥需要加密","状态轮询需要限流"],"risks":["航司系统不可用"],"architecture_issues":["行李服务与通知服务解耦"],"code_style_violations":["缺少API错误码注释"],"timestamp":"2026-05-05T13:40:00Z"}
+{"role":"code_reviewer","score":8.5,"improvements":["数据更新机制需要监控","查询结果需要缓存"],"risks":["数据过时导致误判"],"architecture_issues":["数据更新服务与主服务紧耦合"],"code_style_violations":["缺少数据源说明"],"timestamp":"2026-05-05T14:55:00Z"}

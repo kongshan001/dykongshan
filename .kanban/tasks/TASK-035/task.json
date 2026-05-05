@@ -1,1 +1,63 @@
-{"id":"TASK-035","title":"旅行伴手礼自动推荐","description":"low","engine":"claude-code","status":"pending","phase":null,"phase_lock":null,"assignee":null,"worktree":{"branch":"feature/TASK-035","path":"","base":"main"},"iteration":0,"max_iterations":6,"token_budget":500000,"token_used":0,"scores":{},"depends_on":[],"modified_files":[],"task_breakdown":{"file":"","subtasks":[]},"history":[],"user_decision":null,"requires_archive_confirmation":true,"created_at":"2026-05-05T14:14:12Z","updated_at":"2026-05-05T14:14:12Z","entered_at":null}
+{
+  "id": "TASK-035",
+  "title": "旅行伴手礼自动推荐",
+  "description": "low",
+  "engine": "claude-code",
+  "status": "archive",
+  "phase": "archive",
+  "phase_lock": "archive",
+  "assignee": null,
+  "worktree": {
+    "branch": "feature/TASK-035",
+    "path": "/root/.openclaw/workspace/.kanban/worktrees/TASK-035",
+    "base": "main"
+  },
+  "iteration": 1,
+  "max_iterations": 6,
+  "token_budget": 500000,
+  "token_used": 0,
+  "scores": {},
+  "depends_on": [],
+  "modified_files": [],
+  "task_breakdown": {
+    "file": "",
+    "subtasks": []
+  },
+  "history": [
+    {
+      "phase": "plan",
+      "status": "entered",
+      "entered_at": "2026-05-05T14:58:30Z"
+    },
+    {
+      "phase": "execute",
+      "status": "entered",
+      "entered_at": "2026-05-05T14:59:16Z"
+    },
+    {
+      "phase": "evaluate",
+      "status": "entered",
+      "entered_at": "2026-05-05T14:59:55Z"
+    },
+    {
+      "phase": "retrospective",
+      "status": "entered",
+      "entered_at": "2026-05-05T15:00:28Z"
+    },
+    {
+      "phase": "user_decision",
+      "status": "entered",
+      "entered_at": "2026-05-05T15:00:29Z"
+    },
+    {
+      "phase": "archive",
+      "status": "entered",
+      "entered_at": "2026-05-05T15:00:29Z"
+    }
+  ],
+  "user_decision": "approve_and_archive",
+  "requires_archive_confirmation": true,
+  "created_at": "2026-05-05T14:14:12Z",
+  "updated_at": "2026-05-05T14:14:12Z",
+  "entered_at": "2026-05-05T15:00:29Z"
+}
