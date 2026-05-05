@@ -1,0 +1,1 @@
+{"role":"qa","score":8.5,"improvements":["突发情况测试","模型更新测试"],"risks":["小众景点数据不足"],"missing_tests":["突发情况模拟","模型衰减测试","数据源故障测试"],"test_coverage":0.81,"timestamp":"2026-05-05T13:35:00Z"}

@@ -1,0 +1,1 @@
+{"role":"qa","score":9.0,"improvements":["航司系统不可用降级测试","状态丢失场景测试"],"risks":["找回率依赖航司效率"],"missing_tests":["航司不可用测试","状态丢失测试","并发丢失登记测试"],"test_coverage":0.88,"timestamp":"2026-05-05T13:40:00Z"}

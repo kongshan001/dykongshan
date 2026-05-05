@@ -1,0 +1,63 @@
+{
+  "id": "TASK-033",
+  "title": "旅行天气预警与行程自动调整",
+  "description": "high",
+  "engine": "claude-code",
+  "status": "archive",
+  "phase": "archive",
+  "phase_lock": "archive",
+  "assignee": null,
+  "worktree": {
+    "branch": "feature/TASK-033",
+    "path": "/root/.openclaw/workspace/.kanban/worktrees/TASK-033",
+    "base": "main"
+  },
+  "iteration": 1,
+  "max_iterations": 6,
+  "token_budget": 500000,
+  "token_used": 0,
+  "scores": {},
+  "depends_on": [],
+  "modified_files": [],
+  "task_breakdown": {
+    "file": "",
+    "subtasks": []
+  },
+  "history": [
+    {
+      "phase": "plan",
+      "status": "entered",
+      "entered_at": "2026-05-05T13:30:02Z"
+    },
+    {
+      "phase": "execute",
+      "status": "entered",
+      "entered_at": "2026-05-05T13:31:48Z"
+    },
+    {
+      "phase": "evaluate",
+      "status": "entered",
+      "entered_at": "2026-05-05T13:32:26Z"
+    },
+    {
+      "phase": "retrospective",
+      "status": "entered",
+      "entered_at": "2026-05-05T13:33:34Z"
+    },
+    {
+      "phase": "user_decision",
+      "status": "entered",
+      "entered_at": "2026-05-05T13:34:37Z"
+    },
+    {
+      "phase": "archive",
+      "status": "entered",
+      "entered_at": "2026-05-05T13:34:38Z"
+    }
+  ],
+  "user_decision": "approve_and_archive",
+  "requires_archive_confirmation": true,
+  "created_at": "2026-05-05T13:29:54Z",
+  "updated_at": "2026-05-05T13:29:54Z",
+  "entered_at": "2026-05-05T13:34:38Z"
+}
