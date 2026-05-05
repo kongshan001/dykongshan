@@ -3,16 +3,16 @@
   "title": "旅行社交分享与动态",
   "description": "medium",
   "engine": "claude-code",
-  "status": "pending",
-  "phase": null,
-  "phase_lock": null,
+  "status": "archive",
+  "phase": "archive",
+  "phase_lock": "archive",
   "assignee": null,
   "worktree": {
     "branch": "feature/TASK-006",
-    "path": "",
+    "path": "/root/.openclaw/workspace/.kanban/worktrees/TASK-006",
     "base": "main"
   },
-  "iteration": 0,
+  "iteration": 1,
   "max_iterations": 6,
   "token_budget": 500000,
   "token_used": 0,
@@ -23,10 +23,41 @@
     "file": "",
     "subtasks": []
   },
-  "history": [],
-  "user_decision": null,
+  "history": [
+    {
+      "phase": "plan",
+      "status": "entered",
+      "entered_at": "2026-05-05T04:30:08Z"
+    },
+    {
+      "phase": "execute",
+      "status": "entered",
+      "entered_at": "2026-05-05T04:30:32Z"
+    },
+    {
+      "phase": "evaluate",
+      "status": "entered",
+      "entered_at": "2026-05-05T04:30:59Z"
+    },
+    {
+      "phase": "retrospective",
+      "status": "entered",
+      "entered_at": "2026-05-05T04:31:26Z"
+    },
+    {
+      "phase": "user_decision",
+      "status": "entered",
+      "entered_at": "2026-05-05T04:31:43Z"
+    },
+    {
+      "phase": "archive",
+      "status": "entered",
+      "entered_at": "2026-05-05T04:31:43Z"
+    }
+  ],
+  "user_decision": "approve_and_archive",
   "requires_archive_confirmation": true,
   "created_at": "2026-05-05T04:27:20Z",
   "updated_at": "2026-05-05T04:27:20Z",
-  "entered_at": null
+  "entered_at": "2026-05-05T04:31:43Z"
 }

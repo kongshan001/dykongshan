@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":8.0,"improvements":["动态流需要分页优化（游标分页）","媒体上传需要安全校验（文件类型/病毒扫描）"],"risks":["写扩散在大用户量时写入放大严重"],"architecture_issues":["动态服务与互动服务耦合"],"code_style_violations":["缺少上传文件大小校验中间件"],"timestamp":"2026-05-05T04:40:00Z"}
