@@ -1,1 +1,1 @@
-{"role":"pm","score":9.0,"improvements":["礼仪课程推荐","目的地文化深度游"],"risks":["礼仪禁忌内容可能引起文化争议"],"extended_requirements":["礼仪课程","文化深度游","专家问答"],"requirement_coverage":0.87,"timestamp":"2026-05-06T01:30:00Z"}
+{"role":"pm","score":9.0,"improvements":["翻译历史记录功能","自定义常用短语收藏"],"risks":["用户可能对拍照翻译准确率期望过高"],"extended_requirements":["翻译历史","收藏短语","语音语速调节"],"requirement_coverage":0.88,"timestamp":"2026-05-06T02:42:00Z"}

@@ -1,1 +1,1 @@
-{"role":"qa","score":8.5,"improvements":["文化差异边界场景测试","GPS触发准确性测试"],"risks":["数据过时风险"],"missing_tests":["文化差异边界测试","GPS准确性测试","翻译一致性测试"],"test_coverage":0.81,"timestamp":"2026-05-06T01:30:00Z"}
+{"role":"qa","score":8.5,"improvements":["小语种翻译质量需要专项测试","语音识别噪音场景测试"],"risks":["API服务中断时功能完全不可用"],"missing_tests":["小语种质量测试","噪音环境语音测试","API降级自动化测试"],"test_coverage":0.82,"timestamp":"2026-05-06T02:42:00Z"}
