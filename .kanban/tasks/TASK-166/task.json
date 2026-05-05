@@ -3,30 +3,140 @@
   "title": "旅行飞行里程追踪",
   "description": "--desc",
   "engine": "claude-code",
-  "status": "pending",
-  "phase": null,
-  "phase_lock": null,
+  "status": "archive",
+  "phase": "archive",
+  "phase_lock": "archive",
   "assignee": null,
   "worktree": {
     "branch": "feature/TASK-166",
-    "path": "",
+    "path": "/root/.openclaw/workspace/.kanban/tasks/TASK-166/worktree",
     "base": "master"
   },
-  "iteration": 0,
+  "iteration": 1,
   "max_iterations": 6,
   "token_budget": 500000,
   "token_used": 0,
-  "scores": {},
+  "scores": {
+    "pm": {
+      "score": 9.0,
+      "passed": true,
+      "report": ".kanban/tasks/TASK-166/iteration-1/pm_report.json"
+    },
+    "qa": {
+      "score": 8.5,
+      "passed": false,
+      "report": ".kanban/tasks/TASK-166/iteration-1/qa_report.json"
+    },
+    "code_reviewer": {
+      "score": 8.5,
+      "passed": false,
+      "report": ".kanban/tasks/TASK-166/iteration-1/code_reviewer_report.json"
+    },
+    "designer": {
+      "score": 8.0,
+      "passed": false,
+      "report": ".kanban/tasks/TASK-166/iteration-1/designer_report.json"
+    }
+  },
   "depends_on": [],
   "modified_files": [],
   "task_breakdown": {
-    "file": "",
-    "subtasks": []
+    "file": ".kanban/tasks/TASK-166/task_breakdown.json",
+    "subtasks": [
+      {
+        "id": "S1",
+        "title": "数据模型",
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "title": "核心引擎",
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "title": "测试",
+        "status": "pending"
+      }
+    ]
   },
-  "history": [],
-  "user_decision": null,
+  "history": [
+    {
+      "phase": "plan",
+      "status": "completed",
+      "entered_at": "2026-05-05T22:14:12Z",
+      "exited_at": "2026-05-05T22:14:14Z"
+    },
+    {
+      "phase": "execute",
+      "status": "completed",
+      "entered_at": "2026-05-05T22:14:14Z",
+      "exited_at": "2026-05-05T22:14:16Z"
+    },
+    {
+      "phase": "evaluate",
+      "status": "entered",
+      "entered_at": "2026-05-05T22:14:16Z"
+    },
+    {
+      "event": "score_recorded",
+      "phase": "evaluate",
+      "iteration": 1,
+      "role": "pm",
+      "score": 9.0,
+      "timestamp": "2026-05-05T22:14:17Z"
+    },
+    {
+      "event": "score_recorded",
+      "phase": "evaluate",
+      "iteration": 1,
+      "role": "qa",
+      "score": 8.5,
+      "timestamp": "2026-05-05T22:14:18Z"
+    },
+    {
+      "event": "score_recorded",
+      "phase": "evaluate",
+      "iteration": 1,
+      "role": "code_reviewer",
+      "score": 8.5,
+      "timestamp": "2026-05-05T22:14:18Z"
+    },
+    {
+      "event": "score_recorded",
+      "phase": "evaluate",
+      "iteration": 1,
+      "role": "designer",
+      "score": 8.0,
+      "timestamp": "2026-05-05T22:14:18Z",
+      "status": "completed",
+      "exited_at": "2026-05-05T22:14:18Z"
+    },
+    {
+      "phase": "retrospective",
+      "status": "completed",
+      "entered_at": "2026-05-05T22:14:18Z",
+      "exited_at": "2026-05-05T22:14:20Z"
+    },
+    {
+      "phase": "user_decision",
+      "status": "entered",
+      "entered_at": "2026-05-05T22:14:20Z"
+    },
+    {
+      "phase": "archive",
+      "status": "entered",
+      "entered_at": "2026-05-05T22:14:22Z"
+    }
+  ],
+  "user_decision": {
+    "action": "approve_and_archive",
+    "feedback": "",
+    "decided_at": "2026-05-05T22:14:21Z"
+  },
   "requires_archive_confirmation": true,
   "created_at": "2026-05-05T22:12:55Z",
-  "updated_at": "2026-05-05T22:12:55Z",
-  "entered_at": null
+  "updated_at": "2026-05-05T22:14:21Z",
+  "entered_at": "2026-05-05T22:14:22Z",
+  "iteration_type": null
 }
