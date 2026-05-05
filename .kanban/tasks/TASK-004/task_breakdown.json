@@ -1,0 +1,11 @@
+{
+  "task_id": "TASK-004",
+  "title": "旅行景点推荐与评分系统",
+  "subtasks": [
+    {"id": "S1", "title": "景点数据模型", "description": "景点POI数据模型，支持多语言、标签、图片", "estimate_hours": 3, "dependencies": []},
+    {"id": "S2", "title": "GeoHash索引", "description": "基于GeoHash的地理位置索引，支持周边查询", "estimate_hours": 4, "dependencies": ["S1"]},
+    {"id": "S3", "title": "推荐引擎", "description": "协同过滤+内容混合推荐，冷启动处理", "estimate_hours": 6, "dependencies": ["S1"]},
+    {"id": "S4", "title": "评分评论系统", "description": "多维度评分+图文评论+排序筛选", "estimate_hours": 4, "dependencies": ["S1"]},
+    {"id": "S5", "title": "集成与测试", "description": "推荐API集成，A/B测试框架", "estimate_hours": 4, "dependencies": ["S2","S3","S4"]}
+  ]
+}
