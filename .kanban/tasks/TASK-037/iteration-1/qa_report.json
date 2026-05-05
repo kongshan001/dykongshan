@@ -1,0 +1,1 @@
+{"role":"qa","score":8.5,"improvements":["推荐准确性A/B测试","过期活动清理测试"],"risks":["活动数据实时性"],"missing_tests":["A/B测试","过期清理","多语言测试"],"test_coverage":0.83,"timestamp":"2026-05-05T14:45:00Z"}

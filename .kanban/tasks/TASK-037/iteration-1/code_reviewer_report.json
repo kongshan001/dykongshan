@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":8.5,"improvements":["活动数据需要TTL过期机制","推荐算法需要AB测试"],"risks":["活动数据来源可靠性"],"architecture_issues":["活动服务与行程服务紧耦合"],"code_style_violations":["缺少数据源注释"],"timestamp":"2026-05-05T14:45:00Z"}
