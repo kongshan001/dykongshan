@@ -1,7 +1,7 @@
 {
   "id": "TASK-033",
-  "title": "旅行城市间交通预订整合",
-  "description": "high",
+  "title": "旅行天气智能穿衣建议",
+  "description": "medium",
   "engine": "claude-code",
   "status": "archive",
   "phase": "archive",
@@ -27,37 +27,37 @@
     {
       "phase": "plan",
       "status": "entered",
-      "entered_at": "2026-05-05T14:14:28Z"
+      "entered_at": "2026-05-05T19:10:46Z"
     },
     {
       "phase": "execute",
       "status": "entered",
-      "entered_at": "2026-05-05T14:46:18Z"
+      "entered_at": "2026-05-05T19:11:08Z"
     },
     {
       "phase": "evaluate",
       "status": "entered",
-      "entered_at": "2026-05-05T14:47:10Z"
+      "entered_at": "2026-05-05T19:11:26Z"
     },
     {
       "phase": "retrospective",
       "status": "entered",
-      "entered_at": "2026-05-05T14:47:49Z"
+      "entered_at": "2026-05-05T19:11:41Z"
     },
     {
       "phase": "user_decision",
       "status": "entered",
-      "entered_at": "2026-05-05T14:47:49Z"
+      "entered_at": "2026-05-05T19:11:41Z"
     },
     {
       "phase": "archive",
       "status": "entered",
-      "entered_at": "2026-05-05T14:47:50Z"
+      "entered_at": "2026-05-05T19:11:42Z"
     }
   ],
   "user_decision": "approve_and_archive",
   "requires_archive_confirmation": true,
-  "created_at": "2026-05-05T14:14:12Z",
-  "updated_at": "2026-05-05T14:14:12Z",
-  "entered_at": "2026-05-05T14:47:50Z"
+  "created_at": "2026-05-05T19:10:43Z",
+  "updated_at": "2026-05-05T19:10:43Z",
+  "entered_at": "2026-05-05T19:11:42Z"
 }

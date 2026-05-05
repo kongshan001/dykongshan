@@ -1,1 +1,1 @@
-{"role":"qa","score":8.5,"improvements":["价格变动超售测试","API超时降级测试"],"risks":["供应商API不稳定"],"missing_tests":["超售场景测试","价格锁定超时测试","跨时区测试"],"test_coverage":0.85,"timestamp":"2026-05-05T14:40:00Z"}
+{"role":"qa","score":8.5,"improvements":["极端天气测试","南半球季节测试"],"risks":["规则覆盖率"],"missing_tests":["极端天气测试","规则准确性测试"],"test_coverage":0.82,"timestamp":"2026-05-05T19:10:00Z"}

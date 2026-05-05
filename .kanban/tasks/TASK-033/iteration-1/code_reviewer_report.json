@@ -1,1 +1,1 @@
-{"role":"code_reviewer","score":8.5,"improvements":["供应商API需要熔断器","价格锁定需要Redis缓存"],"risks":["多供应商API成本高"],"architecture_issues":["预订服务与供应商服务紧耦合"],"code_style_violations":["缺少价格计算精度注释"],"timestamp":"2026-05-05T14:40:00Z"}
+{"role":"code_reviewer","score":8.0,"improvements":["穿衣规则需要版本管理","支持自定义穿衣偏好"],"risks":["规则维护成本"],"architecture_issues":["建议服务与天气服务耦合"],"code_style_violations":["缺少规则配置化"],"timestamp":"2026-05-05T19:10:00Z"}
