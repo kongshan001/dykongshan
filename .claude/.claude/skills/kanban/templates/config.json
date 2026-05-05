@@ -1,0 +1,32 @@
+{
+  "project": "",
+  "trunk": "main",
+  "engine": {
+    "default": "claude-code"
+  },
+  "timeout": {
+    "plan_seconds": 300,
+    "execute_seconds": 600,
+    "evaluate_seconds": 300,
+    "single_agent_seconds": 180
+  },
+  "retry": {
+    "max_retries": 2,
+    "backoff_seconds": [30, 60]
+  },
+  "budget": {
+    "per_task": 500000,
+    "per_phase": {
+      "plan": 50000,
+      "execute": 200000,
+      "evaluate": 150000
+    },
+    "warning_threshold": 0.8,
+    "hard_limit": true
+  },
+  "scheduler": {
+    "max_parallel": 3,
+    "poll_interval_seconds": 30,
+    "conflict_strategy": "serialize"
+  }
+}

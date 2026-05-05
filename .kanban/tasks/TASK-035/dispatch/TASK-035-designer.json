@@ -1,0 +1,28 @@
+{
+  "role": "designer",
+  "task_id": "TASK-035",
+  "task_title": "旅行保险理赔流程指引",
+  "task_description": "medium",
+  "iteration": 1,
+  "worktree_path": "/root/.openclaw/workspace/.kanban/worktrees/TASK-035",
+  "output_dir": "src",
+  "report_dir": ".kanban/tasks/TASK-035/iteration-1",
+  "report_file": ".kanban/tasks/TASK-035/iteration-1/designer_report.json",
+  "required_fields": [
+    "score",
+    "improvements",
+    "risks",
+    "visual_score",
+    "interaction_score",
+    "consistency_score"
+  ],
+  "schema": {
+    "score": "number (0-10)",
+    "improvements": "array of strings (改善建议)",
+    "risks": "array of strings (风险点)",
+    "visual_score": "number (0-10) 美观度评分",
+    "interaction_score": "number (0-10) 交互流畅度评分",
+    "consistency_score": "number (0-10) 一致性评分",
+    "note": "对于非UI任务，visual_score/interaction_score/consistency_score 默认给 10，总 score 给 10，表示通过"
+  }
+}

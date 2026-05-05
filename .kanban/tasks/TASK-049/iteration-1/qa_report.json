@@ -1,0 +1,1 @@
+{"role":"qa","score":8.5,"average_score":8.5,"improvements":["需要更多边界测试"],"risks":["缓存过期一致性"],"missing_tests":["preference_learner单元测试","cache TTL过期测试"],"test_coverage":0.7,"timestamp":"2026-05-05T20:16:55Z"}

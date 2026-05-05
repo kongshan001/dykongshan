@@ -1,0 +1,1 @@
+{"task_id":"TASK-051","title":"旅行当地应急服务导航","subtasks":[{"id":"S1","title":"核心引擎","description":"业务逻辑和数据模型实现","estimate_hours":4,"dependencies":[]},{"id":"S2","title":"数据层","description":"数据结构和存储","estimate_hours":3,"dependencies":["S1"]},{"id":"S3","title":"测试","description":"单元测试和边界场景","estimate_hours":3,"dependencies":["S1","S2"]}]}

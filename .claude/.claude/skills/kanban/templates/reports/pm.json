@@ -1,0 +1,16 @@
+{
+  "role": "pm",
+  "required_fields": ["score", "improvements", "risks", "extended_requirements", "requirement_coverage"],
+  "schema": {
+    "score": "number (0-10)",
+    "improvements": "array of strings (改善建议)",
+    "risks": "array of strings (风险点)",
+    "extended_requirements": "array of objects {requirement, priority, rationale}",
+    "requirement_coverage": {
+      "total_points": "number",
+      "covered_points": "number",
+      "coverage_rate": "number (0-1)",
+      "uncovered": "array of strings"
+    }
+  }
+}
