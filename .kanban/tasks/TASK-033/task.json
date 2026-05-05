@@ -1,1 +1,38 @@
-{"id":"TASK-033","title":"旅行城市间交通预订整合","description":"high","engine":"claude-code","status":"pending","phase":null,"phase_lock":null,"assignee":null,"worktree":{"branch":"feature/TASK-033","path":"","base":"main"},"iteration":0,"max_iterations":6,"token_budget":500000,"token_used":0,"scores":{},"depends_on":[],"modified_files":[],"task_breakdown":{"file":"","subtasks":[]},"history":[],"user_decision":null,"requires_archive_confirmation":true,"created_at":"2026-05-05T14:14:12Z","updated_at":"2026-05-05T14:14:12Z","entered_at":null}
+{
+  "id": "TASK-033",
+  "title": "旅行城市间交通预订整合",
+  "description": "high",
+  "engine": "claude-code",
+  "status": "planning",
+  "phase": "plan",
+  "phase_lock": "plan",
+  "assignee": null,
+  "worktree": {
+    "branch": "feature/TASK-033",
+    "path": "",
+    "base": "main"
+  },
+  "iteration": 1,
+  "max_iterations": 6,
+  "token_budget": 500000,
+  "token_used": 0,
+  "scores": {},
+  "depends_on": [],
+  "modified_files": [],
+  "task_breakdown": {
+    "file": "",
+    "subtasks": []
+  },
+  "history": [
+    {
+      "phase": "plan",
+      "status": "entered",
+      "entered_at": "2026-05-05T14:14:28Z"
+    }
+  ],
+  "user_decision": null,
+  "requires_archive_confirmation": true,
+  "created_at": "2026-05-05T14:14:12Z",
+  "updated_at": "2026-05-05T14:14:12Z",
+  "entered_at": "2026-05-05T14:14:28Z"
+}

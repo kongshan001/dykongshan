@@ -196,27 +196,27 @@
     },
     {
       "id": "TASK-033",
-      "status": "archive",
-      "phase": "archive",
+      "status": "planning",
+      "phase": "plan",
       "iteration": 1
     },
     {
       "id": "TASK-034",
-      "status": "archive",
-      "phase": "archive",
-      "iteration": 1
+      "status": "pending",
+      "phase": null,
+      "iteration": 0
     },
     {
       "id": "TASK-035",
-      "status": "archive",
-      "phase": "archive",
-      "iteration": 1
+      "status": "pending",
+      "phase": null,
+      "iteration": 0
     },
     {
       "id": "TASK-036",
-      "status": "archive",
-      "phase": "archive",
-      "iteration": 1
+      "status": "pending",
+      "phase": null,
+      "iteration": 0
     },
     {
       "id": "TASK-037",
