@@ -1,0 +1,11 @@
+{
+  "task_id": "TASK-005",
+  "title": "旅行天气预警与行程自动调整",
+  "subtasks": [
+    {"id": "S1", "title": "天气数据服务", "description": "对接OpenWeatherMap API，支持7天预报+实时天气", "estimate_hours": 3, "dependencies": []},
+    {"id": "S2", "title": "预警规则引擎", "description": "可配置的天气预警阈值和触发规则", "estimate_hours": 4, "dependencies": ["S1"]},
+    {"id": "S3", "title": "行程调整算法", "description": "根据天气推荐户外→室内活动替代方案", "estimate_hours": 5, "dependencies": ["S2"]},
+    {"id": "S4", "title": "通知服务", "description": "预警推送（飞书/邮件/短信），支持用户确认/拒绝", "estimate_hours": 3, "dependencies": ["S2"]},
+    {"id": "S5", "title": "定时调度与测试", "description": "Cron定时任务，端到端预警流程测试", "estimate_hours": 3, "dependencies": ["S3","S4"]}
+  ]
+}
