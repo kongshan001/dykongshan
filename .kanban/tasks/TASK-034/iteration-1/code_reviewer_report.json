@@ -1,1 +1,1 @@
-{"role":"code_reviewer","score":8.5,"improvements":["翻译缓存需要容量限制","小语种需要单独优化"],"risks":["DeepL API成本波动"],"architecture_issues":["翻译服务与语音服务紧耦合"],"code_style_violations":["缺少接口版本管理"],"timestamp":"2026-05-05T14:50:00Z"}
+{"role":"code_reviewer","score":8.0,"improvements":["节假日数据需要版本标注","查询缓存需要TTL策略"],"risks":["数据过时"],"architecture_issues":["节假日服务独立微服务化"],"code_style_violations":["缺少数据来源注释"],"timestamp":"2026-05-05T19:40:00Z"}
