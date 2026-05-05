@@ -1,0 +1,1 @@
+{"task_id":"TASK-054","title":"旅行行程冲突检测引擎","subtasks":[{"id":"S1","title":"数据模型","description":"核心数据结构定义","estimate_hours":3,"dependencies":[]},{"id":"S2","title":"核心引擎","description":"业务逻辑实现","estimate_hours":4,"dependencies":["S1"]},{"id":"S3","title":"测试","description":"单元测试和边界场景","estimate_hours":3,"dependencies":["S1","S2"]}]}
