@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":8.5,"improvements":["碳因子需要版本管理","抵消记录需要链上存证"],"risks":["碳信用价格波动"],"architecture_issues":["抵消服务与计算服务耦合"],"code_style_violations":["缺少碳单位转换注释"],"timestamp":"2026-05-05T15:50:00Z"}

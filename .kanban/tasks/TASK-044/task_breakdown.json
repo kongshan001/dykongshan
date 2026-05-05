@@ -1,0 +1,1 @@
+{"task_id":"TASK-044","title":"旅行保险对比与推荐","subtasks":[{"id":"S1","title":"保险数据","description":"保险产品数据库","estimate_hours":4,"dependencies":[]},{"id":"S2","title":"对比引擎","description":"多维度保险对比","estimate_hours":4,"dependencies":["S1"]},{"id":"S3","title":"智能推荐","description":"基于用户画像推荐","estimate_hours":4,"dependencies":["S2"]}]}

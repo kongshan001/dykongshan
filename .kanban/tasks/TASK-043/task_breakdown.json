@@ -1,0 +1,1 @@
+{"task_id":"TASK-043","title":"旅行紧急求助与安全定位","subtasks":[{"id":"S1","title":"SOS服务","description":"一键求助+录音","estimate_hours":4,"dependencies":[]},{"id":"S2","title":"位置共享","description":"实时位置共享","estimate_hours":3,"dependencies":[]},{"id":"S3","title":"紧急电话","description":"全球紧急电话库","estimate_hours":2,"dependencies":[]}]}

@@ -1,0 +1,1 @@
+{"task_id":"TASK-042","title":"旅行天气预警与行程调整","subtasks":[{"id":"S1","title":"天气API","description":"天气数据对接","estimate_hours":3,"dependencies":[]},{"id":"S2","title":"预警规则","description":"阈值规则引擎","estimate_hours":3,"dependencies":["S1"]},{"id":"S3","title":"行程调整","description":"替代方案推荐","estimate_hours":4,"dependencies":["S2"]}]}

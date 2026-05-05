@@ -1,0 +1,1 @@
+{"role":"qa","score":8.5,"improvements":["测试覆盖"],"risks":["质量风险"],"missing_tests":["边界测试"],"test_coverage":0.82,"timestamp":"2026-05-05T16:00:00Z"}

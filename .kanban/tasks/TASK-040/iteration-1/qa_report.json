@@ -1,0 +1,1 @@
+{"role":"qa","score":8.5,"improvements":["碳计算边界测试","抵消防重复测试"],"risks":["证书伪造风险"],"missing_tests":["边界测试","防伪验证","价格波动测试"],"test_coverage":0.83,"timestamp":"2026-05-05T15:50:00Z"}
