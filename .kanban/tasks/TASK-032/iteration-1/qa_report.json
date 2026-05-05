@@ -1,0 +1,1 @@
+{"role":"qa","score":8.5,"improvements":["文化敏感性审核测试","小众地区数据完整性测试"],"risks":["文化刻板印象风险"],"missing_tests":["敏感性测试","小众地区测试","节日日期计算测试"],"test_coverage":0.82,"timestamp":"2026-05-05T13:30:00Z"}

@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":8.5,"improvements":["保险数据需要版本控制","推荐算法需要可解释性"],"risks":["保险公司API不稳定"],"architecture_issues":["保险服务与产品数据库紧耦合"],"code_style_violations":["缺少佣金披露注释"],"timestamp":"2026-05-05T13:15:00Z"}

@@ -1,0 +1,1 @@
+{"role":"qa","score":8.5,"improvements":["弱网环境测试","多语言混说测试"],"risks":["语音识别在嘈杂环境下准确率下降"],"missing_tests":["弱网测试","多语言混说测试","离线翻译质量测试"],"test_coverage":0.81,"timestamp":"2026-05-05T13:25:00Z"}

@@ -1,0 +1,1 @@
+{"role":"qa","score":8.5,"improvements":["疫苗数据准确性人工抽检","OCR边界格式测试"],"risks":["数据过时导致误判"],"missing_tests":["数据过时测试","OCR边界测试","证书篡改检测"],"test_coverage":0.83,"timestamp":"2026-05-05T11:00:00Z"}

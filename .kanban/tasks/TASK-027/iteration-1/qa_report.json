@@ -1,0 +1,1 @@
+{"role":"qa","score":9.0,"improvements":["汇率精度边界测试","API降级场景测试"],"risks":["小众货币数据缺失"],"missing_tests":["小众货币测试","历史汇率完整性测试","API超时测试"],"test_coverage":0.87,"timestamp":"2026-05-05T11:05:00Z"}

@@ -1,0 +1,9 @@
+{
+  "role": "designer",
+  "score": 8.0,
+  "improvements": ["保险对比卡片需要更清晰", "理赔进度需要可视化"],
+  "risks": ["复杂保险条款用户可能看不懂"],
+  "visual_score": 8.0,
+  "interaction_score": 8.0,
+  "timestamp": "2026-05-05T13:15:00Z"
+}

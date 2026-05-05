@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":8.0,"improvements":["文化数据需要版本控制","内容审核工作流自动化"],"risks":["文化内容可能冒犯特定群体"],"architecture_issues":["文化服务与推荐服务耦合"],"code_style_violations":["缺少多语言内容结构化注释"],"timestamp":"2026-05-05T13:30:00Z"}

@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":8.5,"improvements":["语音流需要缓冲管理","语言切换需要平滑过渡"],"risks":["网络不稳定时体验差"],"architecture_issues":["语音服务与翻译服务耦合"],"code_style_violations":["缺少音频格式注释"],"timestamp":"2026-05-05T13:25:00Z"}

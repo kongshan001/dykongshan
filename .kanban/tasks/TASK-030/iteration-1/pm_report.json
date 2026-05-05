@@ -1,0 +1,1 @@
+{"role":"pm","score":9.0,"improvements":["备份状态可视化","自动备份频率配置"],"risks":["用户可能忘记密钥"],"extended_requirements":["备份状态可视化","备份恢复提醒","密钥托管"],"requirement_coverage":0.90,"timestamp":"2026-05-05T13:20:00Z"}

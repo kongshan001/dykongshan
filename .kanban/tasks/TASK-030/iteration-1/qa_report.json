@@ -1,0 +1,1 @@
+{"role":"qa","score":9.0,"improvements":["密钥丢失恢复测试","大量版本恢复性能测试"],"risks":["存储成本增长"],"missing_tests":["密钥丢失测试","版本恢复测试","存储成本测试"],"test_coverage":0.88,"timestamp":"2026-05-05T13:20:00Z"}

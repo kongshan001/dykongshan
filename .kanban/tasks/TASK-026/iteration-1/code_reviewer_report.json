@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":8.5,"improvements":["疫苗数据库需要版本控制和回滚","证书存储需要定期安全审计"],"risks":["健康数据合规风险"],"architecture_issues":["健康服务应独立为微服务"],"code_style_violations":["缺少数据脱敏处理"],"timestamp":"2026-05-05T11:00:00Z"}
