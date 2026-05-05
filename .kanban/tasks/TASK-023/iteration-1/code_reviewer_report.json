@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":8.5,"improvements":["分类规则需要版本管理","预算模板需要导入导出"],"risks":["规则引擎维护成本随类别增长"],"architecture_issues":["分类服务与预算服务应解耦"],"code_style_violations":["规则配置缺少类型校验"],"timestamp":"2026-05-05T08:45:00Z"}

@@ -1,0 +1,1 @@
+{"role":"qa","score":9.0,"improvements":["边界分类测试（超市/便利店）","并发记账测试"],"risks":["规则冲突导致分类错误"],"missing_tests":["边界分类测试","规则冲突测试","预警去重测试"],"test_coverage":0.86,"timestamp":"2026-05-05T08:45:00Z"}

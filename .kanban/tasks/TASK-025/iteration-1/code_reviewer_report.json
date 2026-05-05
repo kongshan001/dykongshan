@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":8.5,"improvements":["GPS围栏需要自适应精度","语音缓存需要LRU淘汰"],"risks":["GPS耗电影响手机续航"],"architecture_issues":["围栏引擎与播放服务耦合"],"code_style_violations":["缺少音频格式校验"],"timestamp":"2026-05-05T08:55:00Z"}

@@ -1,0 +1,1 @@
+{"role":"qa","score":8.0,"improvements":["大文件上传测试","审核误杀率测试"],"risks":["恶意内容绕过审核"],"missing_tests":["大文件上传测试","审核误杀率测试","XSS注入测试"],"test_coverage":0.78,"timestamp":"2026-05-05T08:50:00Z"}

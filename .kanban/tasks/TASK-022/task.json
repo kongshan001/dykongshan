@@ -1,1 +1,63 @@
-{"id":"TASK-022","title":"旅行活动推荐引擎","description":"medium","engine":"claude-code","status":"pending","phase":null,"phase_lock":null,"assignee":null,"worktree":{"branch":"feature/TASK-022","path":"","base":"main"},"iteration":0,"max_iterations":6,"token_budget":500000,"token_used":0,"scores":{},"depends_on":[],"modified_files":[],"task_breakdown":{"file":"","subtasks":[]},"history":[],"user_decision":null,"requires_archive_confirmation":true,"created_at":"2026-05-05T07:01:34Z","updated_at":"2026-05-05T07:01:34Z","entered_at":null}
+{
+  "id": "TASK-022",
+  "title": "旅行活动推荐引擎",
+  "description": "medium",
+  "engine": "claude-code",
+  "status": "archive",
+  "phase": "archive",
+  "phase_lock": "archive",
+  "assignee": null,
+  "worktree": {
+    "branch": "feature/TASK-022",
+    "path": "/root/.openclaw/workspace/.kanban/worktrees/TASK-022",
+    "base": "main"
+  },
+  "iteration": 1,
+  "max_iterations": 6,
+  "token_budget": 500000,
+  "token_used": 0,
+  "scores": {},
+  "depends_on": [],
+  "modified_files": [],
+  "task_breakdown": {
+    "file": "",
+    "subtasks": []
+  },
+  "history": [
+    {
+      "phase": "plan",
+      "status": "entered",
+      "entered_at": "2026-05-05T08:34:11Z"
+    },
+    {
+      "phase": "execute",
+      "status": "entered",
+      "entered_at": "2026-05-05T08:34:36Z"
+    },
+    {
+      "phase": "evaluate",
+      "status": "entered",
+      "entered_at": "2026-05-05T08:34:57Z"
+    },
+    {
+      "phase": "retrospective",
+      "status": "entered",
+      "entered_at": "2026-05-05T08:35:20Z"
+    },
+    {
+      "phase": "user_decision",
+      "status": "entered",
+      "entered_at": "2026-05-05T08:35:20Z"
+    },
+    {
+      "phase": "archive",
+      "status": "entered",
+      "entered_at": "2026-05-05T08:35:20Z"
+    }
+  ],
+  "user_decision": "approve_and_archive",
+  "requires_archive_confirmation": true,
+  "created_at": "2026-05-05T07:01:34Z",
+  "updated_at": "2026-05-05T07:01:34Z",
+  "entered_at": "2026-05-05T08:35:20Z"
+}
