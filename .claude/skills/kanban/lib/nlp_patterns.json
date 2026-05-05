@@ -1,0 +1,704 @@
+{
+  "_meta": {
+    "version": "1.0.0",
+    "description": "NLP keyword mapping configuration for kanban natural language command parsing",
+    "confidence_rules": {
+      "exact_match": 1.0,
+      "synonym_match": 0.8,
+      "fuzzy_match": 0.6
+    },
+    "task_id_pattern": "TASK-[0-9]{3}",
+    "supported_languages": ["zh", "en", "zh-en-mixed"],
+    "traditional_chinese": {
+      "description": "Traditional Chinese keyword mappings for common commands",
+      "mappings": {
+        "歸檔": "归档",
+        "狀態": "状态",
+        "評分": "评分",
+        "創建": "创建",
+        "新建": "新建",
+        "任務": "任务",
+        "執行": "执行",
+        "啟動": "启动",
+        "恢復": "恢复",
+        "儀表盤": "仪表盘",
+        "版本": "版本",
+        "歸檔任務": "归档任务",
+        "創建任務": "创建任务",
+        "查看狀態": "查看状态",
+        "查看評分": "查看评分",
+        "執行任務": "执行任务",
+        "初始化": "初始化",
+        "摘要": "摘要"
+      }
+    },
+    "typos": {
+      "description": "Common spelling corrections applied during preprocessing",
+      "mappings": {
+        "kanbn": "kanban",
+        "kaban": "kanban",
+        "knbana": "kanban",
+        "deside": "decide",
+        "dashbord": "dashboard",
+        "dashborad": "dashboard",
+        "dashbaord": "dashboard",
+        "statu": "status",
+        "verison": "version",
+        "initilaize": "initialize"
+      }
+    }
+  },
+  "commands": {
+    "init": {
+      "action_mapping": "init",
+      "task_id_required": false,
+      "keywords": {
+        "exact": [
+          "init",
+          "initialize"
+        ],
+        "synonyms": [
+          "初始化",
+          "初始化看板",
+          "初始化 kanban",
+          "init kanban",
+          "setup kanban",
+          "设置看板",
+          "安装 kanban",
+          "安装看板",
+          "初始化项目",
+          "kanban init",
+          "初始化系统",
+          "setup",
+          "搭建看板"
+        ],
+        "fuzzy": [
+          "开始用 kanban",
+          "第一次用",
+          "kanban 怎么开始",
+          "帮我配置 kanban",
+          "配置看板",
+          "新建看板",
+          "建立看板"
+        ]
+      },
+      "subcommands": {}
+    },
+    "create": {
+      "action_mapping": "create",
+      "task_id_required": false,
+      "keywords": {
+        "exact": [
+          "create",
+          "新建任务",
+          "创建任务",
+          "添加任务"
+        ],
+        "synonyms": [
+          "new task",
+          "add task",
+          "帮我创建",
+          "帮我新建",
+          "建个任务",
+          "加个任务",
+          "创建一个任务",
+          "新建一个任务",
+          "kanban create",
+          "开一个任务",
+          "开个任务",
+          "新任务",
+          "我要创建",
+          "增加任务",
+          "new 一个任务"
+        ],
+        "fuzzy": [
+          "帮我开个",
+          "我有个需求",
+          "我想做",
+          "帮我建",
+          "新建一个",
+          "搞个任务"
+        ]
+      },
+      "subcommands": {},
+      "parameter_hints": {
+        "title": {
+          "extraction": "remaining_text_after_keyword",
+          "required": true,
+          "description": "Task title extracted from the natural language input"
+        }
+      }
+    },
+    "status": {
+      "action_mapping": "status",
+      "task_id_required": false,
+      "keywords": {
+        "exact": [
+          "status",
+          "查看状态",
+          "看板状态"
+        ],
+        "synonyms": [
+          "show status",
+          "kanban status",
+          "任务列表",
+          "看板列表",
+          "看板怎么样了",
+          "当前状态",
+          "查看任务状态",
+          "任务情况",
+          "看板概览",
+          "所有任务",
+          "列出任务",
+          "list tasks",
+          "有哪些任务",
+          "任务都有哪些",
+          "看一下任务",
+          "看一眼状态"
+        ],
+        "fuzzy": [
+          "任务跑到哪了",
+          "任务进行得怎样",
+          "进展如何",
+          "都在做什么任务",
+          "kanban 怎么样",
+          "有什么任务在跑",
+          "看板里有啥",
+          "现在在做什么"
+        ]
+      },
+      "subcommands": {}
+    },
+    "show": {
+      "action_mapping": "show",
+      "task_id_required": true,
+      "keywords": {
+        "exact": [
+          "show"
+        ],
+        "synonyms": [
+          "查看任务",
+          "任务详情",
+          "看看任务",
+          "显示任务",
+          "show task",
+          "kanban show",
+          "这个任务怎么样了",
+          "任务什么情况",
+          "看一下这个任务",
+          "任务进展",
+          "查看详情",
+          "看看详情",
+          "任务到哪了"
+        ],
+        "fuzzy": [
+          "这个任务怎么样",
+          "任务跑完了吗",
+          "任务完成了吗",
+          "那个任务呢",
+          "帮我看看任务",
+          "查一下任务"
+        ]
+      },
+      "subcommands": {}
+    },
+    "run": {
+      "action_mapping": "run",
+      "task_id_required": true,
+      "keywords": {
+        "exact": [
+          "run"
+        ],
+        "synonyms": [
+          "运行任务",
+          "执行任务",
+          "启动任务",
+          "开始做任务",
+          "跑一下任务",
+          "run task",
+          "kanban run",
+          "开始任务",
+          "跑任务",
+          "做任务",
+          "开跑",
+          "开干",
+          "开工",
+          "run 一下",
+          "跑一下",
+          "执行一下",
+          "帮我跑",
+          "帮我运行",
+          "帮我执行",
+          "start task"
+        ],
+        "fuzzy": [
+          "开始做",
+          "动手吧",
+          "开始吧",
+          "搞起",
+          "run 起来",
+          "跑起来",
+          "启动吧"
+        ]
+      },
+      "subcommands": {
+        "phase": {
+          "plan": ["从规划开始", "从 plan 开始", "从规划阶段", "start from plan", "--phase plan"],
+          "execute": ["从执行开始", "从 execute 开始", "从执行阶段", "start from execute", "--phase execute"],
+          "evaluate": ["从评估开始", "从 evaluate 开始", "从评估阶段", "start from evaluate", "--phase evaluate"]
+        }
+      }
+    },
+    "decide": {
+      "action_mapping": "decide",
+      "task_id_required": true,
+      "keywords": {
+        "exact": [
+          "decide",
+          "approve_and_archive",
+          "approve and archive"
+        ],
+        "synonyms": [
+          "批准",
+          "批准任务",
+          "确认任务",
+          "decide task",
+          "kanban decide",
+          "决定",
+          "处理任务"
+        ],
+        "fuzzy": [
+          "这个任务可以了",
+          "确认一下",
+          "好了就这么定"
+        ]
+      },
+      "subcommands": {
+        "action": {
+          "approve_and_archive": {
+            "keywords": {
+              "exact": [
+                "approve_and_archive",
+                "approve and archive"
+              ],
+              "synonyms": [
+                "归档",
+                "批准归档",
+                "批准并归档",
+                "approve",
+                "合并到主干",
+                "确认归档",
+                "归档任务",
+                "合并代码",
+                "帮我归档",
+                "归档吧",
+                "approve 吧",
+                "确认并归档",
+                "通过并归档",
+                "通过了归档",
+                "没问题归档",
+                "accept",
+                "archive it",
+                "merge it",
+                "确认没问题",
+                "可以归档",
+                "这个可以了归档吧",
+                "完成归档",
+                "approve and archive"
+              ],
+              "fuzzy": [
+                "这个任务可以了，归档吧",
+                "没问题，批准",
+                "确认，合并吧",
+                "通过，归档",
+                "好了批准归档",
+                "可以了归档",
+                "ok归档",
+                "ok approve"
+              ]
+            }
+          },
+          "restart_from_plan": {
+            "keywords": {
+              "exact": [
+                "restart_from_plan",
+                "restart from plan"
+              ],
+              "synonyms": [
+                "重新规划",
+                "从规划重新开始",
+                "重做 plan",
+                "重新 plan",
+                "redo plan",
+                "restart plan",
+                "回到规划",
+                "重做规划",
+                "重新分析需求",
+                "从 plan 开始",
+                "从规划开始",
+                "plan again",
+                "重新来过 plan",
+                "重规划",
+                "重头规划"
+              ],
+              "fuzzy": [
+                "规划不满意重做吧",
+                "plan 不行重来",
+                "需求没搞对重新来",
+                "重做规划阶段"
+              ]
+            }
+          },
+          "restart_from_execute": {
+            "keywords": {
+              "exact": [
+                "restart_from_execute",
+                "restart from execute"
+              ],
+              "synonyms": [
+                "重新执行",
+                "从执行重新开始",
+                "重做 execute",
+                "重新 execute",
+                "redo execute",
+                "restart execute",
+                "回到执行",
+                "重做执行",
+                "重新编码",
+                "从 execute 开始",
+                "从执行开始",
+                "execute again",
+                "重新来过 execute",
+                "重执行",
+                "重新实现",
+                "重写代码"
+              ],
+              "fuzzy": [
+                "执行不满意重做吧",
+                "execute 不行重来",
+                "代码不行重写吧",
+                "重做执行阶段"
+              ]
+            }
+          },
+          "abort": {
+            "keywords": {
+              "exact": [
+                "abort"
+              ],
+              "synonyms": [
+                "取消任务",
+                "终止任务",
+                "放弃任务",
+                "取消",
+                "终止",
+                "放弃",
+                "abort task",
+                "cancel task",
+                "cancel",
+                "不做了",
+                "不要了",
+                "作废",
+                "作废任务",
+                "停掉任务",
+                "取消吧",
+                "终止吧",
+                "放弃吧",
+                "不要这个任务了",
+                "算了不做了",
+                "停掉吧"
+              ],
+              "fuzzy": [
+                "这个任务不要了",
+                "算了放弃吧",
+                "不想要了取消",
+                "放弃算了",
+                "取消掉吧"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "score": {
+      "action_mapping": "score",
+      "task_id_required": true,
+      "keywords": {
+        "exact": [
+          "score"
+        ],
+        "synonyms": [
+          "查看评分",
+          "评分",
+          "分数多少",
+          "评分如何",
+          "score task",
+          "kanban score",
+          "看看评分",
+          "查看分数",
+          "打分",
+          "几分",
+          "得了多少分",
+          "得了几分",
+          "show score",
+          "查看得分",
+          "得分怎么样",
+          "得分如何"
+        ],
+        "fuzzy": [
+          "评分怎么样",
+          "分数咋样",
+          "得了多少分啊",
+          "质量怎么样",
+          "评价如何",
+          "过了没",
+          "及格了没"
+        ]
+      },
+      "subcommands": {}
+    },
+    "summary": {
+      "action_mapping": "summary",
+      "task_id_required": true,
+      "keywords": {
+        "exact": [
+          "summary"
+        ],
+        "synonyms": [
+          "迭代摘要",
+          "任务总结",
+          "summary task",
+          "kanban summary",
+          "查看摘要",
+          "看看摘要",
+          "任务摘要",
+          "迭代总结",
+          "总结一下",
+          "摘要",
+          "summarize",
+          "看看总结",
+          "汇报一下",
+          "汇总"
+        ],
+        "fuzzy": [
+          "总结一下任务",
+          "这次迭代怎么样",
+          "做了些什么",
+          "汇报一下进度",
+          "任务总结一下",
+          "讲讲做了啥"
+        ]
+      },
+      "subcommands": {}
+    },
+    "recover": {
+      "action_mapping": "recover",
+      "task_id_required": false,
+      "keywords": {
+        "exact": [
+          "recover"
+        ],
+        "synonyms": [
+          "恢复任务",
+          "崩溃恢复",
+          "修复中断的任务",
+          "recover task",
+          "kanban recover",
+          "恢复",
+          "任务挂了",
+          "任务崩了",
+          "任务中断了",
+          "resume",
+          "修复任务",
+          "重启任务",
+          "挽救任务",
+          "修复中断",
+          "恢复中断",
+          "任务卡住了"
+        ],
+        "fuzzy": [
+          "任务跑着跑着停了",
+          "好像出了问题恢复一下",
+          "之前中断的任务怎么办",
+          "上次没跑完怎么办",
+          "resume task",
+          "继续跑",
+          "帮我恢复一下"
+        ]
+      },
+      "subcommands": {}
+    },
+    "dashboard": {
+      "action_mapping": "dashboard",
+      "task_id_required": false,
+      "keywords": {
+        "exact": [
+          "dashboard",
+          "仪表盘"
+        ],
+        "synonyms": [
+          "打开仪表盘",
+          "启动 dashboard",
+          "看板界面",
+          "看板面板",
+          "kanban dashboard",
+          "dashboard start",
+          "可视化看板",
+          "web 界面",
+          "web 看板",
+          "打开看板界面",
+          "启动看板",
+          "open dashboard",
+          "start dashboard",
+          "可视化界面",
+          "UI 界面"
+        ],
+        "fuzzy": [
+          "有界面吗",
+          "可以可视化看吗",
+          "用网页看",
+          "dashboard 打开",
+          "界面在哪"
+        ]
+      },
+      "subcommands": {
+        "subcommand": {
+          "start": {
+            "keywords": ["打开", "启动", "start", "open", "开启", "运行"]
+          },
+          "stop": {
+            "keywords": ["关闭", "停止", "stop", "关掉", "停掉", "结束"]
+          },
+          "status": {
+            "keywords": ["状态", "运行状态", "是否在运行", "running", "是否启动"]
+          },
+          "restart": {
+            "keywords": ["重启", "restart", "重新启动", "重开"]
+          }
+        }
+      }
+    },
+    "version": {
+      "action_mapping": "version",
+      "task_id_required": false,
+      "keywords": {
+        "exact": [
+          "version"
+        ],
+        "synonyms": [
+          "查看版本",
+          "版本历史",
+          "版本信息",
+          "kanban version",
+          "当前版本",
+          "版本号",
+          "version list",
+          "show version",
+          "版本",
+          "什么版本",
+          "版本列表",
+          "历史版本"
+        ],
+        "fuzzy": [
+          "kanban 更新了吗",
+          "现在是什么版本",
+          "版本多少了",
+          "最近更新了什么",
+          "升级了吗"
+        ]
+      },
+      "subcommands": {
+        "subcommand": {
+          "list": {
+            "keywords": ["列表", "历史", "list", "history", "查看", "所有版本"],
+            "default": true
+          },
+          "record": {
+            "keywords": ["记录", "record", "保存版本", "记录版本", "打 tag", "新建版本"],
+            "parameter_hints": {
+              "version": {
+                "extraction": "version_pattern",
+                "pattern": "v?[0-9]+\\.[0-9]+\\.[0-9]+",
+                "required": true,
+                "description": "Semver version string (e.g. v1.2.3 or 1.2.3)"
+              },
+              "title": {
+                "extraction": "remaining_text_after_keyword",
+                "required": false,
+                "description": "Version title or description"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "task_id_patterns": {
+    "standard": {
+      "pattern": "TASK-[0-9]{3}",
+      "description": "Standard TASK-NNN format",
+      "examples": ["TASK-001", "TASK-026", "TASK-999"]
+    },
+    "numeric_only": {
+      "pattern": "[0-9]{1,3}",
+      "description": "Numeric ID without TASK- prefix, will be zero-padded to 3 digits",
+      "examples": ["001", "026", "1", "26"],
+      "prefix_required": true
+    },
+    "chinese_number": {
+      "pattern": "zh_number",
+      "description": "Chinese number expressions, mapped to numeric",
+      "mappings": {
+        "一": 1, "二": 2, "三": 3, "四": 4, "五": 5,
+        "六": 6, "七": 7, "八": 8, "九": 9, "十": 10,
+        "十一": 11, "十二": 12, "十三": 13, "十四": 14, "十五": 15,
+        "十六": 16, "十七": 17, "十八": 18, "十九": 19, "二十": 20,
+        "二十一": 21, "二十二": 22, "二十三": 23, "二十四": 24, "二十五": 25,
+        "二十六": 26, "二十七": 27, "二十八": 28, "二十九": 29, "三十": 30,
+        "三十一": 31, "三十二": 32, "三十三": 33, "三十四": 34, "三十五": 35,
+        "三十六": 36, "三十七": 37, "三十八": 38, "三十九": 39, "四十": 40,
+        "四十一": 41, "四十二": 42, "四十三": 43, "四十四": 44, "四十五": 45,
+        "四十六": 46, "四十七": 47, "四十八": 48, "四十九": 49, "五十": 50,
+        "五十一": 51, "五十二": 52, "五十三": 53, "五十四": 54, "五十五": 55,
+        "五十六": 56, "五十七": 57, "五十八": 58, "五十九": 59, "六十": 60,
+        "六十一": 61, "六十二": 62, "六十三": 63, "六十四": 64, "六十五": 65,
+        "六十六": 66, "六十七": 67, "六十八": 68, "六十九": 69, "七十": 70,
+        "七十一": 71, "七十二": 72, "七十三": 73, "七十四": 74, "七十五": 75,
+        "七十六": 76, "七十七": 77, "七十八": 78, "七十九": 79, "八十": 80,
+        "八十一": 81, "八十二": 82, "八十三": 83, "八十四": 84, "八十五": 85,
+        "八十六": 86, "八十七": 87, "八十八": 88, "八十九": 89, "九十": 90,
+        "九十一": 91, "九十二": 92, "九十三": 93, "九十四": 94, "九十五": 95,
+        "九十六": 96, "九十七": 97, "九十八": 98, "九十九": 99
+      },
+      "examples": ["一号任务", "二十六号", "任务三"]
+    },
+    "ordinal_expressions": {
+      "description": "Ordinal expressions that imply a task reference",
+      "patterns": [
+        "第([0-9]+)号",
+        "([0-9]+)号任务",
+        "任务([0-9]+)",
+        "第([0-9]+)个任务",
+        "([0-9]+) 号"
+      ]
+    }
+  },
+  "fallback": {
+    "unrecognized_input": {
+      "message": "无法识别您的意图。请使用以下命令格式:",
+      "available_commands": [
+        "/kanban init",
+        "/kanban create \"<title>\"",
+        "/kanban status",
+        "/kanban show <task_id>",
+        "/kanban run <task_id>",
+        "/kanban decide <task_id> --action <action>",
+        "/kanban score <task_id>",
+        "/kanban summary <task_id>",
+        "/kanban recover [<task_id>]",
+        "/kanban dashboard [start|stop|status|restart]",
+        "/kanban version list"
+      ]
+    }
+  }
+}

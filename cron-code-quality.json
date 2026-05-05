@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "jobs": [
+    {
+      "id": "code-quality-maintenance",
+      "agentId": "main",
+      "name": "代码质量维护 - 30分钟",
+      "enabled": true,
+      "schedule": {
+        "kind": "every",
+        "everyMs": 1800000
+      },
+      "sessionTarget": "isolated",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行代码质量维护任务：\n\n1. cd /root/.openclaw/workspace/wangzhe-chess\n2. source venv/bin/activate\n3. 运行 ruff check src/ 检查代码\n4. 如果有可修复的问题，运行 ruff check src/ --fix\n5. 检查ruff输出，统计错误数量\n6. 如果有重大问题，修复并git push\n7. 输出简短报告：ruff错误数量、修复情况",
+        "timeoutSeconds": 120
+      },
+      "delivery": {
+        "mode": "announce"
+      }
+    }
+  ]
+}

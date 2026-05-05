@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>next.js - 项目介绍</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.7;
+            color: #24292f;
+            background: #f6f8fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #0969da 0%, #2188ff 100%);
+            color: white;
+            padding: 40px;
+        }
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+        .header .description {
+            font-size: 1.2em;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+        .stats {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 15px;
+        }
+        .stat svg { width: 18px; height: 18px; fill: currentColor; }
+        .topics {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .topic {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+        .meta {
+            background: #f6f8fa;
+            padding: 16px 40px;
+            border-bottom: 1px solid #d0d7de;
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            font-size: 14px;
+            color: #57606a;
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .content {
+            padding: 40px;
+        }
+        .content h1, .content h2, .content h3 {
+            margin: 1.5em 0 0.8em;
+            color: #24292f;
+        }
+        .content h1 { font-size: 1.8em; border-bottom: 1px solid #d0d7de; padding-bottom: 0.3em; }
+        .content h2 { font-size: 1.5em; }
+        .content h3 { font-size: 1.25em; }
+        .content p { margin: 1em 0; }
+        .content ul, .content ol {
+            margin: 1em 0;
+            padding-left: 2em;
+        }
+        .content li { margin: 0.4em 0; }
+        .content pre {
+            background: #f6f8fa;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 16px;
+            overflow-x: auto;
+            margin: 1em 0;
+        }
+        .content code {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 0.9em;
+        }
+        .content a {
+            color: #0969da;
+            text-decoration: none;
+        }
+        .content a:hover { text-decoration: underline; }
+        .footer {
+            background: #f6f8fa;
+            padding: 20px 40px;
+            text-align: center;
+            border-top: 1px solid #d0d7de;
+        }
+        .btn {
+            display: inline-block;
+            background: #0969da;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .btn:hover { background: #0a7fed; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>next.js</h1>
+            <p class="description">The React Framework</p>
+            <div class="stats">
+                <span class="stat">⭐ 138.1k</span>
+                <span class="stat">🍴 30.5k</span>
+                <span class="stat">👁 138.1k</span>
+            </div>
+            <div class="topics"><span class="topic">blog</span><span class="topic">browser</span><span class="topic">compiler</span><span class="topic">components</span><span class="topic">hybrid</span><span class="topic">nextjs</span><span class="topic">node</span><span class="topic">react</span></div>
+        </div>
+        <div class="meta">
+            <span class="meta-item">📝 JavaScript</span>
+            <span class="meta-item">📜 MIT License</span>
+            <span class="meta-item">🔗 <a href="https://github.com/vercel/next.js" style="color:inherit">vercel/next.js</a></span>
+        </div>
+        <div class="content">
+            <p><div align="center">
+  <a href="https://nextjs.org">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://assets.vercel.com/image/upload/v1662130559/nextjs/Icon_dark_background.png">
+      <img alt="Next.js logo" src="https://assets.vercel.com/image/upload/v1662130559/nextjs/Icon_light_background.png" height="128">
+    </picture>
+  </a>
+  <h1>Next.js</h1></p><p><a href="https://vercel.com"><img alt="Vercel logo" src="https://img.shields.io/badge/MADE%20BY%20Vercel-000000.svg?style=for-the-badge&logo=Vercel&labelColor=000"></a>
+<a href="https://www.npmjs.com/package/next"><img alt="NPM version" src="https://img.shields.io/npm/v/next.svg?style=for-the-badge&labelColor=000000"></a>
+<a href="https://github.com/vercel/next.js/blob/canary/license.md"><img alt="License" src="https://img.shields.io/npm/l/next.svg?style=for-the-badge&labelColor=000000"></a>
+<a href="https://github.com/vercel/next.js/discussions"><img alt="Join the community on GitHub" src="https://img.shields.io/badge/Join%20the%20community-blueviolet.svg?style=for-the-badge&logo=Next.js&labelColor=000000&logoWidth=20"></a></p><p></div></p><p><h2>Getting Started</h2></p><p>Used by some of the world's largest companies, Next.js enables you to create full-stack web applications by extending the latest React features, and integrating powerful Rust-based JavaScript tooling for the fastest builds.</p><p><li>Visit our <a href="https://nextjs.org/learn">Learn Next.js</a> course to get started with Next.js.</li>
+<li>Visit the <a href="https://nextjs.org/showcase">Next.js Showcase</a> to see more sites built with Next.js.</li></p><p><h2>Documentation</h2></p><p>Visit <a href="https://nextjs.org/docs">https://nextjs.org/docs</a> to view the full documentation.</p><p><h2>Community</h2></p><p>The Next.js community can be found on <a href="https://github.com/vercel/next.js/discussions">GitHub Discussions</a> where you can ask questions, voice ideas, and share your projects with other people.</p><p>To chat with other community members you can join the Next.js <a href="https://nextjs.org/discord">Discord</a> server.</p><p>Do note that our <a href="https://github.com/vercel/next.js/blob/canary/CODE_OF_CONDUCT.md">Code of Conduct</a> applies to all Next.js community channels. Users are <strong>highly encouraged</strong> to read and adhere to it to avoid repercussions.</p><p><h2>Contributing</h2></p><p>Contributions to Next.js are welcome and highly appreciated. However, before you jump right into it, we would like you to review our <a href="/contributing.md">Contribution Guidelines</a> to make sure you have a smooth experience contributing to Next.js.</p><p><h3>Good First Issues:</h3></p><p>We have a list of <strong><a href="https://github.com/vercel/next.js/labels/good%20first%20issue">good first issues</a></strong> that contain bugs that have a relatively limited scope. This is a great place for newcomers and beginners alike to get started, gain experience, and get familiar with our contribution process.</p><p>---
+<h2>Security</h2></p><p>If you believe you have found a security vulnerability in Next.js, we encourage you to <strong>_responsibly disclose this and NOT open a public issue_</strong>.</p><p>To participate in our Open Source Software Bug Bounty program, please email <a href="mailto:responsible.disclosure@vercel.com">responsible.disclosure@vercel.com</a>. We will add you to the program and provide further instructions for submitting your report.
+</p>
+        </div>
+        <div class="footer">
+            <a href="https://github.com/vercel/next.js" class="btn">查看 GitHub 原始仓库 →</a>
+        </div>
+    </div>
+</body>
+</html>

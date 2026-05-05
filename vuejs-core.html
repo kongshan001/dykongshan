@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>core - 项目介绍</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.7;
+            color: #24292f;
+            background: #f6f8fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #0969da 0%, #2188ff 100%);
+            color: white;
+            padding: 40px;
+        }
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+        .header .description {
+            font-size: 1.2em;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+        .stats {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 15px;
+        }
+        .stat svg { width: 18px; height: 18px; fill: currentColor; }
+        .topics {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .topic {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+        .meta {
+            background: #f6f8fa;
+            padding: 16px 40px;
+            border-bottom: 1px solid #d0d7de;
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            font-size: 14px;
+            color: #57606a;
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .content {
+            padding: 40px;
+        }
+        .content h1, .content h2, .content h3 {
+            margin: 1.5em 0 0.8em;
+            color: #24292f;
+        }
+        .content h1 { font-size: 1.8em; border-bottom: 1px solid #d0d7de; padding-bottom: 0.3em; }
+        .content h2 { font-size: 1.5em; }
+        .content h3 { font-size: 1.25em; }
+        .content p { margin: 1em 0; }
+        .content ul, .content ol {
+            margin: 1em 0;
+            padding-left: 2em;
+        }
+        .content li { margin: 0.4em 0; }
+        .content pre {
+            background: #f6f8fa;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 16px;
+            overflow-x: auto;
+            margin: 1em 0;
+        }
+        .content code {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 0.9em;
+        }
+        .content a {
+            color: #0969da;
+            text-decoration: none;
+        }
+        .content a:hover { text-decoration: underline; }
+        .footer {
+            background: #f6f8fa;
+            padding: 20px 40px;
+            text-align: center;
+            border-top: 1px solid #d0d7de;
+        }
+        .btn {
+            display: inline-block;
+            background: #0969da;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .btn:hover { background: #0a7fed; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>core</h1>
+            <p class="description">🖖 Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web.</p>
+            <div class="stats">
+                <span class="stat">⭐ 53.1k</span>
+                <span class="stat">🍴 9.1k</span>
+                <span class="stat">👁 53.1k</span>
+            </div>
+            
+        </div>
+        <div class="meta">
+            <span class="meta-item">📝 TypeScript</span>
+            <span class="meta-item">📜 MIT License</span>
+            <span class="meta-item">🔗 <a href="https://github.com/vuejs/core" style="color:inherit">vuejs/core</a></span>
+        </div>
+        <div class="content">
+            <p><h1>vuejs/core <a href="https://img.shields.io/npm/v/vue.svg">![npm</a>](https://www.npmjs.com/package/vue) <a href="https://github.com/vuejs/core/actions/workflows/ci.yml/badge.svg?branch=main">![build status</a>](https://github.com/vuejs/core/actions/workflows/ci.yml) <a href="https://img.shields.io/npm/dm/vue">![Download</a>](https://www.npmjs.com/package/vue)</h1></p><p><h2>Getting Started</h2></p><p>Please follow the documentation at <a href="https://vuejs.org/">vuejs.org</a>!</p><p><h2>Sponsors</h2></p><p>Vue.js is an MIT-licensed open source project with its ongoing development made possible entirely by the support of these awesome <a href="https://github.com/vuejs/core/blob/main/BACKERS.md">backers</a>. If you'd like to join them, please consider <a href="https://vuejs.org/sponsor/">sponsoring Vue's development</a>.</p><p><p align="center">
+  <h3 align="center">Special Sponsor</h3>
+</p></p><p><p align="center">
+  <a target="_blank" href="https://betterstack.com/">
+  <img alt="special sponsor" src="https://automation.vuejs.org/images/better_stack.png" width="300">
+  </a>
+</p></p><p><p align="center">
+  <a target="_blank" href="https://vuejs.org/sponsor/#current-sponsors">
+    <img alt="sponsors" src="https://sponsors.vuejs.org/sponsors.svg?v3">
+  </a>
+</p></p><p><h2>Questions</h2></p><p>For questions and support please use <a href="https://forum.vuejs.org">the official forum</a> or <a href="https://chat.vuejs.org/">community chat</a>. The issue list of this repo is <strong>exclusively</strong> for bug reports and feature requests.</p><p><h2>Issues</h2></p><p>Please make sure to respect issue requirements and use <a href="https://new-issue.vuejs.org/">the new issue helper</a> when opening an issue. Issues not conforming to the guidelines may be closed immediately.</p><p><h2>Stay In Touch</h2></p><p><li><a href="https://x.com/vuejs">X</a></li>
+<li><a href="https://bsky.app/profile/vuejs.org">Bluesky</a></li>
+<li><a href="https://blog.vuejs.org/">Blog</a></li>
+<li><a href="https://vuejobs.com/?ref=vuejs">Job Board</a></li></p><p><h2>Contribution</h2></p><p>Please make sure to read the <a href="https://github.com/vuejs/core/blob/main/.github/contributing.md">Contributing Guide</a> before making a pull request. If you have a Vue-related project/component/tool, add it with a pull request to <a href="https://github.com/vuejs/awesome-vue">this curated list</a>!</p><p>Thank you to all the people who already contributed to Vue!</p><p><a href="https://github.com/vuejs/core/graphs/contributors"><img src="https://opencollective.com/vuejs/contributors.svg?width=890&limit=500" /></a></p><p><sub>_Note: Showing the first 500 contributors only due to GitHub image size limitations_</sub></p><p><h2>License</h2></p><p><a href="https://opensource.org/licenses/MIT">MIT</a></p><p>Copyright (c) 2013-present, Yuxi (Evan) You
+</p>
+        </div>
+        <div class="footer">
+            <a href="https://github.com/vuejs/core" class="btn">查看 GitHub 原始仓库 →</a>
+        </div>
+    </div>
+</body>
+</html>

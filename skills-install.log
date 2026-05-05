@@ -1,0 +1,40 @@
+=== 开始安装 Skills Tue Feb 24 12:40:05 AM CST 2026 ===
+正在安装: code
+- Resolving code
+✔ OK. Installed code -> /usr/lib/node_modules/openclaw/skills/code
+✅ code 安装成功
+正在安装: git-essentials
+- Resolving git-essentials
+✖ Rate limit exceeded
+Error: Rate limit exceeded
+❌ git-essentials 安装失败
+正在安装: docker-essentials
+- Resolving docker-essentials
+✖ Rate limit exceeded
+Error: Rate limit exceeded
+❌ docker-essentials 安装失败
+正在安装: test-runner
+- Resolving test-runner
+✔ OK. Installed test-runner -> /usr/lib/node_modules/openclaw/skills/test-runner
+✅ test-runner 安装成功
+正在安装: python-executor
+- Resolving python-executor
+✖ Rate limit exceeded
+Error: Rate limit exceeded
+❌ python-executor 安装失败
+正在安装: database-operations
+- Resolving database-operations
+✖ Rate limit exceeded
+Error: Rate limit exceeded
+❌ database-operations 安装失败
+正在安装: mcp-skill
+- Resolving mcp-skill
+✖ Rate limit exceeded
+Error: Rate limit exceeded
+❌ mcp-skill 安装失败
+正在安装: playwright-mcp
+- Resolving playwright-mcp
+✖ Rate limit exceeded
+Error: Rate limit exceeded
+❌ playwright-mcp 安装失败
+=== 安装完成 Tue Feb 24 12:42:21 AM CST 2026 ===

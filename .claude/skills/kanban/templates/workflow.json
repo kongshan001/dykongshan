@@ -1,0 +1,63 @@
+{
+  "phases": [
+    {
+      "id": "plan",
+      "name": "规划阶段",
+      "required_artifacts": ["requirements.md", "task_breakdown.json"],
+      "required_checks": ["worktree_exists", "framework_check"],
+      "exit_condition": "all_artifacts_present AND all_checks_pass"
+    },
+    {
+      "id": "execute",
+      "name": "执行阶段",
+      "required_artifacts": ["source_code_committed", "execution_summary.md", "execution_pitfalls.md", "execution_decisions.md"],
+      "required_checks": ["tests_run"],
+      "exit_condition": "all_artifacts_present AND all_checks_pass"
+    },
+    {
+      "id": "evaluate",
+      "name": "评估阶段",
+      "roles": ["code_reviewer", "qa", "pm", "designer"],
+      "pass_threshold": 9.0,
+      "report_required_fields": ["score", "improvements", "risks"],
+      "exit_condition": "all_roles_scored"
+    },
+    {
+      "id": "retrospective",
+      "name": "迭代复盘",
+      "description": "对当前迭代进行复盘总结，提取经验教训",
+      "agent": "knowledge-manager",
+      "required_artifacts": ["retrospective.md"],
+      "quality_gate": {
+        "dimensions": [],
+        "pass_threshold": 0
+      },
+      "exit_condition": "all_artifacts_present"
+    },
+    {
+      "id": "archive",
+      "name": "归档阶段",
+      "required_artifacts": ["archive_summary.md"],
+      "exit_condition": "all_artifacts_present"
+    }
+  ],
+  "self_improve": {
+    "max_iterations": 6,
+    "exit_all_pass": true,
+    "default_restart_from": "plan",
+    "hot_iteration": {
+      "trigger": "score >= 7.0 AND no_architecture_issues AND plan_artifacts_still_valid",
+      "restart_from": "execute",
+      "guard_check": "previous_plan_artifacts_exist_and_not_expired"
+    },
+    "full_iteration": {
+      "trigger": "DEFAULT",
+      "restart_from": "plan"
+    }
+  },
+  "user_decision": {
+    "trigger": "all_pass OR max_iterations_reached",
+    "prerequisite_phase": "retrospective",
+    "options": ["approve_and_archive", "restart_from_plan", "restart_from_execute", "abort"]
+  }
+}

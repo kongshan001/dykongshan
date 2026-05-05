@@ -1,0 +1,41 @@
+{
+  "task_id": "TASK-001",
+  "title": "旅行行程PDF导出功能",
+  "subtasks": [
+    {
+      "id": "S1",
+      "title": "PDF生成服务基础架构",
+      "description": "搭建Puppeteer PDF生成服务，支持HTML模板渲染",
+      "estimate_hours": 4,
+      "dependencies": []
+    },
+    {
+      "id": "S2",
+      "title": "行程数据聚合层",
+      "description": "从数据库聚合行程、住宿、交通、活动数据",
+      "estimate_hours": 3,
+      "dependencies": []
+    },
+    {
+      "id": "S3",
+      "title": "PDF模板设计",
+      "description": "设计封面、章节页、日程页、预算页HTML/CSS模板",
+      "estimate_hours": 5,
+      "dependencies": ["S1"]
+    },
+    {
+      "id": "S4",
+      "title": "导出API开发",
+      "description": "POST /api/trips/:id/export-pdf，含异步队列",
+      "estimate_hours": 3,
+      "dependencies": ["S1", "S2"]
+    },
+    {
+      "id": "S5",
+      "title": "集成测试与优化",
+      "description": "端到端测试、性能优化、中文字体支持",
+      "estimate_hours": 4,
+      "dependencies": ["S3", "S4"]
+    }
+  ]
+}

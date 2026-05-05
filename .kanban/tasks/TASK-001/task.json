@@ -1,0 +1,63 @@
+{
+  "id": "TASK-001",
+  "title": "实现旅行行程PDF导出功能",
+  "description": "high",
+  "engine": "claude-code",
+  "status": "archive",
+  "phase": "archive",
+  "phase_lock": "archive",
+  "assignee": null,
+  "worktree": {
+    "branch": "feature/TASK-001",
+    "path": "/root/.openclaw/workspace/.kanban/worktrees/TASK-001",
+    "base": "main"
+  },
+  "iteration": 1,
+  "max_iterations": 6,
+  "token_budget": 500000,
+  "token_used": 0,
+  "scores": {},
+  "depends_on": [],
+  "modified_files": [],
+  "task_breakdown": {
+    "file": "",
+    "subtasks": []
+  },
+  "history": [
+    {
+      "phase": "plan",
+      "status": "entered",
+      "entered_at": "2026-05-05T04:11:34Z"
+    },
+    {
+      "phase": "execute",
+      "status": "entered",
+      "entered_at": "2026-05-05T04:12:33Z"
+    },
+    {
+      "phase": "evaluate",
+      "status": "entered",
+      "entered_at": "2026-05-05T04:13:26Z"
+    },
+    {
+      "phase": "retrospective",
+      "status": "entered",
+      "entered_at": "2026-05-05T04:14:09Z"
+    },
+    {
+      "phase": "user_decision",
+      "status": "entered",
+      "entered_at": "2026-05-05T04:14:34Z"
+    },
+    {
+      "phase": "archive",
+      "status": "entered",
+      "entered_at": "2026-05-05T04:14:44Z"
+    }
+  ],
+  "user_decision": "approve_and_archive",
+  "requires_archive_confirmation": true,
+  "created_at": "2026-05-05T04:10:16Z",
+  "updated_at": "2026-05-05T04:10:16Z",
+  "entered_at": "2026-05-05T04:14:44Z"
+}

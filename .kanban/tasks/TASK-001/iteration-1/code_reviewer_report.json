@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":8.5,"improvements":["增加TypeScript类型覆盖率","PDF模板需要错误边界处理"],"risks":["Puppeteer版本升级可能破坏API"],"architecture_issues":["缺少PDF模板缓存层"],"code_style_violations":["部分文件缺少JSDoc注释"],"timestamp":"2026-05-05T04:15:00Z"}
