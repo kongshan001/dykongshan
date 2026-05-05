@@ -1,1 +1,1 @@
-{"role":"pm","score":8.5,"improvements":["功能增强"],"risks":["需求变化"],"extended_requirements":["扩展功能"],"requirement_coverage":0.85,"timestamp":"2026-05-05T16:00:00Z"}
+{"role":"pm","score":9.0,"improvements":["礼仪课程推荐","目的地文化深度游"],"risks":["礼仪禁忌内容可能引起文化争议"],"extended_requirements":["礼仪课程","文化深度游","专家问答"],"requirement_coverage":0.87,"timestamp":"2026-05-06T01:30:00Z"}

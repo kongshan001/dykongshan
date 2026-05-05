@@ -1,1 +1,1 @@
-{"role":"code_reviewer","score":8.0,"improvements":["代码优化"],"risks":["架构风险"],"architecture_issues":["服务耦合"],"code_style_violations":["缺少注释"],"timestamp":"2026-05-05T16:00:00Z"}
+{"role":"code_reviewer","score":8.5,"improvements":["Yjs文档需要定期gc","WebSocket需要心跳检测"],"risks":["长时间离线合并OOM"],"architecture_issues":["协同服务与行程服务耦合"],"code_style_violations":["缺少协同状态类型定义"],"timestamp":"2026-05-06T01:35:00Z"}

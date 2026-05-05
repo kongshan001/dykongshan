@@ -1,1 +1,1 @@
-{"role":"code_reviewer","score":8.0,"improvements":["代码优化"],"risks":["架构风险"],"architecture_issues":["服务耦合"],"code_style_violations":["缺少注释"],"timestamp":"2026-05-05T16:00:00Z"}
+{"role":"code_reviewer","score":8.0,"improvements":["知识图谱需要版本管理","数据需要定期更新"],"risks":["数据准确性依赖专家审核"],"architecture_issues":["礼仪服务与推送服务耦合"],"code_style_violations":["缺少数据校验逻辑"],"timestamp":"2026-05-06T01:30:00Z"}
