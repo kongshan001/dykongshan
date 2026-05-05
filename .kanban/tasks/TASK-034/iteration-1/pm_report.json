@@ -1,1 +1,1 @@
-{"role":"pm","score":8.5,"improvements":["人流历史对比图","景点排队预测"],"risks":["预测不准确导致用户浪费时间"],"extended_requirements":["历史人流对比","排队时间预测","替代景点推荐"],"requirement_coverage":0.85,"timestamp":"2026-05-05T13:35:00Z"}
+{"role":"pm","score":8.5,"improvements":["翻译历史记录","常用短语收藏"],"risks":["用户可能过度依赖翻译"],"extended_requirements":["翻译历史","收藏短语","语音速度调节"],"requirement_coverage":0.87,"timestamp":"2026-05-05T14:50:00Z"}

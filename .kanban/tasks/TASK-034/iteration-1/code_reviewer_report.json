@@ -1,1 +1,1 @@
-{"role":"code_reviewer","score":8.5,"improvements":["模型需要定期重训练","数据源需要监控"],"risks":["模型过期导致预测偏差"],"architecture_issues":["预测服务与数据源紧耦合"],"code_style_violations":["缺少模型版本注释"],"timestamp":"2026-05-05T13:35:00Z"}
+{"role":"code_reviewer","score":8.5,"improvements":["翻译缓存需要容量限制","小语种需要单独优化"],"risks":["DeepL API成本波动"],"architecture_issues":["翻译服务与语音服务紧耦合"],"code_style_violations":["缺少接口版本管理"],"timestamp":"2026-05-05T14:50:00Z"}
