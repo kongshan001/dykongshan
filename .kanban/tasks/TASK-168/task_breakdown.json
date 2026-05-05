@@ -1,0 +1,1 @@
+{"task_id":"TASK-168","title":"旅行AI行程对话助手","subtasks":[{"id":"S1","title":"数据模型","estimate_hours":3,"dependencies":[]},{"id":"S2","title":"核心引擎","estimate_hours":4,"dependencies":["S1"]},{"id":"S3","title":"测试","estimate_hours":3,"dependencies":["S1","S2"]}]}
