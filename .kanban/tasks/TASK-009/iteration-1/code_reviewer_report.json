@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":8.5,"improvements":["翻译缓存需要TTL和容量限制","API降级策略需要熔断器"],"risks":["DeepL API价格波动影响成本"],"architecture_issues":["翻译服务与OCR服务耦合"],"code_style_violations":["缺少接口版本管理"],"timestamp":"2026-05-05T05:30:00Z"}

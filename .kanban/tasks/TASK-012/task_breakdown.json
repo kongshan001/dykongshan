@@ -1,0 +1,11 @@
+{
+  "task_id": "TASK-012",
+  "title": "旅行碳足迹追踪",
+  "subtasks": [
+    {"id": "S1", "title": "碳排放因子库", "description": "飞机/高铁/自驾/酒店等碳排放因子数据库", "estimate_hours": 3, "dependencies": []},
+    {"id": "S2", "title": "自动计算引擎", "description": "基于行程数据自动聚合碳排放", "estimate_hours": 4, "dependencies": ["S1"]},
+    {"id": "S3", "title": "低碳推荐", "description": "对比分析，推荐低碳替代方案", "estimate_hours": 4, "dependencies": ["S2"]},
+    {"id": "S4", "title": "碳抵消集成", "description": "对接碳抵消平台，一键购买碳中和", "estimate_hours": 3, "dependencies": ["S2"]},
+    {"id": "S5", "title": "可视化与测试", "description": "碳排放图表、排行榜、计算准确性验证", "estimate_hours": 3, "dependencies": ["S3","S4"]}
+  ]
+}

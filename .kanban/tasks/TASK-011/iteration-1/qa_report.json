@@ -1,0 +1,1 @@
+{"role":"qa","score":9.0,"improvements":["GPS信号弱的极端场景测试","SOS误触发处理流程"],"risks":["网络不可用时SOS无法送达"],"missing_tests":["GPS弱信号测试","误触发处理测试","网络不可用降级测试"],"test_coverage":0.85,"timestamp":"2026-05-05T05:40:00Z"}

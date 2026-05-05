@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":8.0,"improvements":["碳排放因子需要版本管理","计算结果需要缓存"],"risks":["碳抵消API供应商不稳定"],"architecture_issues":["计算引擎与抵消服务应解耦"],"code_style_violations":["因子数据硬编码应外置到配置"],"timestamp":"2026-05-05T05:45:00Z"}

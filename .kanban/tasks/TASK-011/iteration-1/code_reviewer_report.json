@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":9.0,"improvements":["位置数据需要端到端加密","录音数据需要脱敏处理"],"risks":["位置隐私泄露风险"],"architecture_issues":["位置服务应该独立微服务化"],"code_style_violations":["缺少安全相关代码注释"],"timestamp":"2026-05-05T05:40:00Z"}
