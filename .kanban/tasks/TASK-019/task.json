@@ -1,0 +1,63 @@
+{
+  "id": "TASK-019",
+  "title": "旅行航班动态追踪",
+  "description": "high",
+  "engine": "claude-code",
+  "status": "archive",
+  "phase": "archive",
+  "phase_lock": "archive",
+  "assignee": null,
+  "worktree": {
+    "branch": "feature/TASK-019",
+    "path": "/root/.openclaw/workspace/.kanban/worktrees/TASK-019",
+    "base": "main"
+  },
+  "iteration": 1,
+  "max_iterations": 6,
+  "token_budget": 500000,
+  "token_used": 0,
+  "scores": {},
+  "depends_on": [],
+  "modified_files": [],
+  "task_breakdown": {
+    "file": "",
+    "subtasks": []
+  },
+  "history": [
+    {
+      "phase": "plan",
+      "status": "entered",
+      "entered_at": "2026-05-05T06:33:15Z"
+    },
+    {
+      "phase": "execute",
+      "status": "entered",
+      "entered_at": "2026-05-05T06:33:38Z"
+    },
+    {
+      "phase": "evaluate",
+      "status": "entered",
+      "entered_at": "2026-05-05T06:34:07Z"
+    },
+    {
+      "phase": "retrospective",
+      "status": "entered",
+      "entered_at": "2026-05-05T06:34:34Z"
+    },
+    {
+      "phase": "user_decision",
+      "status": "entered",
+      "entered_at": "2026-05-05T06:34:34Z"
+    },
+    {
+      "phase": "archive",
+      "status": "entered",
+      "entered_at": "2026-05-05T06:34:35Z"
+    }
+  ],
+  "user_decision": "approve_and_archive",
+  "requires_archive_confirmation": true,
+  "created_at": "2026-05-05T06:30:28Z",
+  "updated_at": "2026-05-05T06:30:28Z",
+  "entered_at": "2026-05-05T06:34:35Z"
+}

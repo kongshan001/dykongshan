@@ -1,0 +1,1 @@
+{"role":"pm","score":8.5,"improvements":["版本对比可视化增强","自动保存频率可配置"],"risks":["用户可能不理解版本历史概念"],"extended_requirements":["版本对比可视化","自动保存频率配置","版本合并"],"requirement_coverage":0.85,"timestamp":"2026-05-05T06:30:00Z"}

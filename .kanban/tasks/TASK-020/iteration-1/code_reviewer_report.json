@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":8.5,"improvements":["OAuth令牌需要加密存储","需要处理日历API限流"],"risks":["OAuth授权被用户撤销"],"architecture_issues":["日历同步应抽象为通用同步框架"],"code_style_violations":["缺少OAuth错误处理"],"timestamp":"2026-05-05T06:45:00Z"}

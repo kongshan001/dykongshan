@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":8.0,"improvements":["API密钥需要加密存储","需要请求限流保护"],"risks":["FlightAware API价格变动"],"architecture_issues":["航班服务与行程调整耦合"],"code_style_violations":["缺少API错误码映射"],"timestamp":"2026-05-05T06:40:00Z"}

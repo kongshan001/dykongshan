@@ -1,0 +1,1 @@
+{"role":"code_reviewer","score":8.5,"improvements":["签证数据需要数据校验机制","查询结果需要缓存"],"risks":["签证数据过时导致用户误判"],"architecture_issues":["数据更新机制与主服务解耦不足"],"code_style_violations":["缺少数据源说明注释"],"timestamp":"2026-05-05T06:35:00Z"}
