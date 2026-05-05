@@ -1,1 +1,1 @@
-{"role":"pm","score":9.0,"improvements":["机场地图导航","行李转盘信息"],"risks":["延误信息引起焦虑"],"extended_requirements":["机场地图","行李转盘","值机提醒"],"requirement_coverage":0.88,"timestamp":"2026-05-05T15:55:00Z"}
+{"role":"pm","score":9.0,"improvements":["语言偏好自动记忆","用户自定义翻译"],"risks":["翻译质量依赖语料"],"extended_requirements":["自定义翻译","语言偏好记忆"],"requirement_coverage":0.88,"timestamp":"2026-05-05T18:00:00Z"}

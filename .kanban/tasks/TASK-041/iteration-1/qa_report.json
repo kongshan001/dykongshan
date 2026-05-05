@@ -1,1 +1,1 @@
-{"role":"qa","score":8.5,"improvements":["API降级测试","跨时区航班测试"],"risks":["数据准确性依赖第三方"],"missing_tests":["降级测试","跨时区测试"],"test_coverage":0.81,"timestamp":"2026-05-05T15:55:00Z"}
+{"role":"qa","score":8.5,"improvements":["6语言渲染测试","字体覆盖率测试"],"risks":["RTL语言测试不足"],"missing_tests":["6语言完整渲染测试","RTL测试"],"test_coverage":0.82,"timestamp":"2026-05-05T18:00:00Z"}

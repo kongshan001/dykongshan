@@ -1,6 +1,6 @@
 {
   "id": "TASK-041",
-  "title": "旅行智能打包助手",
+  "title": "旅行行程PDF导出功能的国际化支持",
   "description": "medium",
   "engine": "claude-code",
   "status": "archive",
@@ -27,37 +27,37 @@
     {
       "phase": "plan",
       "status": "entered",
-      "entered_at": "2026-05-05T17:06:24Z"
+      "entered_at": "2026-05-05T18:06:43Z"
     },
     {
       "phase": "execute",
       "status": "entered",
-      "entered_at": "2026-05-05T17:07:00Z"
+      "entered_at": "2026-05-05T18:08:30Z"
     },
     {
       "phase": "evaluate",
       "status": "entered",
-      "entered_at": "2026-05-05T17:36:23Z"
+      "entered_at": "2026-05-05T18:08:53Z"
     },
     {
       "phase": "retrospective",
       "status": "entered",
-      "entered_at": "2026-05-05T17:36:27Z"
+      "entered_at": "2026-05-05T18:09:15Z"
     },
     {
       "phase": "user_decision",
       "status": "entered",
-      "entered_at": "2026-05-05T17:36:42Z"
+      "entered_at": "2026-05-05T18:09:15Z"
     },
     {
       "phase": "archive",
       "status": "entered",
-      "entered_at": "2026-05-05T17:36:43Z"
+      "entered_at": "2026-05-05T18:09:16Z"
     }
   ],
   "user_decision": "approve_and_archive",
   "requires_archive_confirmation": true,
-  "created_at": "2026-05-05T17:06:17Z",
-  "updated_at": "2026-05-05T17:06:17Z",
-  "entered_at": "2026-05-05T17:36:43Z"
+  "created_at": "2026-05-05T18:06:38Z",
+  "updated_at": "2026-05-05T18:06:38Z",
+  "entered_at": "2026-05-05T18:09:16Z"
 }

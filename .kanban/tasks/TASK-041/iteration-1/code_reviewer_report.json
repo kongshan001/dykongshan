@@ -1,1 +1,1 @@
-{"role":"code_reviewer","score":8.0,"improvements":["API缓存需要优化","需要请求限流"],"risks":["FlightAware价格波动"],"architecture_issues":["航班服务与行程调整耦合"],"code_style_violations":["缺少API错误处理"],"timestamp":"2026-05-05T15:55:00Z"}
+{"role":"code_reviewer","score":8.5,"improvements":["i18n资源需要版本管理","RTL语言支持"],"risks":["字体子集化可能有遗漏字符"],"architecture_issues":["i18n服务与PDF服务耦合"],"code_style_violations":["缺少语言检测注释"],"timestamp":"2026-05-05T18:00:00Z"}

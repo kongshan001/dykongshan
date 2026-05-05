@@ -250,21 +250,21 @@
     },
     {
       "id": "TASK-042",
-      "status": "archive",
-      "phase": "archive",
-      "iteration": 1
+      "status": "pending",
+      "phase": null,
+      "iteration": 0
     },
     {
       "id": "TASK-043",
-      "status": "archive",
-      "phase": "archive",
-      "iteration": 1
+      "status": "pending",
+      "phase": null,
+      "iteration": 0
     },
     {
       "id": "TASK-044",
-      "status": "archive",
-      "phase": "archive",
-      "iteration": 1
+      "status": "pending",
+      "phase": null,
+      "iteration": 0
     },
     {
       "id": "TASK-045",
@@ -289,6 +289,30 @@
       "status": "archive",
       "phase": "archive",
       "iteration": 1
+    },
+    {
+      "id": "TASK-049",
+      "status": "pending",
+      "phase": null,
+      "iteration": 0
+    },
+    {
+      "id": "TASK-050",
+      "status": "pending",
+      "phase": null,
+      "iteration": 0
+    },
+    {
+      "id": "TASK-051",
+      "status": "pending",
+      "phase": null,
+      "iteration": 0
+    },
+    {
+      "id": "TASK-052",
+      "status": "pending",
+      "phase": null,
+      "iteration": 0
     }
   ]
 }
