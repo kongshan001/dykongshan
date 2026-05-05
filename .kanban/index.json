@@ -217,6 +217,30 @@
       "status": "archive",
       "phase": "archive",
       "iteration": 1
+    },
+    {
+      "id": "TASK-037",
+      "status": "planning",
+      "phase": "plan",
+      "iteration": 1
+    },
+    {
+      "id": "TASK-038",
+      "status": "pending",
+      "phase": null,
+      "iteration": 0
+    },
+    {
+      "id": "TASK-039",
+      "status": "pending",
+      "phase": null,
+      "iteration": 0
+    },
+    {
+      "id": "TASK-040",
+      "status": "pending",
+      "phase": null,
+      "iteration": 0
     }
   ]
 }
