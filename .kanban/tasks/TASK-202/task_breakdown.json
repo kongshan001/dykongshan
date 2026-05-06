@@ -1,0 +1,1 @@
+{"task_id":"TASK-202","subtasks":[{"id":"ST-001","title":"咖啡店数据模型","files":["src/coffee/models/shop.ts"],"estimated_minutes":40},{"id":"ST-002","title":"全球咖啡店数据集","files":["src/coffee/data/shops.ts"],"estimated_minutes":120}]}

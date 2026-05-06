@@ -124,6 +124,8 @@ worktree_create() {
       local wt_path=$(wt path "$branch" 2>/dev/null || echo "")
       kanban_update_task "$task_id" ".worktree.branch=\"$branch\" | .worktree.path=\"$wt_path\""
       echo "Created worktree via wt: $branch"
+      # ST-007: 检查新 worktree 是否被 git 追踪
+      _worktree_untrack_check "$wt_path" "$task_id"
       return 0
     fi
     echo "WARN: wt command failed, falling back to native git"
@@ -161,11 +163,39 @@ worktree_create() {
     # 解决 TASK-039 暴露的问题: worktree 创建后缺少运行时配置，导致框架无法正确运行
     _worktree_sync_config "$wt_dir"
 
+    # ST-007: 检查新 worktree 是否被 git 追踪
+    _worktree_untrack_check "$wt_dir" "$task_id"
     return 0
   fi
 
   echo "ERROR: failed to create worktree for $branch"
   return 1
+}
+
+
+# ST-007: Worktree git 追踪检查 (GitHub Issue #36)
+# 验证新创建的 worktree 目录是否被 git status 列为 untracked
+# 如果被追踪，自动执行 git rm --cached -r 解除追踪
+_worktree_untrack_check() {
+	local wt_dir="$1"
+	local task_id="${2:-unknown}"
+
+	# 安全检查: 仅在 .kanban/ 下的路径操作
+	case "$wt_dir" in
+		*/.kanban/*) ;;
+		*) echo "  [worktree] Skipping untrack check for non-kanban path: $wt_dir"; return 0 ;;
+	esac
+
+	# 检查 worktree 父目录 (.kanban/worktrees/ 或 .kanban/tasks/) 是否被 git 追踪
+	# 策略: 检查 .kanban/worktrees/ 和 .kanban/tasks/ 是否在 git index 中
+	for check_dir in ".kanban/worktrees/" ".kanban/tasks/"; do
+		if git ls-files --error-unmatch "$check_dir" >/dev/null 2>&1; then
+			echo "  [worktree] WARNING: $check_dir is tracked by git, removing from index..."
+			git rm --cached -r "$check_dir" 2>/dev/null && \
+				echo "  [worktree] Untracked: $check_dir (removed from git index)" || \
+				echo "  [worktree] WARNING: Failed to untrack $check_dir"
+		fi
+	done
 }
 
 # 合并 worktree 到主干

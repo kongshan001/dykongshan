@@ -106,7 +106,7 @@ workflow_transition() {
     --arg status "$task_status" \
     --arg now "$now" \
     "${jq_extra}.phase=\$phase | .phase_lock=\$lock | .status=\$status | .entered_at=\$now |
-     .history += [{\"phase\":\$phase, \"status\":\"entered\", \"entered_at\":\$now}]"
+     .history += [{\"phase\":\$phase, \"status\":\"entered\", \"entered_at\":\$now, \"started_at\":\$now}]"
 
   _update_index
   echo "Transitioned: $from_phase -> $to_phase"
@@ -114,6 +114,45 @@ workflow_transition() {
 }
 
 # 完成当前阶段 (标记 completed, 记录退出时间)
+# 计算两个 ISO 8601 时间戳之间的秒数差
+# 兼容 macOS (BSD date) 和 Linux (GNU date)
+# 平台检测缓存: macos / linux / unknown
+_KANBAN_DATE_PLATFORM=""
+
+_calc_duration_seconds() {
+  local started_at="$1"
+  local completed_at="$2"
+  local started_epoch completed_epoch
+
+  # 缓存平台检测结果，避免每次调用都探测
+  if [ -z "$_KANBAN_DATE_PLATFORM" ]; then
+    if date -j -f "%Y-%m-%dT%H:%M:%SZ" "2020-01-01T00:00:00Z" "+%s" >/dev/null 2>&1; then
+      _KANBAN_DATE_PLATFORM="macos"
+    elif date -d "2020-01-01T00:00:00Z" "+%s" >/dev/null 2>&1; then
+      _KANBAN_DATE_PLATFORM="linux"
+    else
+      _KANBAN_DATE_PLATFORM="unknown"
+    fi
+  fi
+
+  case "$_KANBAN_DATE_PLATFORM" in
+    macos)
+      started_epoch=$(date -j -f "%Y-%m-%dT%H:%M:%SZ" "$started_at" "+%s" 2>/dev/null)
+      completed_epoch=$(date -j -f "%Y-%m-%dT%H:%M:%SZ" "$completed_at" "+%s" 2>/dev/null)
+      ;;
+    linux)
+      started_epoch=$(date -d "$started_at" "+%s" 2>/dev/null)
+      completed_epoch=$(date -d "$completed_at" "+%s" 2>/dev/null)
+      ;;
+  esac
+
+  if [ -n "$started_epoch" ] && [ -n "$completed_epoch" ]; then
+    echo $((completed_epoch - started_epoch))
+  else
+    echo ""
+  fi
+}
+
 workflow_complete_phase() {
   local task_id="$1"
   local tf=$(task_file "$task_id")
@@ -121,9 +160,23 @@ workflow_complete_phase() {
 
   local hist_len=$(jq '.history | length' "$tf")
   local last_idx=$((hist_len - 1))
+
+  # 从最后一条 history 条目获取 started_at
+  local started_at
+  started_at=$(jq -r ".history[$last_idx].started_at // .history[$last_idx].entered_at // \"\"" "$tf")
+
+  local duration_seconds=""
+  if [ -n "$started_at" ]; then
+    duration_seconds=$(_calc_duration_seconds "$started_at" "$now")
+  fi
+
+  # 将 duration_seconds 转为数字，空字符串转为 null
+  local dur_json="null"
+  [ -n "$duration_seconds" ] && dur_json="$duration_seconds"
+
   _atomic_jq_write "$tf" \
-    --arg now "$now" --argjson idx "$last_idx" \
-    '.history[$idx].status="completed" | .history[$idx].exited_at=$now'
+    --arg now "$now" --argjson idx "$last_idx" --argjson dur "$dur_json" \
+    '.history[$idx].status="completed" | .history[$idx].completed_at=$now | .history[$idx].exited_at=$now | .history[$idx].duration_seconds=$dur'
 
   # Plan 完成时初始化子任务状态追踪
   local completed_phase=$(jq -r ".history[$last_idx].phase" "$tf")
@@ -185,6 +238,16 @@ workflow_complete_phase() {
           '.plan_quality = {last_score: $score, retries: (.plan_quality.retries // 0), pass: true} | .plan_quality_passed = true'
         echo "PLAN_QUALITY_PASS: score=$quality_score"
       fi
+    fi
+  fi
+
+  # ST-006: Update progress checkpoint when execute phase completes
+  if [ "$completed_phase" = "execute" ]; then
+    local pf_update="$KANBAN_DIR/tasks/${task_id}/progress.json"
+    if [ -f "$pf_update" ]; then
+      local tmp_update=$(mktemp)
+      jq --arg now "$now" '.last_checkpoint = $now' "$pf_update" > "$tmp_update" && mv "$tmp_update" "$pf_update"
+      echo "Progress checkpoint updated for $task_id"
     fi
   fi
 
@@ -298,7 +361,7 @@ workflow_start_iteration() {
 
   _atomic_jq_write "$tf" \
     --argjson iter "$new_iter" --arg now "$now" --arg type "$type" \
-    '.iteration=$iter | .updated_at=$now | .iteration_type=$type | .history += [{"phase":"self_improve", "iteration":$iter, "type":$type, "entered_at":$now}]'
+    '.iteration=$iter | .updated_at=$now | .iteration_type=$type | .history += [{"phase":"self_improve", "iteration":$iter, "type":$type, "entered_at":$now, "started_at":$now}]'
 
   # 创建新一轮的 report 目录 (使用新的内聚目录结构)
   local tdir=$(task_dir "$task_id")

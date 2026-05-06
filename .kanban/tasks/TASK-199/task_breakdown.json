@@ -1,0 +1,8 @@
+{
+  "task_id": "TASK-199",
+  "subtasks": [
+    { "id": "ST-001", "title": "目的地音乐数据库", "description": "全球主要旅行目的地的音乐风格与艺术家数据集", "files": ["src/data/music-db.ts"], "estimated_minutes": 120 },
+    { "id": "ST-002", "title": "音乐推荐引擎", "description": "基于目的地的音乐风格推荐算法", "files": ["src/engine/recommender.ts"], "estimated_minutes": 90 },
+    { "id": "ST-003", "title": "音乐知识卡片组件", "description": "展示音乐风格的文化背景信息", "files": ["src/ui/music-card.tsx"], "estimated_minutes": 60 }
+  ]
+}

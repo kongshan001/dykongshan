@@ -261,6 +261,16 @@ guard_check() {
 
   [ ! -f "$tf" ] && { echo "FAIL:task_not_found:${task_id}"; return 1; }
 
+  # ST-003: interrupted 状态放行 — 如果任务最近刚从 interrupted 恢复
+  # (resumed 或 rolled_back), 允许阶段转换跳过常规验证, 因为
+  # recover_resume_task / recover_rollback_task 已经正确设置了 phase_lock。
+  local last_history_event
+  last_history_event=$(jq -r '.history[-1].status // ""' "$tf" 2>/dev/null)
+  if [ "$last_history_event" = "resumed" ] || [ "$last_history_event" = "rolled_back" ]; then
+    echo "PASS"
+    return 0
+  fi
+
   # 1. 阶段顺序合法性
   local transition_result
   transition_result=$(guard_check_transition "$from" "$to" "$task_id")

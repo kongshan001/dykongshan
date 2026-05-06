@@ -1,0 +1,1 @@
+{"task_id":"TASK-201","subtasks":[{"id":"ST-001","title":"书籍数据模型","description":"定义书籍和阅读清单数据结构","files":["src/books/models/book.ts"],"estimated_minutes":40},{"id":"ST-002","title":"目的地书籍数据集","description":"主要旅行目的地相关书籍数据","files":["src/books/data/booklist.ts"],"estimated_minutes":120}]}

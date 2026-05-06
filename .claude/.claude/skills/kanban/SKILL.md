@@ -44,9 +44,15 @@ if [ "$success" = "true" ]; then
     score) ... ;;
     summary) ... ;;
     clean) ... ;;
+    subtask) ... ;;
+    progress) ... ;;
     recover) ... ;;
+    resume) ... ;;
+    rollback) ... ;;
     dashboard) ... ;;
     version) ... ;;
+    time) ... ;;
+    tokens) ... ;;
   esac
 else
   # 5. 解析失败时显示建议
@@ -73,8 +79,15 @@ fi
 | 恢复任务 | /kanban recover |
 | 打开Dashboard | /kanban dashboard start |
 | 查看版本历史 | /kanban version list |
+| 看看耗时 | /kanban time TASK-001 |
+| 查看任务耗时 | /kanban time |
+| 查看Token消耗 | /kanban tokens TASK-001 |
+| TASK-001的Token | /kanban tokens TASK-001 |
 | 清理归档任务 | /kanban clean --all |
 | 清理TASK-001 | /kanban clean TASK-001 |
+| 开始ST-001 | /kanban subtask start TASK-001 ST-001 |
+| 完成ST-001 | /kanban subtask done TASK-001 ST-001 |
+| 查看TASK-001进度 | /kanban progress TASK-001 |
 
 #### 回退机制
 
@@ -103,13 +116,20 @@ fi
 /kanban clean --all                             # 清理所有已归档任务
 /kanban clean --before <date>                   # 清理指定日期前的归档任务
 /kanban recover [<task_id>]                     # 崩溃恢复
+/kanban resume <task_id>                        # 恢复中断的任务
+/kanban rollback <task_id>                      # 回滚中断的任务
 /kanban evolve-skills                           # 查看 Skills 演化历史
 /kanban score <task_id>                         # 查看评分
 /kanban summary <task_id>                       # 迭代摘要
 /kanban feedback <task_id>                      # 分析归档 inbox 反馈
+/kanban time [<task_id>]                        # 查看任务执行耗时
+/kanban tokens <task_id>                        # 查看任务 Token 消耗
 /kanban dashboard [start|stop|status|restart]   # 启动/停止 Dashboard
 /kanban version list                            # 查看版本历史
 /kanban version record <version> [--title ...] [--task TASK-NNN]  # 记录版本
+/kanban subtask start <task_id> <subtask_id>   # 标记 subtask 开始
+/kanban subtask done <task_id> <subtask_id>    # 标记 subtask 完成
+/kanban progress <task_id>                      # 查看任务进度
 ```
 
 ## 环境设置
@@ -131,7 +151,7 @@ kanban_init_env
 ### `/kanban init`
 
 1. 执行 `kanban_init`
-2. **安装框架依赖文件 (agents/rules 使用符号链接, dashboard 使用复制):**
+2. **安装框架依赖文件 (agents/rules 使用符号链接, dashboard 使用运行时目录):**
    ```bash
    SKILL_DIR="$(cd "$(dirname "$0")" && pwd)"
    # macOS/Linux: 创建符号链接; Windows (MINGW/MSYS): 回退到复制
@@ -148,13 +168,11 @@ kanban_init_env
      name=$(basename "$rule")
      ln -sf "../skills/kanban/rules/$name" ".claude/rules/$name"
    done
-   # dashboard: 使用复制 (不适合 symlink)
-   if [ ! -d ".kanban/dashboard/server.js" ]; then
-     mkdir -p .kanban/dashboard
-     cp -r "$SKILL_DIR"/dashboard/* .kanban/dashboard/ 2>/dev/null || true
-   fi
+   # dashboard: 创建运行时数据目录（不再复制源文件）
+   # server.js 直接从 skills 源目录启动, .kanban/dashboard/ 仅存放 .pid, .log
+   mkdir -p .kanban/dashboard
    ```
-3. 确认输出: "Initialized kanban at .kanban/" + "Linked N framework files (agents, rules via symlink)"
+3. 确认输出: "Initialized kanban at .kanban/" + "Linked N framework files (agents, rules via symlink)" + "dashboard runtime dir created"
 
 ### `/kanban create "<title>" [--desc "<desc>"]`
 
@@ -481,6 +499,29 @@ kanban_init_env
 2. 如果不指定: `recover_list_interrupted` -> 列出所有中断任务
 3. 超时检测: `recover_check_timeout "$task_id"`
 
+### `/kanban resume <task_id>`
+
+恢复中断任务，从 last_known_phase 继续执行。支持 Subtask 级检查点恢复 (ST-008, GitHub Issue #37)。
+
+1. 执行 `kanban_resume_task "$task_id"`
+2. 内部调用 `recover_resume_task`: 读取 task.json 中的 last_known_phase，清除 interrupted 标记，将 phase_lock 重置为中断前的阶段
+3. **Checkpoint 读取 (ST-008):** 扫描 `checkpoints/` 目录，识别已完成 (status=completed) 和进行中 (status=in_progress) 的 subtask，展示每个 subtask 的文件完成情况
+4. **Subtask 断点恢复 (ST-008):** 调用 `recovery_restore_subtask` 读取 in_progress 检查点，列出已完成的文件，自动跳过已完成文件从下一个文件继续
+5. 输出恢复路径引导信息 (如 `/kanban run TASK-NNN --phase execute`)
+6. 验证 worktree (如恢复到 execute 阶段)
+
+**检查点文件位置:** `.kanban/tasks/{task_id}/checkpoints/{subtask_id}.json`
+**检查点数据结构:** `{"subtask", "started_at", "files_written": [], "status": "in_progress|completed", "completed_at", "git_commit_hash"}`
+
+### `/kanban rollback <task_id>`
+
+回滚中断任务到最近的安全检查点（上一阶段完成点）。
+
+1. 执行 `kanban_rollback_task "$task_id"`
+2. 内部调用 `recover_rollback_task`: 确定安全回滚点 (pending/plan/execute)，清空中断阶段的产物文件
+3. 将 task.json 重置为回滚点状态
+4. 输出回滚路径引导信息
+
 ### `/kanban score <task_id>`
 
 1. `evaluator_collect_scores "$task_id"`
@@ -499,6 +540,61 @@ kanban_init_env
 1. `skills_evolve_extract` -- 从 execution_pitfalls.md 和 execution_decisions.md 提取框架改进点
 2. `skills_evolve_apply` -- agent/rule 类改进直接应用; lib 类改进创建 kanban 任务 (IR-12)
 3. `skills_evolve_report` -- 生成 `skills_evolution_report.json` 存入 iteration 目录
+
+### `/kanban time [<task_id>]`
+
+展示任务各阶段的执行耗时。
+
+1. 如果指定 `task_id`:
+   - 执行 `kanban_time_report "$task_id"`
+   - 解析该任务的 history 数组，提取每个阶段的 (phase, started_at, completed_at, duration_seconds)
+   - 以表格输出
+2. 如果不指定参数:
+   - 执行 `kanban_time_report` (无参数)
+   - 扫描所有活跃任务，显示每个任务的最近阶段耗时
+
+输出格式示例:
+```
+=== TASK-045 执行耗时 ===
+Title: 耗时追踪与可视化
+Phase         Started                  Completed                Duration
+plan          2026-05-05T10:00:00Z     2026-05-05T10:15:00Z     15m 0s
+execute       2026-05-05T10:15:00Z     -                        (running)
+```
+
+### `/kanban tokens <task_id>`
+
+展示任务的 Token 消耗详情，包括按阶段和按 Agent 的分解，以及预算状态。
+
+1. 执行 `kanban_token_report "$task_id"`
+2. 读取 task.json 的 `token_stats` 字段，解析:
+   - `per_phase`: 按阶段 (plan/execute/evaluate 等) 的 token 消耗
+   - `per_agent`: 按 Agent (planner/executor/code_reviewer/qa/pm/designer) 的分配
+3. 调用 `check_token_budget` 检查预算状态
+4. 以表格输出消耗详情和预算警告
+
+输出格式示例:
+```
+=== TASK-045 Token 消耗 ===
+Phase         Tokens     占比
+plan          20,000      17%
+execute       80,000      67%
+evaluate      20,000      16%
+─────────────────────────────────────────
+总计          120,000 / 500,000 (24%)
+
+Agent 分布:
+  planner:         20,000 (17%)
+  executor:        80,000 (67%)
+  code_reviewer:    5,000 (4%)
+  qa:               5,000 (4%)
+  pm:               5,000 (4%)
+  designer:         5,000 (4%)
+
+[OK] 预算状态: normal (已消耗 24%, 告警阈值 80%)
+```
+
+**集成说明**: 框架无法自动获取 Claude Code 的 token 消耗 (无 API 访问)。`track_token` 函数由使用方在每次 Agent 调用后手动调用，记录消耗量。需在调用 Agent 的函数 (如执行各阶段的脚本) 中插入 `track_token` 调用。
 
 ### `/kanban feedback <task_id>`
 
@@ -533,12 +629,13 @@ kanban_init_env
 
 1. 解析子命令（默认 start）
 2. 执行 `kanban_dashboard "$action"`
-3. start: 启动 Dashboard 服务器并打开浏览器
+3. start: 从 skills 源目录启动 Dashboard 服务器并打开浏览器
 4. stop: 停止 Dashboard 服务器
 5. status: 显示 Dashboard 运行状态
 
 默认端口: 3000 (可在 config.json dashboard.port 中配置)
-Dashboard 路径: .kanban/dashboard/
+Dashboard 源路径: .claude/skills/kanban/dashboard/ (server.js 从此目录启动)
+运行时数据目录: .kanban/dashboard/ (仅存放 .pid, .log 文件)
 
 ### `/kanban version list`
 
@@ -556,6 +653,29 @@ Dashboard 路径: .kanban/dashboard/
 **版本记录触发条件:**
 - 每次任务归档后（task merge 到 main），如果涉及框架文件变更（.claude/skills/、.claude/agents/、.claude/rules/），应执行 `/kanban version record`
 - 版本号遵循语义化版本: PATCH 用于 bug 修复，MINOR 用于功能增强，MAJOR 用于破坏性变更
+
+### `/kanban subtask start <task_id> <subtask_id>`
+
+标记 subtask 开始，写入 progress.json。
+
+1. 执行 `kanban_subtask_start "$task_id" "$subtask_id"`
+2. 在 `{task_dir}/progress.json` 中记录 subtask 开始时间和状态
+
+### `/kanban subtask done <task_id> <subtask_id>`
+
+标记 subtask 完成，触发 git commit 并记录到 progress.json。
+
+1. 执行 `kanban_subtask_done "$task_id" "$subtask_id"`
+2. 在 worktree 中执行 `git add -A` + `git commit -m "feat(ST-xxx): subtask_title (TASK-NNN)"`
+3. 将 commit hash 和变更文件列表记录到 progress.json
+
+### `/kanban progress <task_id>`
+
+查看任务进度明细。
+
+1. 执行 `kanban_progress_from_json "$task_id"`
+2. 读取 `{task_dir}/progress.json` 展示每个 subtask 的状态、时间、commit hash
+3. 如果没有 progress.json，回退到迭代评分趋势展示
 
 ### `/kanban clean <task_id>|--all|--before <date>`
 

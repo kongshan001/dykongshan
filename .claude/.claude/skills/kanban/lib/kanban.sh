@@ -288,6 +288,8 @@ kanban_init() {
   if [ -d "$KANBAN_DIR" ]; then
     echo "Kanban already initialized at $KANBAN_DIR/"
     _kanban_install_deps
+    # ST-007: 幂等检查 .gitignore 完整性 (GitHub Issue #36)
+    _kanban_check_gitignore
     return 0
   fi
 
@@ -308,7 +310,69 @@ kanban_init() {
     '{project:$p, trunk:$t, tasks:[]}' > "$KANBAN_DIR/index.json"
 
   _kanban_install_deps
+
+  # ST-007: .gitignore 完整性检查 (GitHub Issue #36)
+  # 确保 .kanban/worktrees/ 等运行时目录不被 git 追踪
+  _kanban_check_gitignore
+
   echo "Initialized kanban at $KANBAN_DIR/ (project=$project, trunk=$trunk)"
+}
+
+# ST-007: .gitignore 完整性检查 (GitHub Issue #36)
+# 检查必要条目是否存在于 .gitignore，缺失时自动追加。
+# 防止 .kanban/worktrees/ 等运行时目录被主仓库 git 追踪，
+# 避免 worktree 内容被递归纳入导致 commit 体积过大。
+_kanban_check_gitignore() {
+	local gitignore="${KANBAN_DIR}/../.gitignore"
+	local required=(
+		".kanban/worktrees/"
+		".kanban/dashboard/"
+		".kanban/*.pid"
+		".kanban/*.log"
+	)
+	local added=0
+
+	# 确保 .gitignore 存在
+	if [ ! -f "$gitignore" ]; then
+		touch "$gitignore"
+	fi
+
+	for entry in "${required[@]}"; do
+		# 检查该条目是否以非注释形式存在
+		# 使用 sed 转义正则特殊字符后传给 grep
+		local escaped_entry
+		escaped_entry=$(echo "$entry" | sed 's/\./\\./g; s/\*/\\*/g')
+		if ! grep -qE "^[[:space:]]*${escaped_entry}[[:space:]]*$" "$gitignore"; then
+			# 条目缺失或被注释，追加到 .gitignore
+			{
+				echo ""
+				echo "# Kanban runtime directory (auto-added by kanban_init)"
+				echo "$entry"
+			} >> "$gitignore"
+			echo "  [gitignore] Added: $entry"
+			added=$((added + 1))
+		fi
+	done
+
+	if [ "$added" -gt 0 ]; then
+		echo "  [gitignore] $added missing entries appended to .gitignore"
+
+		# 解除已追踪的目录 (如果这些目录已被 git 追踪)
+		for entry in "${required[@]}"; do
+			case "$entry" in
+				*.pid|*.log)
+					# glob 模式 (.kanban/*.pid, .kanban/*.log) — 跳过目录级检查
+					;;
+				*/)
+					# 目录条目 (.kanban/worktrees/, .kanban/dashboard/)
+					if git ls-files --error-unmatch "$entry" >/dev/null 2>&1; then
+						git rm --cached -r "$entry" 2>/dev/null && \
+							echo "  [gitignore] Untracked: $entry (was previously tracked by git)" || true
+					fi
+					;;
+			esac
+		done
+	fi
 }
 
 # 检测当前平台是否支持符号链接
@@ -430,12 +494,11 @@ _kanban_install_deps() {
     done
   fi
 
-  # 安装 dashboard (always copy -- not suitable for symlink)
-  if [ -d "$SKILL_DIR/dashboard" ] && [ ! -f "$dashboard_dir/server.js" ]; then
-    mkdir -p "$dashboard_dir"
-    cp -r "$SKILL_DIR"/dashboard/* "$dashboard_dir/" 2>/dev/null || true
-    count=$((count + 1))
-  fi
+  # 安装 dashboard -- 不再复制源文件到 .kanban/dashboard/
+  # dashboard server.js 从 skills 源目录直接启动 (ST-045 去重)
+  # .kanban/dashboard/ 仅作为运行时数据目录（存放 .pid, .log 文件）
+  mkdir -p "$dashboard_dir"
+  count=$((count + 1))
 
   # 初始化 versions 目录（幂等）
   if [ "$(type -t kanban_version_init 2>/dev/null)" = "function" ]; then
@@ -465,12 +528,15 @@ _kanban_install_deps() {
         echo "  ($skipped already linked, skipped)"
       fi
     else
-      echo "Installed $count framework files (agents, rules, dashboard)"
+      echo "Installed $count framework files (agents, rules, dashboard runtime dir)"
     fi
   fi
 }
 
 # 生成下一个 TASK-NNN ID
+# 注意: 使用 10#$num 强制十进制解析，避免 bash 将 008、009 等
+# 编号解释为八进制导致 "value too great for base" 错误 (GitHub Issue #31)。
+# 所有从 TASK-NNN 字符串中提取编号的算术位置均需使用 10# 前缀。
 _next_task_id() {
   local max=0
   # 新格式: tasks/TASK-NNN/task.json
@@ -541,6 +607,12 @@ kanban_create_task() {
       max_iterations: 6,
       token_budget: 500000,
       token_used: 0,
+      token_stats: {
+        per_phase: { plan: 0, execute: 0, evaluate: 0, retrospective: 0, user_decision: 0, archive: 0 },
+        per_subtask: {},
+        per_agent: { planner: 0, executor: 0, code_reviewer: 0, qa: 0, pm: 0, designer: 0 },
+        total_estimated: 0
+      },
       scores: {},
       depends_on: [],
       modified_files: [],
@@ -703,6 +775,36 @@ kanban_show_task() {
   fi
 }
 
+# === ST-003: Task Interruption Recovery ===
+
+# kanban_resume_task(task_id) -- resume an interrupted task from last_known_phase
+# Wrapper around recover_resume_task from recovery.sh.
+kanban_resume_task() {
+  local task_id="$1"
+  [ -z "$task_id" ] && { echo "Usage: kanban_resume_task <task_id>"; return 1; }
+
+  if type recover_resume_task >/dev/null 2>&1; then
+    recover_resume_task "$task_id"
+  else
+    echo "ERROR: recovery.sh not loaded (recover_resume_task not found)"
+    return 1
+  fi
+}
+
+# kanban_rollback_task(task_id) -- rollback an interrupted task to safe checkpoint
+# Wrapper around recover_rollback_task from recovery.sh.
+kanban_rollback_task() {
+  local task_id="$1"
+  [ -z "$task_id" ] && { echo "Usage: kanban_rollback_task <task_id>"; return 1; }
+
+  if type recover_rollback_task >/dev/null 2>&1; then
+    recover_rollback_task "$task_id"
+  else
+    echo "ERROR: recovery.sh not loaded (recover_rollback_task not found)"
+    return 1
+  fi
+}
+
 # 处理用户决策
 kanban_decide() {
   local task_id="$1"
@@ -719,6 +821,19 @@ kanban_decide() {
   done
 
   [ -z "$action" ] && { echo "ERROR: --action required"; return 1; }
+
+  # ST-003: 检查任务是否处于 interrupted 状态，拒绝 decide 操作
+  local tf_interrupted_check=$(task_file "$task_id")
+  local ts_check=$(jq -r '.status // ""' "$tf_interrupted_check" 2>/dev/null)
+  if [ "$ts_check" = "interrupted" ]; then
+    local last_phase=$(jq -r '.last_known_phase // "unknown"' "$tf_interrupted_check")
+    echo "ERROR: Task $task_id is in 'interrupted' status (last phase: $last_phase)."
+    echo "  /kanban decide does not apply to interrupted tasks."
+    echo "  Use one of:"
+    echo "    /kanban resume $task_id    -- Resume from last known phase"
+    echo "    /kanban rollback $task_id  -- Rollback to safe checkpoint"
+    return 1
+  fi
 
   case "$action" in
     approve_and_archive|restart_from_plan|restart_from_execute|abort) ;;
@@ -746,7 +861,7 @@ kanban_decide() {
     local tf_abort=$(task_file "$task_id")
     local abort_tmp=$(mktemp)
     jq --arg now "$now" \
-      '.status="aborted" | .phase="aborted" | .phase_lock="aborted" | .updated_at=$now | .history += [{"phase":"aborted","status":"entered","entered_at":$now}]' \
+      '.status="aborted" | .phase="aborted" | .phase_lock="aborted" | .updated_at=$now | .history += [{"phase":"aborted","status":"entered","entered_at":$now,"started_at":$now}]' \
       "$tf_abort" > "$abort_tmp" && mv "$abort_tmp" "$tf_abort"
     _update_index
     echo "Decision recorded: abort"
@@ -1268,9 +1383,251 @@ kanban_update_subtask() {
     '(.task_breakdown.subtasks[] | select(.id == $sid)).status = $st | .updated_at = $t' \
     "$tf" > "$tmp" && mv "$tmp" "$tf"
 
+  # ST-006: Progress tracking with git commit and progress.json
+  case "$subtask_status" in
+    in_progress)
+      kanban_subtask_start "$task_id" "$subtask_id" 2>/dev/null || true
+      ;;
+    completed)
+      kanban_subtask_done "$task_id" "$subtask_id" 2>/dev/null || true
+      ;;
+  esac
+
   echo "Subtask $subtask_id -> $subtask_status"
 }
 
+
+# === ST-006: Subtask Progress Tracking ===
+
+# 进度文件路径
+# 用法: _progress_file TASK-001
+_progress_file() {
+  local task_id="$1"
+  echo "$KANBAN_DIR/tasks/${task_id}/progress.json"
+}
+
+# 更新进度百分比
+# 用法: _update_progress_percentage /path/to/progress.json
+_update_progress_percentage() {
+  local pf="$1"
+  [ ! -f "$pf" ] && return 0
+  local total
+  total=$(jq '.subtasks | length' "$pf" 2>/dev/null) || total=0
+  if [ "$total" -gt 0 ]; then
+    local completed
+    completed=$(jq '[.subtasks[] | select(.status == "completed")] | length' "$pf" 2>/dev/null) || completed=0
+    local pct=$((completed * 100 / total))
+    local tmp=$(mktemp)
+    jq --argjson pct "$pct" '.completion_percentage = $pct' "$pf" > "$tmp" && mv "$tmp" "$pf"
+  fi
+}
+
+# 标记 subtask 开始，写入 progress.json
+# 用法: kanban_subtask_start TASK-001 ST-001
+kanban_subtask_start() {
+  local task_id="$1"
+  local subtask_id="$2"
+  local now
+  now=$(date -u +%FT%TZ)
+  local pf
+  pf=$(_progress_file "$task_id")
+
+  # 确保目录存在
+  mkdir -p "$(dirname "$pf")"
+
+  # 初始化 progress.json（如果不存在）
+  if [ ! -f "$pf" ]; then
+    jq -n --arg tid "$task_id" --arg now "$now" \
+      '{task_id: $tid, subtasks: [], last_checkpoint: $now, completion_percentage: 0}' > "$pf"
+  fi
+
+  # 检查 subtask 是否已存在
+  local exists
+  exists=$(jq --arg sid "$subtask_id" '[.subtasks[] | select(.id == $sid)] | length' "$pf" 2>/dev/null) || exists=0
+
+  if [ "$exists" = "0" ]; then
+    # 新增条目
+    local tmp=$(mktemp)
+    jq --arg sid "$subtask_id" --arg now "$now" \
+      '.subtasks += [{id: $sid, status: "in_progress", started_at: $now}] | .last_checkpoint = $now' \
+      "$pf" > "$tmp" && mv "$tmp" "$pf"
+  else
+    # 更新已有条目
+    local tmp=$(mktemp)
+    jq --arg sid "$subtask_id" --arg now "$now" \
+      '(.subtasks[] | select(.id == $sid)).status = "in_progress" |
+       (.subtasks[] | select(.id == $sid)).started_at = $now |
+       .last_checkpoint = $now' \
+      "$pf" > "$tmp" && mv "$tmp" "$pf"
+  fi
+
+  _update_progress_percentage "$pf"
+  echo "Subtask $subtask_id started ($task_id)"
+}
+
+# 标记 subtask 完成，触发 git commit，记录到 progress.json
+# 用法: kanban_subtask_done TASK-001 ST-001
+kanban_subtask_done() {
+  local task_id="$1"
+  local subtask_id="$2"
+  local now
+  now=$(date -u +%FT%TZ)
+  local pf
+  pf=$(_progress_file "$task_id")
+  local tf
+  tf=$(task_file "$task_id")
+
+  [ ! -f "$tf" ] && { echo "ERROR: $task_id not found"; return 1; }
+
+  # 获取 subtask 标题
+  local subtask_title
+  subtask_title=$(jq -r ".task_breakdown.subtasks[] | select(.id == \"$subtask_id\") | .title // \"$subtask_id\"" "$tf" 2>/dev/null) || subtask_title="$subtask_id"
+
+  # 获取 worktree 路径
+  local wt_path
+  wt_path=$(jq -r '.worktree.path // ""' "$tf" 2>/dev/null) || wt_path=""
+
+  # 确保目录存在
+  mkdir -p "$(dirname "$pf")"
+
+  # 初始化 progress.json（如果不存在）
+  if [ ! -f "$pf" ]; then
+    jq -n --arg tid "$task_id" --arg now "$now" \
+      '{task_id: $tid, subtasks: [], last_checkpoint: $now, completion_percentage: 0}' > "$pf"
+  fi
+
+  # Git commit in worktree
+  local commit_hash=""
+  local files_changed_json="[]"
+  if [ -n "$wt_path" ] && [ -d "$wt_path/.git" ]; then
+    local prev_cwd="$PWD"
+    cd "$wt_path" || true
+    # Collect all changed/untracked files
+    local all_files
+    all_files=$( {
+      git diff --name-only HEAD 2>/dev/null || true
+      git ls-files --others --exclude-standard 2>/dev/null || true
+    } | sort -u)
+    all_files=$(echo "$all_files" | tr '\n' ' ' | sed 's/  */ /g' | sed 's/^ *//;s/ *$//')
+
+    if [ -n "$all_files" ]; then
+      # Sanitize title for use in commit message (remove backticks, $ signs)
+      local safe_title
+      safe_title=$(echo "$subtask_title" | sed 's/`//g; s/\$/\\$/g')
+      git add . 2>/dev/null || true
+      git commit -m "feat($subtask_id): $safe_title ($task_id)" 2>/dev/null && \
+        commit_hash=$(git rev-parse HEAD 2>/dev/null) || commit_hash=""
+      if [ -n "$commit_hash" ]; then
+        files_changed_json=$(echo "$all_files" | tr ' ' '\n' | grep -v '^$' | jq -R -s 'split("\n") | map(select(length > 0))' 2>/dev/null) || files_changed_json="[]"
+      fi
+    fi
+    cd "$prev_cwd" || true
+  fi
+
+  # 检查 subtask 是否已存在于 progress.json
+  local exists
+  exists=$(jq --arg sid "$subtask_id" '[.subtasks[] | select(.id == $sid)] | length' "$pf" 2>/dev/null) || exists=0
+
+  if [ "$exists" = "0" ]; then
+    # 新增完成条目
+    local tmp=$(mktemp)
+    jq --arg sid "$subtask_id" --arg now "$now" --arg hash "$commit_hash" --argjson files "$files_changed_json" \
+      '.subtasks += [{id: $sid, status: "completed", completed_at: $now, commit_hash: $hash, files_changed: $files}] |
+       .last_checkpoint = $now' \
+      "$pf" > "$tmp" && mv "$tmp" "$pf"
+  else
+    # 更新已有条目
+    local tmp=$(mktemp)
+    jq --arg sid "$subtask_id" --arg now "$now" --arg hash "$commit_hash" --argjson files "$files_changed_json" \
+      '(.subtasks[] | select(.id == $sid)).status = "completed" |
+       (.subtasks[] | select(.id == $sid)).completed_at = $now |
+       (.subtasks[] | select(.id == $sid)).commit_hash = $hash |
+       (.subtasks[] | select(.id == $sid)).files_changed = $files |
+       .last_checkpoint = $now' \
+      "$pf" > "$tmp" && mv "$tmp" "$pf"
+  fi
+
+  _update_progress_percentage "$pf"
+  echo "Subtask $subtask_id completed ($task_id)"
+  if [ -n "$commit_hash" ]; then
+    echo "  Commit: $commit_hash"
+  fi
+}
+
+# 读取 progress.json 展示任务进度明细
+# 用法: kanban_progress_from_json TASK-001
+kanban_progress_from_json() {
+  local task_id="$1"
+  local pf
+  pf=$(_progress_file "$task_id")
+
+  if [ ! -f "$pf" ]; then
+    echo "No progress.json found for $task_id"
+    return 0
+  fi
+
+  local tid
+  tid=$(jq -r '.task_id' "$pf" 2>/dev/null) || tid="$task_id"
+  local last_checkpoint
+  last_checkpoint=$(jq -r '.last_checkpoint // ""' "$pf" 2>/dev/null) || last_checkpoint=""
+  local pct
+  pct=$(jq -r '.completion_percentage // 0' "$pf" 2>/dev/null) || pct=0
+
+  echo "=== Subtask Progress: $tid ==="
+  echo "Completion: ${pct}%"
+  if [ -n "$last_checkpoint" ]; then
+    echo "Last checkpoint: $last_checkpoint"
+  fi
+  echo ""
+
+  local count
+  count=$(jq '.subtasks | length' "$pf" 2>/dev/null) || count=0
+  if [ "$count" -eq 0 ]; then
+    echo "(no subtasks tracked)"
+    return 0
+  fi
+
+  printf "%-10s %-12s %-20s %-20s %-10s\n" "ID" "STATUS" "STARTED" "COMPLETED" "COMMIT"
+  echo "-------------------------------------------------------------------------"
+
+  local i=0
+  while [ "$i" -lt "$count" ]; do
+    local st_id
+    st_id=$(jq -r ".subtasks[$i].id" "$pf" 2>/dev/null) || st_id=""
+    local st_status
+    st_status=$(jq -r ".subtasks[$i].status" "$pf" 2>/dev/null) || st_status=""
+    local st_started
+    st_started=$(jq -r ".subtasks[$i].started_at // \"-\"" "$pf" 2>/dev/null) || st_started="-"
+    [ -z "$st_started" ] && st_started="-"
+    local st_completed
+    st_completed=$(jq -r ".subtasks[$i].completed_at // \"-\"" "$pf" 2>/dev/null) || st_completed="-"
+    [ -z "$st_completed" ] && st_completed="-"
+    local st_commit
+    st_commit=$(jq -r ".subtasks[$i].commit_hash // \"-\"" "$pf" 2>/dev/null) || st_commit="-"
+    [ -z "$st_commit" ] && st_commit="-"
+    # Truncate commit hash to 8 chars
+    if [ "${#st_commit}" -gt 8 ]; then
+      st_commit=$(echo "$st_commit" | cut -c1-8)
+    fi
+
+    local status_icon=""
+    case "$st_status" in
+      completed) status_icon="[done]" ;;
+      in_progress) status_icon="[WIP]" ;;
+      failed) status_icon="[FAIL]" ;;
+      *) status_icon="[pending]" ;;
+    esac
+
+    printf "%-10s %-12s %-20s %-20s %-10s\n" \
+      "$st_id" "$status_icon" "$(echo "$st_started" | cut -c1-20)" "$(echo "$st_completed" | cut -c1-20)" "$st_commit"
+    i=$((i + 1))
+  done
+
+  echo ""
+  local completed_count
+  completed_count=$(jq '[.subtasks[] | select(.status == "completed")] | length' "$pf" 2>/dev/null) || completed_count=0
+  echo "Progress: ${completed_count}/${count} subtasks completed (${pct}%)"
+}
 # === Inbox 反馈管理 ===
 
 # 创建任务的 inbox.md
@@ -1476,6 +1833,144 @@ kanban_knowledge_search() {
   for kid in $matched_ids; do
     sed -n "/^### ${kid}:/,/^---/p" "$log_file"
   done
+}
+
+# --- Time Tracking Functions ---
+
+# 将秒数转为人类可读格式 (Xm Ys)
+_format_duration() {
+  local seconds="$1"
+  if [ -z "$seconds" ] || [ "$seconds" = "null" ]; then
+    echo "-"
+    return
+  fi
+  local s=$((seconds))
+  local minutes=$((s / 60))
+  local secs=$((s % 60))
+  printf "%dm %ds" "$minutes" "$secs"
+}
+
+# 输出单个任务的耗时报告
+_kanban_time_report_task() {
+  local task_id="$1"
+  local tf
+  tf=$(task_file "$task_id")
+  if [ ! -f "$tf" ]; then
+    # 尝试归档
+    tf=$(archive_task_file "$task_id")
+  fi
+  [ ! -f "$tf" ] && { echo "ERROR: $task_id not found"; return 1; }
+
+  local title
+  title=$(jq -r '.title // ""' "$tf")
+  echo "=== ${task_id} 执行耗时 ==="
+  if [ -n "$title" ]; then
+    echo "Title: $title"
+  fi
+  echo ""
+  printf "%-16s %-26s %-26s %s\n" "Phase" "Started" "Completed" "Duration"
+  echo "------------------------------------------------------------------------------------------"
+
+  local hist_len
+  hist_len=$(jq '.history | length' "$tf")
+  if [ "$hist_len" -eq 0 ]; then
+    echo "(no history entries)"
+    echo ""
+    return 0
+  fi
+
+  local i=0
+  while [ "$i" -lt "$hist_len" ]; do
+    local phase started_at completed_at dur status
+    phase=$(jq -r ".history[$i].phase // \"\"" "$tf")
+    status=$(jq -r ".history[$i].status // \"\"" "$tf")
+    started_at=$(jq -r ".history[$i].started_at // .history[$i].entered_at // \"\"" "$tf")
+    completed_at=$(jq -r ".history[$i].completed_at // \"\"" "$tf")
+    dur=$(jq -r ".history[$i].duration_seconds // \"\"" "$tf")
+
+    if [ -n "$started_at" ] && [ "$started_at" != "null" ]; then
+      local started_display="$started_at"
+      local completed_display="-"
+      local dur_display="-"
+
+      if [ -n "$completed_at" ] && [ "$completed_at" != "null" ]; then
+        completed_display="$completed_at"
+        if [ -n "$dur" ] && [ "$dur" != "null" ]; then
+          dur_display=$(_format_duration "$dur")
+        fi
+      elif [ "$status" = "entered" ]; then
+        dur_display="(running)"
+      fi
+
+      printf "%-16s %-26s %-26s %s\n" "$phase" "$started_display" "$completed_display" "$dur_display"
+    fi
+
+    i=$((i + 1))
+  done
+  echo ""
+}
+
+# 输出所有活跃任务的耗时概览
+_kanban_time_report_all() {
+  echo "=== 活跃任务耗时概览 ==="
+  echo ""
+  printf "%-12s %-16s %-12s %s\n" "Task" "Phase" "Status" "Duration"
+  echo "------------------------------------------------------------"
+
+  local found=false
+  for task_dir_entry in "$KANBAN_DIR"/tasks/TASK-*/; do
+    [ -d "$task_dir_entry" ] || continue
+    local tf="$task_dir_entry/task.json"
+    [ -f "$tf" ] || continue
+    found=true
+
+    local tid current_phase
+    tid=$(jq -r '.id // ""' "$tf")
+    current_phase=$(jq -r '.phase // "—"' "$tf")
+
+    # 查找最近有耗时信息的历史条目
+    local last_phase="" last_status="" last_dur=""
+    local hist_len
+    hist_len=$(jq '.history | length' "$tf")
+    if [ "$hist_len" -gt 0 ]; then
+      local last_idx=$((hist_len - 1))
+      last_phase=$(jq -r ".history[$last_idx].phase // \"\"" "$tf")
+      last_status=$(jq -r ".history[$last_idx].status // \"\"" "$tf")
+      last_dur=$(jq -r ".history[$last_idx].duration_seconds // \"\"" "$tf")
+    fi
+
+    local dur_display="-"
+    if [ -n "$last_dur" ] && [ "$last_dur" != "null" ]; then
+      dur_display=$(_format_duration "$last_dur")
+    elif [ "$last_status" = "entered" ]; then
+      dur_display="(running)"
+    fi
+
+    printf "%-12s %-16s %-12s %s\n" \
+      "$tid" \
+      "${last_phase:-$current_phase}" \
+      "${last_status:--}" \
+      "$dur_display"
+  done
+
+  if [ "$found" = "false" ]; then
+    echo "(no active tasks)"
+  fi
+  echo ""
+}
+
+# kanban_time_report: 展示任务阶段执行耗时
+# 用法: kanban_time_report [task_id]
+#   带 task_id: 显示该任务所有阶段耗时详情
+#   不带参数:  显示所有活跃任务的最近阶段耗时
+kanban_time_report() {
+  local task_id="${1:-}"
+
+  if [ -n "$task_id" ]; then
+    _kanban_time_report_task "$task_id"
+  else
+    _kanban_time_report_all
+  fi
 }
 
 # --- Progress Functions ---
@@ -2018,4 +2513,418 @@ kanban_clean_archived() {
   _update_index
 
   return 0
+}
+
+# === ST-005: Token 消耗追踪 (GitHub Issue #34) ===
+
+# track_token: 记录 token 消耗，累加到 task.json 的 token_stats 字段
+# 用法: track_token <task_id> <phase> <tokens_used> [subtask_id] [agent]
+kanban_track_token() {
+  local task_id="$1"
+  local phase="$2"
+  local tokens_used="${3:-0}"
+  local subtask_id="${4:-}"
+  local agent="${5:-}"
+
+  local tf=$(task_file "$task_id")
+  [ ! -f "$tf" ] && { echo "ERROR: $task_id not found"; return 1; }
+
+  # Validate tokens_used is a positive integer
+  case "$tokens_used" in
+    ''|*[!0-9]*) echo "ERROR: tokens_used must be a non-negative integer"; return 1 ;;
+    *) ;;
+  esac
+
+  # Ensure token_stats exists (backward compat)
+  local tmp
+  tmp=$(mktemp)
+  jq 'if .token_stats == null then
+        .token_stats = {
+          per_phase: { plan:0, execute:0, evaluate:0, retrospective:0, user_decision:0, archive:0 },
+          per_subtask: {},
+          per_agent: { planner:0, executor:0, code_reviewer:0, qa:0, pm:0, designer:0 },
+          total_estimated: 0
+        }
+      else . end' "$tf" > "$tmp" && mv "$tmp" "$tf"
+
+  # Resolve agent: use explicit agent, or map from phase
+  local resolved_agent="$agent"
+  if [ -z "$resolved_agent" ]; then
+    case "$phase" in
+      plan)          resolved_agent="planner" ;;
+      execute)       resolved_agent="executor" ;;
+      evaluate)      resolved_agent="code_reviewer" ;;
+      retrospective) resolved_agent="pm" ;;
+      user_decision) resolved_agent="pm" ;;
+      *)             resolved_agent="executor" ;;
+    esac
+  fi
+
+  local now
+  now=$(date -u +%FT%TZ)
+  local tmp2
+  tmp2=$(mktemp)
+  jq --arg phase "$phase" \
+     --argjson used "$tokens_used" \
+     --arg subtask_id "$subtask_id" \
+     --arg resolved_agent "$resolved_agent" \
+     --arg t "$now" \
+    '.token_used += $used |
+     .token_stats.total_estimated += $used |
+     .token_stats.per_phase[$phase] = ((.token_stats.per_phase[$phase] // 0) + $used) |
+     (if $subtask_id != "" then
+        .token_stats.per_subtask[$subtask_id] = ((.token_stats.per_subtask[$subtask_id] // 0) + $used)
+      else . end) |
+     .token_stats.per_agent[$resolved_agent] = ((.token_stats.per_agent[$resolved_agent] // 0) + $used) |
+     .updated_at = $t |
+     .history += [{
+       event: "token_tracked",
+       phase: $phase,
+       subtask_id: $subtask_id,
+       tokens_used: $used,
+       agent: $resolved_agent,
+       timestamp: $t
+     }]' "$tf" > "$tmp2" && mv "$tmp2" "$tf"
+
+  # Check budget after tracking
+  local budget_status=""
+  budget_status=$(kanban_check_token_budget "$task_id") || true
+  case "$budget_status" in
+    critical) echo "WARNING: Token budget CRITICAL for $task_id! (${tokens_used} tokens tracked, phase: ${phase})" ;;
+    warning)  echo "NOTICE: Token budget WARNING for $task_id (${tokens_used} tokens tracked, phase: ${phase})" ;;
+  esac
+
+  return 0
+}
+
+# check_token_budget: 检查任务是否超过 token 预算
+# 用法: kanban_check_token_budget <task_id>
+# 输出: normal | warning | critical
+# 返回码: 0=normal, 1=warning, 2=critical
+kanban_check_token_budget() {
+  local task_id="$1"
+  local tf
+  tf=$(task_file "$task_id")
+  [ ! -f "$tf" ] && { echo "ERROR: $task_id not found"; return 2; }
+
+  local token_budget
+  token_budget=$(jq -r '.token_budget // 0' "$tf")
+  local token_used
+  token_used=$(jq -r '.token_used // 0' "$tf")
+
+  # If budget is 0, no limit
+  if [ "$token_budget" -eq 0 ] 2>/dev/null; then
+    echo "normal"
+    return 0
+  fi
+
+  # Read config
+  local warning_threshold
+  warning_threshold=$(jq -r 'if .budget.warning_threshold != null then .budget.warning_threshold else 0.8 end' "$KANBAN_DIR/config.json" 2>/dev/null)
+  local hard_limit
+  hard_limit=$(jq -r 'if .budget.hard_limit != null then .budget.hard_limit else true end' "$KANBAN_DIR/config.json" 2>/dev/null)
+
+  # Calculate ratio using awk (portable)
+  local ratio
+  ratio=$(awk -v used="$token_used" -v budget="$token_budget" 'BEGIN { printf "%.4f", used / budget }' 2>/dev/null || echo "0")
+
+  # hard_limit=true and ratio >= 1.0 -> critical
+  if [ "$hard_limit" = "true" ]; then
+    local is_critical
+    is_critical=$(awk -v r="$ratio" 'BEGIN { if (r >= 1.0) print "1"; else print "0" }' 2>/dev/null || echo "0")
+    if [ "$is_critical" = "1" ]; then
+      echo "critical"
+      return 2
+    fi
+  fi
+
+  # ratio >= warning_threshold -> warning
+  local is_warning
+  is_warning=$(awk -v r="$ratio" -v t="$warning_threshold" 'BEGIN { if (r >= t) print "1"; else print "0" }' 2>/dev/null || echo "0")
+  if [ "$is_warning" = "1" ]; then
+    echo "warning"
+    return 1
+  fi
+
+  echo "normal"
+  return 0
+}
+
+# kanban_token_report: 格式化输出 token 消耗详情
+# 用法: kanban_token_report <task_id>
+kanban_token_report() {
+  local task_id="$1"
+  [ -z "$task_id" ] && { echo "Usage: kanban_token_report <task_id>"; return 1; }
+
+  local tf
+  tf=$(task_file "$task_id")
+  [ ! -f "$tf" ] && { echo "ERROR: $task_id not found"; return 1; }
+
+  local token_budget token_used
+  token_budget=$(jq -r '.token_budget // 0' "$tf")
+  token_used=$(jq -r '.token_used // 0' "$tf")
+
+  # Calculate percentage
+  local pct="0"
+  if [ "$token_budget" -gt 0 ] 2>/dev/null; then
+    pct=$(awk -v u="$token_used" -v b="$token_budget" 'BEGIN { printf "%.0f", u * 100 / b }' 2>/dev/null || echo "0")
+  fi
+
+  # Read warning threshold
+  local warn_threshold warn_pct
+  warn_threshold=$(jq -r 'if .budget.warning_threshold != null then .budget.warning_threshold else 0.8 end' "$KANBAN_DIR/config.json" 2>/dev/null)
+  warn_pct=$(awk -v t="$warn_threshold" 'BEGIN { printf "%.0f", t * 100 }' 2>/dev/null || echo "80")
+
+  # Helper: format number with commas
+  _fmt_num() {
+    awk -v n="$1" 'BEGIN { printf "%'\''d\n", n }' 2>/dev/null || echo "$1"
+  }
+
+  echo ""
+  echo "=== ${task_id} Token 消耗 ==="
+
+  # Phase breakdown
+  local phase_names="plan execute evaluate retrospective user_decision archive"
+  local total_phase=0
+  local pn pt
+  for pn in $phase_names; do
+    pt=$(jq -r ".token_stats.per_phase[\"$pn\"] // 0" "$tf" 2>/dev/null)
+    pt=${pt:-0}
+    total_phase=$((total_phase + pt))
+  done
+
+  printf "%-18s %12s %8s\n" "Phase" "Tokens" "占比"
+  for pn in $phase_names; do
+    pt=$(jq -r ".token_stats.per_phase[\"$pn\"] // 0" "$tf" 2>/dev/null)
+    pt=${pt:-0}
+    if [ "$pt" -gt 0 ] 2>/dev/null || [ "$pn" = "plan" ] || [ "$pn" = "execute" ] || [ "$pn" = "evaluate" ]; then
+      local phase_pct="0"
+      if [ "$total_phase" -gt 0 ] 2>/dev/null; then
+        phase_pct=$(( pt * 100 / total_phase ))
+      fi
+      local pt_fmt
+      pt_fmt=$(_fmt_num "$pt")
+      printf "%-18s %12s %7s%%\n" "$pn" "$pt_fmt" "$phase_pct"
+    fi
+  done
+
+  echo "─────────────────────────────────────────"
+  local tu_fmt tb_fmt
+  tu_fmt=$(_fmt_num "$token_used")
+  tb_fmt=$(_fmt_num "$token_budget")
+  printf "%-18s %12s / %-12s (%s%%)\n" "总计" "$tu_fmt" "$tb_fmt" "$pct"
+  echo ""
+
+  # Agent distribution
+  echo "Agent 分布:"
+  local agents="planner executor code_reviewer qa pm designer"
+  local ag
+  for ag in $agents; do
+    local at
+    at=$(jq -r ".token_stats.per_agent[\"$ag\"] // 0" "$tf" 2>/dev/null)
+    at=${at:-0}
+    local ag_pct="0"
+    if [ "$token_used" -gt 0 ] 2>/dev/null; then
+      ag_pct=$(( at * 100 / token_used ))
+    fi
+    local at_fmt
+    at_fmt=$(_fmt_num "$at")
+    printf "  %-20s %12s (%s%%)\n" "${ag}:" "$at_fmt" "$ag_pct"
+  done
+  echo ""
+
+  # Budget status
+  local budget_status=""
+  budget_status=$(kanban_check_token_budget "$task_id") || true
+  local status_label="" symbol=""
+  case "$budget_status" in
+    critical) status_label="CRITICAL - 已超预算!"; symbol="[ERROR]" ;;
+    warning)  status_label="WARNING - 接近预算上限"; symbol="[WARNING]" ;;
+    *)        status_label="normal"; symbol="[OK]" ;;
+  esac
+
+  echo "${symbol} 预算状态: ${status_label} (已消耗 ${pct}%, 告警阈值 ${warn_pct}%)"
+  echo ""
+}
+
+# === ST-008: Subtask 检查点管理 (GitHub Issue #37) ===
+#
+# Subtask 级检查点机制，用于中断恢复时识别已完成/未完成的 subtask。
+# 检查点文件存储在: .kanban/tasks/{task_id}/checkpoints/{subtask_id}.json
+#
+# 检查点生命周期:
+#   1. kanban_subtask_checkpoint_start   -- subtask 开始时创建
+#   2. kanban_subtask_checkpoint_file_done -- 每完成一个文件写入时追加
+#   3. kanban_subtask_checkpoint_complete  -- subtask 完成时标记 completed
+#
+# 恢复时:
+#   - recovery_restore_subtask() 扫描 status=in_progress 的检查点，跳过已完成文件
+#   - recover_resume_task() 读取 checkpoints/ 目录确定下一个未完成的 subtask
+
+# 返回检查点目录路径
+_checkpoint_dir() {
+  local task_id="$1"
+  local tdir
+  tdir=$(task_dir "$task_id" 2>/dev/null) || tdir="$KANBAN_DIR/tasks/${task_id}"
+  # 旧格式任务: 检查点放在 .kanban/ 目录
+  if [ "$tdir" = "$KANBAN_DIR/tasks" ]; then
+    echo "$KANBAN_DIR/.checkpoints_${task_id}"
+  else
+    echo "$tdir/checkpoints"
+  fi
+}
+
+# kanban_subtask_checkpoint_start(task_id, subtask_id)
+# 在 subtask 开始时创建检查点文件
+kanban_subtask_checkpoint_start() {
+  local task_id="$1"
+  local subtask_id="$2"
+
+  [ -z "$task_id" ] && { echo "ERROR: task_id required"; return 1; }
+  [ -z "$subtask_id" ] && { echo "ERROR: subtask_id required"; return 1; }
+
+  local cp_dir
+  cp_dir=$(_checkpoint_dir "$task_id")
+  mkdir -p "$cp_dir"
+
+  local cp_file="${cp_dir}/${subtask_id}.json"
+  local now=$(date -u +%FT%TZ)
+
+  jq -n \
+    --arg subtask "$subtask_id" \
+    --arg now "$now" \
+    '{
+      subtask: $subtask,
+      started_at: $now,
+      files_written: [],
+      status: "in_progress"
+    }' > "$cp_file"
+
+  echo "Checkpoint started: $subtask_id"
+}
+
+# kanban_subtask_checkpoint_file_done(task_id, subtask_id, file_path)
+# 每完成一个文件写入时，追加到 files_written 数组
+kanban_subtask_checkpoint_file_done() {
+  local task_id="$1"
+  local subtask_id="$2"
+  local file_path="$3"
+
+  [ -z "$task_id" ] && { echo "ERROR: task_id required"; return 1; }
+  [ -z "$subtask_id" ] && { echo "ERROR: subtask_id required"; return 1; }
+  [ -z "$file_path" ] && { echo "ERROR: file_path required"; return 1; }
+
+  local cp_dir
+  cp_dir=$(_checkpoint_dir "$task_id")
+  local cp_file="${cp_dir}/${subtask_id}.json"
+
+  if [ ! -f "$cp_file" ]; then
+    # 检查点文件不存在: 自动创建
+    kanban_subtask_checkpoint_start "$task_id" "$subtask_id"
+  fi
+
+  local now=$(date -u +%FT%TZ)
+  local tmp=$(mktemp)
+  jq --arg fp "$file_path" --arg now "$now" \
+    '.files_written += [$fp] | .last_file_at = $now' \
+    "$cp_file" > "$tmp" && mv "$tmp" "$cp_file"
+}
+
+# kanban_subtask_checkpoint_complete(task_id, subtask_id)
+# Subtask 完成时，将 status 改为 "completed"，记录 completed_at 和 git_commit_hash
+kanban_subtask_checkpoint_complete() {
+  local task_id="$1"
+  local subtask_id="$2"
+
+  [ -z "$task_id" ] && { echo "ERROR: task_id required"; return 1; }
+  [ -z "$subtask_id" ] && { echo "ERROR: subtask_id required"; return 1; }
+
+  local cp_dir
+  cp_dir=$(_checkpoint_dir "$task_id")
+  local cp_file="${cp_dir}/${subtask_id}.json"
+
+  if [ ! -f "$cp_file" ]; then
+    echo "WARN: checkpoint not found for $subtask_id, creating completed checkpoint"
+    kanban_subtask_checkpoint_start "$task_id" "$subtask_id"
+  fi
+
+  local now=$(date -u +%FT%TZ)
+  # 获取 worktree 路径并切换到 worktree 以获取正确的 git commit hash
+  local tf=$(task_file "$task_id")
+  local wt_path=""
+  wt_path=$(jq -r '.worktree.path // ""' "$tf" 2>/dev/null) || wt_path=""
+  local prev_cwd="$PWD"
+  if [ -n "$wt_path" ] && [ -d "$wt_path" ]; then
+    cd "$wt_path" || true
+  fi
+  local commit_hash=""
+  if git rev-parse --git-dir >/dev/null 2>&1; then
+    commit_hash=$(git rev-parse --short HEAD 2>/dev/null || echo "")
+  fi
+  cd "$prev_cwd" || true
+
+  local tmp=$(mktemp)
+  if [ -n "$commit_hash" ]; then
+    jq --arg now "$now" --arg hash "$commit_hash" \
+      '.status = "completed" | .completed_at = $now | .git_commit_hash = $hash' \
+      "$cp_file" > "$tmp" 2>/dev/null
+  else
+    jq --arg now "$now" \
+      '.status = "completed" | .completed_at = $now' \
+      "$cp_file" > "$tmp" 2>/dev/null
+  fi
+
+  if [ -s "$tmp" ]; then
+    mv "$tmp" "$cp_file"
+  fi
+
+  echo "Checkpoint completed: $subtask_id"
+}
+
+# kanban_subtask_checkpoint_get(task_id, subtask_id)
+# 读取检查点文件内容 (JSON)
+kanban_subtask_checkpoint_get() {
+  local task_id="$1"
+  local subtask_id="$2"
+
+  [ -z "$task_id" ] && { echo "ERROR: task_id required"; return 1; }
+  [ -z "$subtask_id" ] && { echo "ERROR: subtask_id required"; return 1; }
+
+  local cp_dir
+  cp_dir=$(_checkpoint_dir "$task_id")
+  local cp_file="${cp_dir}/${subtask_id}.json"
+
+  if [ ! -f "$cp_file" ]; then
+    echo "{}"
+    return 0
+  fi
+
+  cat "$cp_file"
+}
+
+# kanban_subtask_checkpoint_list(task_id)
+# 列出任务的所有检查点，返回 JSON 数组 [{subtask, status, files_count}, ...]
+kanban_subtask_checkpoint_list() {
+  local task_id="$1"
+
+  [ -z "$task_id" ] && { echo "ERROR: task_id required"; return 1; }
+
+  local cp_dir
+  cp_dir=$(_checkpoint_dir "$task_id")
+
+  if [ ! -d "$cp_dir" ]; then
+    echo "[]"
+    return 0
+  fi
+
+  local result="[]"
+  for cp_file in "$cp_dir"/*.json; do
+    [ -f "$cp_file" ] || continue
+    local subtask=$(jq -r '.subtask // ""' "$cp_file")
+    local status=$(jq -r '.status // ""' "$cp_file")
+    local files_count=$(jq '.files_written | length' "$cp_file")
+    result=$(echo "$result" | jq --arg st "$subtask" --arg s "$status" --argjson fc "$files_count" \
+      '. + [{subtask: $st, status: $s, files_count: $fc}]')
+  done
+  echo "$result"
 }

@@ -1,0 +1,1 @@
+{"task_id":"TASK-210","subtasks":[{"id":"ST-001","title":"短语数据模型与数据集","files":["src/phrasebook/data/phrases.ts"],"estimated_minutes":90}]}

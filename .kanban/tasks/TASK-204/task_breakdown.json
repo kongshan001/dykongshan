@@ -1,0 +1,1 @@
+{"task_id":"TASK-204","subtasks":[{"id":"ST-001","title":"预算数据模型","files":["src/budget/models/expense.ts"],"estimated_minutes":40},{"id":"ST-002","title":"汇率转换服务","files":["src/budget/engine/currency.ts"],"estimated_minutes":60}]}

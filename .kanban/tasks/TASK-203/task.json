@@ -1,0 +1,41 @@
+{
+  "id": "TASK-203",
+  "title": "旅行行李智能打包清单",
+  "description": "--desc",
+  "engine": "claude-code",
+  "status": "retrospective",
+  "phase": "retrospective",
+  "phase_lock": null,
+  "assignee": null,
+  "worktree": {
+    "branch": "feature/TASK-203",
+    "path": "",
+    "base": "master"
+  },
+  "iteration": 0,
+  "max_iterations": 6,
+  "token_budget": 500000,
+  "token_used": 0,
+  "scores": {
+    "code_reviewer": 10,
+    "qa": 10,
+    "pm": 10,
+    "designer": 10
+  },
+  "depends_on": [],
+  "modified_files": [],
+  "task_breakdown": {
+    "file": "",
+    "subtasks": []
+  },
+  "history": [],
+  "user_decision": {
+    "action": "approve_and_archive",
+    "feedback": "",
+    "decided_at": "2026-05-06T20:37:43Z"
+  },
+  "requires_archive_confirmation": true,
+  "created_at": "2026-05-06T20:36:37Z",
+  "updated_at": "2026-05-06T20:37:43Z",
+  "entered_at": null
+}

@@ -1,0 +1,1 @@
+{"task_id":"TASK-205","subtasks":[{"id":"ST-001","title":"紧急联系数据模型","files":["src/emergency/models/card.ts"],"estimated_minutes":40},{"id":"ST-002","title":"各国紧急信息数据集","files":["src/emergency/data/countries.ts"],"estimated_minutes":120}]}

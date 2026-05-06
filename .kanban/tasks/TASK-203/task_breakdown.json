@@ -1,0 +1,1 @@
+{"task_id":"TASK-203","subtasks":[{"id":"ST-001","title":"打包清单数据模型","files":["src/packing/models/checklist.ts"],"estimated_minutes":40},{"id":"ST-002","title":"气候与活动规则引擎","files":["src/packing/engine/generator.ts"],"estimated_minutes":90},{"id":"ST-003","title":"基础物品数据库","files":["src/packing/data/items.ts"],"estimated_minutes":60}]}

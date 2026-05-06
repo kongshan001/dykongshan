@@ -6,11 +6,14 @@
 setopt null_glob 2>/dev/null || shopt -s nullglob 2>/dev/null || true
 
 KANBAN_DIR=".kanban"
+SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-# Dashboard 目录和文件路径
-_DASHBOARD_DIR="$KANBAN_DIR/dashboard"
-_DASHBOARD_PID_FILE="$_DASHBOARD_DIR/.dashboard.pid"
-_DASHBOARD_LOG_FILE="$_DASHBOARD_DIR/.dashboard.log"
+# Dashboard 源文件目录（server.js, package.json 等位于 skills 目录）
+_DASHBOARD_SRC_DIR="$SKILL_DIR/dashboard"
+# Dashboard 运行时数据目录（仅存放 .pid, .log 等运行时文件）
+_DASHBOARD_RUNTIME_DIR="$KANBAN_DIR/dashboard"
+_DASHBOARD_PID_FILE="$_DASHBOARD_RUNTIME_DIR/.dashboard.pid"
+_DASHBOARD_LOG_FILE="$_DASHBOARD_RUNTIME_DIR/.dashboard.log"
 
 # 读取配置端口（优先级: 环境变量 PORT > config.json dashboard.port > 默认 3000）
 _dashboard_get_port() {
@@ -35,24 +38,27 @@ _dashboard_check_port() {
 
 # 启动 Dashboard 服务
 _dashboard_start() {
-  # 1. 检查 server.js 是否存在
-  if [ ! -f "$_DASHBOARD_DIR/server.js" ]; then
-    echo "ERROR: $_DASHBOARD_DIR/server.js not found"
-    echo "Hint: run file migration first (ST-001)"
+  # 1. 确保运行时数据目录存在
+  mkdir -p "$_DASHBOARD_RUNTIME_DIR"
+
+  # 2. 检查 server.js 是否存在（从 skills 源目录直接启动）
+  if [ ! -f "$_DASHBOARD_SRC_DIR/server.js" ]; then
+    echo "ERROR: $_DASHBOARD_SRC_DIR/server.js not found"
+    echo "Hint: run kanban init to install framework files"
     return 1
   fi
 
-  # 2. 检查 node 是否可用
+  # 3. 检查 node 是否可用
   if ! command -v node >/dev/null 2>&1; then
     echo "ERROR: node is not installed or not in PATH"
     return 1
   fi
 
-  # 3. 读取端口配置
+  # 4. 读取端口配置
   local port
   port=$(_dashboard_get_port)
 
-  # 4. 检查端口是否被占用
+  # 5. 检查端口是否被占用
   local occupying_pid
   occupying_pid=$(_dashboard_check_port "$port")
   if [ -n "$occupying_pid" ]; then
@@ -70,7 +76,7 @@ _dashboard_start() {
     return 1
   fi
 
-  # 5. 检查 PID 文件 — 如果进程仍存活则跳过启动
+  # 6. 检查 PID 文件 — 如果进程仍存活则跳过启动
   if [ -f "$_DASHBOARD_PID_FILE" ]; then
     local old_pid
     old_pid=$(cat "$_DASHBOARD_PID_FILE")
@@ -82,23 +88,23 @@ _dashboard_start() {
     rm -f "$_DASHBOARD_PID_FILE"
   fi
 
-  # 6. 如果 node_modules 不存在，安装依赖
-  if [ ! -d "$_DASHBOARD_DIR/node_modules" ]; then
+  # 7. 如果 node_modules 不存在，在 skills 源目录安装依赖
+  if [ ! -d "$_DASHBOARD_SRC_DIR/node_modules" ]; then
     echo "Installing dependencies..."
-    (cd "$_DASHBOARD_DIR" && npm install --production) || {
+    (cd "$_DASHBOARD_SRC_DIR" && npm install --production) || {
       echo "ERROR: npm install failed"
       return 1
     }
   fi
 
-  # 7. 启动 server（后台运行）
-  nohup node "$_DASHBOARD_DIR/server.js" > "$_DASHBOARD_LOG_FILE" 2>&1 &
+  # 8. 从 skills 源目录启动 server（后台运行），日志写入运行时目录
+  nohup node "$_DASHBOARD_SRC_DIR/server.js" > "$_DASHBOARD_LOG_FILE" 2>&1 &
   local pid=$!
 
-  # 8. 写入 PID 文件
+  # 9. 写入 PID 文件
   echo "$pid" > "$_DASHBOARD_PID_FILE"
 
-  # 9. 等待最多 3 秒检查 server 启动成功
+  # 10. 等待最多 3 秒检查 server 启动成功
   local waited=0
   local started=false
   while [ "$waited" -lt 3 ]; do
@@ -127,7 +133,7 @@ _dashboard_start() {
     echo "Check log: $_DASHBOARD_LOG_FILE"
   fi
 
-  # 10. macOS 上自动打开浏览器
+  # 11. macOS 上自动打开浏览器
   if [ "$(uname)" = "Darwin" ] && command -v open >/dev/null 2>&1; then
     open "http://localhost:$port"
   fi

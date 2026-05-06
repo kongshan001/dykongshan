@@ -632,6 +632,169 @@
         }
       }
     },
+    "time": {
+      "action_mapping": "time",
+      "task_id_required": false,
+      "keywords": {
+        "exact": [
+          "time",
+          "耗时"
+        ],
+        "synonyms": [
+          "查看耗时",
+          "任务耗时",
+          "执行耗时",
+          "运行时间",
+          "花了多久",
+          "用了多长时间",
+          "time report",
+          "kanban time",
+          "查看时间",
+          "耗时报告",
+          "任务用时",
+          "执行时间",
+          "阶段耗时",
+          "看看耗时",
+          "查看运行时间"
+        ],
+        "fuzzy": [
+          "跑了多久",
+          "花了多少时间",
+          "用了多久",
+          "时间花了多少",
+          "每个阶段多久"
+        ]
+      },
+      "subcommands": {}
+    },
+    "tokens": {
+      "action_mapping": "tokens",
+      "task_id_required": true,
+      "keywords": {
+        "exact": [
+          "tokens",
+          "token"
+        ],
+        "synonyms": [
+          "查看token",
+          "查看令牌",
+          "token消耗",
+          "令牌消耗",
+          "token用量",
+          "token报告",
+          "tokens report",
+          "kanban tokens",
+          "查看token消耗",
+          "token使用",
+          "消耗了多少token",
+          "用了多少token"
+        ],
+        "fuzzy": [
+          "token用了多少",
+          "令牌用了多少",
+          "消耗了多少",
+          "token budget",
+          "token预算"
+        ]
+      },
+      "subcommands": {}
+    },
+    "rollback": {
+      "action_mapping": "rollback",
+      "task_id_required": true,
+      "keywords": {
+        "exact": [
+          "rollback",
+          "回滚"
+        ],
+        "synonyms": [
+          "回滚任务",
+          "撤销任务",
+          "rollback task",
+          "kanban rollback",
+          "任务回滚",
+          "回退任务",
+          "撤回",
+          "后退"
+        ],
+        "fuzzy": [
+          "把任务回滚",
+          "撤销一下",
+          "回退到之前",
+          "退回到之前的状态",
+          "回滚到安全检查点"
+        ]
+      },
+      "subcommands": {}
+    },
+    "progress": {
+      "action_mapping": "progress",
+      "task_id_required": true,
+      "keywords": {
+        "exact": [
+          "progress",
+          "进度"
+        ],
+        "synonyms": [
+          "查看进度",
+          "任务进度",
+          "执行进度",
+          "subtask进度",
+          "子任务进度",
+          "kanban progress",
+          "进展",
+          "完成情况",
+          "进度报告",
+          "进度条"
+        ],
+        "fuzzy": [
+          "做了多少了",
+          "完成多少了",
+          "进度怎么样",
+          "任务完成了多少",
+          "看看进度"
+        ]
+      },
+      "subcommands": {}
+    },
+    "subtask": {
+      "action_mapping": "subtask",
+      "task_id_required": true,
+      "keywords": {
+        "exact": [
+          "subtask",
+          "子任务"
+        ],
+        "synonyms": [
+          "开始子任务",
+          "完成子任务",
+          "标记子任务",
+          "subtask start",
+          "subtask done",
+          "kanban subtask",
+          "子任务开始",
+          "子任务完成",
+          "子任务状态"
+        ],
+        "fuzzy": [
+          "开始做子任务",
+          "标记一下子任务",
+          "子任务做完了",
+          "子任务搞定了",
+          "这个子任务完成了"
+        ]
+      },
+      "subcommands": {
+        "start": {
+          "keywords": ["start", "开始", "开始做", "启动", "着手"],
+          "examples": ["开始 ST-001", "启动子任务", "start ST-002"]
+        },
+        "done": {
+          "keywords": ["done", "完成", "做完了", "搞定了", "结束"],
+          "examples": ["完成 ST-001", "子任务做完了", "done ST-002"]
+        }
+      }
+    },
     "clean": {
       "action_mapping": "clean",
       "task_id_required": false,
@@ -751,7 +914,14 @@
         "/kanban score <task_id>",
         "/kanban summary <task_id>",
         "/kanban recover [<task_id>]",
+        "/kanban resume <task_id>",
+        "/kanban rollback <task_id>",
         "/kanban clean [{TASK-NNN | --all | --before YYYY-MM-DD}]",
+        "/kanban time [<task_id>]",
+        "/kanban tokens <task_id>",
+        "/kanban subtask start <task_id> <subtask_id>",
+        "/kanban subtask done <task_id> <subtask_id>",
+        "/kanban progress <task_id>",
         "/kanban dashboard [start|stop|status|restart]",
         "/kanban version list"
       ]

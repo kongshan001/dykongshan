@@ -1,0 +1,40 @@
+{
+  "task_id": "TASK-198",
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "冥想引导音频资源管理模块",
+      "description": "实现音频资源的下载、缓存和离线管理",
+      "files": ["src/audio/resource-manager.ts", "src/audio/cache.ts"],
+      "estimated_minutes": 120
+    },
+    {
+      "id": "ST-002",
+      "title": "旅行场景冥想引导播放器",
+      "description": "核心播放器，支持场景选择、时长控制、背景音混合",
+      "files": ["src/player/meditation-player.ts", "src/player/audio-mixer.ts"],
+      "estimated_minutes": 180
+    },
+    {
+      "id": "ST-003",
+      "title": "冥想场景配置与数据模型",
+      "description": "定义 5 种旅行场景的配置数据结构",
+      "files": ["src/models/scene-config.ts", "src/data/scenes/"],
+      "estimated_minutes": 60
+    },
+    {
+      "id": "ST-004",
+      "title": "冥想记录与统计模块",
+      "description": "记录冥想历史，提供统计图表",
+      "files": ["src/stats/meditation-log.ts", "src/stats/analytics.ts"],
+      "estimated_minutes": 90
+    },
+    {
+      "id": "ST-005",
+      "title": "UI 界面与交互",
+      "description": "冥想引导的主界面，包括场景选择、播放控制",
+      "files": ["src/ui/meditation-screen.tsx", "src/ui/scene-selector.tsx"],
+      "estimated_minutes": 150
+    }
+  ]
+}
