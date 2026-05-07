@@ -1,5 +1,5 @@
 // dashboard/js/app.js
-import { createApp, ref, computed, onMounted, watch } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+import { createApp, ref, computed, onMounted, watch } from 'vue';
 import { api } from './utils/api.js';
 import { KanbanBoard } from './components/KanbanBoard.js';
 import { StatsOverview } from './components/StatsOverview.js';

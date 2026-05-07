@@ -121,6 +121,14 @@
         ]
       },
       "subcommands": {},
+      "setup_options": {
+        "auto_archive": {
+          "keywords": ["自动归档", "auto archive", "auto-archive"],
+          "field": "auto_archive",
+          "value": true,
+          "description": "Enable simplified archive confirmation flow (IR-11 enhancement)"
+        }
+      },
       "parameter_hints": {
         "title": {
           "extraction": "remaining_text_after_keyword",
@@ -847,6 +855,52 @@
           "pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}",
           "required": false,
           "description": "Date filter for --before mode (YYYY-MM-DD)"
+        }
+      }
+    },
+    "knowledge": {
+      "action_mapping": "knowledge",
+      "task_id_required": false,
+      "description": "Search knowledge-log.md for entries by keyword, tag, or source task",
+      "keywords": {
+        "exact": [
+          "knowledge",
+          "知识",
+          "知识库"
+        ],
+        "synonyms": [
+          "搜索知识",
+          "搜索知识库",
+          "knowledge search",
+          "知识搜索",
+          "搜索经验",
+          "经验检索",
+          "查找知识点",
+          "查找经验",
+          "knowledge base search",
+          "知识库搜索",
+          "搜索klog",
+          "知识搜索",
+          "搜知识点",
+          "搜经验",
+          "kanban knowledge"
+        ],
+        "fuzzy": [
+          "在知识库里找一下",
+          "知识库里有关于",
+          "之前有没有遇到过",
+          "搜索一下知识库",
+          "知识库里面搜",
+          "搜索经验沉淀",
+          "找找之前的知识",
+          "查查有没有相关的知识点"
+        ]
+      },
+      "subcommands": {
+        "subcommand": {
+          "search": {
+            "keywords": ["search", "搜索", "查找", "搜", "检索", "查询", "找"]
+          }
         }
       }
     }

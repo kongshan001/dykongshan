@@ -20,7 +20,7 @@
 //   - onTaskUpdate(cb) -> unsubscribe fn   fires on task_created, task_updated, task_archived, tasks:refresh OR reports:changed
 //   - onConfigChanged(cb) -> unsubscribe fn  fires on config:changed
 
-import { ref, readonly, computed } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+import { ref, readonly, computed } from 'vue';
 import { api } from '../utils/api.js';
 
 // ---------------------------------------------------------------------------

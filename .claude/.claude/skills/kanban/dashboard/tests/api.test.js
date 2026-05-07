@@ -102,7 +102,7 @@ async function testErrorResponsesNoMessageLeak() {
   console.log('\n--- testErrorResponsesNoMessageLeak ---');
   // Test that error responses do not contain err.message (detail field)
   // We trigger a 404 for a task, which should not leak server details
-  const res = await get('/api/tasks/NONEXISTENT-TASK-99999');
+  const res = await get('/api/tasks/NOEXIST-TASK-99999');
   assert(res.status === 404, `Non-existent task returns 404 (got ${res.status})`);
   if (res.json) {
     assert(!res.json.detail, 'Error response does not contain detail field');
@@ -112,7 +112,7 @@ async function testErrorResponsesNoMessageLeak() {
   }
 
   // Also verify archived tasks endpoint does not leak details on 404
-  const res2 = await get('/api/archived-tasks/NONEXISTENT-TASK-99999');
+  const res2 = await get('/api/archived-tasks/NOEXIST-TASK-99999');
   assert(res2.status === 404, `Non-existent archived task returns 404 (got ${res2.status})`);
   if (res2.json) {
     assert(!res2.json.detail, 'Archived task error response does not contain detail field');
@@ -165,7 +165,7 @@ async function testArchivedTasksItemFormat() {
 
 async function testArchivedTaskDetailNotFound() {
   console.log('\n--- testArchivedTaskDetailNotFound ---');
-  const res = await get('/api/archived-tasks/NONEXISTENT-TASK-99999');
+  const res = await get('/api/archived-tasks/NOEXIST-TASK-99999');
   assert(res.status === 404, `/api/archived-tasks/:id returns 404 for non-existent (got ${res.status})`);
   assert(res.json && res.json.error, 'Response contains error field');
 }
@@ -245,6 +245,43 @@ async function testValidTaskIdStillWorks() {
   assert(res3.status === 404, `Legitimate ID /api/archived-tasks/TASK-99999 returns 404 not 400 (got ${res3.status})`);
 }
 
+// --- Task ID length limit regression tests (#67) ---
+
+async function testTaskIdTooLongRejected() {
+  console.log('\n--- testTaskIdTooLongRejected ---');
+  // 21-character ID should be rejected with 400
+  const longId = 'TASK-1234567890123456'; // 21 chars
+  const routes = [
+    `/api/tasks/${longId}`,
+    `/api/archive/${longId}`,
+    `/api/archived-tasks/${longId}`,
+    `/api/tasks/${longId}/retrospective`,
+    `/api/archived-tasks/${longId}/retrospective`,
+  ];
+  for (const route of routes) {
+    const res = await get(route);
+    assert(res.status === 400, `${route} with ${longId.length}-char ID returns 400 (got ${res.status})`);
+    assert(res.json && res.json.error, `${route} response contains error field`);
+  }
+}
+
+async function testTaskIdMaxLengthAccepted() {
+  console.log('\n--- testTaskIdMaxLengthAccepted ---');
+  // 20-character ID should NOT be rejected (should get 404 not 400)
+  const maxId = 'TASK-123456789012345'; // 20 chars
+  const routes = [
+    `/api/tasks/${maxId}`,
+    `/api/archive/${maxId}`,
+    `/api/archived-tasks/${maxId}`,
+    `/api/tasks/${maxId}/retrospective`,
+    `/api/archived-tasks/${maxId}/retrospective`,
+  ];
+  for (const route of routes) {
+    const res = await get(route);
+    assert(res.status !== 400, `${route} with ${maxId.length}-char ID is not rejected as invalid (got ${res.status}, expected 404)`);
+  }
+}
+
 // ---------- main ----------
 
 async function main() {
@@ -266,6 +303,9 @@ async function main() {
     await testPathTraversalArchivedTasksEndpoint();
     await testPathTraversalWithBackslash();
     await testValidTaskIdStillWorks();
+    // Task ID length limit tests (#67)
+    await testTaskIdTooLongRejected();
+    await testTaskIdMaxLengthAccepted();
   } catch (err) {
     console.error('Test error:', err);
     failed++;

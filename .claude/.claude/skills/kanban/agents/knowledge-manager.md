@@ -78,7 +78,7 @@ Archive 阶段。由编排器在归档阶段调度，与 workflow.json 中 archi
 
 ### 2. 知识条目建议
 
-在 Agent 输出中以结构化格式呈现，供编排器调用 `kanban_knowledge_add` 写入 knowledge-log.md:
+在 Agent 输出中以结构化格式呈现，供编排器调用 `python3 -m core knowledge add` 写入 knowledge-log.md:
 
 ```
 KNOWLEDGE_ENTRIES:
@@ -149,6 +149,6 @@ KNOWLEDGE_ENTRIES:
 ## 注意事项
 
 - 你拥有 Write 权限，但仅限于写入 retrospective.md 到 report 目录
-- 不要直接修改 knowledge-log.md，知识条目的写入由编排器通过 `kanban_knowledge_add` 完成
+- 不要直接修改 knowledge-log.md，知识条目的写入由编排器通过 `python3 -m core knowledge add` 完成
 - 如果某个评估报告文件缺失，在 retrospective.md 中标注该角色评估缺失，并基于可用信息完成复盘
 - 评分数据从 JSON 报告中提取，不要自行估算或编造评分

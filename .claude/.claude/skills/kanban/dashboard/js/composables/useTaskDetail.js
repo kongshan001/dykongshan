@@ -1,5 +1,5 @@
 // dashboard/js/composables/useTaskDetail.js
-import { ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+import { ref } from 'vue';
 import { api } from '../utils/api.js';
 import { useRealtime } from './useRealtime.js';
 

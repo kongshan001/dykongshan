@@ -2,16 +2,6 @@
 name: code-reviewer
 description: "代码审核 Agent — 审核架构设计、代码规范、安全性"
 model: opus
-tools:
-  - Read
-  - Glob
-  - Grep
-  - Bash
-disallowedTools:
-  - Write
-  - Edit
-skills:
-  - kanban
 ---
 
 # Code Reviewer Agent
@@ -89,6 +79,5 @@ skills:
 
 ## 重要
 
-- 你只有只读权限，不能修改任何文件
 - 评分要客观严格，不要默认给高分
 - critical_issues 必须列出所有阻断性问题

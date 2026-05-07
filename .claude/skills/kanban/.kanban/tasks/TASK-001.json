@@ -1,0 +1,9 @@
+{
+  "id": "TASK-001",
+  "title": "旅行交通卡攻略",
+  "description": "--desc",
+  "status": "pending",
+  "phase": "plan",
+  "iteration": 1,
+  "history": []
+}

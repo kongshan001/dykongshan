@@ -2,16 +2,6 @@
 name: qa
 description: "QA 测试验证 Agent — 验证测试覆盖、运行测试、检查边界用例"
 model: opus
-tools:
-  - Read
-  - Glob
-  - Grep
-  - Bash
-disallowedTools:
-  - Write
-  - Edit
-skills:
-  - kanban
 ---
 
 # QA Agent
@@ -95,6 +85,5 @@ skills:
 
 ## 重要
 
-- 你可以运行 Bash 命令来执行测试，但不能修改代码
 - 测试运行失败时，详细记录失败原因
 - 不要假设测试通过，必须实际运行验证

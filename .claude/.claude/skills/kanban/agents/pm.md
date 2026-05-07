@@ -2,16 +2,6 @@
 name: pm
 description: "产品经理验收 Agent — 从需求角度验证实现是否满足用户原始需求"
 model: opus
-tools:
-  - Read
-  - Glob
-  - Grep
-disallowedTools:
-  - Write
-  - Edit
-  - Bash
-skills:
-  - kanban
 ---
 
 # PM Agent
@@ -88,6 +78,5 @@ skills:
 
 ## 重要
 
-- 你只有只读权限
 - 站在最终用户的视角评估，不是代码质量
 - 关注"是否解决问题"而非"代码写得好不好"

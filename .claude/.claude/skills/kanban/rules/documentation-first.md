@@ -23,6 +23,10 @@ R-003
 - `pm_report.json` -- 产品经理评审报告
 - `designer_report.json` -- 设计评审报告
 
+**Retrospective 阶段:**
+- `retrospective.md` -- 复盘总结文档，包含目标回顾、评分趋势、经验教训、技术决策总结
+- `acceptance.md` -- 验收文档，包含快速验收清单（表格+验证命令）、按需求验收、文件变更一览
+
 此规则确保流程全程可追溯、可复盘。文档是后续迭代改进和知识沉淀的基础数据来源。
 
 ## 检查方法
@@ -31,6 +35,7 @@ R-003
 1. Plan -> Execute 转换时，检查 `requirements.md` 和 `task_breakdown.json` 存在且非空
 2. Execute -> Evaluate 转换时，检查 `execution_summary.md`、`execution_pitfalls.md` 和 `execution_decisions.md` 存在且非空
 3. Evaluate -> User Decision 转换时，检查 4 个角色报告 JSON 文件存在且包含有效评分
+4. Retrospective -> User Decision 转换时，检查 `retrospective.md` 和 `acceptance.md` 存在且非空
 
 每个检查点验证:
 - 文件物理存在

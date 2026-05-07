@@ -4,7 +4,9 @@
 R-006
 
 ## 描述
-所有代码修改必须通过 kanban 任务看板系统的标准 FSM 流程，包括框架自身的改造。禁止绕过看板直接在 main 分支上做未经 Plan/Execute/Evaluate 流程的变更。不允许任何形式的 fast-track 或简化流程，无论变更多小都必须走完整流程。
+所有代码修改必须通过 kanban 任务看板系统的标准 FSM 流程，包括框架自身的改造。禁止绕过看板直接在 main 分支上做未经 Plan/Execute/Evaluate 流程的变更。
+
+轻量模式例外：系统可在 Plan 完成后评估任务复杂度，建议轻量模式（跳过 worktree + 简化评估）。轻量模式仍需走完整 Plan → Execute → Evaluate → User Decision → Archive 流程，仅 Execute 和 Evaluate 阶段的实现方式简化。**必须征得用户同意后才能启用。**
 
 具体规则：
 

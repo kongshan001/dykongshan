@@ -1,0 +1,12 @@
+[project]
+name = "kanban"
+version = "0.2.0"
+description = "Kanban multi-agent orchestration framework"
+requires-python = ">=3.9"
+
+[project.scripts]
+kanban = "core.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
+pythonpath = ["."]

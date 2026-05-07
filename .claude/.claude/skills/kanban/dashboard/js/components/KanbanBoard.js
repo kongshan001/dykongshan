@@ -1,5 +1,5 @@
 // dashboard/js/components/KanbanBoard.js
-import { ref, computed, onMounted, watch, nextTick } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+import { ref, computed, onMounted, watch, nextTick } from 'vue';
 import { api } from '../utils/api.js';
 import { useSearchFilter } from '../composables/useSearchFilter.js';
 import { useReportViewer } from '../composables/useReportViewer.js';

@@ -16,12 +16,12 @@ R-007
 - `V0.1.0.md` — 错误（v 必须小写）
 
 ## 适用范围
-- `.kanban/versions/` 目录下的所有版本记录文件
+- `.claude/skills/kanban/versions/` 目录（`.kanban/versions/` 为指向该目录的 symlink）下的所有版本记录文件
 - `kanban_version_record` 函数生成的文件自动遵循此规范
 - CHANGELOG.md 中的引用路径应使用相同的 `v{X.Y.Z}.md` 格式
 
 ## 检查方法
-`kanban_check_version_naming` 函数扫描 `.kanban/versions/` 目录，报告不符合规范的文件。`kanban_version_list` 在列出版本时自动执行此检查，输出命名警告。
+`kanban_check_version_naming` 函数扫描 `.claude/skills/kanban/versions/` 目录（`.kanban/versions/` 为指向该目录的 symlink），报告不符合规范的文件。`kanban_version_list` 在列出版本时自动执行此检查，输出命名警告。
 
 `kanban_version_record` 函数在传入 version 参数时自动补全 v 前缀（如果缺失），确保生成的文件名始终符合规范。
 

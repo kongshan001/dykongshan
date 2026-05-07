@@ -29,13 +29,16 @@ app.use(express.static(__dirname));
 // Input validation
 // ============================================================
 /**
- * Validate that a task ID parameter does not contain path traversal sequences.
- * Blocks directory traversal attacks (e.g. "..%2F", "../", "..\\") while
- * allowing any reasonable task ID format.
+ * Validate that a task ID parameter is safe to use in file-system operations.
+ * Enforces:
+ *   - Non-empty string
+ *   - Maximum length of 20 characters (prevents buffer overflow / path traversal
+ *     via extremely long IDs)
+ *   - No ".." sequences (blocks directory traversal attacks e.g. "../", "..\\")
  */
 const PATH_TRAVERSAL_PATTERN = /\.\./;
 function isValidTaskId(id) {
-  return typeof id === 'string' && id.length > 0 && !PATH_TRAVERSAL_PATTERN.test(id);
+  return typeof id === 'string' && id.length > 0 && id.length <= 20 && !PATH_TRAVERSAL_PATTERN.test(id);
 }
 
 // ============================================================

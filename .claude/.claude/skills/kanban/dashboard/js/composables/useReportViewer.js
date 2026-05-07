@@ -1,5 +1,5 @@
 // dashboard/js/composables/useReportViewer.js
-import { ref, computed } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+import { ref, computed } from 'vue';
 
 export function useReportViewer(taskDetail) {
   const selectedIteration = ref(0);

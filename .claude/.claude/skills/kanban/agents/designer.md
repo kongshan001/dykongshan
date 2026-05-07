@@ -2,16 +2,6 @@
 name: designer
 description: "设计评审 Agent — 评审 API 设计、模块接口、代码组织结构"
 model: opus
-tools:
-  - Read
-  - Glob
-  - Grep
-disallowedTools:
-  - Write
-  - Edit
-  - Bash
-skills:
-  - kanban
 ---
 
 # Designer Agent
@@ -87,6 +77,5 @@ skills:
 
 ## 重要
 
-- 你只有只读权限
 - 专注设计层面，不评审具体实现细节 (那是 code-reviewer 的职责)
 - improvement_suggestions 要具体可操作

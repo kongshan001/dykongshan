@@ -1,8 +1,9 @@
 {
   "role": "designer",
-  "required_fields": ["score", "improvements", "risks", "visual_score", "interaction_score", "consistency_score"],
+  "required_fields": ["average_score", "score", "improvements", "risks", "visual_score", "interaction_score", "consistency_score"],
   "schema": {
-    "score": "number (0-10)",
+    "average_score": "number (0-10) — 加权平均评分（优先读取，各维度加权平均。evaluator_record_score 优先读取此字段，不存在时 fallback 到 score）",
+    "score": "number (0-10) — 综合评分（向后兼容，当 average_score 不存在时使用）",
     "improvements": "array of strings (改善建议)",
     "risks": "array of strings (风险点)",
     "visual_score": "number (0-10) 美观度评分",

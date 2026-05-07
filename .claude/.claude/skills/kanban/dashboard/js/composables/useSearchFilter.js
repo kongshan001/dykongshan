@@ -1,5 +1,5 @@
 // dashboard/js/composables/useSearchFilter.js
-import { ref, computed, watch } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+import { ref, computed, watch } from 'vue';
 
 export function useSearchFilter(tasks) {
   const searchQuery = ref('');
