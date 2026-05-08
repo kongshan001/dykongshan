@@ -1,0 +1,17 @@
+{
+  "role": "pm",
+  "score": 9,
+  "feedback": "功能实用，必带/可选标记设计贴心",
+  "passed": true,
+  "improvements": [
+    "用户自定义物品",
+    "导出PDF"
+  ],
+  "risks": [
+    "物品列表可能不全面"
+  ],
+  "extended_requirements": [
+    "多语言支持"
+  ],
+  "requirement_coverage": "95%"
+}
