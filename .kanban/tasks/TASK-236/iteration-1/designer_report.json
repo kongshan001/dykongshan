@@ -1,0 +1,15 @@
+{
+  "role": "designer",
+  "score": 9,
+  "feedback": "排版清晰，emoji+必吃标记增强可读性",
+  "passed": true,
+  "improvements": [
+    "彩色输出",
+    "价格区间图示"
+  ],
+  "risks": [
+    "终端宽度限制"
+  ],
+  "visual_score": 9,
+  "interaction_score": 8
+}

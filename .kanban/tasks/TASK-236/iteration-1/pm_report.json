@@ -1,0 +1,17 @@
+{
+  "role": "pm",
+  "score": 9,
+  "feedback": "5城市27道美食，必吃标记+按餐次分类非常实用",
+  "passed": true,
+  "improvements": [
+    "用户评价系统",
+    "照片展示"
+  ],
+  "risks": [
+    "美食数据主观性"
+  ],
+  "extended_requirements": [
+    "餐厅定位导航"
+  ],
+  "requirement_coverage": "95%"
+}

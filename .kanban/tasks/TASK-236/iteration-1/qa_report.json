@@ -1,0 +1,18 @@
+{
+  "role": "qa",
+  "score": 8,
+  "feedback": "三场景输出正确，偏好匹配有效",
+  "passed": true,
+  "improvements": [
+    "空偏好测试",
+    "单城市测试"
+  ],
+  "risks": [
+    "无自动化测试"
+  ],
+  "missing_tests": [
+    "匹配算法测试",
+    "价格筛选测试"
+  ],
+  "test_coverage": "0%"
+}
