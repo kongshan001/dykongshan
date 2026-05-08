@@ -16,7 +16,7 @@ from core.domain.task import TaskManager
 
 
 def _resolve(task_id: str) -> tuple[Filesystem, TaskManager, dict]:
-    root = Path.cwd()
+    root = Filesystem.find_project_root()
     fs = Filesystem(root=root)
     tm = TaskManager(fs, Config(fs))
     task = tm.show(task_id)

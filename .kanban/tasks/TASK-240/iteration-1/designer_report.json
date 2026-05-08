@@ -1,0 +1,15 @@
+{
+  "role": "designer",
+  "score": 8,
+  "feedback": "信息层次分明，票种对比表格排版好",
+  "passed": true,
+  "improvements": [
+    "彩色区分",
+    "卡片图片"
+  ],
+  "risks": [
+    "终端宽度"
+  ],
+  "visual_score": 8,
+  "interaction_score": 7
+}

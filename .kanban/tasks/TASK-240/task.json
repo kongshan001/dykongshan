@@ -3,16 +3,16 @@
   "title": "旅行交通卡指南",
   "description": "全球主要城市交通卡使用攻略和充值指南",
   "engine": "claude-code",
-  "status": "pending",
-  "phase": null,
-  "phase_lock": null,
+  "status": "archive",
+  "phase": "archive",
+  "phase_lock": "archive",
   "assignee": null,
   "worktree": {
     "branch": "feature/TASK-240",
-    "path": "",
+    "path": "/root/.openclaw/workspace/.kanban/tasks/TASK-240/worktree",
     "base": "master"
   },
-  "iteration": 0,
+  "iteration": 1,
   "max_iterations": 6,
   "token_budget": 500000,
   "token_used": 0,
@@ -36,17 +36,79 @@
     },
     "total_estimated": 0
   },
-  "scores": {},
+  "scores": {
+    "code_reviewer": 8,
+    "qa": 8,
+    "pm": 9,
+    "designer": 8
+  },
   "depends_on": [],
   "modified_files": [],
   "task_breakdown": {
     "file": "",
     "subtasks": []
   },
-  "history": [],
-  "user_decision": null,
+  "history": [
+    {
+      "phase": "self_improve",
+      "iteration": 1,
+      "type": "full",
+      "entered_at": "2026-05-08T23:32:41Z",
+      "started_at": "2026-05-08T23:32:41Z"
+    },
+    {
+      "phase": "plan",
+      "status": "entered",
+      "entered_at": "2026-05-08T23:32:58Z",
+      "started_at": "2026-05-08T23:32:58Z"
+    },
+    {
+      "phase": "execute",
+      "status": "completed",
+      "entered_at": "2026-05-08T23:33:04Z",
+      "started_at": "2026-05-08T23:33:04Z",
+      "completed_at": "2026-05-08T23:34:38Z",
+      "exited_at": "2026-05-08T23:34:38Z",
+      "duration_seconds": 94
+    },
+    {
+      "phase": "evaluate",
+      "status": "entered",
+      "entered_at": "2026-05-08T23:34:38Z",
+      "started_at": "2026-05-08T23:34:38Z"
+    },
+    {
+      "phase": "retrospective",
+      "status": "completed",
+      "entered_at": "2026-05-08T23:35:00Z",
+      "started_at": "2026-05-08T23:35:00Z",
+      "completed_at": "2026-05-08T23:35:16Z",
+      "exited_at": "2026-05-08T23:35:16Z",
+      "duration_seconds": 16
+    },
+    {
+      "phase": "user_decision",
+      "status": "completed",
+      "entered_at": "2026-05-08T23:35:16Z",
+      "started_at": "2026-05-08T23:35:16Z",
+      "completed_at": "2026-05-08T23:35:19Z",
+      "exited_at": "2026-05-08T23:35:19Z",
+      "duration_seconds": 3
+    },
+    {
+      "phase": "archive",
+      "status": "entered",
+      "entered_at": "2026-05-08T23:35:19Z",
+      "started_at": "2026-05-08T23:35:19Z"
+    }
+  ],
+  "user_decision": {
+    "action": "approve_and_archive",
+    "decided_at": "now"
+  },
   "requires_archive_confirmation": true,
   "created_at": "2026-05-08T22:31:57Z",
-  "updated_at": "2026-05-08T22:31:57Z",
-  "entered_at": null
+  "updated_at": "2026-05-08T23:33:04Z",
+  "entered_at": "2026-05-08T23:35:19Z",
+  "iteration_type": null
 }

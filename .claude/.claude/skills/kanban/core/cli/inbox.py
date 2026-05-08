@@ -6,7 +6,7 @@ from core.infra.filesystem import Filesystem
 
 def dispatch(args: list[str]) -> dict:
     sub = args[0] if args else "list"
-    root = Path.cwd()
+    root = Filesystem.find_project_root()
     fs = Filesystem(root=root)
 
     if sub == "list":
@@ -22,7 +22,7 @@ def cmd_feedback(args: list[str]) -> dict:
         return {"error": "task_id required"}
     text = " ".join(args[1:]) if len(args) > 1 else ""
 
-    root = Path.cwd()
+    root = Filesystem.find_project_root()
     fs = Filesystem(root=root)
     inbox_file = fs.inbox_file()
     fs.ensure_dir(inbox_file.parent)

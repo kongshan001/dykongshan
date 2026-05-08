@@ -1,0 +1,18 @@
+{
+  "role": "qa",
+  "score": 8,
+  "feedback": "6城市输出正确，信息完整",
+  "passed": true,
+  "improvements": [
+    "数据验证",
+    "边界测试"
+  ],
+  "risks": [
+    "无自动化测试"
+  ],
+  "missing_tests": [
+    "数据库查询测试",
+    "报告格式测试"
+  ],
+  "test_coverage": "0%"
+}

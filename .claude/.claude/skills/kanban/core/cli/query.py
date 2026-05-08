@@ -10,7 +10,7 @@ from core.domain.progress import ProgressTracker
 
 
 def _resolve(task_id: str) -> tuple[Filesystem, Config, TaskManager]:
-    root = Path.cwd()
+    root = Filesystem.find_project_root()
     fs = Filesystem(root=root)
     cfg = Config(fs)
     tm = TaskManager(fs, cfg)

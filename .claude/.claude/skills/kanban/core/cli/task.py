@@ -8,7 +8,7 @@ from core.domain.scanner import scan_project, ScanReport
 
 
 def _resolve() -> tuple[Filesystem, Config, TaskManager]:
-    root = Path.cwd()
+    root = Filesystem.find_project_root()
     fs = Filesystem(root=root)
     cfg = Config(fs)
     return fs, cfg, TaskManager(fs, cfg)
@@ -45,7 +45,7 @@ def _serialize_report(report: ScanReport) -> dict:
 
 def cmd_init(args: list[str]) -> dict:
     fs, _, _ = _resolve()
-    root = Path.cwd()
+    root = Filesystem.find_project_root()
 
     # Ensure .kanban/ directory structure exists (fix #80)
     required_dirs = [
@@ -119,7 +119,7 @@ def cmd_init(args: list[str]) -> dict:
 
 def cmd_scan(args: list[str]) -> dict:
     """Explicit scan command for debugging/testing."""
-    root = Path.cwd()
+    root = Filesystem.find_project_root()
     report = scan_project(root)
     return _serialize_report(report)
 

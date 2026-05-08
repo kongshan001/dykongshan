@@ -14,55 +14,17 @@ description: "多 Agent 看板编排系统 -- 任务创建、FSM 工作流、多
 系统支持两种命令输入方式: **精确命令** 和 **自然语言**。路由优先级如下:
 
 1. **优先匹配精确命令格式** -- 如果用户输入匹配 `/kanban <command>` 的精确格式 (如 `/kanban status`、`/kanban run TASK-001`)，直接进入对应命令的执行流程
-2. **自然语言解析** -- 如果精确匹配失败，调用 `python3 -m core nlp` 进行自然语言意图识别
+2. **自然语言解析（LLM 推理）** -- 如果精确匹配失败，调用 `python3 -m core nlp` 获取命令列表，由当前 LLM 直接推理用户意图并映射到对应命令。
 
 #### 自然语言解析流程
 
-```bash
-# 1. 调用 NL 解析器 (输出 JSON 到 stdout)
-python3 -m core nlp "$user_input"
-
-# Python CLI 内部解析 JSON 并路由到对应命令，无需 jq
+```
+1. python3 -m core nlp "$user_input"  → 返回 {"input": "...", "interpret_by_llm": true, "available_commands": [...]}
+2. 当前 LLM 根据 input 语义 + available_commands 列表推理最匹配的命令
+3. 直接执行匹配到的精确命令
 ```
 
-#### 自然语言示例映射
-
-| 用户自然语言 | 解析结果命令 |
-|---|---|
-| 帮我初始化看板 | /kanban init |
-| 创建一个新任务叫"用户登录" | /kanban create "用户登录" |
-| 看一下看板状态 | /kanban status |
-| TASK-001的详情 | /kanban show TASK-001 |
-| 跑一下TASK-001 | /kanban run TASK-001 |
-| 帮我归档TASK-001 | /kanban decide TASK-001 --action approve_and_archive |
-| 批准并归档 | /kanban decide TASK-001 --action approve_and_archive |
-| 重新规划TASK-001 | /kanban decide TASK-001 --action restart_from_plan |
-| 看看TASK-001评分 | /kanban score TASK-001 |
-| TASK-001的摘要 | /kanban summary TASK-001 |
-| 恢复任务 | /kanban recover |
-| 打开Dashboard | /kanban dashboard start |
-| 查看版本历史 | /kanban version list |
-| 看看耗时 | /kanban time TASK-001 |
-| 查看任务耗时 | /kanban time |
-| 查看Token消耗 | /kanban tokens TASK-001 |
-| TASK-001的Token | /kanban tokens TASK-001 |
-| 清理归档任务 | /kanban clean --all |
-| 清理TASK-001 | /kanban clean TASK-001 |
-| 开始ST-001 | /kanban subtask start TASK-001 ST-001 |
-| 完成ST-001 | /kanban subtask done TASK-001 ST-001 |
-| 查看TASK-001进度 | /kanban progress TASK-001 |
-| 搜索知识库函数 | /kanban knowledge search "函数" |
-| 查找架构相关知识点 | /kanban knowledge search "架构" --tag 架构 |
-| 查看TASK-014的知识沉淀 | /kanban knowledge search "." --task TASK-014 |
-
-#### 回退机制
-
-当自然语言解析无法识别用户意图时 (`success: false`)，系统会:
-- 显示无法识别的提示信息
-- 列出所有可用的精确命令格式供用户参考
-- 用户可使用精确命令格式重新输入
-
-关键词匹配配置文件: `lib/nlp_patterns.json`，支持三级匹配: exact (置信度 1.0)、synonym (0.8)、fuzzy (0.6)。
+不再使用关键词匹配。LLM 直接理解语义，覆盖所有自然表达。
 
 ---
 
@@ -204,6 +166,8 @@ Plan 阶段分两步：**需求澄清（brainstorming）** → **任务拆解（
    - 按 brainstorming 技能标准流程执行：探索上下文 → 逐一提问 → 方案比较 → 设计审批
    - 澄清内容包括但不限于: 技术栈选择、功能边界、约束条件、验收标准
    - **必须遵循 brainstorming 的 HARD-GATE:** 设计方案获得用户批准后才算澄清完成
+   - **所有提问必须使用 `AskUserQuestion` 工具**（禁止纯文本提问），带 header/options/description
+   - 方案选择类问题用单选，多选用于非互斥选项
 5. 产出 `{task_dir}/design.md` — 用户确认后的设计文档
    - brainstorming 技能自动将设计文档写入 `docs/superpowers/specs/`，kanban 将其复制或引用到 `{task_dir}/design.md`
    - 对于简单任务 design.md 可以很简短（几段文字也算），但**不能为空**

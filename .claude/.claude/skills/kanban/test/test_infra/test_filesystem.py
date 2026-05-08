@@ -75,3 +75,74 @@ class TestFilesystem:
     def test_workflow_file(self, tmp_kanban):
         fs = Filesystem(root=tmp_kanban)
         assert fs.workflow_file() == tmp_kanban / ".kanban" / "workflow.json"
+
+
+class TestFindProjectRoot:
+    def test_finds_root_from_subdirectory(self, tmp_path):
+        """Walk up from subdirectory to find .kanban/config.json."""
+        project_root = tmp_path / "myproject"
+        kanban_dir = project_root / ".kanban"
+        kanban_dir.mkdir(parents=True)
+        (kanban_dir / "config.json").write_text('{"output_dir": "src"}')
+
+        subdir = project_root / "src" / "lib" / "deep"
+        subdir.mkdir(parents=True)
+
+        import os
+        old = os.getcwd()
+        try:
+            os.chdir(str(subdir))
+            found = Filesystem.find_project_root()
+            assert (found / ".kanban" / "config.json").exists()
+        finally:
+            os.chdir(old)
+
+    def test_falls_back_to_cwd(self, tmp_path):
+        """No config found → fall back to cwd."""
+        import os
+        old = os.getcwd()
+        try:
+            os.chdir(str(tmp_path))
+            found = Filesystem.find_project_root()
+            assert found == Path(tmp_path)
+        finally:
+            os.chdir(old)
+
+    def test_config_at_cwd(self, tmp_path):
+        """config.json directly in cwd's .kanban/."""
+        (tmp_path / ".kanban").mkdir(parents=True)
+        (tmp_path / ".kanban" / "config.json").write_text('{}')
+
+        import os
+        old = os.getcwd()
+        try:
+            os.chdir(str(tmp_path))
+            found = Filesystem.find_project_root()
+            assert (found / ".kanban" / "config.json").exists()
+        finally:
+            os.chdir(old)
+
+    def test_env_var_override(self, tmp_path, monkeypatch):
+        """KANBAN_ROOT env var takes priority."""
+        project_root = tmp_path / "explicit"
+        (project_root / ".kanban").mkdir(parents=True)
+        (project_root / ".kanban" / "config.json").write_text('{}')
+
+        monkeypatch.setenv("KANBAN_ROOT", str(project_root))
+        found = Filesystem.find_project_root()
+        assert found == project_root
+
+    def test_env_var_invalid_falls_back(self, tmp_path, monkeypatch):
+        """Invalid KANBAN_ROOT falls back to search."""
+        monkeypatch.setenv("KANBAN_ROOT", str(tmp_path / "nonexistent"))
+        (tmp_path / ".kanban").mkdir(parents=True)
+        (tmp_path / ".kanban" / "config.json").write_text('{}')
+
+        import os
+        old = os.getcwd()
+        try:
+            os.chdir(str(tmp_path))
+            found = Filesystem.find_project_root()
+            assert (found / ".kanban" / "config.json").exists()
+        finally:
+            os.chdir(old)

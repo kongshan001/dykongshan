@@ -74,27 +74,27 @@ class RecoveryManager:
 
 def recover_list() -> list[dict]:
     from pathlib import Path
-    fs = Filesystem(root=Path.cwd())
+    fs = Filesystem(root=Filesystem.find_project_root())
     mgr = RecoveryManager(fs)
     return mgr.find_interrupted()
 
 
 def recover_check_timeout(task_id: str) -> dict:
     from pathlib import Path
-    fs = Filesystem(root=Path.cwd())
+    fs = Filesystem(root=Filesystem.find_project_root())
     mgr = RecoveryManager(fs)
     return mgr.recover(task_id)
 
 
 def resume_task(task_id: str) -> dict:
     from pathlib import Path
-    fs = Filesystem(root=Path.cwd())
+    fs = Filesystem(root=Filesystem.find_project_root())
     mgr = RecoveryManager(fs)
     return mgr.resume(task_id)
 
 
 def rollback_task(task_id: str) -> dict:
     from pathlib import Path
-    fs = Filesystem(root=Path.cwd())
+    fs = Filesystem(root=Filesystem.find_project_root())
     mgr = RecoveryManager(fs)
     return mgr.rollback(task_id)

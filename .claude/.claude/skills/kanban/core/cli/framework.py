@@ -13,7 +13,7 @@ def dispatch(args: list[str]) -> dict:
 
 
 def cmd_assess(task_id: str | None = None) -> dict:
-    root = Path.cwd()
+    root = Filesystem.find_project_root()
     fs = Filesystem(root=root)
     cfg = Config(fs)
 

@@ -73,10 +73,54 @@ def _output(data: dict) -> None:
 
 
 def _cmd_check_env(args: list[str]) -> dict:
+    import os
+    from pathlib import Path
+    from core.infra.filesystem import Filesystem
+
+    root = Filesystem.find_project_root()
+    kanban_dir = root / ".kanban"
+    anomalies = []
+
+    # Anomaly 1: .kanban/ inside .claude/skills/ (should be at project root)
+    skills_kanban = root / ".claude" / "skills" / "kanban" / ".kanban"
+    if skills_kanban.exists():
+        anomalies.append({
+            "type": "mislocated_kanban",
+            "path": str(skills_kanban),
+            "message": ".kanban/ found inside .claude/skills/kanban/ — should be at project root",
+            "fix": f"rm -rf {skills_kanban}",
+        })
+
+    # Anomaly 2: .kanban/ at both project root and inside framework source
+    cwd = Path.cwd()
+    framework_root = None
+    for p in [cwd] + list(cwd.parents):
+        if (p / "pyproject.toml").exists() and (p / "core").is_dir():
+            framework_root = p
+            break
+    if framework_root and framework_root != root:
+        fw_kanban = framework_root / ".kanban"
+        if fw_kanban.exists():
+            anomalies.append({
+                "type": "framework_mislocation",
+                "path": str(fw_kanban),
+                "message": ".kanban/ exists inside framework source — tasks should be in project .kanban/",
+            })
+
+    config_ok = (kanban_dir / "config.json").is_file()
+    workflow_ok = (kanban_dir / "workflow.json").is_file()
+
+    healthy = config_ok and workflow_ok and len(anomalies) == 0
     return {
+        "project_root": str(root),
+        "kanban_dir": str(kanban_dir),
+        "config_ok": config_ok,
+        "workflow_ok": workflow_ok,
+        "ok": healthy,
+        "healthy": healthy,
+        "anomalies": anomalies,
         "python_version": sys.version,
         "executable": sys.executable,
-        "ok": True,
     }
 
 

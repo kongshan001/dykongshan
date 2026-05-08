@@ -2,6 +2,32 @@
 
 所有版本的迭代记录索引。每个版本有对应的详细记录文件 `v{X.Y.Z}.md`。
 
+## [v0.11.0] - 2026-05-09
+
+### Added
+- **Evaluator 自动评分链路**: collect-scores / record-score / self-improve-check 自动读 score_history
+- **迭代产物隔离**: workflow start-iteration hot/full + execution artifacts 迁移到 iteration-N/
+- **评分趋势 UI**: score_history 可视化（Canvas 折线图 + pass_threshold 参考线 + 颜色区分）
+- **轻量模式硬性门控**: requires_confirmation + AskUserQuestion 强制确认
+- **Agent 调度增强**: get-phase-agents 暴露 timeout/parallel 配置
+- **跨任务冲突检测**: Guard.check_cross_task_conflicts()
+- **知识库语义搜索**: search_scored() 加权评分（标题×3 + 分类×2 + 内容×1）
+- **Agent 注册表自动发现**: Scheduler.scan_agents() 扫描 .claude/agents/*.md
+- **项目根目录自动检测**: Filesystem.find_project_root() + check-env 异常检测
+- **NLP → LLM 推理**: 删除 1000 行关键词匹配，改为 interpret_by_llm
+
+### Changed
+- SKILL.md: brainstorming 强制 AskUserQuestion，LLM 推理路由
+- github-issue-processing skill: 不再基于标题过滤，验收报告缺口补齐前不关闭
+- Task 类型: 新增 scores + score_history 字段
+
+### Fixed
+- cmd_workflow transition 持久化阶段状态 (#100/#101)
+- Dashboard 缺失 StatsOverview.js + useScoreChart.js (#103)
+- Guard 兼容 iteration-N/ legacy 格式 (#102)
+
+详细记录见 `v0.11.0.md`
+
 ## [v0.10.0] - 2026-05-08
 
 ### Added

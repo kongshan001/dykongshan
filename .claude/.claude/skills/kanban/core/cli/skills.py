@@ -5,7 +5,7 @@ from core.domain.skills import SkillManager
 
 
 def dispatch(args: list[str]) -> dict:
-    root = Path.cwd()
+    root = Filesystem.find_project_root()
     fs = Filesystem(root=root)
     sm = SkillManager()
 

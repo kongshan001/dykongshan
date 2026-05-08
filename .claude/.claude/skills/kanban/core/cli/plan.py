@@ -21,7 +21,7 @@ def _cmd_inspect(args: list[str]) -> dict:
     if not args:
         return {"error": "task_id required"}
     task_id = args[0]
-    fs = Filesystem(root=Path.cwd())
+    fs = Filesystem(root=Filesystem.find_project_root())
     plan_path = fs.task_dir(task_id) / "plan.md"
 
     if not plan_path.is_file():
@@ -45,7 +45,7 @@ def _cmd_save(args: list[str]) -> dict:
     if len(args) > 2 and args[1] == "--file":
         file_input = args[2]
 
-    fs = Filesystem(root=Path.cwd())
+    fs = Filesystem(root=Filesystem.find_project_root())
     task_dir = fs.task_dir(task_id)
 
     try:

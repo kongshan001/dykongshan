@@ -55,7 +55,7 @@ def _move_to_archive(fs: Filesystem, task_id: str) -> None:
 def _extract_knowledge_on_archive(task_id: str) -> None:
     """IR-06: Extract knowledge from pitfalls/decisions on archive."""
     try:
-        root = Path.cwd()
+        root = Filesystem.find_project_root()
         fs = Filesystem(root=root)
         from core.domain.knowledge import KnowledgeManager
         km = KnowledgeManager(fs)
@@ -81,7 +81,7 @@ def _check_brainstorming_gate(description: str) -> dict:
 
 
 def _resolve() -> tuple[Filesystem, Config, TaskManager, WorkflowEngine]:
-    root = Path.cwd()
+    root = Filesystem.find_project_root()
     fs = Filesystem(root=root)
     cfg = Config(fs)
     tm = TaskManager(fs, cfg)
@@ -90,7 +90,7 @@ def _resolve() -> tuple[Filesystem, Config, TaskManager, WorkflowEngine]:
 
 
 def _resolve_worktree() -> tuple[Git, Worktree]:
-    root = Path.cwd()
+    root = Filesystem.find_project_root()
     g = Git(repo_root=root)
     wt = Worktree(git=g, repo_root=root)
     return g, wt
@@ -360,7 +360,7 @@ def cmd_workflow(args: list[str]) -> dict:
 
     if sub == "get-roles" or sub == "get-phase-agents":
         phase_str = args[1] if len(args) > 1 else "evaluate"
-        cfg = Config(Filesystem(root=Path.cwd()))
+        cfg = Config(Filesystem(root=Filesystem.find_project_root()))
         workflow = cfg.workflow
         phase_config = None
         for p in workflow.get("phases", []):
@@ -507,23 +507,42 @@ def cmd_worktree(args: list[str]) -> dict:
 # ── nlp ──────────────────────────────────────────────────────────
 
 def cmd_nlp(args: list[str]) -> dict:
+    """Return available commands + raw input for LLM interpretation.
+
+    No keyword matching — the orchestrator (Claude Code) uses its LLM
+    to map natural language to the exact command from the list below.
+    """
     text = " ".join(args)
-    try:
-        result = parse_nlp(text)
-        return {
-            "input": text,
-            "success": result.success,
-            "command": result.command,
-            "task_id": result.task_id,
-            "action": result.action,
-            "args": result.args,
-        }
-    except Exception:
-        return {
-            "input": text,
-            "success": False,
-            "error": "nlp parse failed",
-        }
+    from core.domain.nlp import extract_task_id
+    return {
+        "input": text,
+        "task_id": extract_task_id(text),
+        "interpret_by_llm": True,
+        "available_commands": [
+            {"command": "init",                  "example": "/kanban init"},
+            {"command": "create",                "example": '/kanban create "<title>" [--desc "<desc>"]'},
+            {"command": "status",                "example": "/kanban status"},
+            {"command": "show",                  "example": "/kanban show <task_id>"},
+            {"command": "run",                   "example": "/kanban run <task_id> [--phase <phase>]"},
+            {"command": "decide",                "example": "/kanban decide <task_id> --action approve_and_archive|abort|restart_from_plan|restart_from_execute"},
+            {"command": "score",                 "example": "/kanban score <task_id>"},
+            {"command": "summary",               "example": "/kanban summary <task_id>"},
+            {"command": "recover",               "example": "/kanban recover [<task_id>]"},
+            {"command": "resume",                "example": "/kanban resume <task_id>"},
+            {"command": "rollback",              "example": "/kanban rollback <task_id>"},
+            {"command": "clean",                 "example": "/kanban clean [<task_id>|--all|--before <date>]"},
+            {"command": "time",                  "example": "/kanban time [<task_id>]"},
+            {"command": "tokens",                "example": "/kanban tokens <task_id>"},
+            {"command": "progress",              "example": "/kanban progress <task_id>"},
+            {"command": "subtask",               "example": "/kanban subtask start|done <task_id> <subtask_id>"},
+            {"command": "dashboard",             "example": "/kanban dashboard [start|stop|status|restart]"},
+            {"command": "version",               "example": "/kanban version list|record"},
+            {"command": "knowledge",             "example": "/kanban knowledge search <keyword>"},
+            {"command": "feedback",              "example": "/kanban feedback <task_id>"},
+            {"command": "evolve-skills",         "example": "/kanban evolve-skills"},
+            {"command": "check-env",             "example": "/kanban check-env"},
+        ],
+    }
 
 
 # ── recover / rollback / resume ──────────────────────────────────

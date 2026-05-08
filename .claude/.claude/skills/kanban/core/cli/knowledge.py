@@ -12,7 +12,7 @@ def dispatch(args: list[str]) -> dict:
 
 
 def _handle_search(args: list[str]) -> dict:
-    root = Path.cwd()
+    root = Filesystem.find_project_root()
     fs = Filesystem(root=root)
     mgr = KnowledgeManager(fs)
 
@@ -43,7 +43,7 @@ def _handle_search(args: list[str]) -> dict:
 def cmd_search(keyword: str) -> dict:
     if not keyword:
         return {"keyword": "", "results": [], "count": 0}
-    root = Path.cwd()
+    root = Filesystem.find_project_root()
     fs = Filesystem(root=root)
     mgr = KnowledgeManager(fs)
     results = mgr.search(keyword)

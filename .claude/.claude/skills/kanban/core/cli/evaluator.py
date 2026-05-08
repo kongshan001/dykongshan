@@ -10,7 +10,7 @@ def dispatch(args: list[str]) -> dict:
         return {"error": "subcommand required: collect-scores, record-score"}
     sub = args[0]
     task_id = args[1] if len(args) > 1 else "unknown"
-    root = Path.cwd()
+    root = Filesystem.find_project_root()
     fs = Filesystem(root=root)
     cfg = Config(fs)
     tm = TaskManager(fs, cfg)

@@ -1,5 +1,6 @@
 from __future__ import annotations
 import json
+import os
 from pathlib import Path
 from typing import Any
 
@@ -8,6 +9,27 @@ class Filesystem:
     def __init__(self, root: Path):
         self._root = Path(root)
         self._kanban_dir = self._root / ".kanban"
+
+    @staticmethod
+    def find_project_root() -> Path:
+        """Find the project root by walking up from cwd looking for .kanban/config.json.
+
+        Priority:
+        1. KANBAN_ROOT env var (if valid — contains .kanban/config.json)
+        2. Walk up from cwd until .kanban/config.json found
+        3. Fall back to cwd
+        """
+        env_root = os.environ.get("KANBAN_ROOT")
+        if env_root:
+            env_path = Path(env_root)
+            if (env_path / ".kanban" / "config.json").is_file():
+                return env_path
+
+        cwd = Path.cwd()
+        for parent in [cwd] + list(cwd.parents):
+            if (parent / ".kanban" / "config.json").is_file():
+                return parent
+        return cwd
 
     @property
     def kanban_dir(self) -> Path:

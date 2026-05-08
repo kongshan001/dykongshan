@@ -1,0 +1,17 @@
+{
+  "role": "pm",
+  "score": 9,
+  "feedback": "6城市覆盖面广，票种对比非常实用，tips贴心",
+  "passed": true,
+  "improvements": [
+    "更多城市",
+    "实时票价API"
+  ],
+  "risks": [
+    "票价时效性"
+  ],
+  "extended_requirements": [
+    "交通路线规划"
+  ],
+  "requirement_coverage": "90%"
+}
