@@ -1,0 +1,10 @@
+{
+  "subtasks": [
+    {"id": "ST-001", "title": "数据模型定义", "status": "pending"},
+    {"id": "ST-002", "title": "景点数据库", "status": "pending"},
+    {"id": "ST-003", "title": "路线优化算法", "status": "pending"},
+    {"id": "ST-004", "title": "日程生成器", "status": "pending"},
+    {"id": "ST-005", "title": "报告输出", "status": "pending"},
+    {"id": "ST-006", "title": "CLI整合+Demo", "status": "pending"}
+  ]
+}

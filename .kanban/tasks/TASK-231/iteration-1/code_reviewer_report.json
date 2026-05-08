@@ -1,0 +1,19 @@
+{
+  "role": "code_reviewer",
+  "score": 8,
+  "feedback": "模块职责清晰，算法实现简洁",
+  "passed": true,
+  "improvements": [
+    "增加单元测试",
+    "添加类型校验"
+  ],
+  "risks": [
+    "贪心算法非最优解"
+  ],
+  "architecture_issues": [
+    "模块解耦良好"
+  ],
+  "code_style_violations": [
+    "无严重违规"
+  ]
+}
