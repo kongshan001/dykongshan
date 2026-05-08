@@ -1,0 +1,17 @@
+{
+  "role": "pm",
+  "score": 9,
+  "feedback": "手续费模拟实用，速查表一目了然",
+  "passed": true,
+  "improvements": [
+    "支持自定义手续费率",
+    "离线模式"
+  ],
+  "risks": [
+    "趋势图是模拟数据"
+  ],
+  "extended_requirements": [
+    "实际历史汇率API"
+  ],
+  "requirement_coverage": "90%"
+}

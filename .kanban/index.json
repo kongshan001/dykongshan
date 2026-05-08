@@ -1401,6 +1401,30 @@
       "iteration": 1
     },
     {
+      "id": "TASK-234",
+      "status": "archive",
+      "phase": "archive",
+      "iteration": 1
+    },
+    {
+      "id": "TASK-235",
+      "status": "pending",
+      "phase": null,
+      "iteration": 0
+    },
+    {
+      "id": "TASK-236",
+      "status": "pending",
+      "phase": null,
+      "iteration": 0
+    },
+    {
+      "id": "TASK-237",
+      "status": "pending",
+      "phase": null,
+      "iteration": 0
+    },
+    {
       "id": "TASK-001",
       "status": "pending",
       "phase": "plan",

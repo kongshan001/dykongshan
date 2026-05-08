@@ -1,0 +1,7 @@
+{"subtasks":[
+  {"id":"ST-001","title":"数据模型","status":"pending"},
+  {"id":"ST-002","title":"汇率获取+缓存","status":"pending"},
+  {"id":"ST-003","title":"兑换计算","status":"pending"},
+  {"id":"ST-004","title":"ASCII图表","status":"pending"},
+  {"id":"ST-005","title":"报告输出+CLI","status":"pending"}
+]}

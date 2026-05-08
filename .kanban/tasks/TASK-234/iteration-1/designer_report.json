@@ -1,0 +1,15 @@
+{
+  "role": "designer",
+  "score": 8,
+  "feedback": "ASCII图表有创意，速查表排版清晰",
+  "passed": true,
+  "improvements": [
+    "图表实际数据",
+    "彩色输出"
+  ],
+  "risks": [
+    "终端宽度兼容"
+  ],
+  "visual_score": 8,
+  "interaction_score": 7
+}
