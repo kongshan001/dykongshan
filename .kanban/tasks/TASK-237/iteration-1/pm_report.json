@@ -1,0 +1,17 @@
+{
+  "role": "pm",
+  "score": 9,
+  "feedback": "预算进度条直观，分类统计+每日花费非常实用",
+  "passed": true,
+  "improvements": [
+    "导出CSV",
+    "多旅程管理"
+  ],
+  "risks": [
+    "单旅程限制"
+  ],
+  "extended_requirements": [
+    "移动端适配"
+  ],
+  "requirement_coverage": "90%"
+}
