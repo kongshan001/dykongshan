@@ -1,0 +1,18 @@
+{
+  "role": "qa",
+  "score": 8,
+  "feedback": "时区显示正确，时差建议合理，联络窗口有效",
+  "passed": true,
+  "improvements": [
+    "夏令时边界测试",
+    "跨日测试"
+  ],
+  "risks": [
+    "无自动化测试"
+  ],
+  "missing_tests": [
+    "时差计算测试",
+    "联络窗口测试"
+  ],
+  "test_coverage": "0%"
+}
