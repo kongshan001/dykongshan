@@ -3,8 +3,8 @@
   "title": "旅行安全评分系统",
   "description": "--desc",
   "engine": "claude-code",
-  "status": "pending",
-  "phase": null,
+  "status": "archive",
+  "phase": "archive",
   "phase_lock": null,
   "assignee": null,
   "worktree": {
@@ -23,10 +23,31 @@
     "file": "",
     "subtasks": []
   },
-  "history": [],
+  "history": [
+    {
+      "phase": "plan",
+      "timestamp": "2026-05-08T05:43:34.159618",
+      "note": "Heartbeat auto: -> plan"
+    },
+    {
+      "phase": "execute",
+      "timestamp": "2026-05-08T06:43:24.898059",
+      "note": "Heartbeat auto: → execute"
+    },
+    {
+      "phase": "evaluate",
+      "timestamp": "2026-05-08T07:14:04.205187",
+      "note": "Auto: evaluated avg=8.8"
+    },
+    {
+      "phase": "archive",
+      "timestamp": "2026-05-08T07:14:04.205187",
+      "note": "Auto: archived"
+    }
+  ],
   "user_decision": null,
   "requires_archive_confirmation": true,
   "created_at": "2026-05-06T20:42:18Z",
-  "updated_at": "2026-05-06T20:42:18Z",
+  "updated_at": "2026-05-08T07:14:04.205187",
   "entered_at": null
 }

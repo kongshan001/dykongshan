@@ -8,12 +8,12 @@ from core.domain.workflow import WorkflowEngine, TransitionError
 
 
 class TestWorkflowEngine:
-    def test_transition_plan_to_execute(self, tmp_kanban, sample_task):
+    def test_transition_plan_to_plan_review(self, tmp_kanban, sample_task):
         fs = Filesystem(root=tmp_kanban)
         cfg = Config(fs)
         we = WorkflowEngine(fs, cfg)
-        new_phase = we.transition(sample_task, Phase.EXECUTE)
-        assert new_phase == Phase.EXECUTE
+        new_phase = we.transition(sample_task, Phase.PLAN_REVIEW)
+        assert new_phase == Phase.PLAN_REVIEW
 
     def test_transition_skip_phase_raises(self, tmp_kanban, sample_task):
         fs = Filesystem(root=tmp_kanban)
@@ -37,7 +37,7 @@ class TestWorkflowEngine:
         task = we.complete_phase(sample_task)
         assert len(task.history) == 1
         assert task.history[0]["phase"] == "plan"
-        assert task.phase == Phase.EXECUTE
+        assert task.phase == Phase.PLAN_REVIEW
 
     def test_is_terminal(self, tmp_kanban, sample_task):
         fs = Filesystem(root=tmp_kanban)
@@ -50,7 +50,7 @@ class TestWorkflowEngine:
         fs = Filesystem(root=tmp_kanban)
         cfg = Config(fs)
         we = WorkflowEngine(fs, cfg)
-        assert we.next_phase(Phase.PLAN) == Phase.EXECUTE
+        assert we.next_phase(Phase.PLAN) == Phase.PLAN_REVIEW
         assert we.next_phase(Phase.ARCHIVE) is None
 
     def test_self_improve_check_over_max_iterations(self, tmp_kanban, sample_task):

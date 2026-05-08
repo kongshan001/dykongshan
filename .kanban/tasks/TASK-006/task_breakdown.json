@@ -1,11 +1,30 @@
 {
   "task_id": "TASK-006",
-  "title": "旅行社交分享与动态",
   "subtasks": [
-    {"id": "S1", "title": "动态发布服务", "description": "图文/视频动态CRUD，支持标签和定位", "estimate_hours": 4, "dependencies": []},
-    {"id": "S2", "title": "媒体上传服务", "description": "OSS上传+CDN加速，图片压缩/视频转码", "estimate_hours": 5, "dependencies": ["S1"]},
-    {"id": "S3", "title": "互动系统", "description": "点赞/评论/转发，消息通知", "estimate_hours": 4, "dependencies": ["S1"]},
-    {"id": "S4", "title": "轨迹地图", "description": "GPS轨迹记录与地图渲染", "estimate_hours": 4, "dependencies": ["S1"]},
-    {"id": "S5", "title": "旅行故事生成", "description": "按时间线自动聚合动态生成故事", "estimate_hours": 3, "dependencies": ["S1","S4"]}
+    {
+      "id": "ST-001",
+      "title": "目的地费用数据库",
+      "dependencies": []
+    },
+    {
+      "id": "ST-002",
+      "title": "预算分配算法",
+      "dependencies": [
+        "ST-001"
+      ]
+    },
+    {
+      "id": "ST-003",
+      "title": "汇率与支付指南",
+      "dependencies": []
+    },
+    {
+      "id": "ST-004",
+      "title": "综合预算模板",
+      "dependencies": [
+        "ST-002",
+        "ST-003"
+      ]
+    }
   ]
 }

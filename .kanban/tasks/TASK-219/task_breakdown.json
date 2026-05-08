@@ -1,0 +1,29 @@
+{
+  "task_id": "TASK-219",
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "宠物分类差异化政策",
+      "status": "pending",
+      "dependencies": []
+    },
+    {
+      "id": "ST-002",
+      "title": "旅行用品清单",
+      "status": "pending",
+      "dependencies": []
+    },
+    {
+      "id": "ST-003",
+      "title": "紧急情况指南",
+      "status": "pending",
+      "dependencies": []
+    },
+    {
+      "id": "ST-004",
+      "title": "国内旅行政策",
+      "status": "pending",
+      "dependencies": []
+    }
+  ]
+}

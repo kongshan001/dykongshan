@@ -86,11 +86,14 @@ class TestReport:
             role="qa",
             task_id="TASK-001",
             iteration=1,
-            scores=[ScoreResult(ScoreDimension.TEST_COMPLETENESS, 7.0, "ok")],
-            summary="All good"
+            score=7.0,
+            dimensions={"test_completeness": {"score": 7.0, "findings": [], "issues": []}},
+            summary="All good",
+            passed=False,
         )
         assert r.role == "qa"
-        assert len(r.scores) == 1
+        assert r.score == 7.0
+        assert "test_completeness" in r.dimensions
 
 
 class TestMatchLevel:

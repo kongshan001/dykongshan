@@ -10,7 +10,7 @@ class DashboardBuilder:
     def build(self) -> dict:
         tasks = []
         for f in sorted(self._tasks_dir.glob("TASK-*.json")):
-            tasks.append(json.loads(f.read_text()))
+            tasks.append(json.loads(f.read_text(encoding="utf-8")))
 
         by_status: dict[str, int] = {}
         by_phase: dict[str, int] = {}

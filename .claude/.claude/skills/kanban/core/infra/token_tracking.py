@@ -25,9 +25,9 @@ class TokenTracker:
 
     def _load(self) -> dict:
         if self._file.exists():
-            return json.loads(self._file.read_text())
+            return json.loads(self._file.read_text(encoding="utf-8"))
         return {}
 
     def _save(self) -> None:
         self._file.parent.mkdir(parents=True, exist_ok=True)
-        self._file.write_text(json.dumps(self._data, indent=2))
+        self._file.write_text(json.dumps(self._data, indent=2), encoding="utf-8")

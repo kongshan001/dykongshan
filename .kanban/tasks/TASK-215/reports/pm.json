@@ -1,0 +1,14 @@
+{
+  "role": "pm",
+  "task_id": "TASK-215",
+  "score": 9.0,
+  "dimensions": {
+    "requirement_coverage": 9,
+    "user_experience": 9,
+    "feature_completeness": 9
+  },
+  "summary": "pm evaluation for TASK-215",
+  "passed": true,
+  "improvement_suggestions": [],
+  "critical_issues": []
+}

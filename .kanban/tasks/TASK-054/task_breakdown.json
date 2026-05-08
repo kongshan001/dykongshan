@@ -1,1 +1,29 @@
-{"task_id":"TASK-054","title":"旅行行程冲突检测引擎","subtasks":[{"id":"S1","title":"数据模型","description":"核心数据结构定义","estimate_hours":3,"dependencies":[]},{"id":"S2","title":"核心引擎","description":"业务逻辑实现","estimate_hours":4,"dependencies":["S1"]},{"id":"S3","title":"测试","description":"单元测试和边界场景","estimate_hours":3,"dependencies":["S1","S2"]}]}
+{
+  "task_id": "TASK-054",
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "城市拍照点数据库",
+      "dependencies": []
+    },
+    {
+      "id": "ST-002",
+      "title": "黄金时段计算",
+      "dependencies": []
+    },
+    {
+      "id": "ST-003",
+      "title": "设备推荐指南",
+      "dependencies": []
+    },
+    {
+      "id": "ST-004",
+      "title": "综合摄影攻略",
+      "dependencies": [
+        "ST-001",
+        "ST-002",
+        "ST-003"
+      ]
+    }
+  ]
+}

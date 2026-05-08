@@ -1,0 +1,10 @@
+{
+  "subtasks": [
+    {"id": "ST-001", "title": "数据模型定义", "status": "pending"},
+    {"id": "ST-002", "title": "汇率转换模块", "status": "pending"},
+    {"id": "ST-003", "title": "预算计算核心", "status": "pending"},
+    {"id": "ST-004", "title": "预算模板", "status": "pending"},
+    {"id": "ST-005", "title": "报告生成", "status": "pending"},
+    {"id": "ST-006", "title": "CLI入口整合", "status": "pending"}
+  ]
+}

@@ -1,0 +1,1 @@
+../skills/kanban/agents/kanban-knowledge-manager.md

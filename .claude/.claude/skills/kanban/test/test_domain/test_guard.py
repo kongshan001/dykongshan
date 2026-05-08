@@ -79,6 +79,22 @@ class TestGuardEvaluation:
         assert result.passed is False
         assert any("designer" in f for f in result.failures)
 
+    def test_finds_reports_in_legacy_flat_iteration_format(self, tmp_kanban, sample_task):
+        """Guard must find reports in iteration-N/ flat format (#102)."""
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        # Write reports in legacy flat format: iteration-1/code_reviewer_report.json
+        flat_dir = fs.task_dir(sample_task.id) / "iteration-1"
+        fs.ensure_dir(flat_dir)
+        for role in ["code_reviewer", "qa", "pm", "designer"]:
+            (flat_dir / f"{role}_report.json").write_text(json.dumps({
+                "role": role, "task_id": "TASK-001", "iteration": 1,
+                "scores": [], "summary": "ok",
+            }))
+        guard = Guard(fs, cfg)
+        result = guard.check_evaluation(sample_task, iteration=1)
+        assert result.passed is True, f"Guard missed reports in iteration-N/ format: {result.failures}"
+
 
 class TestGuardPlanQuality:
     def test_missing_requirements(self, tmp_kanban, sample_task):
@@ -100,6 +116,173 @@ class TestGuardPlanQuality:
         guard = Guard(fs, cfg)
         result = guard.check_plan_quality(sample_task, task_dir)
         assert result.passed is True
+
+
+class TestGuardSpec:
+    def test_spec_missing(self, tmp_kanban, sample_task):
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        guard = Guard(fs, cfg)
+        result = guard.check_spec(sample_task, fs.task_dir(sample_task.id))
+        assert result.passed is False
+        assert any("test_spec.md" in f for f in result.failures)
+
+    def test_spec_empty(self, tmp_kanban, sample_task):
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        task_dir = fs.task_dir(sample_task.id)
+        fs.ensure_dir(task_dir)
+        (task_dir / "test_spec.md").write_text("")
+        guard = Guard(fs, cfg)
+        result = guard.check_spec(sample_task, task_dir)
+        assert result.passed is False
+        assert any("empty" in f for f in result.failures)
+
+    def test_spec_present(self, tmp_kanban, sample_task):
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        task_dir = fs.task_dir(sample_task.id)
+        fs.ensure_dir(task_dir)
+        (task_dir / "test_spec.md").write_text("# Test Spec\n\n## Unit Tests")
+        guard = Guard(fs, cfg)
+        result = guard.check_spec(sample_task, task_dir)
+        assert result.passed is True
+
+
+class TestGuardParallelConflicts:
+    def test_no_breakdown_file(self, tmp_kanban, sample_task):
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        guard = Guard(fs, cfg)
+        result = guard.check_parallel_conflicts(sample_task)
+        assert result.passed is False
+
+    def test_no_parallelizable_subtasks(self, tmp_kanban, sample_task):
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        task_dir = fs.task_dir(sample_task.id)
+        fs.ensure_dir(task_dir)
+        (task_dir / "task_breakdown.json").write_text(json.dumps({
+            "subtasks": [
+                {"id": "ST-001", "parallelizable": False, "dependencies": ["ST-002"]},
+                {"id": "ST-002", "parallelizable": False, "dependencies": []},
+            ]
+        }))
+        guard = Guard(fs, cfg)
+        result = guard.check_parallel_conflicts(sample_task)
+        assert result.passed is True
+
+    def test_conflict_detected(self, tmp_kanban, sample_task):
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        task_dir = fs.task_dir(sample_task.id)
+        fs.ensure_dir(task_dir)
+        (task_dir / "task_breakdown.json").write_text(json.dumps({
+            "subtasks": [
+                {"id": "ST-001", "parallelizable": True, "file_ownership": ["a.py", "b.py"], "dependencies": []},
+                {"id": "ST-002", "parallelizable": True, "file_ownership": ["b.py", "c.py"], "dependencies": []},
+            ]
+        }))
+        guard = Guard(fs, cfg)
+        result = guard.check_parallel_conflicts(sample_task)
+        assert result.passed is False
+        assert any("b.py" in f for f in result.failures)
+
+    def test_no_conflict(self, tmp_kanban, sample_task):
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        task_dir = fs.task_dir(sample_task.id)
+        fs.ensure_dir(task_dir)
+        (task_dir / "task_breakdown.json").write_text(json.dumps({
+            "subtasks": [
+                {"id": "ST-001", "parallelizable": True, "file_ownership": ["a.py"], "dependencies": []},
+                {"id": "ST-002", "parallelizable": True, "file_ownership": ["b.py"], "dependencies": []},
+            ]
+        }))
+        guard = Guard(fs, cfg)
+        result = guard.check_parallel_conflicts(sample_task)
+        assert result.passed is True
+
+
+class TestGuardCrossTaskConflicts:
+    def test_no_cross_task_conflict(self, tmp_kanban):
+        """Two tasks with disjoint file ownership: no conflict."""
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+
+        for tid, files in [("TASK-001", ["a.py", "b.py"]), ("TASK-002", ["c.py", "d.py"])]:
+            task_dir = fs.task_dir(tid)
+            fs.ensure_dir(task_dir)
+            (task_dir / "task_breakdown.json").write_text(json.dumps({
+                "subtasks": [
+                    {"id": "ST-001", "parallelizable": True, "file_ownership": files, "dependencies": []}
+                ]
+            }))
+            (fs.task_file(tid)).write_text(json.dumps({
+                "id": tid, "title": tid, "description": "test",
+                "status": "in_progress", "phase": "execute", "iteration": 1,
+                "history": [], "scores": {}, "score_history": [],
+            }))
+
+        guard = Guard(fs, cfg)
+        result = guard.check_cross_task_conflicts()
+        assert result.passed is True
+
+    def test_cross_task_conflict_detected(self, tmp_kanban):
+        """Two tasks sharing a file: conflict detected."""
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+
+        for tid, files in [("TASK-001", ["a.py", "shared.py"]), ("TASK-002", ["b.py", "shared.py"])]:
+            task_dir = fs.task_dir(tid)
+            fs.ensure_dir(task_dir)
+            (task_dir / "task_breakdown.json").write_text(json.dumps({
+                "subtasks": [
+                    {"id": "ST-001", "parallelizable": True, "file_ownership": files, "dependencies": []}
+                ]
+            }))
+            (fs.task_file(tid)).write_text(json.dumps({
+                "id": tid, "title": tid, "description": "test",
+                "status": "in_progress", "phase": "execute", "iteration": 1,
+                "history": [], "scores": {}, "score_history": [],
+            }))
+
+        guard = Guard(fs, cfg)
+        result = guard.check_cross_task_conflicts()
+        assert result.passed is False
+        assert any("shared.py" in f for f in result.failures)
+
+
+class TestGuardRetrospective:
+    def test_retrospective_missing(self, tmp_kanban, sample_task):
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        guard = Guard(fs, cfg)
+        result = guard.check_retrospective(sample_task)
+        assert result.passed is False
+        assert any("retrospective.md" in f for f in result.failures)
+
+    def test_retrospective_present(self, tmp_kanban, sample_task):
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        task_dir = fs.task_dir(sample_task.id)
+        fs.ensure_dir(task_dir)
+        (task_dir / "retrospective.md").write_text("# Retro")
+        (task_dir / "acceptance.md").write_text("# Acceptance")
+        guard = Guard(fs, cfg)
+        result = guard.check_retrospective(sample_task)
+        assert result.passed is True
+
+    def test_acceptance_missing(self, tmp_kanban, sample_task):
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        task_dir = fs.task_dir(sample_task.id)
+        fs.ensure_dir(task_dir)
+        (task_dir / "retrospective.md").write_text("# Retro")
+        guard = Guard(fs, cfg)
+        result = guard.check_retrospective(sample_task)
+        assert result.passed is False
+        assert any("acceptance.md" in f for f in result.failures)
 
 
 class TestCheckResult:

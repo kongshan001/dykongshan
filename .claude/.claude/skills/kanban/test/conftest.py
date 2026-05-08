@@ -24,7 +24,17 @@ def tmp_kanban():
 
     # Minimal stub — matches real structure only for passable fields
     workflow = {
-        "phases": ["plan", "execute", "evaluate", "user_decision", "archive"],
+        "phases": [
+            {"id": "plan"},
+            {"id": "plan_review"},
+            {"id": "qa_spec"},
+            {"id": "spec_review"},
+            {"id": "execute"},
+            {"id": "evaluate"},
+            {"id": "retrospective"},
+            {"id": "user_decision"},
+            {"id": "archive"}
+        ],
         "pass_threshold": 9.0,
         "max_iterations": 6,
     }

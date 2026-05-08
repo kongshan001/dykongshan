@@ -6,6 +6,7 @@ import sys
 _CMD_MAP: dict[str, tuple[str, str]] = {
     "check-env":  ("core.cli.main", "_cmd_check_env"),
     "init":       ("core.cli.task", "cmd_init"),
+    "scan":       ("core.cli.task", "cmd_scan"),
     "create":     ("core.cli.task", "cmd_create"),
     "status":     ("core.cli.task", "cmd_status"),
     "show":       ("core.cli.task", "cmd_show"),
@@ -30,7 +31,11 @@ _CMD_MAP: dict[str, tuple[str, str]] = {
     "inbox":      ("core.cli.inbox", "dispatch"),
     "feedback":   ("core.cli.inbox", "cmd_feedback"),
     "version":    ("core.cli.version", "dispatch"),
-    "help":       ("core.cli.main", "_cmd_help"),
+    "plan":           ("core.cli.plan", "dispatch"),
+    "evolve-skills":  ("core.cli.skills", "dispatch"),
+    "framework":      ("core.cli.framework", "dispatch"),
+    "evaluator":      ("core.cli.evaluator", "dispatch"),
+    "help":           ("core.cli.main", "_cmd_help"),
 }
 
 

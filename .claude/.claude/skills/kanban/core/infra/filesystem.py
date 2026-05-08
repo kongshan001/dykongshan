@@ -44,12 +44,12 @@ class Filesystem:
         return self._kanban_dir / "workflow.json"
 
     def read_json(self, path: Path) -> dict[str, Any]:
-        with open(path) as f:
+        with open(path, encoding="utf-8") as f:
             return json.load(f)
 
     def write_json(self, path: Path, data: dict[str, Any]) -> None:
         self.ensure_dir(path.parent)
-        with open(path, "w") as f:
+        with open(path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
 
     def file_exists(self, path: Path) -> bool:

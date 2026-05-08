@@ -1,1 +1,30 @@
-{"task_id":"TASK-053","title":"旅行预算智能规划器","subtasks":[{"id":"S1","title":"目的地价格数据库","description":"50+热门城市住宿/餐饮/交通/门票基准价格","estimate_hours":4,"dependencies":[]},{"id":"S2","title":"预算生成引擎","description":"基于目的地+天数+风格生成预算模板","estimate_hours":3,"dependencies":["S1"]},{"id":"S3","title":"花费追踪器","description":"实时记录花费+超支预警","estimate_hours":3,"dependencies":["S2"]},{"id":"S4","title":"多币种换算","description":"实时汇率对接+自动换算","estimate_hours":2,"dependencies":["S2"]},{"id":"S5","title":"对比分析","description":"预算vs实际对比+可视化","estimate_hours":3,"dependencies":["S3","S4"]}]}
+{
+  "task_id": "TASK-053",
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "城市景点数据库",
+      "dependencies": []
+    },
+    {
+      "id": "ST-002",
+      "title": "路线优化算法",
+      "dependencies": [
+        "ST-001"
+      ]
+    },
+    {
+      "id": "ST-003",
+      "title": "行程风格模板",
+      "dependencies": []
+    },
+    {
+      "id": "ST-004",
+      "title": "综合行程生成器",
+      "dependencies": [
+        "ST-002",
+        "ST-003"
+      ]
+    }
+  ]
+}

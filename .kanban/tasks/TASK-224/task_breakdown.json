@@ -1,0 +1,33 @@
+{
+  "task_id": "TASK-224",
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "亚洲语言（日/韩/泰）",
+      "status": "pending",
+      "dependencies": []
+    },
+    {
+      "id": "ST-002",
+      "title": "欧洲语言（法/德/西/意/葡）",
+      "status": "pending",
+      "dependencies": []
+    },
+    {
+      "id": "ST-003",
+      "title": "其他语言（俄/阿拉伯）",
+      "status": "pending",
+      "dependencies": []
+    },
+    {
+      "id": "ST-004",
+      "title": "常见标识翻译汇总",
+      "status": "pending",
+      "dependencies": [
+        "ST-001",
+        "ST-002",
+        "ST-003"
+      ]
+    }
+  ]
+}

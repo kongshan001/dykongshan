@@ -1,0 +1,17 @@
+{
+  "role": "qa",
+  "score": 7,
+  "feedback": "Demo运行正常，缺少单元测试",
+  "passed": true,
+  "missing_tests": [
+    "单元测试"
+  ],
+  "test_coverage": "0%",
+  "improvements": [
+    "添加单元测试",
+    "增加边界测试"
+  ],
+  "risks": [
+    "无自动化测试"
+  ]
+}

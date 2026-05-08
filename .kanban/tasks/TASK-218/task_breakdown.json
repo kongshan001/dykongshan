@@ -1,0 +1,23 @@
+{
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "各国入境政策",
+      "dependencies": []
+    },
+    {
+      "id": "ST-002",
+      "title": "宠物友好场所",
+      "dependencies": [
+        "ST-001"
+      ]
+    },
+    {
+      "id": "ST-003",
+      "title": "综合指南",
+      "dependencies": [
+        "ST-002"
+      ]
+    }
+  ]
+}

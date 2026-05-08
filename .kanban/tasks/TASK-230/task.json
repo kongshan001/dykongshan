@@ -1,0 +1,117 @@
+{
+  "id": "TASK-230",
+  "title": "旅行预算计算器",
+  "description": "开发一个旅行预算计算工具，支持多币种、多目的地费用估算",
+  "engine": "claude-code",
+  "status": "archive",
+  "phase": "archive",
+  "phase_lock": "archive",
+  "assignee": null,
+  "worktree": {
+    "branch": "feature/TASK-230",
+    "path": "/root/.openclaw/workspace/.kanban/tasks/TASK-230/worktree",
+    "base": "master"
+  },
+  "iteration": 1,
+  "max_iterations": 6,
+  "token_budget": 500000,
+  "token_used": 0,
+  "token_stats": {
+    "per_phase": {
+      "plan": 0,
+      "execute": 0,
+      "evaluate": 0,
+      "retrospective": 0,
+      "user_decision": 0,
+      "archive": 0
+    },
+    "per_subtask": {},
+    "per_agent": {
+      "planner": 0,
+      "executor": 0,
+      "code_reviewer": 0,
+      "qa": 0,
+      "pm": 0,
+      "designer": 0
+    },
+    "total_estimated": 0
+  },
+  "scores": {
+    "code_reviewer": 8,
+    "qa": 7,
+    "pm": 9,
+    "designer": 7
+  },
+  "depends_on": [],
+  "modified_files": [],
+  "task_breakdown": {
+    "file": "",
+    "subtasks": []
+  },
+  "history": [
+    {
+      "phase": "self_improve",
+      "iteration": 1,
+      "type": "full",
+      "entered_at": "2026-05-08T20:11:49Z",
+      "started_at": "2026-05-08T20:11:49Z"
+    },
+    {
+      "phase": "plan",
+      "status": "entered",
+      "entered_at": "2026-05-08T20:11:59Z",
+      "started_at": "2026-05-08T20:11:59Z"
+    },
+    {
+      "phase": "execute",
+      "status": "completed",
+      "entered_at": "2026-05-08T20:13:07Z",
+      "started_at": "2026-05-08T20:13:07Z",
+      "completed_at": "2026-05-08T20:14:22Z",
+      "exited_at": "2026-05-08T20:14:22Z",
+      "duration_seconds": 75
+    },
+    {
+      "phase": "evaluate",
+      "status": "completed",
+      "entered_at": "2026-05-08T20:14:48Z",
+      "started_at": "2026-05-08T20:14:48Z",
+      "completed_at": "2026-05-08T20:15:17Z",
+      "exited_at": "2026-05-08T20:15:17Z",
+      "duration_seconds": 29
+    },
+    {
+      "phase": "retrospective",
+      "status": "completed",
+      "entered_at": "2026-05-08T20:16:24Z",
+      "started_at": "2026-05-08T20:16:24Z",
+      "completed_at": "2026-05-08T20:16:38Z",
+      "exited_at": "2026-05-08T20:16:38Z",
+      "duration_seconds": 14
+    },
+    {
+      "phase": "user_decision",
+      "status": "completed",
+      "entered_at": "2026-05-08T20:16:38Z",
+      "started_at": "2026-05-08T20:16:38Z",
+      "completed_at": "2026-05-08T20:16:47Z",
+      "exited_at": "2026-05-08T20:16:47Z",
+      "duration_seconds": 9
+    },
+    {
+      "phase": "archive",
+      "status": "entered",
+      "entered_at": "2026-05-08T20:16:47Z",
+      "started_at": "2026-05-08T20:16:47Z"
+    }
+  ],
+  "user_decision": {
+    "action": "approve_and_archive",
+    "decided_at": "now"
+  },
+  "requires_archive_confirmation": true,
+  "created_at": "2026-05-08T20:10:57Z",
+  "updated_at": "2026-05-08T20:13:01Z",
+  "entered_at": "2026-05-08T20:16:47Z",
+  "iteration_type": null
+}

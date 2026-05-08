@@ -3,8 +3,8 @@
   "title": "旅行WiFi与SIM卡指南",
   "description": "--desc",
   "engine": "claude-code",
-  "status": "retrospective",
-  "phase": "retrospective",
+  "status": "archive",
+  "phase": "archive",
   "phase_lock": null,
   "assignee": null,
   "worktree": {
@@ -28,7 +28,13 @@
     "file": "",
     "subtasks": []
   },
-  "history": [],
+  "history": [
+    {
+      "phase": "archive",
+      "timestamp": "2026-05-08T07:14:14.331051",
+      "note": "Auto heartbeat: batch archived from retrospective"
+    }
+  ],
   "user_decision": {
     "action": "approve_and_archive",
     "feedback": "",
@@ -36,6 +42,6 @@
   },
   "requires_archive_confirmation": true,
   "created_at": "2026-05-06T20:39:46Z",
-  "updated_at": "2026-05-06T20:41:31Z",
+  "updated_at": "2026-05-08T07:14:14.331051",
   "entered_at": null
 }

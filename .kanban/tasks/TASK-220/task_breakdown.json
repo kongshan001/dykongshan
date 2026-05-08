@@ -1,0 +1,27 @@
+{
+  "task_id": "TASK-220",
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "目的地预算模板",
+      "status": "pending",
+      "dependencies": []
+    },
+    {
+      "id": "ST-002",
+      "title": "三档预算对比",
+      "status": "pending",
+      "dependencies": [
+        "ST-001"
+      ]
+    },
+    {
+      "id": "ST-003",
+      "title": "省钱攻略",
+      "status": "pending",
+      "dependencies": [
+        "ST-001"
+      ]
+    }
+  ]
+}

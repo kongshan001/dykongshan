@@ -1,0 +1,1 @@
+{"subtasks": [{"id": "ST-001", "title": "城市美食数据", "status": "pending", "dependencies": []}, {"id": "ST-002", "title": "饮食禁忌适配", "status": "pending", "dependencies": ["ST-001"]}]}

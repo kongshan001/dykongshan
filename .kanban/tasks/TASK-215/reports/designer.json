@@ -1,0 +1,14 @@
+{
+  "role": "designer",
+  "task_id": "TASK-215",
+  "score": 8.7,
+  "dimensions": {
+    "api_design": 9,
+    "modularity": 8.5,
+    "extensibility": 8.5
+  },
+  "summary": "designer evaluation for TASK-215",
+  "passed": false,
+  "improvement_suggestions": [],
+  "critical_issues": []
+}

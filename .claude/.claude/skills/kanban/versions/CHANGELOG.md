@@ -2,6 +2,43 @@
 
 所有版本的迭代记录索引。每个版本有对应的详细记录文件 `v{X.Y.Z}.md`。
 
+## [v0.10.0] - 2026-05-08
+
+### Added
+- **Agent kanban- 前缀统一命名**: 全部 10 个 agent 使用 `kanban-` 前缀（kanban-planner, kanban-executor, kanban-code-reviewer, kanban-designer, kanban-pm, kanban-qa, kanban-researcher, kanban-knowledge-manager, kanban-plan-reviewer, kanban-test-spec-reviewer）
+- **Agent 全能力化**: executor/planner/knowledge-manager/researcher 移除 tools/skills 限制，获得全部工具能力
+- **Init 智能分析层** (`scanner.py`): 项目扫描模块，检测 agent 冲突、skills、语言/框架基础设施、领域特定基建
+- **Plan Review 质量门禁**: 新 kanban-plan-reviewer agent，6 维度量化评分 Plan 产物
+- **QA Spec 测试用例并行开发**: kanban-qa 支持 spec/eval 双模式，Plan 通过后产出 test_spec.md
+- **Spec Review 质量门禁**: 新 kanban-test-spec-reviewer agent，5 维度审核测试用例文档
+- **FSM 阶段扩展**: 新增 plan_review / qa_spec / spec_review / retrospective 四个阶段（共 9 阶段）
+- **Execute 多 Agent 并行调度**: subtask.py 拓扑排序 + 文件冲突检测批次调度，parallelizable/file_ownership/shared_files_readonly 元数据
+- **Plan Review 自动重试**: WorkflowEngine.quality_gate_check + RETRY_PREV action
+- `cmd_scan` 命令：独立项目扫描
+- 测试覆盖: 167 个测试全部通过（含 28 个 scanner + 12 个 guard + 9 个 subtask scheduler）
+
+### Changed
+- **Phase 枚举扩展**: PLAN_REVIEW, QA_SPEC, SPEC_REVIEW, RETROSPECTIVE 加入
+- **workflow.json**: 从扁平的 4 阶段扩展到 9 阶段对象格式，含 agent_type 引用
+- **SKILL.md**: 全部 subagent_type 引用更新为 kanban- 前缀，新增 4 阶段文档
+- **Guard 扩展**: check_spec, check_parallel_conflicts, check_retrospective
+- **Config.phases**: 向后兼容，自动从对象列表提取 id 或回退到字符串列表
+- **types.py Report**: scores 字段改为 dimensions 对象格式
+- **Scheduler**: PHASE_ORDER 扩展，agent_type 使用 kanban- 前缀
+
+### Fixed
+- **Stub 实现修复**: cmd_worktree/create/remove/merge/cleanup, cmd_guard/check-artifacts/evaluation/inbox/spec/parallel-conflicts, cmd_workflow/transition/complete-phase/self-improve-check/get-roles, cmd_nlp
+- **代码重复消除**: CLI 层并行冲突检测委托给 Guard 领域方法
+- **异常处理修复**: cmd_init scanner 异常不再吞没
+- **Agent 模板路径**: $KANBAN_DIR/reports/ → tasks/${task_id}/iteration-N/
+- **8 个回归测试**: conftest.py Phase 顺序、test_run/test_workflow/test_scheduler/test_config 全部适配
+- **__pycache__ 清理**: 添加 .gitignore 排除规则，移除已提交缓存文件
+
+### Security
+- cmd_worktree merge/cleanup 使用原始 task_id，建议后续添加 tm.show() 校验
+
+详细记录见 `v0.10.0.md`
+
 ## [v0.6.0] - 2026-05-04
 
 ### Added

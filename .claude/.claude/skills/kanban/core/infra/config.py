@@ -1,4 +1,5 @@
 from __future__ import annotations
+import sys
 from pathlib import Path
 
 from core.infra.filesystem import Filesystem
@@ -10,6 +11,19 @@ class Config:
         self._fs = fs
         self._config = self._load_json(fs.config_file(), {"output_dir": "src"})
         self._workflow = self._load_json(fs.workflow_file(), {})
+
+    @property
+    def python_bin(self) -> str:
+        default = "venv/Scripts/python.exe" if sys.platform == "win32" else "venv/bin/python"
+        return self._config.get("python_bin", default)
+
+    @property
+    def python_cmd(self) -> str:
+        """The python command name itself (python3 vs python)."""
+        if sys.platform == "win32":
+            return "python"
+        import shutil
+        return "python3" if shutil.which("python3") else "python"
 
     @property
     def output_dir(self) -> str:
@@ -25,10 +39,17 @@ class Config:
 
     @property
     def phases(self) -> list[str]:
-        return self._workflow.get(
+        raw = self._workflow.get(
             "phases",
             ["plan", "execute", "evaluate", "user_decision", "archive"],
         )
+        if raw and isinstance(raw[0], dict):
+            return [p["id"] for p in raw]
+        return raw
+
+    @property
+    def phases_detail(self) -> list[dict]:
+        return self._workflow.get("phases", [])
 
     @property
     def raw(self) -> dict:

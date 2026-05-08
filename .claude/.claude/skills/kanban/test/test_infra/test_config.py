@@ -24,7 +24,7 @@ class TestConfig:
         cfg = Config(fs)
         assert "plan" in cfg.phases
         assert "archive" in cfg.phases
-        assert len(cfg.phases) == 5
+        assert len(cfg.phases) == 9
 
     def test_missing_config_returns_defaults(self, tmp_kanban):
         (tmp_kanban / ".kanban" / "config.json").unlink()

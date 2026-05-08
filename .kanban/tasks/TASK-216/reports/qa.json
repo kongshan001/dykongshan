@@ -1,0 +1,9 @@
+{
+  "role": "qa",
+  "task_id": "TASK-216",
+  "score": 8.8,
+  "summary": "覆盖主要场景，边界情况需补充",
+  "passed": false,
+  "improvement_suggestions": [],
+  "critical_issues": []
+}

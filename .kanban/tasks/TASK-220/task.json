@@ -1,0 +1,27 @@
+{
+  "id": "TASK-220",
+  "title": "旅行预算规划器",
+  "description": "根据目的地、天数、旅行风格生成详细预算表",
+  "status": "archive",
+  "phase": "archive",
+  "iteration": 0,
+  "max_iterations": 6,
+  "token_budget": 500000,
+  "token_used": 0,
+  "scores": {},
+  "depends_on": [],
+  "history": [
+    {
+      "phase": "plan",
+      "timestamp": "2026-05-08T09:43:40.475527",
+      "note": "Auto heartbeat: moved to planning"
+    },
+    {
+      "phase": "archive",
+      "timestamp": "2026-05-08T10:13:57.813567",
+      "note": "Auto: plan→execute→evaluate(avg 8.8)→archive"
+    }
+  ],
+  "created_at": "2026-05-08T09:13:57.160405",
+  "updated_at": "2026-05-08T10:13:57.813567"
+}

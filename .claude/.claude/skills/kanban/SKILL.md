@@ -103,11 +103,26 @@ python3 -m core nlp "$user_input"
 
 框架使用 Python CLI 执行所有命令。所有命令输出 JSON 到 stdout，无需 jq。
 
+**Python 解释器选择 (首次初始化时确定):**
+
 ```
-kanban_init:
-  - Check if venv/bin/python exists; if not, run `python3 -m venv venv --clear`
-  - All subsequent commands use `python3 -m core <command> [args]`
+kanban_init_python:
+  1. 询问用户: "是否指定已有的 Python 解释器？（输入路径，或回车跳过使用 venv）"
+  2. 如果用户提供路径:
+     - 验证该解释器可执行: <path> --version
+     - 通过 → 写入 .kanban/config.json 的 python_bin 字段
+     - 失败 → 提示用户重新输入或回退到 venv
+  3. 如果用户跳过 (默认):
+     - Check if venv/bin/python exists; if not, run `python3 -m venv venv --clear`
+     - 写入 "python_bin": "venv/bin/python" 到 config.json
+  4. 所有后续命令使用 config.json 中的 python_bin:
+     <python_bin> -m core <command> [args]
 ```
+
+**为什么需要这个选择:**
+- 用户可能已有 conda/pyenv/系统 Python 环境，无需额外创建 venv
+- 避免 venv 中的旧版 pip 导致的安装问题（如本 session 遇到的 pip 21.2.4 不支持 pyproject.toml editable install）
+- 复用已有环境中的依赖（pytest 等），减少重复安装
 
 ---
 
@@ -115,12 +130,24 @@ kanban_init:
 
 ### `/kanban init`
 
-1. 执行 `python3 -m core init`
-2. **安装框架依赖文件 (agents/rules 使用符号链接, dashboard 使用运行时目录):**
+**首次运行必须完成 Python 解释器选择。** 已初始化过的项目 (`.kanban/config.json` 中已有 `python_bin`) 可跳过此步骤。
+
+1. **选择 Python 解释器 (首次):**
+   - 询问用户: "是否指定已有的 Python 解释器？例如系统 python3、conda 环境的 python、pyenv 的 python 等。输入完整路径或回车跳过（将自动创建 venv）。"
+   - 用户提供路径 → 验证 `"<path>" --version` 返回 0 → 写入 `python_bin` 到 config.json
+   - 用户跳过 → 检查 `venv/bin/python` 是否存在；不存在则 `python3 -m venv venv --clear`；写入 `"python_bin": "venv/bin/python"`
+2. 执行 `python3 -m core init`
+3. **注入 Iron Rules 到目标项目的 CLAUDE.md:**
+   - 读取目标项目的 CLAUDE.md（如存在）
+   - 如果 CLAUDE.md 不存在 → 创建新文件，写入 `# Iron Rules -- Kanban 框架铁律\n\n` 开头的铁律摘要 + 指向 `.claude/rules/iron-rules.md` 的引用
+   - 如果 CLAUDE.md 存在但无 kanban 铁律 → 在文件末尾追加 `\n\n---\n\n` 分隔符 + 铁律摘要
+   - 如果 CLAUDE.md 已包含 kanban 铁律 → 跳过（幂等）
+   - 铁律摘要内容取自 kanban 框架自身的 CLAUDE.md 模板，IR 编号与 `.claude/rules/iron-rules.md` 保持同步
+4. **安装框架依赖文件 (agents/rules 使用符号链接, dashboard 使用运行时目录):**
    ```bash
    SKILL_DIR="$(cd "$(dirname "$0")" && pwd)"
    # macOS/Linux: 创建符号链接; Windows (MINGW/MSYS): 回退到复制
-   # agents: .claude/agents/planner.md -> ../skills/kanban/agents/planner.md
+   # agents: .claude/agents/kanban-planner.md -> ../skills/kanban/agents/kanban-planner.md
    mkdir -p .claude/agents
    for agent in "$SKILL_DIR"/agents/*.md; do
      name=$(basename "$agent")
@@ -137,7 +164,7 @@ kanban_init:
    # server.js 直接从 skills 源目录启动, .kanban/dashboard/ 仅存放 .pid, .log
    mkdir -p .kanban/dashboard
    ```
-3. 确认输出: "Initialized kanban at .kanban/" + "Linked N framework files (agents, rules via symlink)" + "dashboard runtime dir created"
+5. 确认输出: "Initialized kanban at .kanban/" + "Injected iron rules into CLAUDE.md" + "Linked N framework files (agents, rules via symlink)" + "dashboard runtime dir created"
 
 ### `/kanban create "<title>" [--desc "<desc>"]`
 
@@ -161,63 +188,105 @@ kanban_init:
 
 **触发条件:** `--phase plan` 或任务处于 pending/planning 状态
 
+Plan 阶段分两步：**需求澄清（brainstorming）** → **任务拆解（writing-plans）**。两步均复用 superpowers 技能。
+
+##### Plan Step A: 需求澄清 (superpowers:brainstorming)
+
+> **铁律 (IR-16): Plan 阶段必须先完成需求澄清方可进入任务拆解。禁止无需用户确认的需求直接进入正式规划。**
+
 1. `python3 -m core workflow transition "$task_id" plan`
 2. 读取任务 title + description
-3. 准备 dispatch 上下文:
-   ```
-   Python CLI 内部读取 task.json 获取 iteration 并创建 report 目录
-   ```
-4. 使用 **planner Agent** (原生 `.claude/agents/planner.md`) 执行规划:
-   - 传入任务上下文: task_id, title, description, worktree_path, report_dir, iteration
-   - Agent 读取项目结构，分析需求
-   - 产出 `requirements.md` + `task_breakdown.json` 到**任务根目录** (`.kanban/tasks/TASK-NNN/`)
-5. 检查产物:
+3. **评估需求充分性 (Pass-through Gate):**
+   - 判断 description 是否已包含：技术栈选型、核心功能清单、验收标准、约束条件
+   - **如果 4 项都明确** → 可 skip brainstorming，直接跳到 Plan Step B（跳过的原因写入 task history）
+   - **如果任何一项缺失** → 必须进入步骤 4，不可跳过
+4. **调用 `Skill("superpowers:brainstorming")` 进行需求澄清:**
+   - 按 brainstorming 技能标准流程执行：探索上下文 → 逐一提问 → 方案比较 → 设计审批
+   - 澄清内容包括但不限于: 技术栈选择、功能边界、约束条件、验收标准
+   - **必须遵循 brainstorming 的 HARD-GATE:** 设计方案获得用户批准后才算澄清完成
+5. 产出 `{task_dir}/design.md` — 用户确认后的设计文档
+   - brainstorming 技能自动将设计文档写入 `docs/superpowers/specs/`，kanban 将其复制或引用到 `{task_dir}/design.md`
+   - 对于简单任务 design.md 可以很简短（几段文字也算），但**不能为空**
+6. **Brainstorming Gate 通不过的情况:**
+   - 用户说"取消"/"不做了" → 标记 task 为 `error`，记录原因，退出
+   - 用户一直不回复 → 保持 plan 阶段，等待用户反馈
+
+##### Plan Step B: 任务拆解 (superpowers:writing-plans)
+
+> **设计决策: 用 `superpowers:writing-plans` 替代 kanban-planner agent 的任务拆解。writing-plans 产出 bite-sized step + 完整代码 + 测试用例 + 精确命令，是 task_breakdown.json 的超集。**
+
+7. **调用 `Skill("superpowers:writing-plans")` 生成实现计划:**
+   - 输入: Step A 产出的 `design.md` + 项目结构 + kanban 约束（output_dir、worktree、评估标准）
+   - writing-plans 按标准流程产出 bite-sized 任务，每个 step 含:
+     - 精确文件路径 + 完整代码
+     - 测试代码（TDD: 先写失败测试 → 实现 → 验证通过）
+     - 验证命令 + 期望输出
+     - commit 命令
+   - 产出 `plan.md` 到 `{task_dir}/plan.md`
+8. **从 plan.md 生成 task_breakdown.json (LLM 驱动):**
+   - plan.md 由外部技能 (writing-plans) 产出，格式不可控，**禁止用 regex 解析**
+   - 使用 LLM 将 plan.md 转换为 task_breakdown.json:
+     1. 检查 plan.md 存在: `python3 -m core plan inspect "$task_id"`
+     2. 将 plan.md 内容 + 以下 system prompt 发给当前 LLM 生成 JSON:
+
+        ```
+        You are a plan-to-JSON converter. Parse the implementation plan into task_breakdown.json.
+        Output ONLY valid JSON, no markdown fences. Schema: { "task_name": "kebab-case",
+        "subtasks": [{"id": "ST-001", "title": "...", "description": "...", "priority": 1,
+        "estimated_files": [...], "dependencies": []}] }
+        Extract every file path. Infer dependencies: if Task B modifies a file created
+        in Task A, add ST-00A to Task B's dependencies.
+        ```
+
+     3. 将 LLM 输出保存: `echo '<llm_json>' | python3 -m core plan save "$task_id"`
+     - CLI 自动校验 JSON schema（subtasks 非空、每个含 id/title/estimated_files）
+   - 生成的 `task_breakdown.json` 供 executor 做依赖排序和并行调度
+9. **从 plan.md + design.md 生成 requirements.md (LLM 驱动):**
+   - 同样用 LLM 从 design.md 和 plan.md 提取: 功能需求 (FR-N)、非功能需求、技术约束、验收标准
+   - 产出 `{task_dir}/requirements.md`
+10. 检查产物:
    ```bash
    python3 -m core guard check-artifacts "$task_id" plan
    ```
-   如果产物不完整，提示 Agent 补全
-6. **Plan 质量门禁 (如果 enabled):**
+   必须存在: `design.md`、`plan.md`、`requirements.md`、`task_breakdown.json`
+11. **Plan 质量门禁 (plan_review 阶段):**
    ```bash
    python3 -m core guard check-plan-quality "$task_id" "$report_dir"
    ```
-   - Plan 质量门禁通过 `workflow.json` 中 plan 阶段的 `quality_gate` 配置启用:
-     ```json
-     {
-       "id": "plan",
-       "quality_gate": {
-         "enabled": true,
-         "pass_threshold": 7.0,
-         "max_rounds": 3,
-         "dimensions": [
-           {"id": "requirement_clarity", "name": "需求清晰度", "weight": 0.25},
-           {"id": "technical_feasibility", "name": "技术可行性", "weight": 0.25},
-           {"id": "task_decomposition", "name": "任务拆解合理性", "weight": 0.25},
-           {"id": "acceptance_criteria", "name": "验收标准完整性", "weight": 0.25}
-         ]
-       }
-     }
-     ```
-   - 评分维度:
-     1. **需求清晰度** (requirement_clarity): requirements.md 是否包含功能需求、非功能需求、验收标准
-     2. **技术可行性** (technical_feasibility): 技术约束和 estimated_files 是否具体
-     3. **任务拆解合理性** (task_decomposition): subtask 数量、字段完整性、依赖关系
-     4. **验收标准完整性** (acceptance_criteria): 验收标准是否可验证
-     5. **需求前置调研完整性** (research_completeness, 可选加分项): 有调研需求时是否包含调研结论
-   - 总分 >= `pass_threshold` (配置默认 7.0) 通过
-   - `pass_threshold` 不达标时自动重试 Plan (最多 `max_rounds` 轮，默认 3)
-   - 每次评分和 issues 追加到 task JSON 的 `history` 数组中 (plan_quality_check 事件)
-   - 超过 `max_rounds` 仍不达标 -> 进入 user_decision，提示用户选择
-   - `quality_gate` 配置缺失时回退到默认值 (enabled=false, threshold=9.0, max_rounds=3)
-7. **需求前置调研 (如果触发条件匹配):**
-   - 当 `workflow.json` plan 阶段配置了 researcher agent 且 `trigger_condition` 匹配时，自动调度 researcher
-   - `trigger_condition` 配置示例:
-     ```json
-     {"role": "researcher", "required": false, "trigger_condition": {"keywords": ["调研", "选型", "对比", "analysis", "research", "技术选型", "竞品"], "match_field": "description"}}
-     ```
-   - 当任务 description 包含任一关键词时，自动生成 researcher dispatch JSON 并调度
-   - Planner 应在 requirements.md 中包含"调研需求"小节，明确调研目标和约束
-   - researcher 的调研结论应被 Plan 质量门禁的维度5 (research_completeness) 识别
-8. `python3 -m core workflow complete-phase "$task_id"`
+   - 评分维度同上（需求清晰度、技术可行性、任务拆解合理性、验收标准完整性）
+   - 总分 >= `pass_threshold` (默认 7.0) 通过
+   - 不达标自动重试（修改 plan.md 或重新调用 writing-plans），最多 `max_rounds` 轮
+   - 超限 → user_decision
+12. `python3 -m core workflow complete-phase "$task_id"`
+
+##### Plan Step C: 测试用例规格 (qa_spec)
+
+13. `python3 -m core workflow complete-phase "$task_id"` (from plan_review)
+14. **调度 QA Agent 生成 test_spec.md:**
+   ```bash
+   python3 -m core workflow get-phase-agents qa_spec
+   ```
+   从 `workflow.json` 的 `qa_spec` 阶段读取 Agent 配置。
+   默认: `{"role": "qa", "required": true, "agent_type": "kanban-qa", "mode": "spec"}`
+   - 输入: `plan.md` + `requirements.md`
+   - 产出: `{task_dir}/test_spec.md`
+   - 内容: 单元测试用例列表 + 手动验证清单
+15. Guard check: `python3 -m core guard check-artifacts "$task_id" qa_spec`
+16. `python3 -m core workflow complete-phase "$task_id"`
+
+##### Plan Step D: 测试用例评审 (spec_review)
+
+17. `python3 -m core workflow complete-phase "$task_id"` (from qa_spec)
+18. **调度 test-spec-reviewer Agent 评审 test_spec.md:**
+   ```bash
+   python3 -m core workflow get-phase-agents spec_review
+   ```
+   默认: `{"role": "test_spec_reviewer", "required": true, "agent_type": "kanban-test-spec-reviewer"}`
+   - 多维度评分: 覆盖率、边界用例、可执行性
+   - 产出: `{report_dir}/spec_review_report.json`
+   - 不达标 → 回到 qa_spec 修改 (max_rounds=3)
+19. Guard check: `python3 -m core guard check-artifacts "$task_id" spec_review`
+20. `python3 -m core workflow complete-phase "$task_id"`
 
 #### Phase 2: Execute
 
@@ -235,7 +304,27 @@ kanban_init:
 - Execute 阶段：**跳过 git worktree**，直接在当前分支工作
 - Evaluate 阶段：**简化为用户自验收**，跳过 4 Agent 并行评估
 
-**必须征得用户同意后才能启用轻量模式。** 用户拒绝则走标准流程。
+**硬性门控 — 用户确认（不可跳过）：**
+
+当 `cmd_run` 返回 `lightweight_available: true` 且 `requires_confirmation: true` 时，编排器**必须**使用 `AskUserQuestion` 询问用户：
+
+```
+AskUserQuestion(
+  questions: [{
+    question: "检测到任务符合轻量模式条件，是否启用轻量模式？（跳过 worktree + 简化评估）",
+    header: "轻量模式",
+    options: [
+      {label: "启用轻量模式", description: "跳过 git worktree，直接在当前分支工作，评估简化为自验收"},
+      {label: "走标准流程（推荐）", description: "创建 worktree 隔离 + 4 Agent 并行评估"}
+    ]
+  }]
+)
+```
+
+- 用户选择「启用轻量模式」→ 后续 `run` 传入 `--lightweight` flag
+- 用户选择「走标准流程」→ 正常走完整流程
+- **禁止**在未经用户确认的情况下自动启用轻量模式
+- 仅当用户显式传入 `--lightweight` flag 时 (`lightweight: true`)，跳过询问直接启用
 
 **强制 worktree 约束 (标准模式):** 任务进入 Execute 阶段时创建 worktree。Worktree 路径统一为 `.kanban/tasks/TASK-NNN/worktree/`。Guard 自动创建: 如果 worktree 不存在，自动尝试创建。创建失败时阻止进入 Execute 阶段，返回 `FAIL:worktree_not_found`。轻量模式下跳过此约束。
 
@@ -248,37 +337,37 @@ kanban_init:
    ```bash
    python3 -m core prepare-dispatch "$task_id"
    ```
-4. 读取 Plan 产物 (requirements.md, task_breakdown.json) 中的 subtasks
-5. **按 subtask 逐步调度 executor Agent:**
-   - 无依赖的 subtask 可并行执行 (不超过 config.scheduler.max_parallel)
-   - 有依赖的 subtask 等待前序完成后串行执行
-   - 每个 subtask 的执行流程:
+4. 读取 Plan 产物:
+   - `plan.md` — writing-plans 产出的 bite-sized 实现步骤（**executor 的主要工作指南**）
+   - `task_breakdown.json` — 元数据（依赖排序、并行调度、文件追踪）
+5. **按 plan.md 中的 Task 逐步调度 executor Agent:**
+   - 用 task_breakdown.json 做依赖排序和并行分组
+   - 无依赖的 Task 可并行执行 (不超过 config.scheduler.max_parallel)
+   - 有依赖的 Task 等待前序完成后串行执行
+   - 每个 Task 的执行流程:
      a. `python3 -m core subtask update "$task_id" "$subtask_id" in_progress`
      b. 调度 **executor Agent**:
         ```
-        Agent(subagent_type="executor", mode="bypassPermissions")
+        Agent(subagent_type="kanban-executor", mode="bypassPermissions")
         prompt: 你是 Executor Agent。任务信息:
         - task_id: {task_id}
         - subtask: {subtask_id} -- {subtask_title}
-        - description: {subtask_description}
         - worktree_path: {wt_path}
+        - plan_path: {task_dir}/plan.md
         - report_dir: {report_dir}
 
-        请执行此子任务:
-        1. 读取 {task_dir}/requirements.md 了解整体需求（任务根目录）
-        2. 在 {wt_path} 中完成此子任务的编码
-        3. 确认文件已写入: {subtask.estimated_files}
-
-        必须产出的文件清单:
-        {subtask.estimated_files 列表}
+        请执行 plan.md 中此 Task 的所有 step:
+        1. 读取 {task_dir}/plan.md，找到你的 Task 对应的章节
+        2. 按 plan.md 中每个 step 逐一执行: 写测试 → 验证失败 → 写实现 → 验证通过 → commit
+        3. 所有 step 完成后，记录完成状态
         ```
-     c. 检查 estimated_files 是否已生成
+     c. 检查 plan.md 中该 Task 指定的文件是否已生成
      d. 成功 -> `python3 -m core subtask update "$task_id" "$subtask_id" completed`
      e. 失败 -> `python3 -m core subtask update "$task_id" "$subtask_id" failed`
-   - 缺失文件则重试该 subtask (最多 2 次，每次提供更详细提示)
+   - 缺失文件则重试该 Task (最多 2 次，每次提供更详细提示)
 6. 所有 subtask 完成后，单独调度一个 **报告 Agent**:
    ```
-   Agent(subagent_type="executor", mode="bypassPermissions")
+   Agent(subagent_type="kanban-executor", mode="bypassPermissions")
    prompt: 为任务 {task_id} 编写执行报告:
    - 读取 worktree 中的所有代码变更
    - 编写 {report_dir}/execution_summary.md (实现了什么、文件清单)
@@ -328,7 +417,7 @@ kanban_init:
    对每个角色（从 workflow.json 中 evaluate.agents 配置获取）启动独立 Agent:
 
    ```
-   Agent(subagent_type="general-purpose", run_in_background=true)
+   Agent(subagent_type="kanban-qa", run_in_background=true)
    prompt: 扮演 {role} 角色，评估任务 {task_id} 的实现。
            读取 dispatch 文件: {dispatch_dir}/{task_id}-{role}.json
            按照角色定义的评分标准评估代码。
@@ -350,46 +439,55 @@ kanban_init:
    ```
 7. `python3 -m core evaluator collect-scores "$task_id"` -- 展示评分
 8. `python3 -m core workflow complete-phase "$task_id"`
-9. 进入自迭代判断
+9. **立即进入自迭代判断 — 不可跳过**
 
-#### 自迭代判断
+#### 自迭代判断 (HARD-GATE)
 
-1. `python3 -m core workflow self-improve-check "$task_id"` -- 返回 all_pass / max_reached / hot / full
-2. 根据结果:
-   - **all_pass** -> 进入 user_decision 阶段
-   - **max_reached** -> 进入 user_decision 阶段，标记达到最大轮次
-   - **hot** -> `python3 -m core workflow start-iteration "$task_id" hot` -> 跳回 Execute 阶段
-   - **full** -> `python3 -m core workflow start-iteration "$task_id" full` -> 跳回 Plan 阶段
+> **铁律执行: Evaluate 完成后必须自动进入自迭代判断。评分未通过阈值 + 未达最大迭代次数时，必须自动迭代（hot 或 full）。禁止在此阶段询问用户"是否继续迭代"。**
 
-#### Phase 4: User Decision
+**背景:** 此 Gate 联合实施 IR-04（热迭代仅限无架构问题）、IR-08（自迭代不超过上限）、IR-09（评分标准严格统一）。其目的是在评估结果不理想时自动驱动质量改进循环，而非让用户在不知情的情况下批准不合格的工作。
 
-**触发条件:** Retrospective 完成后自动进入
+1. **计算平均分:** 读取所有 required 角色的评分报告，计算各维度的算术平均值。对于缺失的报告（不完整的评估），将缺失维度视为 0 分。
 
-**前置条件:** retrospective.md 必须已生成（Guard 在 archive 时强制检查）
+2. **执行自迭代判断:**
+   ```bash
+   python3 -m core workflow self-improve-check "$task_id" --avg-score "$avg"
+   ```
+   返回: `all_pass` | `max_reached` | `hot` | `full`
 
-1. `python3 -m core workflow transition "$task_id" user_decision`
-2. **展示验收文档** — 读取 `{task_dir}/acceptance.md` 内容展示给用户，方便快速验收功能
-3. **展示复盘总结文档** — 读取 `{task_dir}/retrospective.md` 内容展示给用户
-4. `python3 -m core summary "$task_id"` -- 展示迭代摘要（评分趋势、扣分项）
-5. Python CLI 输出结构化 JSON 展示变更摘要（提交记录、文件变更、关键改动、产物文件、评估报告链接）
-6. 等待用户决策：
-   - **用户说"归档"/"合并"/"approve"** → 默认执行合并 worktree + 归档
-   - **用户说"不合并归档"/"abort"** → 仅归档，不合并代码（特殊情况需显式说明）
-   - **用户说"重新规划"** → `restart_from_plan`
-   - **用户说"继续迭代"** → `restart_from_execute`
+3. **根据结果自动执行 — 禁止询问用户:**
 
-#### Phase 4.5: Retrospective（必经阶段）
+   | 结果 | 条件 | 动作 |
+   |---|---|---|
+   | **all_pass** | 所有 required 评分 >= pass_threshold (默认 9.0) | 进入 Retrospective 阶段（最终复盘 + 知识沉淀） |
+   | **max_reached** | 未通过 + 迭代次数 >= max_iterations (默认 6) | 进入 User Decision 阶段（用户最终裁定） |
+   | **hot** | 平均分 >= 7.0 且无架构问题 | 自动执行 `start-iteration "$task_id" hot` → 跳回 Execute 阶段 |
+   | **full** | 平均分 < 7.0 或存在架构问题 | 自动执行 `start-iteration "$task_id" full` → 跳回 Plan 阶段 |
 
-**触发条件:** Evaluate 通过后自动进入（retrospective 是归档前的必经阶段，Guard 在 archive 时强制检查 retrospective.md 存在性）
+   **架构问题的判定:** 当 designer 报告的 `architecture` 维度评分 < 5/10，或 code_reviewer 报告中明确标记了 `architectural_issue: true` 时，视为存在架构问题。
+
+4. **迭代计数器:** 每次 hot/full 跳转时自动将 `task.iteration += 1`。迭代次数记录在 `task.json` 中。
+
+5. **HARD-GATE 禁止事项:**
+   - **禁止**在 hot/full 结果时进入 User Decision 或询问用户意见
+   - **禁止**绕过自迭代直接进入 Retrospective 或 User Decision
+   - **禁止**将 all_pass/max_reached 以外的情况呈现为"请用户选择"
+   - 迭代次数 < max_iterations 且评分未通过时，**唯一合法的下一步是自动跳回**
+
+6. **异常处理:** 如果 `self-improve-check` 命令失败（例如因缺少参数），编排器必须读取评估报告自行计算平均分，然后按照上述规则决定下一步动作。不得因 CLI 错误而跳过自迭代 Gate。
+
+#### Phase 4: Retrospective（必经阶段 — all_pass 或 max_reached 后自动进入）
+
+> **触发时机:** 仅在自迭代判断返回 all_pass 或 max_reached 后进入。hot/full 时不可进入此阶段。
+
+**前置条件:** 评估报告已全部生成，评分已记录。
 
 1. `python3 -m core workflow transition "$task_id" retrospective`
 2. **读取迭代产物:**
    - 读取 `execution_pitfalls.md` -- 遇到的问题和解决方法
    - 读取 `execution_decisions.md` -- 技术决策和原因
+   - 如果存在多个迭代，汇总所有迭代的 pitfalls 和 decisions
 3. **生成复盘文档:**
-   ```
-   基于模板生成 retrospective.md，由 Python CLI 或 Agent 填充内容
-   ```
    复盘文档应包含:
    - 任务目标回顾
    - 需求分析摘要
@@ -416,9 +514,49 @@ kanban_init:
    python3 -m core guard check-artifacts "$task_id" retrospective
    ```
 7. `python3 -m core workflow complete-phase "$task_id"`
-8. 进入 user_decision 阶段
+8. 自动进入 User Decision 阶段
 
-#### Phase 5: Archive
+#### Phase 5: User Decision
+
+**触发条件:** Retrospective 完成后自动进入。**此阶段仅当自迭代已用尽（all_pass 或 max_reached）时才可达。**
+
+**前置条件:** retrospective.md + acceptance.md 必须已生成。
+
+1. `python3 -m core workflow transition "$task_id" user_decision`
+2. **展示验收文档** — 读取 `{task_dir}/acceptance.md` 内容展示给用户
+3. **展示复盘总结文档** — 读取 `{task_dir}/retrospective.md` 内容展示给用户
+4. `python3 -m core summary "$task_id"` -- 展示迭代摘要（评分趋势、扣分项）
+5. Python CLI 输出结构化 JSON 展示变更摘要
+6. 等待用户决策（仅以下两个选项）:
+   - **用户确认归档** → 执行 `approve_and_archive`（合并 worktree + 归档）
+   - **用户放弃归档** → 执行 `abort`（仅归档，不合并代码）
+
+   > **注意:** 如果用户在 max_reached 状态下觉得质量不够，可以手动执行 `/kanban decide TASK-NNN --action restart_from_execute` 或 `restart_from_plan` 额外迭代。但编排器不应主动提供这些选项 — 它们仅作为用户知晓的逃生舱口存在。
+
+---
+
+## FSM 流转总览
+
+```
+Plan (需求澄清 + 任务拆解)
+  → Execute (编码实现 + 测试)
+  → Evaluate (4角色并行评估)
+  → 自迭代判断 (HARD-GATE)
+      ├─ all_pass ────→ Retrospective → User Decision → Archive
+      ├─ max_reached ─→ Retrospective → User Decision → Archive
+      ├─ hot  ──→ Execute (iteration N+1)    ← 自动，不询问用户
+      └─ full ──→ Plan (iteration N+1)       ← 自动，不询问用户
+```
+
+**关键约束:**
+- Retrospective 是 all_pass/max_reached 的专属后续阶段，hot/full 时不可达
+- User Decision 仅在自迭代用尽（all_pass 或 max_reached）时可达
+- hot/full 自动跳转时**禁止**展示选项给用户
+- 迭代次数 < max_iterations 且评分未通过时，**唯一合法路径是自动跳回**
+
+---
+
+#### Phase 6: Archive
 
 1. `python3 -m core workflow transition "$task_id" archive`
 2. **动态调度 archive 阶段 Agent:**
@@ -592,7 +730,7 @@ Agent 分布:
 2. 如果无待处理项，提示 "无待处理反馈" 并退出
 3. 启动 **planner Agent** 分析每条反馈:
    ```
-   Agent(subagent_type="planner", mode="bypassPermissions")
+   Agent(subagent_type="kanban-planner", mode="bypassPermissions")
    prompt: 你是反馈分析 Agent。任务信息:
    - task_id: {task_id}
    - title: {title}
@@ -745,7 +883,7 @@ dispatch JSON 自动注入 `output_dir`，agent 调度时必须传入。
 
 ```
 Agent(
-  subagent_type="planner",
+  subagent_type="kanban-planner",
   mode="bypassPermissions",
   prompt: """
   你是 Planner Agent。任务信息:
@@ -774,7 +912,7 @@ Agent(
 
 ```
 Agent(
-  subagent_type="executor",
+  subagent_type="kanban-executor",
   mode="bypassPermissions",
   prompt: """
   你是 Executor Agent。任务信息:

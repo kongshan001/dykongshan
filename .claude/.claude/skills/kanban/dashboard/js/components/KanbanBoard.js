@@ -44,18 +44,25 @@ export const KanbanBoard = {
 
     // Whether the task has enough iteration data to show the chart
     const showScoreChart = computed(() => {
-      if (!taskDetail.value || !taskDetail.value.reports) return false;
-      const reports = taskDetail.value.reports;
-      if (reports.length === 0) return false;
-      // Need at least 2 distinct iterations with report data
-      const iterations = new Set(reports.map(r => r.iteration || 1));
-      return iterations.size >= 2;
+      if (!taskDetail.value) return false;
+      // Prefer score_history (explicit per-iteration scores)
+      if (taskDetail.value.score_history && taskDetail.value.score_history.length >= 1) {
+        return true;
+      }
+      // Fall back to reports
+      if (taskDetail.value.reports && taskDetail.value.reports.length > 0) {
+        const iterations = new Set(taskDetail.value.reports.map(r => r.iteration || 1));
+        return iterations.size >= 1;
+      }
+      return false;
     });
 
-    // Watch taskDetail to render chart when reports are available
+    // Watch taskDetail to render chart
     watch(taskDetail, async (detail) => {
-      if (detail && detail.reports && detail.reports.length > 0) {
-        await nextTick();
+      await nextTick();
+      if (detail && detail.score_history && detail.score_history.length > 0) {
+        renderChart(detail.score_history);
+      } else if (detail && detail.reports && detail.reports.length > 0) {
         renderChart(detail.reports);
       } else {
         destroyChart();

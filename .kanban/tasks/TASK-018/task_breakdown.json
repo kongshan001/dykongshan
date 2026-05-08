@@ -1,1 +1,24 @@
-{"task_id":"TASK-018","title":"旅行目的地签证自动检查","subtasks":[{"id":"S1","title":"签证政策数据库","description":"200+国家签证政策结构化数据，支持多护照","estimate_hours":4,"dependencies":[]},{"id":"S2","title":"规则引擎","description":"护照+目的地→签证要求匹配","estimate_hours":4,"dependencies":["S1"]},{"id":"S3","title":"材料清单生成","description":"根据签证类型自动生成所需材料清单","estimate_hours":3,"dependencies":["S2"]},{"id":"S4","title":"倒计时提醒","description":"签证申请截止日期提醒","estimate_hours":2,"dependencies":["S2"]},{"id":"S5","title":"测试与数据校验","description":"签证数据准确性校验、边界测试","estimate_hours":3,"dependencies":["S3","S4"]}]}
+{
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "紧急电话汇总",
+      "dependencies": []
+    },
+    {
+      "id": "ST-002",
+      "title": "大使馆联系方式",
+      "dependencies": []
+    },
+    {
+      "id": "ST-003",
+      "title": "医疗保险使用",
+      "dependencies": []
+    },
+    {
+      "id": "ST-004",
+      "title": "财物丢失处理",
+      "dependencies": []
+    }
+  ]
+}

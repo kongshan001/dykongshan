@@ -1,0 +1,22 @@
+{
+  "id": "TASK-227",
+  "title": "当地美食发现指南",
+  "description": "基于旅行目的地的特色美食推荐和餐厅筛选",
+  "status": "archive",
+  "phase": "archive",
+  "iteration": 0,
+  "max_iterations": 6,
+  "history": [
+    {
+      "phase": "plan",
+      "timestamp": "2026-05-08T14:14:03.959522"
+    },
+    {
+      "phase": "archive",
+      "timestamp": "2026-05-08T15:13:57.035891",
+      "note": "Auto: avg=8.8, archived"
+    }
+  ],
+  "created_at": "2026-05-08T12:14:08.686155",
+  "updated_at": "2026-05-08T15:13:57.035891"
+}

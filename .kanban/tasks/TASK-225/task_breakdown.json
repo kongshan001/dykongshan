@@ -1,0 +1,32 @@
+{
+  "task_id": "TASK-225",
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "目的地气候分析",
+      "status": "pending",
+      "dependencies": []
+    },
+    {
+      "id": "ST-002",
+      "title": "行程天数计算",
+      "status": "pending",
+      "dependencies": []
+    },
+    {
+      "id": "ST-003",
+      "title": "清单生成逻辑",
+      "status": "pending",
+      "dependencies": [
+        "ST-001",
+        "ST-002"
+      ]
+    },
+    {
+      "id": "ST-004",
+      "title": "特殊物品提醒",
+      "status": "pending",
+      "dependencies": []
+    }
+  ]
+}

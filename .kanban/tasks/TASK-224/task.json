@@ -1,0 +1,27 @@
+{
+  "id": "TASK-224",
+  "title": "旅行语言速查卡",
+  "description": "热门目的地常用短语、发音、文化礼仪速查",
+  "status": "archive",
+  "phase": "archive",
+  "iteration": 0,
+  "max_iterations": 6,
+  "token_budget": 500000,
+  "token_used": 0,
+  "scores": {},
+  "depends_on": [],
+  "history": [
+    {
+      "phase": "plan",
+      "timestamp": "2026-05-08T11:44:38.133131",
+      "note": "Auto heartbeat: moved to planning"
+    },
+    {
+      "phase": "archive",
+      "timestamp": "2026-05-08T12:13:42.160373",
+      "note": "Auto: plan→execute→evaluate(avg 8.7)→archive"
+    }
+  ],
+  "created_at": "2026-05-08T09:13:57.160405",
+  "updated_at": "2026-05-08T12:13:42.160373"
+}

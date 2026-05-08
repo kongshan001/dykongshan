@@ -1,0 +1,26 @@
+{
+  "task_id": "TASK-221",
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "气候-衣物映射",
+      "status": "pending",
+      "dependencies": []
+    },
+    {
+      "id": "ST-002",
+      "title": "旅行类型模板",
+      "status": "pending",
+      "dependencies": []
+    },
+    {
+      "id": "ST-003",
+      "title": "综合清单生成",
+      "status": "pending",
+      "dependencies": [
+        "ST-001",
+        "ST-002"
+      ]
+    }
+  ]
+}

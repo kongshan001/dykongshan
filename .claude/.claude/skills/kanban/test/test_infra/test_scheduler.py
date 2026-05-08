@@ -24,6 +24,6 @@ class TestScheduler:
         assert order[-1] == Phase.ARCHIVE
 
     def test_next_phase(self):
-        assert Scheduler.next_phase(Phase.PLAN) == Phase.EXECUTE
+        assert Scheduler.next_phase(Phase.PLAN) == Phase.PLAN_REVIEW
         assert Scheduler.next_phase(Phase.EXECUTE) == Phase.EVALUATE
         assert Scheduler.next_phase(Phase.ARCHIVE) is None

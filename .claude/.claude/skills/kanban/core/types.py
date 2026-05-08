@@ -6,8 +6,12 @@ from typing import Optional
 
 class Phase(str, Enum):
     PLAN = "plan"
+    PLAN_REVIEW = "plan_review"
+    QA_SPEC = "qa_spec"
+    SPEC_REVIEW = "spec_review"
     EXECUTE = "execute"
     EVALUATE = "evaluate"
+    RETROSPECTIVE = "retrospective"
     USER_DECISION = "user_decision"
     ARCHIVE = "archive"
 
@@ -56,6 +60,8 @@ class Task:
     iteration: int = 1
     worktree_path: Optional[str] = None
     history: list[dict] = field(default_factory=list)
+    scores: dict = field(default_factory=dict)
+    score_history: list[dict] = field(default_factory=list)
 
 
 @dataclass
@@ -63,8 +69,12 @@ class Report:
     role: str
     task_id: str
     iteration: int
-    scores: list[ScoreResult]
-    summary: str
+    score: float = 0.0
+    dimensions: dict = field(default_factory=dict)
+    summary: str = ""
+    passed: bool = False
+    critical_issues: list[str] = field(default_factory=list)
+    improvement_suggestions: list[str] = field(default_factory=list)
 
 
 @dataclass

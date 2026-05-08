@@ -1,5 +1,6 @@
 from __future__ import annotations
 import json
+import time
 from pathlib import Path
 
 from core.types import Task, TaskStatus, Phase
@@ -32,7 +33,7 @@ class TaskManager:
     def status(self) -> dict:
         tasks = []
         for f in sorted(self._fs.kanban_dir.glob("tasks/TASK-*.json")):
-            tasks.append(json.loads(f.read_text()))
+            tasks.append(json.loads(f.read_text(encoding="utf-8")))
         by_status: dict[str, int] = {}
         for t in tasks:
             s = t.get("status", "unknown")
@@ -51,21 +52,32 @@ class TaskManager:
         self._write_task(task)
         return task
 
+    def record_decision(self, task_id: str, action: str) -> None:
+        task = self.show(task_id)
+        task.history.append({
+            "phase": "user_decision",
+            "action": action,
+            "timestamp": time.time(),
+        })
+        self._write_task(task)
+
     def delete(self, task_id: str) -> None:
         tf = self._fs.task_file(task_id)
         if self._fs.file_exists(tf):
             tf.unlink()
 
     def _next_task_id(self) -> str:
-        existing = list(self._fs.kanban_dir.glob("tasks/TASK-*.json"))
-        if not existing:
-            return "TASK-001"
         nums = []
-        for p in existing:
-            try:
-                nums.append(int(p.stem.split("-")[1]))
-            except (IndexError, ValueError):
-                pass
+        for pattern in ("tasks/TASK-*.json", "archive/TASK-*"):
+            for p in self._fs.kanban_dir.glob(pattern):
+                name = p.stem if p.suffix == ".json" else p.name
+                try:
+                    n = int(name.split("-")[1])
+                    nums.append(n)
+                except (IndexError, ValueError):
+                    pass
+        if not nums:
+            return "TASK-001"
         return f"{Consts.TASK_ID_PREFIX}{max(nums) + 1:03d}"
 
     def _read_task(self, path: Path) -> Task:
@@ -78,6 +90,8 @@ class TaskManager:
             phase=Phase(data.get("phase", "plan")),
             iteration=data.get("iteration", 1),
             history=data.get("history", []),
+            scores=data.get("scores", {}),
+            score_history=data.get("score_history", []),
         )
 
     def _write_task(self, task: Task) -> None:
@@ -89,5 +103,7 @@ class TaskManager:
             "phase": task.phase.value,
             "iteration": task.iteration,
             "history": task.history,
+            "scores": task.scores,
+            "score_history": task.score_history,
         }
         self._fs.write_json(self._fs.task_file(task.id), data)

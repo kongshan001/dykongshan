@@ -1,0 +1,35 @@
+{
+  "task_id": "TASK-229",
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "亚洲签证",
+      "status": "pending",
+      "dependencies": []
+    },
+    {
+      "id": "ST-002",
+      "title": "欧美签证",
+      "status": "pending",
+      "dependencies": []
+    },
+    {
+      "id": "ST-003",
+      "title": "材料清单生成",
+      "status": "pending",
+      "dependencies": [
+        "ST-001",
+        "ST-002"
+      ]
+    },
+    {
+      "id": "ST-004",
+      "title": "拒签分析",
+      "status": "pending",
+      "dependencies": [
+        "ST-001",
+        "ST-002"
+      ]
+    }
+  ]
+}

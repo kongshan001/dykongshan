@@ -1,0 +1,23 @@
+{
+  "id": "TASK-225",
+  "title": "智能行李清单",
+  "description": "根据目的地天气、旅行天数、活动类型自动生成行李清单",
+  "status": "archive",
+  "phase": "archive",
+  "iteration": 0,
+  "max_iterations": 6,
+  "history": [
+    {
+      "phase": "plan",
+      "timestamp": "2026-05-08T13:13:30.920473",
+      "note": "Auto heartbeat"
+    },
+    {
+      "phase": "archive",
+      "timestamp": "2026-05-08T13:44:29.923499",
+      "note": "Auto: plan→execute→evaluate(avg 8.8)→archive"
+    }
+  ],
+  "created_at": "2026-05-08T12:14:08.686155",
+  "updated_at": "2026-05-08T13:44:29.923499"
+}

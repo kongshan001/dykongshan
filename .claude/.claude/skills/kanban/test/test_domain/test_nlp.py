@@ -50,3 +50,57 @@ class TestNLPRouter:
         router = NLPRouter(nlp_patterns_file)
         result = router.parse("")
         assert result.success is False
+
+    def test_nested_keywords_structure(self, tmp_path):
+        """Real nlp_patterns.json uses {exact, synonyms, fuzzy} not flat lists."""
+        patterns = {
+            "commands": {
+                "create": {
+                    "keywords": {
+                        "exact": ["create"],
+                        "synonyms": ["新建任务", "创建任务", "添加任务"],
+                        "fuzzy": ["帮我开个", "我有个需求"],
+                    }
+                },
+                "status": {
+                    "keywords": {
+                        "exact": ["status"],
+                        "synonyms": ["查看状态", "看板状态"],
+                        "fuzzy": ["任务跑到哪了"],
+                    }
+                },
+            }
+        }
+        f = tmp_path / "nlp_patterns.json"
+        f.write_text(json.dumps(patterns, ensure_ascii=False))
+        router = NLPRouter(f)
+        result = router.parse("帮我新建任务吧")
+        assert result.success is True
+        assert result.command == "create"
+
+    def test_nested_synonym_match(self, tmp_path):
+        patterns = {
+            "commands": {
+                "run": {
+                    "keywords": {
+                        "exact": ["run"],
+                        "synonyms": ["运行任务", "执行任务"],
+                        "fuzzy": ["开始做"],
+                    }
+                },
+            }
+        }
+        f = tmp_path / "nlp_patterns.json"
+        f.write_text(json.dumps(patterns, ensure_ascii=False))
+        router = NLPRouter(f)
+        result = router.parse("请执行任务 TASK-003")
+        assert result.success is True
+        assert result.command == "run"
+        assert result.task_id == "TASK-003"
+
+    def test_flat_keywords_still_work(self, nlp_patterns_file):
+        """Backward compatibility: flat lists should still match."""
+        router = NLPRouter(nlp_patterns_file)
+        result = router.parse("new task please")
+        assert result.success is True
+        assert result.command == "create"

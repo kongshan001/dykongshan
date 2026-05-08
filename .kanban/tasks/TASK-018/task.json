@@ -53,11 +53,16 @@
       "phase": "archive",
       "status": "entered",
       "entered_at": "2026-05-05T06:33:06Z"
+    },
+    {
+      "phase": "archive",
+      "timestamp": "2026-05-08T20:40:56.078619",
+      "note": "Auto heartbeat"
     }
   ],
   "user_decision": "approve_and_archive",
   "requires_archive_confirmation": true,
   "created_at": "2026-05-05T06:30:28Z",
-  "updated_at": "2026-05-05T06:30:28Z",
+  "updated_at": "2026-05-08T20:40:56.078619",
   "entered_at": "2026-05-05T06:33:06Z"
 }

@@ -179,6 +179,11 @@
       "phase": "archive",
       "status": "entered",
       "entered_at": "2026-05-05T20:21:03Z"
+    },
+    {
+      "phase": "archive",
+      "timestamp": "2026-05-09T03:10:53.830419",
+      "note": "Auto heartbeat: avg=8.8"
     }
   ],
   "user_decision": {
@@ -188,7 +193,7 @@
   },
   "requires_archive_confirmation": true,
   "created_at": "2026-05-05T17:41:32Z",
-  "updated_at": "2026-05-05T20:21:02Z",
+  "updated_at": "2026-05-09T03:10:53.830419",
   "entered_at": "2026-05-05T20:21:03Z",
   "iteration_type": null
 }

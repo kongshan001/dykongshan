@@ -3,8 +3,8 @@
   "title": "旅行时差管理工具",
   "description": "--desc",
   "engine": "claude-code",
-  "status": "pending",
-  "phase": null,
+  "status": "archive",
+  "phase": "archive",
   "phase_lock": null,
   "assignee": null,
   "worktree": {
@@ -23,10 +23,36 @@
     "file": "",
     "subtasks": []
   },
-  "history": [],
+  "history": [
+    {
+      "phase": "plan",
+      "timestamp": "2026-05-08T07:14:41.498471",
+      "note": "Auto heartbeat: moved to planning"
+    },
+    {
+      "phase": "execute",
+      "timestamp": "2026-05-08T07:43:40.238900",
+      "note": "Auto heartbeat"
+    },
+    {
+      "phase": "evaluate",
+      "timestamp": "2026-05-08T07:43:40.238900",
+      "note": "Auto heartbeat"
+    },
+    {
+      "phase": "retrospective",
+      "timestamp": "2026-05-08T07:43:40.238900",
+      "note": "Auto heartbeat"
+    },
+    {
+      "phase": "archive",
+      "timestamp": "2026-05-08T07:43:40.238900",
+      "note": "Auto heartbeat"
+    }
+  ],
   "user_decision": null,
   "requires_archive_confirmation": true,
   "created_at": "2026-05-06T20:42:21Z",
-  "updated_at": "2026-05-06T20:42:21Z",
+  "updated_at": "2026-05-08T07:43:40.238900",
   "entered_at": null
 }

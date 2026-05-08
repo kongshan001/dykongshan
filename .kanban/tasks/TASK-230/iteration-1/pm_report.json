@@ -1,0 +1,17 @@
+{
+  "role": "pm",
+  "score": 9,
+  "feedback": "功能完整度满足需求，模板实用",
+  "passed": true,
+  "extended_requirements": [
+    "可考虑添加交互式CLI"
+  ],
+  "requirement_coverage": "90%",
+  "improvements": [
+    "增加更多目的地模板",
+    "支持自定义费用项"
+  ],
+  "risks": [
+    "模板数据可能过时"
+  ]
+}

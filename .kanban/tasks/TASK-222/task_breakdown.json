@@ -1,0 +1,25 @@
+{
+  "task_id": "TASK-222",
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "拍摄技巧整理",
+      "status": "pending"
+    },
+    {
+      "id": "ST-002",
+      "title": "器材推荐",
+      "status": "pending"
+    },
+    {
+      "id": "ST-003",
+      "title": "后期处理指南",
+      "status": "pending"
+    },
+    {
+      "id": "ST-004",
+      "title": "构图法则汇总",
+      "status": "pending"
+    }
+  ]
+}

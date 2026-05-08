@@ -1,0 +1,34 @@
+{
+  "task_id": "TASK-217",
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "亚洲目的地纪念品推荐",
+      "status": "pending",
+      "dependencies": []
+    },
+    {
+      "id": "ST-002",
+      "title": "欧洲目的地纪念品推荐",
+      "status": "pending",
+      "dependencies": []
+    },
+    {
+      "id": "ST-003",
+      "title": "海关限制与避坑指南",
+      "status": "pending",
+      "dependencies": [
+        "ST-001",
+        "ST-002"
+      ]
+    },
+    {
+      "id": "ST-004",
+      "title": "综合推荐文档整合",
+      "status": "pending",
+      "dependencies": [
+        "ST-003"
+      ]
+    }
+  ]
+}

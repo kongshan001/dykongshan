@@ -1,0 +1,48 @@
+{
+  "task_id": "TASK-216",
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "时差计算逻辑",
+      "status": "pending",
+      "dependencies": [],
+      "file_ownership": [
+        "jetlag-calculator.md"
+      ]
+    },
+    {
+      "id": "ST-002",
+      "title": "东行调整方案",
+      "status": "pending",
+      "dependencies": [
+        "ST-001"
+      ],
+      "file_ownership": [
+        "eastbound-plan.md"
+      ]
+    },
+    {
+      "id": "ST-003",
+      "title": "西行调整方案",
+      "status": "pending",
+      "dependencies": [
+        "ST-001"
+      ],
+      "file_ownership": [
+        "westbound-plan.md"
+      ]
+    },
+    {
+      "id": "ST-004",
+      "title": "综合管理指南",
+      "status": "pending",
+      "dependencies": [
+        "ST-002",
+        "ST-003"
+      ],
+      "file_ownership": [
+        "jetlag-guide.md"
+      ]
+    }
+  ]
+}

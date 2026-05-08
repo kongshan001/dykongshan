@@ -1,0 +1,33 @@
+{
+  "task_id": "TASK-223",
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "地区健康风险与疫苗",
+      "status": "pending",
+      "dependencies": []
+    },
+    {
+      "id": "ST-002",
+      "title": "常见疾病预防指南",
+      "status": "pending",
+      "dependencies": [
+        "ST-001"
+      ]
+    },
+    {
+      "id": "ST-003",
+      "title": "医疗包清单与保险建议",
+      "status": "pending",
+      "dependencies": []
+    },
+    {
+      "id": "ST-004",
+      "title": "紧急医疗求助流程",
+      "status": "pending",
+      "dependencies": [
+        "ST-002"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "task_id": "TASK-226",
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "货币换算模块",
+      "status": "pending",
+      "dependencies": []
+    },
+    {
+      "id": "ST-002",
+      "title": "支出分类记录",
+      "status": "pending",
+      "dependencies": [
+        "ST-001"
+      ]
+    },
+    {
+      "id": "ST-003",
+      "title": "预算对比和预警",
+      "status": "pending",
+      "dependencies": [
+        "ST-002"
+      ]
+    },
+    {
+      "id": "ST-004",
+      "title": "花费报告生成",
+      "status": "pending",
+      "dependencies": [
+        "ST-002",
+        "ST-003"
+      ]
+    }
+  ]
+}
