@@ -1,0 +1,17 @@
+{
+  "role": "pm",
+  "score": 9,
+  "feedback": "20条短语覆盖主要场景，发音标注非常实用",
+  "passed": true,
+  "improvements": [
+    "更多短语",
+    "语音播放"
+  ],
+  "risks": [
+    "短语不够全面"
+  ],
+  "extended_requirements": [
+    "OCR拍照翻译"
+  ],
+  "requirement_coverage": "90%"
+}
