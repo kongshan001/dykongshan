@@ -1,0 +1,18 @@
+{
+  "role": "qa",
+  "score": 8,
+  "feedback": "三城市输出正确，风险提示实用",
+  "passed": true,
+  "improvements": [
+    "空城市测试",
+    "数据完整性校验"
+  ],
+  "risks": [
+    "无自动化测试"
+  ],
+  "missing_tests": [
+    "数据库查询测试",
+    "报告生成测试"
+  ],
+  "test_coverage": "0%"
+}
