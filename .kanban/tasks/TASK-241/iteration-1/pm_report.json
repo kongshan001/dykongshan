@@ -1,0 +1,17 @@
+{
+  "role": "pm",
+  "score": 9,
+  "feedback": "5国4类型覆盖全面，推荐结果实用，tips贴心",
+  "passed": true,
+  "improvements": [
+    "更多国家",
+    "实时价格API"
+  ],
+  "risks": [
+    "价格可能过时"
+  ],
+  "extended_requirements": [
+    "在线购买链接"
+  ],
+  "requirement_coverage": "90%"
+}

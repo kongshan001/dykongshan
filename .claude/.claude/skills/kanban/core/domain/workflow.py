@@ -36,6 +36,7 @@ class WorkflowEngine:
         task.history.append(
             {
                 "phase": task.phase.value,
+                "status": "completed",
                 "completed_at": time.time(),
                 "iteration": task.iteration,
             }

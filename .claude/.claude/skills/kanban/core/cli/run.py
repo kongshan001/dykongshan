@@ -306,6 +306,19 @@ def cmd_guard(args: list[str]) -> dict:
             "warnings": result.warnings,
         }
 
+    if sub == "check-phase-completeness":
+        if len(args) < 2:
+            return {"error": "task_id required"}
+        task = tm.show(args[1])
+        result = guard.check_phase_completeness(task)
+        return {
+            "subcommand": sub,
+            "task_id": task.id,
+            "current_phase": task.phase.value,
+            "passed": result.passed,
+            "failures": result.failures,
+        }
+
     return {"error": f"unknown guard subcommand: {sub}"}
 
 
@@ -337,6 +350,13 @@ def cmd_workflow(args: list[str]) -> dict:
             raise GuardError(
                 f"guard check failed for {task.id} at {task.phase.value}: "
                 + "; ".join(guard_result.failures)
+            )
+        # Verify no phases were skipped
+        phase_check = guard.check_phase_completeness(task)
+        if not phase_check.passed:
+            raise GuardError(
+                f"phase completeness check failed for {task.id}: "
+                + "; ".join(phase_check.failures)
             )
         updated = we.complete_phase(task)
         tm.update(task.id, phase=updated.phase.value)

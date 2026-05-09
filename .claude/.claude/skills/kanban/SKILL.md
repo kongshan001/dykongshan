@@ -213,15 +213,48 @@ Plan 阶段分两步：**需求澄清（brainstorming）** → **任务拆解（
    python3 -m core guard check-artifacts "$task_id" plan
    ```
    必须存在: `design.md`、`plan.md`、`requirements.md`、`task_breakdown.json`
-11. **Plan 质量门禁 (plan_review 阶段):**
+11. `python3 -m core workflow complete-phase "$task_id"`
+
+##### Plan Step B2: Plan 质量门禁 (plan_review)
+
+12. `python3 -m core workflow transition "$task_id" plan_review`
+13. **调度 kanban-plan-reviewer Agent 独立审核 Plan 产物:**
+   ```bash
+   python3 -m core workflow get-phase-agents plan_review
+   ```
+   默认 agent: `{"role": "plan_reviewer", "required": true, "agent_type": "kanban-plan-reviewer"}`
+
+   ```
+   Agent(
+     subagent_type="kanban-plan-reviewer",
+     prompt: """
+       你是 Plan Review Agent。请独立审核任务 {task_id} 的 Plan 产物。
+
+       评分维度（6维，各1-10分，适用维度取均分）：
+       1. requirement_clarity — 需求明确无歧义
+       2. technical_feasibility — 技术方案可行、文件路径具体
+       3. task_decomposition — subtask 粒度、依赖、优先级
+       4. acceptance_criteria — 验收标准可测试可度量
+       5. research_completeness — 调研充分性（无调研需求时不适用）
+       6. parallel_safety — file_ownership 冲突检测
+
+       审核文件：
+       - {task_dir}/requirements.md
+       - {task_dir}/task_breakdown.json
+
+       产出 {report_dir}/plan_review_report.json（格式见 kanban-plan-reviewer agent 定义）
+     """
+   )
+   ```
+14. Guard 验证报告:
    ```bash
    python3 -m core guard check-plan-quality "$task_id" "$report_dir"
+   python3 -m core guard check-artifacts "$task_id" plan_review
    ```
-   - 评分维度同上（需求清晰度、技术可行性、任务拆解合理性、验收标准完整性）
    - 总分 >= `pass_threshold` (默认 7.0) 通过
-   - 不达标自动重试（修改 plan.md 或重新调用 writing-plans），最多 `max_rounds` 轮
+   - 不达标 → agent 修订 plan.md 后重试，最多 `max_rounds` (默认 3) 轮
    - 超限 → user_decision
-12. `python3 -m core workflow complete-phase "$task_id"`
+15. `python3 -m core workflow complete-phase "$task_id"`
 
 ##### Plan Step C: 测试用例规格 (qa_spec)
 
@@ -503,6 +536,9 @@ AskUserQuestion(
 
 ```
 Plan (需求澄清 + 任务拆解)
+  → Plan Review (plan-reviewer agent 6维审核)
+  → QA Spec (qa agent 生成 test_spec.md)
+  → Spec Review (spec-reviewer agent 5维审核)
   → Execute (编码实现 + 测试)
   → Evaluate (4角色并行评估)
   → 自迭代判断 (HARD-GATE)
@@ -517,6 +553,12 @@ Plan (需求澄清 + 任务拆解)
 - User Decision 仅在自迭代用尽（all_pass 或 max_reached）时可达
 - hot/full 自动跳转时**禁止**展示选项给用户
 - 迭代次数 < max_iterations 且评分未通过时，**唯一合法路径是自动跳回**
+
+### 阶段不可跳过 (HARD-GATE)
+
+`complete-phase` 执行时自动调用 `guard check-phase-completeness` 验证 task history 包含所有前置阶段。跳过任何阶段（如 plan → execute 跳过 plan_review/qa_spec/spec_review）将被 Guard 拦截，抛出 GuardError 阻止阶段推进。
+
+编排器必须严格按 PHASE_ORDER 逐一完成每个阶段，禁止手动跳阶段。
 
 ---
 

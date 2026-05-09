@@ -285,6 +285,59 @@ class TestGuardRetrospective:
         assert any("acceptance.md" in f for f in result.failures)
 
 
+class TestGuardPhaseCompleteness:
+    def test_all_phases_present(self, tmp_kanban, sample_task):
+        """Task with complete history: no missing phases."""
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        sample_task.history = [
+            {"phase": "plan", "status": "completed"},
+            {"phase": "plan_review", "status": "completed"},
+            {"phase": "qa_spec", "status": "completed"},
+            {"phase": "spec_review", "status": "completed"},
+        ]
+        sample_task.phase = Phase.EXECUTE
+        guard = Guard(fs, cfg)
+        result = guard.check_phase_completeness(sample_task)
+        assert result.passed is True
+
+    def test_missing_plan_review_detected(self, tmp_kanban, sample_task):
+        """Skipped plan_review: guard fails."""
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        sample_task.history = [
+            {"phase": "plan", "status": "completed"},
+        ]
+        sample_task.phase = Phase.EXECUTE
+        guard = Guard(fs, cfg)
+        result = guard.check_phase_completeness(sample_task)
+        assert result.passed is False
+        assert any("plan_review" in f for f in result.failures)
+
+    def test_no_history_no_completeness(self, tmp_kanban, sample_task):
+        """Empty history with current=plan: no phases before plan, so passes."""
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        sample_task.phase = Phase.PLAN
+        guard = Guard(fs, cfg)
+        result = guard.check_phase_completeness(sample_task)
+        assert result.passed is True
+
+    def test_phase_at_end_no_skip_detected(self, tmp_kanban, sample_task):
+        """Archive phase without retrospective: detected as skipped."""
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        sample_task.history = [
+            {"phase": "plan", "status": "completed"},
+            {"phase": "execute", "status": "completed"},
+            {"phase": "evaluate", "status": "completed"},
+        ]
+        sample_task.phase = Phase.ARCHIVE
+        guard = Guard(fs, cfg)
+        result = guard.check_phase_completeness(sample_task)
+        assert result.passed is False
+
+
 class TestCheckResult:
     def test_combine_all_pass(self):
         r1 = CheckResult(passed=True, failures=[], warnings=[])

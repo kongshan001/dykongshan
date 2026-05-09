@@ -1,0 +1,18 @@
+{
+  "role": "qa",
+  "score": 8,
+  "feedback": "5国输出正确，推荐结果合理",
+  "passed": true,
+  "improvements": [
+    "边界测试(0天)",
+    "多人推荐测试"
+  ],
+  "risks": [
+    "无自动化测试"
+  ],
+  "missing_tests": [
+    "推荐引擎测试",
+    "数据完整性测试"
+  ],
+  "test_coverage": "0%"
+}

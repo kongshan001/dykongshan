@@ -1,0 +1,15 @@
+{
+  "role": "designer",
+  "score": 8,
+  "feedback": "对比表格清晰，推荐标注醒目",
+  "passed": true,
+  "improvements": [
+    "彩色区分",
+    "价格图表"
+  ],
+  "risks": [
+    "终端宽度"
+  ],
+  "visual_score": 8,
+  "interaction_score": 7
+}

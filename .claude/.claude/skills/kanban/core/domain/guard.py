@@ -176,6 +176,31 @@ class Guard:
             )
         return CheckResult(passed=True)
 
+    def check_phase_completeness(self, task: Task) -> CheckResult:
+        """Verify no phases were skipped in the task's history.
+
+        Compares the task's history against PHASE_ORDER —
+        every phase before the current one must appear in history.
+        """
+        from core.infra.scheduler import Scheduler
+        completed_phases = {
+            h["phase"] for h in task.history
+            if h.get("status") == "completed"
+        }
+        missing = []
+        for p in Scheduler.PHASE_ORDER:
+            if p == task.phase:
+                break
+            if p.value not in completed_phases:
+                missing.append(p.value)
+
+        if missing:
+            return CheckResult(
+                passed=False,
+                failures=[f"skipped phases: {', '.join(missing)}"],
+            )
+        return CheckResult(passed=True)
+
     def check_retrospective(self, task: Task) -> CheckResult:
         retro_file = self._fs.task_dir(task.id) / "retrospective.md"
         accept_file = self._fs.task_dir(task.id) / "acceptance.md"
