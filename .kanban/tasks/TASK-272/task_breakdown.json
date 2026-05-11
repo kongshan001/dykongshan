@@ -1,0 +1,11 @@
+{
+  "task_id": "TASK-272",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "地铁数据模型与GTFS解析", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "线路图渲染引擎", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-003", "title": "换乘算法与路径规划", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-004", "title": "票价查询模块", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-005", "title": "前端交互界面", "status": "pending", "depends": ["ST-002", "ST-003"]}
+  ]
+}

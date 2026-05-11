@@ -1,0 +1,28 @@
+{
+  "task_id": "TASK-274",
+  "iteration": 1,
+  "subtasks": [
+    {
+      "id": "S1",
+      "title": "\u6570\u636e\u6a21\u578b",
+      "status": "pending",
+      "depends": []
+    },
+    {
+      "id": "S2",
+      "title": "\u6838\u5fc3\u5f15\u64ce",
+      "status": "pending",
+      "depends": [
+        "S1"
+      ]
+    },
+    {
+      "id": "S3",
+      "title": "\u524d\u7aef\u754c\u9762",
+      "status": "pending",
+      "depends": [
+        "S2"
+      ]
+    }
+  ]
+}
