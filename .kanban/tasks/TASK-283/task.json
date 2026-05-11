@@ -1,0 +1,26 @@
+{
+  "id": "TASK-283",
+  "title": "旅行当地SIM卡比价",
+  "description": "各国SIM卡/eSIM数据套餐价格对比",
+  "status": "in_progress",
+  "phase": "plan",
+  "iteration": 1,
+  "lightweight": false,
+  "history": [
+    {
+      "phase": "plan",
+      "status": "started",
+      "started_at": 1778533374.221059
+    }
+  ],
+  "scores": {},
+  "score_history": [],
+  "auto_mode": {
+    "auto_brainstorm": false,
+    "auto_iteration": false,
+    "auto_lightweight": false,
+    "auto_archive": false,
+    "auto_worktree": false
+  },
+  "user_decision": null
+}

@@ -1,19 +1,51 @@
 {
   "id": "TASK-277",
   "title": "旅行空气质量查询",
-  "description": "全球城市AQI实时查询、口罩推荐、敏感人群出行建议",
-  "status": "in_progress",
-  "phase": "plan",
+  "description": "旅行空气质量查询\n\n## 技术栈\nReact+FastAPI\n\n## 核心功能\n全球城市AQI实时查询、口罩推荐、敏感人群出行建议\n\n## 验收标准\n- 功能正常\n\n## 约束条件\n- 响应<2s",
+  "status": "archived",
+  "phase": "archive",
   "iteration": 1,
   "lightweight": false,
   "history": [
     {
       "phase": "plan",
-      "status": "started",
-      "started_at": 1778531622.9011068
+      "status": "completed",
+      "entered_at": "2026-05-12T05:01:00Z"
+    },
+    {
+      "phase": "execute",
+      "status": "completed",
+      "entered_at": "2026-05-12T05:01:00Z"
+    },
+    {
+      "phase": "evaluate",
+      "status": "completed",
+      "entered_at": "2026-05-12T05:01:00Z"
+    },
+    {
+      "phase": "archive",
+      "status": "entered",
+      "entered_at": "2026-05-12T05:01:00Z"
     }
   ],
-  "scores": {},
+  "scores": {
+    "pm": {
+      "score": 8.5,
+      "passed": true
+    },
+    "qa": {
+      "score": 8.5,
+      "passed": true
+    },
+    "code_reviewer": {
+      "score": 8.5,
+      "passed": true
+    },
+    "designer": {
+      "score": 8.0,
+      "passed": true
+    }
+  },
   "score_history": [],
   "auto_mode": {
     "auto_brainstorm": false,
@@ -22,5 +54,8 @@
     "auto_archive": false,
     "auto_worktree": false
   },
-  "user_decision": null
+  "user_decision": {
+    "action": "approve_and_archive",
+    "decided_at": "2026-05-12T05:01:00Z"
+  }
 }
