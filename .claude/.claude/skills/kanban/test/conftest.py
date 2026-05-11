@@ -62,7 +62,7 @@ def sample_task(tmp_kanban):
 
 @pytest.fixture
 def sample_task_file(tmp_kanban, sample_task):
-    """Write sample_task as JSON to .kanban/tasks/TASK-001.json."""
+    """Write sample_task as JSON to .kanban/tasks/TASK-001.json and create task directory."""
     import json
     task_json = {
         "id": sample_task.id,
@@ -75,4 +75,16 @@ def sample_task_file(tmp_kanban, sample_task):
     }
     task_file = tmp_kanban / ".kanban" / "tasks" / f"{sample_task.id}.json"
     task_file.write_text(json.dumps(task_json, indent=2))
+
+    # Create task directory with inbox.md template
+    task_dir = tmp_kanban / ".kanban" / "tasks" / sample_task.id
+    task_dir.mkdir(parents=True, exist_ok=True)
+    inbox_path = task_dir / "inbox.md"
+    inbox_path.write_text(
+        f"# Task Inbox — {sample_task.id}\n\n"
+        f"## 用户反馈渠道\n\n"
+        f"在此记录任务相关的用户反馈、改进建议和待办事项。\n\n",
+        encoding="utf-8"
+    )
+
     return task_file

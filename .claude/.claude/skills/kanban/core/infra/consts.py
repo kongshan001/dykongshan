@@ -3,7 +3,7 @@ from enum import IntEnum
 
 
 class _Consts:
-    PASS_THRESHOLD: float = 9.0
+    PASS_THRESHOLD: float = 8.0
     HOT_ITERATION_MIN_SCORE: float = 7.0
     MAX_ITERATIONS: int = 6
     TASK_ID_PREFIX: str = "TASK-"

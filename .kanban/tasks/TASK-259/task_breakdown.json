@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-259",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "时区计算引擎", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "光照疗法调节算法", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-003", "title": "个性化调节计划生成", "status": "pending", "depends": ["ST-002"]},
+    {"id": "ST-004", "title": "调节进度跟踪", "status": "pending", "depends": ["ST-003"]},
+    {"id": "ST-005", "title": "作息提醒调度", "status": "pending", "depends": ["ST-003"]},
+    {"id": "ST-006", "title": "日历事件导出", "status": "pending", "depends": ["ST-003"]},
+    {"id": "ST-007", "title": "咖啡因/褪黑素建议模块", "status": "pending", "depends": ["ST-002"]}
+  ]
+}

@@ -22,6 +22,7 @@ class TaskStatus(str, Enum):
     COMPLETED = "completed"
     ERROR = "error"
     ARCHIVED = "archived"
+    CANCELLED = "cancelled"
 
 
 class ScoreDimension(str, Enum):
@@ -51,6 +52,16 @@ class ScoreResult:
 
 
 @dataclass
+class AutoMode:
+    """自动决策配置，控制哪些决策点使用 Agent 自动评估。"""
+    auto_brainstorm: bool = False  # 需求澄清决策
+    auto_iteration: bool = False   # 自迭代判断
+    auto_lightweight: bool = False # 轻量模式选择
+    auto_archive: bool = False     # 归档决策
+    auto_worktree: bool = False    # 自动使用 worktree
+
+
+@dataclass
 class Task:
     id: str
     title: str
@@ -59,9 +70,12 @@ class Task:
     phase: Phase = Phase.PLAN
     iteration: int = 1
     worktree_path: Optional[str] = None
+    lightweight: bool = False
     history: list[dict] = field(default_factory=list)
     scores: dict = field(default_factory=dict)
     score_history: list[dict] = field(default_factory=list)
+    auto_mode: AutoMode = field(default_factory=AutoMode)
+    user_decision: Optional[dict] = None
 
 
 @dataclass

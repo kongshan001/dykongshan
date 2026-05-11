@@ -7,7 +7,7 @@ from core.domain.task import TaskManager
 
 def dispatch(args: list[str]) -> dict:
     if not args:
-        return {"error": "subcommand required: collect-scores, record-score"}
+        return {"error": "subcommand required: collect-scores, record-score, collect-plan-review"}
     sub = args[0]
     task_id = args[1] if len(args) > 1 else "unknown"
     root = Filesystem.find_project_root()
@@ -19,6 +19,8 @@ def dispatch(args: list[str]) -> dict:
         return _collect_scores(fs, tm, task_id)
     if sub == "record-score":
         return _record_score(fs, tm, task_id)
+    if sub == "collect-plan-review":
+        return _collect_plan_review_scores(fs, tm, task_id)
     return {"error": f"unknown evaluator subcommand: {sub}"}
 
 
@@ -30,23 +32,20 @@ def _collect_scores(fs: Filesystem, tm: TaskManager, task_id: str) -> dict:
 
     scores = []
     for it in range(1, task.iteration + 1):
-        report_dir = fs.report_dir(task_id, it)
-        if not report_dir.exists():
-            # Fallback to legacy format
-            legacy = fs.task_dir(task_id) / f"iteration-{it}"
-            if legacy.exists():
-                report_dir = legacy
-            else:
-                continue
+        it_dir = fs.iteration_dir(task_id, it)
+        if not it_dir.exists():
+            continue
 
         for role in ["code_reviewer", "qa", "pm", "designer"]:
-            rf = report_dir / f"{role}_report.json"
+            rf = it_dir / f"{role}_report.json"
             if fs.file_exists(rf):
                 data = fs.read_json(rf)
                 scores.append({
                     "role": role,
                     "iteration": it,
-                    "total": data.get("total", 0),
+                    "total": data.get("total",
+                                       data.get("score",
+                                                data.get("overall", 0))),
                 })
 
     avg = round(sum(s["total"] for s in scores) / len(scores), 2) if scores else None
@@ -93,3 +92,44 @@ def _record_score(fs: Filesystem, tm: TaskManager, task_id: str) -> dict:
         "iteration": task.iteration,
         "average": avg,
     }
+
+
+_PLAN_REVIEW_DIMENSIONS = [
+    "requirement_clarity", "technical_feasibility",
+    "task_decomposition", "acceptance_criteria",
+    "research_completeness", "parallel_safety",
+]
+
+
+def _collect_plan_review_scores(
+    fs: Filesystem, tm: TaskManager, task_id: str
+) -> dict:
+    try:
+        task = tm.show(task_id)
+    except Exception:
+        return {"task_id": task_id, "dimensions": [], "average": None}
+
+    dimensions = []
+    for it in range(1, task.iteration + 1):
+        it_dir = fs.iteration_dir(task_id, it)
+        if not it_dir.exists():
+            continue
+
+        for dim in _PLAN_REVIEW_DIMENSIONS:
+            rf = it_dir / f"{dim}_report.json"
+            if fs.file_exists(rf):
+                data = fs.read_json(rf)
+                applicable = data.get("applicable", True)
+                if applicable:
+                    dimensions.append({
+                        "dimension": dim,
+                        "iteration": it,
+                        "score": data.get("score", 0),
+                        "findings": data.get("findings", []),
+                        "issues": data.get("issues", []),
+                    })
+
+    avg = round(
+        sum(d["score"] for d in dimensions) / len(dimensions), 2
+    ) if dimensions else None
+    return {"task_id": task_id, "dimensions": dimensions, "average": avg}

@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-250",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "航班数据 API 对接", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "航班状态缓存与更新引擎", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-003", "title": "推送通知服务", "status": "pending", "depends": ["ST-002"]},
+    {"id": "ST-004", "title": "航班轨迹地图组件", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-005", "title": "批量追踪管理", "status": "pending", "depends": ["ST-002"]},
+    {"id": "ST-006", "title": "历史航班查询与统计", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-007", "title": "移动端适配与离线支持", "status": "pending", "depends": ["ST-003", "ST-004"]}
+  ]
+}

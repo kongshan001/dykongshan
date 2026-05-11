@@ -18,7 +18,7 @@ class TestFilesystem:
     def test_report_dir(self, tmp_kanban):
         fs = Filesystem(root=tmp_kanban)
         d = fs.report_dir("TASK-001", 1)
-        expected = tmp_kanban / ".kanban" / "tasks" / "TASK-001" / "iterations" / "1" / "reports"
+        expected = tmp_kanban / ".kanban" / "tasks" / "TASK-001" / "iteration-1"
         assert d == expected
 
     def test_archive_dir(self, tmp_kanban):
@@ -58,7 +58,7 @@ class TestFilesystem:
     def test_iteration_dir(self, tmp_kanban):
         fs = Filesystem(root=tmp_kanban)
         d = fs.iteration_dir("TASK-001", 2)
-        expected = tmp_kanban / ".kanban" / "tasks" / "TASK-001" / "iterations" / "2"
+        expected = tmp_kanban / ".kanban" / "tasks" / "TASK-001" / "iteration-2"
         assert d == expected
 
     def test_file_exists(self, tmp_kanban):

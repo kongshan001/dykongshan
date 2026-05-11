@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-264",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "投票议题数据模型", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "多种投票模式引擎", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-003", "title": "实时投票同步（WebSocket）", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-004", "title": "结果可视化图表", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-005", "title": "定时截止与通知", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-006", "title": "匿名投票机制", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-007", "title": "前端投票界面", "status": "pending", "depends": ["ST-002", "ST-003", "ST-004"]}
+  ]
+}

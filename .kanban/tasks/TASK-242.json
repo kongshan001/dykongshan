@@ -1,0 +1,30 @@
+{
+  "id": "TASK-242",
+  "title": "旅行签证查询助手",
+  "description": "各国签证要求、办理流程、所需材料清单",
+  "status": "archive",
+  "phase": "archive",
+  "iteration": 1,
+  "history": [
+    {
+      "phase": "plan",
+      "entered": "2026-05-10"
+    },
+    {
+      "phase": "execute",
+      "entered": "2026-05-10"
+    },
+    {
+      "phase": "evaluate",
+      "entered": "2026-05-10"
+    },
+    {
+      "phase": "user_decision",
+      "entered": "2026-05-10"
+    },
+    {
+      "phase": "archive",
+      "entered": "2026-05-10"
+    }
+  ]
+}

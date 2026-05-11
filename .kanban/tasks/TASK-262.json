@@ -1,0 +1,9 @@
+{
+  "id": "TASK-262",
+  "title": "旅行打包清单生成器",
+  "description": "根据目的地/天气/行程天数自动生成打包清单",
+  "status": "archived",
+  "phase": "archive",
+  "iteration": 1,
+  "history": []
+}

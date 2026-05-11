@@ -23,6 +23,7 @@ class TestGuardArtifacts:
         cfg = Config(fs)
         task_dir = fs.task_dir(sample_task.id)
         fs.ensure_dir(task_dir)
+        (task_dir / "design.md").write_text("# Design\n\nTest")
         (task_dir / "requirements.md").write_text("# Requirements\n\nTest")
         (task_dir / "task_breakdown.json").write_text(
             json.dumps({"subtasks": []})
@@ -79,21 +80,20 @@ class TestGuardEvaluation:
         assert result.passed is False
         assert any("designer" in f for f in result.failures)
 
-    def test_finds_reports_in_legacy_flat_iteration_format(self, tmp_kanban, sample_task):
-        """Guard must find reports in iteration-N/ flat format (#102)."""
+    def test_finds_reports_in_iteration_reports_format(self, tmp_kanban, sample_task):
+        """Guard finds reports in iteration-{N}/reports/ format."""
         fs = Filesystem(root=tmp_kanban)
         cfg = Config(fs)
-        # Write reports in legacy flat format: iteration-1/code_reviewer_report.json
-        flat_dir = fs.task_dir(sample_task.id) / "iteration-1"
-        fs.ensure_dir(flat_dir)
+        report_dir = fs.report_dir(sample_task.id, 1)
+        fs.ensure_dir(report_dir)
         for role in ["code_reviewer", "qa", "pm", "designer"]:
-            (flat_dir / f"{role}_report.json").write_text(json.dumps({
+            (report_dir / f"{role}_report.json").write_text(json.dumps({
                 "role": role, "task_id": "TASK-001", "iteration": 1,
                 "scores": [], "summary": "ok",
             }))
         guard = Guard(fs, cfg)
         result = guard.check_evaluation(sample_task, iteration=1)
-        assert result.passed is True, f"Guard missed reports in iteration-N/ format: {result.failures}"
+        assert result.passed is True, f"Guard missed reports in iteration-{N}/reports/ format: {result.failures}"
 
 
 class TestGuardPlanQuality:
@@ -363,3 +363,144 @@ class TestCheckResult:
         from core.domain.guard import Guard
         # _check_file returns fail for 0-byte files — tested via check_artifacts
         pass  # integration covered by test_plan_missing_requirements
+
+
+class TestGuardBatchCheck:
+    def test_batch_check_runs_all_checks(self, tmp_kanban, sample_task):
+        """batch_check returns combined result from all checks."""
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        guard = Guard(fs, cfg)
+        results = guard.batch_check(sample_task, fs.task_dir(sample_task.id))
+        assert "check_artifacts" in results
+        assert "check_plan_quality" in results
+        assert "check_parallel_conflicts" in results
+        assert "check_phase_completeness" in results
+
+    def test_batch_check_independent_checks(self, tmp_kanban, sample_task):
+        """Each check in batch runs independently."""
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        guard = Guard(fs, cfg)
+        results = guard.batch_check(sample_task, fs.task_dir(sample_task.id))
+        assert results["check_artifacts"].passed is False
+        assert results["check_plan_quality"].passed is False
+        assert results["check_parallel_conflicts"].passed is False
+
+    def test_batch_check_all_pass_with_data(self, tmp_kanban, sample_task):
+        """All checks pass when data is complete."""
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        task_dir = fs.task_dir(sample_task.id)
+        fs.ensure_dir(task_dir)
+        (task_dir / "design.md").write_text("# D")
+        (task_dir / "requirements.md").write_text("# R")
+        (task_dir / "task_breakdown.json").write_text(json.dumps({
+            "subtasks": [
+                {"id": "ST-001", "parallelizable": True,
+                 "file_ownership": ["a.py"], "dependencies": []}
+            ]
+        }))
+        sample_task.phase = Phase.PLAN
+        guard = Guard(fs, cfg)
+        results = guard.batch_check(sample_task, task_dir)
+        assert results["check_artifacts"].passed is True
+        assert results["check_plan_quality"].passed is True
+        assert results["check_parallel_conflicts"].passed is True
+
+    def test_batch_check_combined_returns_single_result(self, tmp_kanban, sample_task):
+        """batch_check_combined returns single CheckResult."""
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        guard = Guard(fs, cfg)
+        combined = guard.batch_check_combined(
+            sample_task, fs.task_dir(sample_task.id)
+        )
+        assert isinstance(combined, CheckResult)
+        assert combined.passed is False
+
+    def test_batch_check_combined_aggregates_failures(self, tmp_kanban, sample_task):
+        """Combined result aggregates failures from all checks."""
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        guard = Guard(fs, cfg)
+        combined = guard.batch_check_combined(
+            sample_task, fs.task_dir(sample_task.id)
+        )
+        assert len(combined.failures) > 0
+
+    def test_batch_check_with_cross_task(self, tmp_kanban, sample_task):
+        """batch_check runs all 4 checks even when a second task exists."""
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+
+        # Set up sample_task with plan data so some checks pass
+        task_dir = fs.task_dir(sample_task.id)
+        fs.ensure_dir(task_dir)
+        (task_dir / "design.md").write_text("# D")
+        (task_dir / "requirements.md").write_text("# R")
+        (task_dir / "task_breakdown.json").write_text(json.dumps({
+            "subtasks": [{"id": "ST-001", "parallelizable": True,
+                         "file_ownership": ["a.py"], "dependencies": []}]
+        }))
+        sample_task.phase = Phase.PLAN
+
+        # Create a second task that could cause cross-task conflicts
+        other_dir = fs.task_dir("TASK-002")
+        fs.ensure_dir(other_dir)
+        (other_dir / "task_breakdown.json").write_text(json.dumps({
+            "subtasks": [{"id": "ST-001", "parallelizable": True,
+                         "file_ownership": ["a.py"], "dependencies": []}]
+        }))
+        (fs.task_file("TASK-002")).write_text(json.dumps({
+            "id": "TASK-002", "title": "other", "description": "test",
+            "status": "in_progress", "phase": "execute", "iteration": 1,
+            "history": [], "scores": {}, "score_history": [],
+        }))
+
+        guard = Guard(fs, cfg)
+        results = guard.batch_check(sample_task, task_dir)
+
+        # All 5 checks ran regardless of cross-task file ownership overlap
+        assert len(results) == 5
+        assert "check_artifacts" in results
+        assert "check_plan_quality" in results
+        assert "check_parallel_conflicts" in results
+        assert "check_phase_completeness" in results
+        assert "check_brainstorming" in results
+
+
+class TestGuardEvaluationScore:
+    def test_no_score_history_fails(self, tmp_kanban, sample_task):
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        guard = Guard(fs, cfg)
+        result = guard.check_evaluation_score(sample_task)
+        assert result.passed is False
+        assert any("no score_history" in f for f in result.failures)
+
+    def test_score_above_threshold_passes(self, tmp_kanban, sample_task):
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        guard = Guard(fs, cfg)
+        sample_task.score_history = [{"iteration": 1, "average": 9.5}]
+        result = guard.check_evaluation_score(sample_task)
+        assert result.passed is True
+
+    def test_score_below_threshold_fails_with_iteration_hint(self, tmp_kanban, sample_task):
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        guard = Guard(fs, cfg)
+        sample_task.score_history = [{"iteration": 1, "average": 7.5}]
+        result = guard.check_evaluation_score(sample_task)
+        assert result.passed is False
+        assert any("auto-iteration required" in f for f in result.failures)
+
+    def test_max_iterations_allows_through(self, tmp_kanban, sample_task):
+        fs = Filesystem(root=tmp_kanban)
+        cfg = Config(fs)
+        guard = Guard(fs, cfg)
+        sample_task.iteration = 6
+        sample_task.score_history = [{"iteration": 6, "average": 5.0}]
+        result = guard.check_evaluation_score(sample_task)
+        assert result.passed is True

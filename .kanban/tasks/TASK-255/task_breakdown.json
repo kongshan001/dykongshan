@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-255",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "全球紧急电话数据库", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "大使馆/领事馆查询", "status": "pending", "depends": []},
+    {"id": "ST-003", "title": "附近医疗设施定位", "status": "pending", "depends": []},
+    {"id": "ST-004", "title": "SOS 一键拨号", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-005", "title": "多语言紧急短语库", "status": "pending", "depends": []},
+    {"id": "ST-006", "title": "离线缓存与同步", "status": "pending", "depends": ["ST-001", "ST-005"]},
+    {"id": "ST-007", "title": "求助卡片前端组件", "status": "pending", "depends": ["ST-001", "ST-003", "ST-005"]}
+  ]
+}

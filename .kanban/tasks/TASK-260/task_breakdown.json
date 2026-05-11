@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-260",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "保险产品数据库", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "智能推荐匹配引擎", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-003", "title": "横向对比组件", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-004", "title": "条款AI解读服务", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-005", "title": "保单管理与理赔指引", "status": "pending", "depends": []},
+    {"id": "ST-006", "title": "购买跳转与追踪", "status": "pending", "depends": ["ST-005"]},
+    {"id": "ST-007", "title": "前端对比器界面", "status": "pending", "depends": ["ST-002", "ST-003", "ST-004"]}
+  ]
+}

@@ -85,6 +85,17 @@ def _detect_language(root: Path) -> str:
 
     if any(scores.values()):
         return max(scores, key=scores.get)  # type: ignore[arg-type]
+
+    # Fallback: scan top-level source files
+    for f in root.iterdir():
+        if f.is_file() and f.suffix in (".py",):
+            return "python"
+        if f.is_file() and f.suffix in (".js", ".jsx"):
+            return "javascript"
+        if f.is_file() and f.suffix in (".ts", ".tsx"):
+            return "typescript"
+        if f.is_file() and f.suffix == ".go":
+            return "go"
     return "unknown"
 
 
@@ -107,8 +118,13 @@ def _detect_agent_conflicts(root: Path) -> list[AgentConflict]:
 
     for agent_file in agents_dir.glob("*.md"):
         if agent_file.is_symlink():
-            target = str(agent_file.resolve())
-            if "kanban/agents" in target:
+            try:
+                target = agent_file.resolve()
+                # Path-based check: works on both Unix (/) and Windows (\)
+                target_parts = [p.lower() for p in target.parts]
+                if "kanban" in target_parts and "agents" in target_parts:
+                    continue
+            except OSError:
                 continue
 
         name = agent_file.stem

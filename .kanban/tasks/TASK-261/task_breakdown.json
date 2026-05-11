@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-261",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "实时汇率数据服务", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "汇率提醒调度引擎", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-003", "title": "汇率走势图组件", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-004", "title": "历史趋势分析", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-005", "title": "换汇时机建议算法", "status": "pending", "depends": ["ST-004"]},
+    {"id": "ST-006", "title": "附近换汇点/ATM定位", "status": "pending", "depends": []},
+    {"id": "ST-007", "title": "多币种看板界面", "status": "pending", "depends": ["ST-001", "ST-003"]}
+  ]
+}

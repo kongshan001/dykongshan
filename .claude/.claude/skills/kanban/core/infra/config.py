@@ -52,6 +52,13 @@ class Config:
         return self._workflow.get("phases", [])
 
     @property
+    def worktree_base_dir(self) -> Path | None:
+        raw = self._config.get("worktree_base_dir")
+        if raw:
+            return Path(raw)
+        return None
+
+    @property
     def raw(self) -> dict:
         return dict(self._config)
 

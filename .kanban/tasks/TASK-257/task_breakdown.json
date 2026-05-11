@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-257",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "相册数据模型与权限", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "多人协作上传", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-003", "title": "AI 时间线自动整理", "status": "pending", "depends": ["ST-002"]},
+    {"id": "ST-004", "title": "照片智能分类", "status": "pending", "depends": ["ST-002"]},
+    {"id": "ST-005", "title": "协作交互（点赞/评论/收藏）", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-006", "title": "旅行回忆视频生成", "status": "pending", "depends": ["ST-003", "ST-004"]},
+    {"id": "ST-007", "title": "前端瀑布流与时间线组件", "status": "pending", "depends": ["ST-003"]}
+  ]
+}

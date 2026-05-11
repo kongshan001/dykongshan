@@ -2,8 +2,8 @@
   "id": "TASK-001",
   "title": "旅行货币兑换指南",
   "description": "--desc",
-  "status": "pending",
-  "phase": "plan",
+  "status": "archive",
+  "phase": "archive",
   "iteration": 1,
   "history": []
 }

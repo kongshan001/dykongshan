@@ -1,4 +1,5 @@
 from __future__ import annotations
+import time
 from pathlib import Path
 from core.infra.filesystem import Filesystem
 from core.infra.config import Config
@@ -16,17 +17,44 @@ class GuardError(Exception):
     pass
 
 
-def _get_agents_for_phase(fs: Filesystem, phase_id: str) -> list[dict]:
-    """Read workflow.json and return agents for the given phase."""
+def _get_agents_for_phase(fs: Filesystem, phase_id: str,
+                          task_description: str = "") -> list[dict]:
+    """Read workflow.json and return agents for the given phase.
+
+    Filters optional agents by trigger_condition keyword matching against
+    task_description. Required agents always pass through.
+    """
     cfg = Config(fs)
     workflow = cfg.workflow
     for p in workflow.get("phases", []):
         if p.get("id") == phase_id:
-            return p.get("agents", [])
+            agents = p.get("agents", [])
+            return _apply_trigger_conditions(agents, task_description)
     if phase_id == "evaluate":
         from core.infra.scheduler import Scheduler
         return Scheduler.eval_roles()
     return []
+
+
+def _apply_trigger_conditions(agents: list[dict],
+                               description: str) -> list[dict]:
+    """Filter agents: required ones always pass; optional ones are skipped
+    unless their trigger_condition keywords match the task description."""
+    result = []
+    for agent in agents:
+        if agent.get("required", True):
+            result.append(agent)
+            continue
+        trigger = agent.get("trigger_condition")
+        if not trigger:
+            continue  # optional + no trigger → skip (#116)
+        keywords = trigger.get("keywords", [])
+        match_field = trigger.get("match_field", "description")
+        if match_field == "description" and keywords:
+            desc_lower = description.lower()
+            if any(kw.lower() in desc_lower for kw in keywords):
+                result.append(agent)
+    return result
 
 
 _BRAINSTORMING_ELEMENTS = [
@@ -37,19 +65,38 @@ _BRAINSTORMING_ELEMENTS = [
 ]
 
 _KEYWORDS_MAP = {
-    "tech_stack": ["技术栈", "tech stack", "python", "react", "node", "go", "rust"],
-    "feature_list": ["功能", "feature", "实现", "支持", "包含"],
-    "acceptance_criteria": ["验收", "acceptance", "预期", "应该", "shall", "must"],
-    "constraints": ["约束", "限制", "constraint", "不", "禁止", "必须"],
+    "tech_stack": ["技术栈", "tech stack", "使用 python", "使用 react", "使用 node", "使用 go",
+                   "使用 rust", "使用 typescript", "用 python", "用 react", "用 node"],
+    "feature_list": ["功能清单", "功能列表", "feature list", "包含以下", "支持以下",
+                     "实现以下", "功能需求", "核心功能"],
+    "acceptance_criteria": ["验收标准", "acceptance criteria", "预期行为", "shall",
+                            "must", "通过标准", "验收条件"],
+    "constraints": ["约束条件", "限制条件", "constraint", "代码放在", "必须放在",
+                    "禁止", "不得超过", "不低于"],
 }
 
 
 def _move_to_archive(fs: Filesystem, task_id: str) -> None:
-    src = fs.task_file(task_id)
-    dst = fs.archive_task_file(task_id)
-    if fs.file_exists(src):
-        fs.ensure_dir(dst.parent)
-        src.rename(dst)
+    """Move entire task directory to archive."""
+    # Move task.json to archive directory
+    src_file = fs.task_file(task_id)
+    dst_file = fs.archive_task_file(task_id)
+    if fs.file_exists(src_file):
+        fs.ensure_dir(dst_file.parent)
+        src_file.rename(dst_file)
+
+    # Move entire task directory (including inbox.md, reports, etc.) to archive
+    task_dir = fs.task_dir(task_id)
+    if task_dir.exists():
+        archive_task_dir = fs.archive_dir() / task_id
+        # Remove existing archive directory if it exists
+        if archive_task_dir.exists():
+            import shutil
+            shutil.rmtree(archive_task_dir)
+        # Ensure parent directory exists
+        fs.ensure_dir(archive_task_dir.parent)
+        # Move task directory to archive
+        task_dir.rename(archive_task_dir)
 
 
 def _extract_knowledge_on_archive(task_id: str) -> None:
@@ -66,8 +113,32 @@ def _extract_knowledge_on_archive(task_id: str) -> None:
                 content = fpath.read_text(encoding="utf-8")
                 if content.strip():
                     km.add("auto", f"{task_id} — {fname}", content[:500])
-    except Exception:
-        pass  # knowledge extraction is best-effort
+    except Exception as exc:
+        import sys
+        print(f"WARNING: knowledge extraction failed for {task_id}: {exc}", file=sys.stderr)
+
+
+def _collect_iteration_artifacts(fs: Filesystem, task_id: str) -> dict:
+    """Collect execution artifacts from all iteration directories for archive summarization.
+
+    Returns a dict mapping artifact names to lists of (iteration, content) pairs.
+    The orchestrator uses this to LLM-summarize across all iterations.
+    """
+    task = TaskManager(fs, Config(fs)).show(task_id)
+    artifacts = {}
+    for it in range(1, task.iteration + 1):
+        it_dir = fs.iteration_dir(task_id, it)
+        if not it_dir.exists():
+            continue
+        for fname in ["execution_summary.md", "execution_pitfalls.md", "execution_decisions.md"]:
+            fpath = it_dir / fname
+            if fs.file_exists(fpath):
+                artifacts.setdefault(fname, []).append({
+                    "iteration": it,
+                    "path": str(fpath),
+                    "content": fpath.read_text(encoding="utf-8"),
+                })
+    return artifacts
 
 
 def _check_brainstorming_gate(description: str) -> dict:
@@ -91,8 +162,11 @@ def _resolve() -> tuple[Filesystem, Config, TaskManager, WorkflowEngine]:
 
 def _resolve_worktree() -> tuple[Git, Worktree]:
     root = Filesystem.find_project_root()
+    fs = Filesystem(root=root)
+    cfg = Config(fs)
     g = Git(repo_root=root)
-    wt = Worktree(git=g, repo_root=root)
+    wt_base = cfg.worktree_base_dir
+    wt = Worktree(git=g, repo_root=root, worktree_base=wt_base)
     return g, wt
 
 
@@ -131,14 +205,40 @@ def cmd_run(args: list[str]) -> dict:
             "guard_warnings": guard_result.warnings,
         }
 
+    # Verify previous phase was completed (no skip)
+    phase_check = guard.check_phase_completeness(task)
+    if not phase_check.passed:
+        return {
+            "task_id": task_id,
+            "phase": task.phase.value,
+            "message": "phase completeness check failed",
+            "skipped_phases": phase_check.failures,
+            "hint": "call complete-phase before advancing to next phase",
+        }
+
     # IR-16: brainstorming gate before plan → plan_review
     brainstorming = None
     if task.phase == Phase.PLAN and target == Phase.PLAN_REVIEW:
         brainstorming = _check_brainstorming_gate(task.description)
+        if not brainstorming["passed"]:
+            return {
+                "task_id": task_id,
+                "phase": task.phase.value,
+                "message": (
+                    "brainstorming gate blocked: task description lacks "
+                    + ", ".join(m["label"] for m in brainstorming["missing"])
+                ),
+                "brainstorming_gate": brainstorming,
+                "required_action": (
+                    "complete Plan Step A (superpowers:brainstorming) to "
+                    "produce design.md before transitioning to plan_review"
+                ),
+            }
 
     new_phase = we.transition(task, target)
     tm.update(task_id, phase=new_phase.value)
-    agents = _get_agents_for_phase(fs, new_phase.value)
+    agents = _get_agents_for_phase(fs, new_phase.value,
+                                     task_description=task.description)
     result = {
         "task_id": task_id,
         "phase": new_phase.value,
@@ -157,9 +257,15 @@ def cmd_run(args: list[str]) -> dict:
         qualifies = any(kw in task.description.lower() for kw in lw_keywords)
         if lightweight_requested:
             result["lightweight"] = True
+            tm.update(task_id, lightweight=True)
         elif qualifies:
             result["lightweight_available"] = True
             result["requires_confirmation"] = True
+
+    # Subagent dispatch info
+    for agent in agents:
+        if agent.get("subagent_required"):
+            result.setdefault("subagent_required", []).append(agent["role"])
 
     return result
 
@@ -179,13 +285,32 @@ def cmd_decide(args: list[str]) -> dict:
     if action not in valid_actions:
         return {"error": f"unknown action: {action}", "valid_actions": sorted(valid_actions)}
 
+    # Phase validation (Issue #111)
+    allowed_phases = {Phase.USER_DECISION, Phase.EVALUATE, Phase.RETROSPECTIVE}
+    if task.phase not in allowed_phases:
+        return {
+            "error": f"cannot decide at phase {task.phase.value}",
+            "expected_phases": sorted(p.value for p in allowed_phases),
+        }
+
     tm.record_decision(task_id, action)
+    tm.update(task_id, user_decision={"action": action})
 
     # Execute the action (fix #82)
     if action == "approve_and_archive":
         tm.update(task_id, phase="archive", status="archived")
         _move_to_archive(fs, task_id)
         _extract_knowledge_on_archive(task_id)
+        # Auto-archive inbox items (Issue #108)
+        from core.cli.inbox import archive_on_task_completion
+        inbox_result = archive_on_task_completion(task_id)
+        if inbox_result.get("archived_count", 0) > 0:
+            return {
+                "task_id": task_id,
+                "action": action,
+                "message": f"user decision: {action} — executed",
+                "inbox_archived": inbox_result.get("archived_count"),
+            }
     elif action == "abort":
         tm.update(task_id, phase="archive", status="cancelled")
         _move_to_archive(fs, task_id)
@@ -262,9 +387,17 @@ def cmd_guard(args: list[str]) -> dict:
             content = inbox_path.read_text(encoding="utf-8")
             for line in content.split("\n"):
                 stripped = line.strip()
-                if stripped and not stripped.startswith("#") and not stripped.startswith("<!--"):
-                    if stripped.startswith("- [ ]") or stripped.startswith("* [ ]") or stripped[0].isdigit():
-                        pending.append(stripped)
+                # Support natural language: any non-empty, non-comment, non-heading line counts
+                # Skip: empty lines, headings (#), HTML comments (<!--), separator lines (---)
+                # Also skip completed items (- [x] or * [x])
+                if (stripped and
+                    not stripped.startswith("#") and
+                    not stripped.startswith("<!--") and
+                    not stripped.startswith("---") and
+                    not stripped.startswith("**") and
+                    not stripped.startswith("- [x]") and
+                    not stripped.startswith("* [x]")):
+                    pending.append(stripped)
         return {
             "subcommand": sub,
             "task_id": task.id,
@@ -319,6 +452,20 @@ def cmd_guard(args: list[str]) -> dict:
             "failures": result.failures,
         }
 
+    if sub == "batch-check":
+        if len(args) < 2:
+            return {"error": "task_id required"}
+        task = tm.show(args[1])
+        report_dir = fs.report_dir(task.id, task.iteration)
+        result = guard.batch_check_combined(task, report_dir)
+        return {
+            "subcommand": sub,
+            "task_id": task.id,
+            "passed": result.passed,
+            "failures": result.failures,
+            "warnings": result.warnings,
+        }
+
     return {"error": f"unknown guard subcommand: {sub}"}
 
 
@@ -336,7 +483,12 @@ def cmd_workflow(args: list[str]) -> dict:
         task = tm.show(args[1])
         target = Phase(args[2])
         new_phase = we.transition(task, target)
-        tm.update(task.id, phase=new_phase.value)
+        task.history.append({
+            "phase": new_phase.value,
+            "status": "started",
+            "started_at": time.time(),
+        })
+        tm.update(task.id, phase=new_phase.value, history=task.history)
         return {"task_id": task.id, "from": task.phase.value, "to": new_phase.value}
 
     if sub == "complete-phase":
@@ -358,8 +510,16 @@ def cmd_workflow(args: list[str]) -> dict:
                 f"phase completeness check failed for {task.id}: "
                 + "; ".join(phase_check.failures)
             )
+        # IR-17: Evaluate phase score gate — prevent skipping self-improve
+        if task.phase == Phase.EVALUATE:
+            score_check = guard.check_evaluation_score(task)
+            if not score_check.passed:
+                raise GuardError(
+                    f"evaluation score gate failed for {task.id}: "
+                    + "; ".join(score_check.failures)
+                )
         updated = we.complete_phase(task)
-        tm.update(task.id, phase=updated.phase.value)
+        tm.update(task.id, phase=updated.phase.value, history=updated.history)
         return {"task_id": task.id, "phase": updated.phase.value}
 
     if sub == "self-improve-check":
@@ -429,11 +589,11 @@ def cmd_workflow(args: list[str]) -> dict:
         new_iter = old_iter + 1
         task_dir = fs2.task_dir(task_id)
 
-        # Move execution artifacts from task root to iteration-N/ for isolation
+        # Move execution artifacts from task root to iteration-{N}/ for isolation
         for fname in ["execution_summary.md", "execution_pitfalls.md", "execution_decisions.md"]:
             src = task_dir / fname
             if fs2.file_exists(src):
-                dest_dir = task_dir / f"iteration-{old_iter}"
+                dest_dir = fs2.iteration_dir(task_id, old_iter)
                 fs2.ensure_dir(dest_dir)
                 src.rename(dest_dir / fname)
 
@@ -446,6 +606,12 @@ def cmd_workflow(args: list[str]) -> dict:
             "iteration": new_iter,
             "phase": target_phase.value,
         }
+
+    if sub == "collect-iteration-artifacts":
+        if len(args) < 2:
+            return {"error": "task_id required"}
+        fs3, _, _, _ = _resolve()
+        return {"task_id": args[1], "artifacts": _collect_iteration_artifacts(fs3, args[1])}
 
     return {"error": f"unknown workflow subcommand: {sub}"}
 
@@ -465,6 +631,12 @@ def cmd_worktree(args: list[str]) -> dict:
         branch = f"task/{task_id}"
         try:
             path = wt.create(task_id, branch)
+            # Persist worktree path to task.json
+            fs3, _, tm3, _ = _resolve()
+            try:
+                tm3.update(task_id, worktree_path=str(path))
+            except TaskNotFoundError:
+                pass
             return {
                 "subcommand": sub,
                 "task_id": task_id,
@@ -533,14 +705,26 @@ def cmd_nlp(args: list[str]) -> dict:
     to map natural language to the exact command from the list below.
     """
     text = " ".join(args)
-    from core.domain.nlp import extract_task_id
+    from core.domain.nlp import extract_task_id, detect_work_intent
+    work_intent = detect_work_intent(text)
     return {
         "input": text,
         "task_id": extract_task_id(text),
         "interpret_by_llm": True,
+        "routing_guidance": {
+            "intent": work_intent["intent"],
+            "suggested_command": work_intent["suggested_command"],
+            "has_task_id": work_intent["has_task_id"],
+            "rule": (
+                "If intent=work and has_task_id=false → use 'create' to create a task first, then 'run' it. "
+                "If intent=work and has_task_id=true → use 'run' to continue the task. "
+                "If intent=query → use 'status' or 'show'. "
+                "NEVER execute work directly — always route through create+run."
+            ),
+        },
         "available_commands": [
             {"command": "init",                  "example": "/kanban init"},
-            {"command": "create",                "example": '/kanban create "<title>" [--desc "<desc>"]'},
+            {"command": "create",                "example": '/kanban create "<title>" [--desc "<desc>"] [--auto-mode <brainstorm|iteration|lightweight|archive|all>]'},
             {"command": "status",                "example": "/kanban status"},
             {"command": "show",                  "example": "/kanban show <task_id>"},
             {"command": "run",                   "example": "/kanban run <task_id> [--phase <phase>]"},

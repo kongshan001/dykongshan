@@ -4,7 +4,7 @@ from core.infra.consts import Consts, ExitCode
 
 class TestConsts:
     def test_default_values(self):
-        assert Consts.PASS_THRESHOLD == 9.0
+        assert Consts.PASS_THRESHOLD == 8.0
         assert Consts.HOT_ITERATION_MIN_SCORE == 7.0
         assert Consts.MAX_ITERATIONS == 6
         assert Consts.TASK_ID_PREFIX == "TASK-"

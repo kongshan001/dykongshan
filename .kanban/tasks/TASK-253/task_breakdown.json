@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-253",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "多币种记账数据模型", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "汇率服务与缓存", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-003", "title": "支出统计图表", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-004", "title": "预算设定与超支预警", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-005", "title": "多人分账计算引擎", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-006", "title": "报表导出（CSV/PDF）", "status": "pending", "depends": ["ST-003"]},
+    {"id": "ST-007", "title": "离线记账与同步", "status": "pending", "depends": ["ST-001"]}
+  ]
+}

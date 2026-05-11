@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-252",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "美食数据源对接", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "基于位置推荐引擎", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-003", "title": "美食地图可视化", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-004", "title": "打卡记录与点评系统", "status": "pending", "depends": []},
+    {"id": "ST-005", "title": "筛选与排序功能", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-006", "title": "美食排行榜", "status": "pending", "depends": ["ST-004"]},
+    {"id": "ST-007", "title": "分享卡片生成", "status": "pending", "depends": ["ST-004", "ST-006"]}
+  ]
+}

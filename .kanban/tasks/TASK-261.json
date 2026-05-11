@@ -1,0 +1,9 @@
+{
+  "id": "TASK-261",
+  "title": "旅行汇率提醒",
+  "description": "监控目标货币汇率波动，到达理想汇率时提醒兑换",
+  "status": "archived",
+  "phase": "archive",
+  "iteration": 1,
+  "history": []
+}

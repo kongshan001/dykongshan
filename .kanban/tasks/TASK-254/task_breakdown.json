@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-254",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "天气数据服务", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "衣橱管理模块", "status": "pending", "depends": []},
+    {"id": "ST-003", "title": "穿搭推荐引擎", "status": "pending", "depends": ["ST-001", "ST-002"]},
+    {"id": "ST-004", "title": "每日穿搭方案生成", "status": "pending", "depends": ["ST-003"]},
+    {"id": "ST-005", "title": "穿搭方案调整与保存", "status": "pending", "depends": ["ST-004"]},
+    {"id": "ST-006", "title": "社交分享卡片", "status": "pending", "depends": ["ST-004"]},
+    {"id": "ST-007", "title": "离线方案缓存", "status": "pending", "depends": ["ST-004"]}
+  ]
+}

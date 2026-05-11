@@ -19,13 +19,13 @@ R-001
 此规则适用于所有由 executor agent 产出的代码文件，包括源代码、测试文件、配置文件和静态资源。唯一的例外是框架本身（`.claude/` 和 `.kanban/` 目录）的增强任务，这类任务不产出应用代码。
 
 ## 检查方法
-executor agent 完成编码后，`guard_check_artifacts` 函数扫描 worktree 中的文件变更，验证所有新增或修改的文件均位于 `{output_dir}/{task-name}/` 路径下。具体检查逻辑:
+executor agent 完成编码后，`Guard.check_artifacts()` 验证阶段产物完整性:
 
 1. 读取 `.kanban/config.json` 中的 `output_dir` 值
-2. 读取 `task_breakdown.json` 中 planner 确定的 `task-name`
-3. 列出 worktree 中所有变更文件
-4. 验证每个文件是否在 `{output_dir}/{task-name}/` 目录内
-5. 排除 `.claude/` 和 `.kanban/` 目录（框架文件不受此规则约束）
+2. 检查 Execute 阶段要求的产物文件（`execution_summary.md`、`execution_pitfalls.md`、`execution_decisions.md`）存在且非空
+3. 验证 `worktree_path` 已设置（发出 warning 如未设置）
+
+**注意:** 当前版本的 Guard 验证产物文件的存在性和非空，但不做文件路径合规校验（即不验证变更文件是否在 `{output_dir}/{task-name}/` 路径下）。路径合规由 executor agent 在调度时通过 prompt 约束实现。
 
 ## 违反后果
-`guard_check_artifacts` 检测到文件位于错误位置时，阻止任务进入下一阶段（evaluate）。系统输出错误信息，列出所有违规文件及其当前位置和期望位置。executor agent 必须将文件移动到正确位置后才能继续流程。
+产物文件缺失时，Guard 阻止任务进入 Evaluate 阶段。executor agent 必须补全缺失产物后才能继续流程。如文件放错路径，在 Evaluate 阶段由评估 agent 发现并扣分。

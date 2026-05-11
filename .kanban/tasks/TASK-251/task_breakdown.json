@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-251",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "纪念品数据模型与 CRUD", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "拍照识别服务", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-003", "title": "地图标注与行程关联", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-004", "title": "预算管理与超支提醒", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-005", "title": "图片压缩与存储", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-006", "title": "分享与心愿单功能", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-007", "title": "离线支持与同步", "status": "pending", "depends": ["ST-002", "ST-005"]}
+  ]
+}

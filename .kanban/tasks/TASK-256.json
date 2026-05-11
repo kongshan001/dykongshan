@@ -1,0 +1,9 @@
+{
+  "id": "TASK-256",
+  "title": "旅行语音导览",
+  "description": "基于GPS定位自动播放景点语音讲解",
+  "status": "archived",
+  "phase": "archive",
+  "iteration": 1,
+  "history": []
+}

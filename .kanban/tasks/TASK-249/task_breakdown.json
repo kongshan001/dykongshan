@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-249",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "旅行偏好问卷设计", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "用户画像向量嵌入", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-003", "title": "匹配算法引擎", "status": "pending", "depends": ["ST-002"]},
+    {"id": "ST-004", "title": "同行邀请系统", "status": "pending", "depends": []},
+    {"id": "ST-005", "title": "实时聊天模块", "status": "pending", "depends": ["ST-004"]},
+    {"id": "ST-006", "title": "用户评价与信用体系", "status": "pending", "depends": []},
+    {"id": "ST-007", "title": "找同伴帖发布与报名", "status": "pending", "depends": ["ST-003", "ST-004"]}
+  ]
+}

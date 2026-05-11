@@ -67,6 +67,32 @@ model: sonnet
 }
 ```
 
+## 评审模式
+
+### 单维度模式（并行调度时使用）
+
+当编排器指定 `--dimension <dimension_name>` 时，仅评审该维度：
+- 输入: requirements.md + task_breakdown.json + dimension name
+- 输出: `{dimension_name}_report.json`（仅包含该维度的评分和 findings）
+- 不计算总分、不输出 passed 字段
+
+单维度报告格式:
+```json
+{
+  "dimension": "requirement_clarity",
+  "score": 8.0,
+  "findings": ["..."],
+  "issues": ["..."],
+  "applicable": true
+}
+```
+
+research_completeness 维度在任务描述无调研关键词时设 `applicable: false`。
+
+### 全维度模式（串行回退时使用）
+
+当未指定 dimension 时，按原流程评审全部 6 个维度，输出完整 `plan_review_report.json`。
+
 ## 评分标准 (每维 0-10)
 
 | 维度 | 评分依据 |
@@ -112,6 +138,15 @@ model: sonnet
 - shared_files_readonly 是否准确标注
 
 ## 工作流程
+
+### 单维度工作流程
+
+1. 读取 requirements.md 和 task_breakdown.json
+2. 仅评估指定维度的 checklist 项目
+3. 写入 `{dimension_name}_report.json`
+4. research_completeness 维度在无调研关键词时设 `applicable: false`
+
+### 全维度工作流程（原有流程不变）
 
 1. 读取 requirements.md 和 task_breakdown.json
 2. 逐维度评分（每维 0-10，含具体 findings 和 issues）

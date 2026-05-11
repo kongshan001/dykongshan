@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-266",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "用户过敏档案管理", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "花粉浓度数据对接", "status": "pending", "depends": []},
+    {"id": "ST-003", "title": "食物过敏原数据库", "status": "pending", "depends": []},
+    {"id": "ST-004", "title": "目的地风险评估引擎", "status": "pending", "depends": ["ST-001", "ST-002"]},
+    {"id": "ST-005", "title": "过敏预警推送", "status": "pending", "depends": ["ST-004"]},
+    {"id": "ST-006", "title": "紧急处理指南", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-007", "title": "前端警示界面", "status": "pending", "depends": ["ST-003", "ST-004"]}
+  ]
+}

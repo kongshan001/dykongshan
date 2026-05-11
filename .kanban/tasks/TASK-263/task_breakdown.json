@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-263",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "离线翻译引擎集成", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "语言包管理", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-003", "title": "离线语音识别与翻译", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-004", "title": "拍照翻译 OCR", "status": "pending", "depends": []},
+    {"id": "ST-005", "title": "旅行短语库", "status": "pending", "depends": []},
+    {"id": "ST-006", "title": "翻译历史与收藏", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-007", "title": "TTS 朗读与前端界面", "status": "pending", "depends": ["ST-001", "ST-005"]}
+  ]
+}

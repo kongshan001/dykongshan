@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-258",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "全球退税政策数据库", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "退税单 OCR 识别", "status": "pending", "depends": []},
+    {"id": "ST-003", "title": "退税单状态跟踪", "status": "pending", "depends": ["ST-002"]},
+    {"id": "ST-004", "title": "退税金额计算器", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-005", "title": "退税提醒调度", "status": "pending", "depends": ["ST-003"]},
+    {"id": "ST-006", "title": "离线存储与同步", "status": "pending", "depends": ["ST-002", "ST-003"]},
+    {"id": "ST-007", "title": "前端退税管理界面", "status": "pending", "depends": ["ST-001", "ST-003", "ST-004"]}
+  ]
+}

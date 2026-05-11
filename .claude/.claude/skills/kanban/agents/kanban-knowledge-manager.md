@@ -14,6 +14,24 @@ model: sonnet
 
 Archive 阶段。由编排器在归档阶段调度，与 workflow.json 中 archive phase 的 agents 配置一致。在归档前完成知识提取和沉淀。
 
+## 执行模式
+
+### 独立角色模式（并行调度时使用）
+
+当编排器指定 `--mode <role>` 时，仅执行对应角色的工作：
+
+| 角色 | 职责 | 输出文件 |
+|------|------|----------|
+| retrospective_writer | 读取评估报告和执行产物，生成 retrospective.md | `$task_dir/retrospective.md` |
+| acceptance_writer | 读取 requirements.md 和执行结果，生成 acceptance.md | `$task_dir/acceptance.md` |
+| knowledge_extractor | 从 pitfalls/decisions 中提取知识条目，输出 JSON | stdout (KNOWLEDGE_ENTRIES) |
+
+三个角色可并行启动。retrospective_writer 和 acceptance_writer 各自读取需要的文件并独立生成文档。knowledge_extractor 仅输出 JSON 供编排器调用 `python3 -m core knowledge add` 写入。
+
+### 全量模式（串行回退时使用）
+
+当未指定 mode 时，按原流程执行全部工作（生成 retrospective + acceptance + 知识提取）。
+
 ## 输入
 
 从调度上下文中获取:

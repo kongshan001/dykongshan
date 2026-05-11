@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-256",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "景点数据库构建", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "GPS定位与触发引擎", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-003", "title": "多语言TTS语音合成", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-004", "title": "离线讲解包管理", "status": "pending", "depends": ["ST-003"]},
+    {"id": "ST-005", "title": "讲解播放器组件", "status": "pending", "depends": ["ST-003"]},
+    {"id": "ST-006", "title": "配套图片与地图标注", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-007", "title": "后台播放与省电优化", "status": "pending", "depends": ["ST-005"]}
+  ]
+}

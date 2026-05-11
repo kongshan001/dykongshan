@@ -10,6 +10,21 @@ class Scheduler:
         {"name": "designer", "agent_type": "kanban-designer"},
     ]
 
+    PLAN_REVIEW_DIMENSIONS = [
+        {"name": "requirement_clarity", "agent_type": "kanban-plan-reviewer"},
+        {"name": "technical_feasibility", "agent_type": "kanban-plan-reviewer"},
+        {"name": "task_decomposition", "agent_type": "kanban-plan-reviewer"},
+        {"name": "acceptance_criteria", "agent_type": "kanban-plan-reviewer"},
+        {"name": "research_completeness", "agent_type": "kanban-plan-reviewer"},
+        {"name": "parallel_safety", "agent_type": "kanban-plan-reviewer"},
+    ]
+
+    RETROSPECTIVE_ROLES = [
+        {"name": "retrospective_writer", "agent_type": "kanban-knowledge-manager"},
+        {"name": "acceptance_writer", "agent_type": "kanban-knowledge-manager"},
+        {"name": "knowledge_extractor", "agent_type": "kanban-knowledge-manager"},
+    ]
+
     @staticmethod
     def scan_agents(fs) -> list[dict]:
         """Scan .claude/agents/ directory for agent definitions."""
@@ -37,6 +52,14 @@ class Scheduler:
     @classmethod
     def eval_roles(cls) -> list[dict]:
         return list(cls.EVAL_ROLES)
+
+    @classmethod
+    def plan_review_dimensions(cls) -> list[dict]:
+        return list(cls.PLAN_REVIEW_DIMENSIONS)
+
+    @classmethod
+    def retrospective_roles(cls) -> list[dict]:
+        return list(cls.RETROSPECTIVE_ROLES)
 
     @classmethod
     def dispatch_order(cls) -> list[Phase]:

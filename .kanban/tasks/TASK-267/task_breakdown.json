@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-267",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "全球插座电压数据库", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "设备充电规格识别", "status": "pending", "depends": []},
+    {"id": "ST-003", "title": "适配器推荐引擎", "status": "pending", "depends": ["ST-001", "ST-002"]},
+    {"id": "ST-004", "title": "插座类型图鉴组件", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-005", "title": "附近购买点定位", "status": "pending", "depends": []},
+    {"id": "ST-006", "title": "多国行程充电清单", "status": "pending", "depends": ["ST-001", "ST-003"]},
+    {"id": "ST-007", "title": "前端查询与对比界面", "status": "pending", "depends": ["ST-003", "ST-004"]}
+  ]
+}

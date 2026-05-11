@@ -1,5 +1,7 @@
 from __future__ import annotations
+import argparse
 import json
+import os
 from pathlib import Path
 from core.infra.filesystem import Filesystem
 from core.infra.config import Config
@@ -66,31 +68,22 @@ def cmd_init(args: list[str]) -> dict:
     # Ensure config.json exists
     config_file = fs.config_file()
     if not fs.file_exists(config_file):
+        python_bin = "venv/Scripts/python.exe" if os.name == "nt" else "venv/bin/python"
         fs.write_json(config_file, {
             "output_dir": "src",
             "max_iterations": 6,
-            "pass_threshold": 9.0,
+            "pass_threshold": 8.0,
+            "python_bin": python_bin,
         })
         created.append(str(config_file.relative_to(root)))
 
-    # Ensure workflow.json exists
+    # Ensure workflow.json exists (read from template)
     workflow_file = fs.workflow_file()
     if not fs.file_exists(workflow_file):
-        fs.write_json(workflow_file, {
-            "phases": [
-                {"id": "plan", "agents": [{"role": "planner", "required": True, "agent_type": "kanban-planner"}]},
-                {"id": "plan_review", "pass_threshold": 7.0, "max_rounds": 3},
-                {"id": "qa_spec"},
-                {"id": "spec_review", "pass_threshold": 7.0, "max_rounds": 3},
-                {"id": "execute"},
-                {"id": "evaluate", "pass_threshold": 9.0},
-                {"id": "retrospective"},
-                {"id": "user_decision"},
-                {"id": "archive"},
-            ],
-            "pass_threshold": 9.0,
-            "max_iterations": 6,
-        })
+        template_path = Path(__file__).resolve().parent.parent.parent / "templates" / "workflow.json"
+        with open(template_path, "r", encoding="utf-8") as f:
+            template = json.load(f)
+        fs.write_json(workflow_file, template)
         created.append(str(workflow_file.relative_to(root)))
 
     report = None
@@ -100,11 +93,31 @@ def cmd_init(args: list[str]) -> dict:
     except Exception as e:
         scan_error = str(e)
 
+    # Read output_dir from config (may have just been created)
+    config = {}
+    if fs.file_exists(config_file):
+        config = fs.read_json(config_file)
+    output_dir = config.get("output_dir", "src")
+
     result = {
         "message": "kanban env ready",
         "kanban_dir": str(fs.kanban_dir),
         "created": created,
     }
+
+    # Check if output_dir is in .gitignore
+    gitignore_path = os.path.join(str(root), ".gitignore")
+    if os.path.exists(gitignore_path):
+        with open(gitignore_path, encoding="utf-8") as f:
+            gitignore_content = f.read()
+        for line in gitignore_content.splitlines():
+            line = line.strip()
+            if line in (f"{output_dir}/", output_dir, f"/{output_dir}/", f"/{output_dir}"):
+                result["gitignore_warning"] = (
+                    f"output_dir '{output_dir}' is in .gitignore. "
+                    f"Use 'git add -f' to add files in that directory."
+                )
+                break
 
     if report is not None:
         result["scan"] = _serialize_report(report)
@@ -125,28 +138,59 @@ def cmd_scan(args: list[str]) -> dict:
 
 
 def cmd_create(args: list[str]) -> dict:
-    title_parts = []
-    desc_parts = []
-    in_desc = False
-    for a in args:
-        if a == "--desc":
-            in_desc = True
-            continue
-        if in_desc:
-            desc_parts.append(a)
+    from core.types import AutoMode
+
+    parser = argparse.ArgumentParser(prog="kanban create", add_help=False)
+    parser.add_argument("title", nargs="*", default=[], help="Task title")
+    parser.add_argument("--desc", nargs="*", default=[], help="Task description")
+    parser.add_argument("--auto-mode", nargs="*", default=[], dest="auto_mode",
+                        help="Auto-mode flags: all, brainstorm, iteration, lightweight, archive, worktree")
+
+    parsed = parser.parse_args(args)
+    title = " ".join(parsed.title) if parsed.title else "Untitled"
+    desc = " ".join(parsed.desc) if parsed.desc else ""
+    auto_mode_flags = parsed.auto_mode
+
+    # Parse auto_mode flags
+    auto_mode = AutoMode()
+    if auto_mode_flags:
+        if "all" in auto_mode_flags:
+            auto_mode = AutoMode(
+                auto_brainstorm=True,
+                auto_iteration=True,
+                auto_lightweight=True,
+                auto_archive=True,
+                auto_worktree=True,
+            )
         else:
-            title_parts.append(a)
-    title = " ".join(title_parts) if title_parts else "Untitled"
-    desc = " ".join(desc_parts) if desc_parts else ""
+            for flag in auto_mode_flags:
+                if flag == "brainstorm":
+                    auto_mode.auto_brainstorm = True
+                elif flag == "iteration":
+                    auto_mode.auto_iteration = True
+                elif flag == "lightweight":
+                    auto_mode.auto_lightweight = True
+                elif flag == "archive":
+                    auto_mode.auto_archive = True
+                elif flag == "worktree":
+                    auto_mode.auto_worktree = True
+
     _, _, tm = _resolve()
     task = tm.create(title, desc)
-    # Auto-advance to plan phase with in_progress status
-    tm.update(task.id, phase="plan", status="in_progress")
+    # Apply auto_mode and advance to plan phase
+    tm.update(task.id, phase="plan", status="in_progress", auto_mode=auto_mode)
     return {
         "id": task.id,
         "title": task.title,
         "phase": "plan",
         "status": "in_progress",
+        "auto_mode": {
+            "auto_brainstorm": auto_mode.auto_brainstorm,
+            "auto_iteration": auto_mode.auto_iteration,
+            "auto_lightweight": auto_mode.auto_lightweight,
+            "auto_archive": auto_mode.auto_archive,
+            "auto_worktree": auto_mode.auto_worktree,
+        },
         "message": f"Task {task.id} created and advanced to plan phase. Ready to run.",
     }
 

@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-262",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "智能清单生成算法", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "物品分类与数据模型", "status": "pending", "depends": []},
+    {"id": "ST-003", "title": "打包进度跟踪", "status": "pending", "depends": ["ST-002"]},
+    {"id": "ST-004", "title": "模板系统", "status": "pending", "depends": ["ST-002"]},
+    {"id": "ST-005", "title": "多人协作编辑", "status": "pending", "depends": ["ST-002"]},
+    {"id": "ST-006", "title": "离线存储与同步", "status": "pending", "depends": ["ST-002"]},
+    {"id": "ST-007", "title": "前端清单交互组件", "status": "pending", "depends": ["ST-001", "ST-003"]}
+  ]
+}

@@ -8,10 +8,14 @@ class WorktreeError(Exception):
 
 
 class Worktree:
-    def __init__(self, git: Git, repo_root: Path):
+    def __init__(self, git: Git, repo_root: Path,
+                 worktree_base: Path | None = None):
         self._git = git
         self._root = Path(repo_root)
-        self._worktrees_dir = self._root.parent / ".worktrees"
+        if worktree_base is not None:
+            self._worktrees_dir = Path(worktree_base)
+        else:
+            self._worktrees_dir = self._root / ".kanban" / "worktrees"
 
     def create(self, task_id: str, branch: str) -> Path:
         path = self._worktree_path(task_id)

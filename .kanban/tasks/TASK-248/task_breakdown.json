@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-248",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "日历 OAuth2 授权模块", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "Google Calendar API 集成", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-003", "title": "行程事件数据模型设计", "status": "pending", "depends": []},
+    {"id": "ST-004", "title": "ICS 文件导入导出", "status": "pending", "depends": ["ST-003"]},
+    {"id": "ST-005", "title": "前端日历视图组件", "status": "pending", "depends": ["ST-003"]},
+    {"id": "ST-006", "title": "多人共享同步机制", "status": "pending", "depends": ["ST-002", "ST-003"]},
+    {"id": "ST-007", "title": "离线缓存与自动同步", "status": "pending", "depends": ["ST-002"]}
+  ]
+}

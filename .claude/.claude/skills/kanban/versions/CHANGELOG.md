@@ -2,6 +2,29 @@
 
 所有版本的迭代记录索引。每个版本有对应的详细记录文件 `v{X.Y.Z}.md`。
 
+## [v0.12.0] - 2026-05-10
+
+### Added
+- **Plan Review 6 维度并行调度**: 6 个评审维度并行 Agent + collect-plan-review 收集报告
+- **Retrospective 3 角色并行调度**: retrospective_writer / acceptance_writer / knowledge_extractor 并行
+- **Guard 批量并行检查**: batch_check + batch_check_combined
+- **Evaluate 阶段分数门槛硬性门控**: complete-phase 自动检查 score vs threshold，不达标时阻止转换
+- **History 自动记录**: create/transition/complete-phase 自动追加 history 条目
+- **Version CLI 命令**: version list + record 子命令
+
+### Fixed
+- 新旧 Task Format 不一致导致 5 个测试 stale data（_write_task 清理旧格式）
+- Windows symlink 检测失败（path-parts 匹配替代字符串匹配）
+- Windows GBK 编码错误（统一 encoding="utf-8"）
+- check-env 测试环境隔离
+- SKILL.md 自定义 subagent_type 无法调度（统一改为 general-purpose）
+
+### Changed
+- cmd_workflow transition/complete-phase 持久化 history
+- SKILL.md: Plan Review 6 并行维度 + Retrospective 3 并行角色 + 串行回退
+
+详细记录见 `v0.12.0.md`
+
 ## [v0.11.0] - 2026-05-09
 
 ### Added

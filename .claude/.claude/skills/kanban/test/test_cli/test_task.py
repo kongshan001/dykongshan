@@ -21,8 +21,8 @@ def _run(*args, cwd):
 
 
 class TestCLITask:
-    def test_check_env(self):
-        result = _run("check-env", cwd=".")
+    def test_check_env(self, tmp_kanban):
+        result = _run("check-env", cwd=tmp_kanban)
         assert result["success"] is True
         assert result["data"]["ok"] is True
 

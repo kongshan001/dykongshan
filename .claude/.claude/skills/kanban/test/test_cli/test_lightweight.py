@@ -17,10 +17,19 @@ def _run(*args, cwd):
 
 
 def _setup_task_with_phase(task_file, task_dir, phase, desc):
-    """Write task.json at desired phase and put minimal guard-passing artifacts."""
+    """Write task.json at desired phase with complete prior history."""
     task_data = json.loads(task_file.read_text())
     task_data["description"] = desc
     task_data["phase"] = phase
+    # Add completed history for all phases before 'phase'
+    order = ["plan", "plan_review", "qa_spec", "spec_review", "execute",
+             "evaluate", "retrospective", "user_decision", "archive"]
+    history = []
+    for p in order:
+        if p == phase:
+            break
+        history.append({"phase": p, "status": "completed"})
+    task_data["history"] = history
     task_file.write_text(json.dumps(task_data))
 
     task_dir.mkdir(parents=True, exist_ok=True)

@@ -12,7 +12,7 @@
       "exit_condition": "all_artifacts_present AND all_checks_pass",
       "quality_gate": {
         "enabled": true,
-        "pass_threshold": 7.0,
+        "pass_threshold": 8.5,
         "max_rounds": 3,
         "dimensions": [
           {
@@ -43,6 +43,52 @@
       }
     },
     {
+      "id": "plan_review",
+      "name": "Plan 评审阶段",
+      "agents": [
+        {"role": "requirement_clarity", "required": true, "parallel": true, "agent_type": "kanban-plan-reviewer"},
+        {"role": "technical_feasibility", "required": true, "parallel": true, "agent_type": "kanban-plan-reviewer"},
+        {"role": "task_decomposition", "required": true, "parallel": true, "agent_type": "kanban-plan-reviewer"},
+        {"role": "acceptance_criteria", "required": true, "parallel": true, "agent_type": "kanban-plan-reviewer"},
+        {"role": "research_completeness", "required": false, "parallel": true, "agent_type": "kanban-plan-reviewer"},
+        {"role": "parallel_safety", "required": true, "parallel": true, "agent_type": "kanban-plan-reviewer"}
+      ],
+      "required_artifacts": ["plan_review_report.json"],
+      "quality_gate": {
+        "dimensions": [
+          {"id": "requirement_clarity", "weight": 0.2},
+          {"id": "technical_feasibility", "weight": 0.2},
+          {"id": "task_decomposition", "weight": 0.2},
+          {"id": "acceptance_criteria", "weight": 0.2},
+          {"id": "research_completeness", "weight": 0.0},
+          {"id": "parallel_safety", "weight": 0.2}
+        ],
+        "pass_threshold": 8.5,
+        "max_rounds": 3
+      },
+      "exit_condition": "all_required_roles_scored"
+    },
+    {
+      "id": "qa_spec",
+      "name": "QA 测试规格阶段",
+      "agents": [
+        {"role": "qa", "required": true, "agent_type": "kanban-qa", "mode": "spec"}
+      ]
+    },
+    {
+      "id": "spec_review",
+      "name": "测试规格评审阶段",
+      "agents": [
+        {"role": "test_spec_reviewer", "required": true, "agent_type": "kanban-test-spec-reviewer"}
+      ],
+      "quality_gate": {
+        "dimensions": [],
+        "pass_threshold": 8.5,
+        "max_rounds": 3
+      },
+      "exit_condition": "all_required_roles_scored"
+    },
+    {
       "id": "execute",
       "name": "执行阶段",
       "agents": [
@@ -70,11 +116,12 @@
       "id": "retrospective",
       "name": "迭代复盘",
       "description": "对当前迭代进行复盘总结，提取经验教训",
-      "agent": "knowledge-manager",
       "agents": [
-        {"role": "knowledge-manager", "required": true}
+        {"role": "retrospective_writer", "required": true, "parallel": true, "agent_type": "kanban-knowledge-manager"},
+        {"role": "acceptance_writer", "required": true, "parallel": true, "agent_type": "kanban-knowledge-manager"},
+        {"role": "knowledge_extractor", "required": true, "parallel": true, "agent_type": "kanban-knowledge-manager"}
       ],
-      "required_artifacts": ["retrospective.md"],
+      "required_artifacts": ["retrospective.md", "acceptance.md"],
       "quality_gate": {
         "dimensions": [],
         "pass_threshold": 0

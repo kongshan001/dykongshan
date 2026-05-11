@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-268",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "WiFi热点数据库", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "热点地图可视化", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-003", "title": "WiFi速度测试模块", "status": "pending", "depends": []},
+    {"id": "ST-004", "title": "用户评分与密码共享", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-005", "title": "离线热点地图下载", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-006", "title": "自动连接与密码管理", "status": "pending", "depends": ["ST-004"]},
+    {"id": "ST-007", "title": "前端热点浏览界面", "status": "pending", "depends": ["ST-002", "ST-003"]}
+  ]
+}

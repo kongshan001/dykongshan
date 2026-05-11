@@ -1,0 +1,13 @@
+{
+  "task_id": "TASK-265",
+  "iteration": 1,
+  "subtasks": [
+    {"id": "ST-001", "title": "行程数据聚合服务", "status": "pending", "depends": []},
+    {"id": "ST-002", "title": "海报模板引擎", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-003", "title": "海报渲染（Canvas/SVG）", "status": "pending", "depends": ["ST-002"]},
+    {"id": "ST-004", "title": "交互式行程网页生成", "status": "pending", "depends": ["ST-001"]},
+    {"id": "ST-005", "title": "分享链接与访问统计", "status": "pending", "depends": ["ST-004"]},
+    {"id": "ST-006", "title": "社交媒体分享集成", "status": "pending", "depends": ["ST-003", "ST-004"]},
+    {"id": "ST-007", "title": "前端模板预览与编辑器", "status": "pending", "depends": ["ST-002", "ST-003"]}
+  ]
+}

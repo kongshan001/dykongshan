@@ -1,0 +1,30 @@
+{
+  "id": "TASK-245",
+  "title": "旅行照片管理器",
+  "description": "按日期/地点整理旅行照片，生成相册摘要",
+  "status": "archive",
+  "phase": "archive",
+  "iteration": 1,
+  "history": [
+    {
+      "phase": "plan",
+      "entered": "2026-05-10"
+    },
+    {
+      "phase": "execute",
+      "entered": "2026-05-10"
+    },
+    {
+      "phase": "evaluate",
+      "entered": "2026-05-10"
+    },
+    {
+      "phase": "user_decision",
+      "entered": "2026-05-10"
+    },
+    {
+      "phase": "archive",
+      "entered": "2026-05-10"
+    }
+  ]
+}

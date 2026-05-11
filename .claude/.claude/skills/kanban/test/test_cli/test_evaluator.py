@@ -29,7 +29,7 @@ class TestEvaluatorCollectScores:
         # Write evaluation reports
         from pathlib import Path
         fs_root = tmp_kanban
-        report_dir = fs_root / ".kanban" / "tasks" / "TASK-001" / "iterations" / "1" / "reports"
+        report_dir = fs_root / ".kanban" / "tasks" / "TASK-001" / "iteration-1"
         report_dir.mkdir(parents=True, exist_ok=True)
 
         scores = {
@@ -69,7 +69,7 @@ class TestEvaluatorRecordScore:
         task_file.write_text(json.dumps(task_data))
 
         # Write evaluation reports
-        report_dir = tmp_kanban / ".kanban" / "tasks" / "TASK-001" / "iterations" / "1" / "reports"
+        report_dir = tmp_kanban / ".kanban" / "tasks" / "TASK-001" / "iteration-1"
         report_dir.mkdir(parents=True, exist_ok=True)
         scores = {"code_reviewer": 8.0, "qa": 7.5, "pm": 9.0, "designer": 8.5}
         for role, score in scores.items():
@@ -83,8 +83,9 @@ class TestEvaluatorRecordScore:
         assert result["data"]["recorded"] is True
         assert result["data"]["average"] == 8.25
 
-        # Verify scores persisted in task.json
-        updated = json.loads(task_file.read_text())
+        # Verify scores persisted in task.json (new directory format)
+        new_task_file = tmp_kanban / ".kanban" / "tasks" / "TASK-001" / "task.json"
+        updated = json.loads(new_task_file.read_text(encoding="utf-8"))
         assert "score_history" in updated
         assert len(updated["score_history"]) == 1
         assert updated["score_history"][0]["iteration"] == 1
@@ -175,3 +176,122 @@ class TestStartIteration:
         assert result["success"] is True
         assert result["data"]["iteration"] == 2
         assert result["data"]["phase"] == "plan"
+
+
+class TestPlanReviewCollection:
+    def test_collects_dimension_scores(self, tmp_kanban, sample_task_file):
+        """collect-plan-review reads dimension reports from report dir."""
+        task_file = tmp_kanban / ".kanban" / "tasks" / "TASK-001.json"
+        task_data = json.loads(task_file.read_text())
+        task_data["phase"] = "plan_review"
+        task_data["iteration"] = 1
+        task_file.write_text(json.dumps(task_data))
+
+        report_dir = (
+            tmp_kanban / ".kanban" / "tasks" / "TASK-001"
+            / "iteration-1"
+        )
+        report_dir.mkdir(parents=True, exist_ok=True)
+
+        for dim in ["requirement_clarity", "technical_feasibility",
+                     "task_decomposition"]:
+            (report_dir / f"{dim}_report.json").write_text(json.dumps({
+                "dimension": dim, "score": 8.0,
+                "findings": [], "issues": [],
+            }))
+
+        result = _run("evaluator", "collect-plan-review", "TASK-001", cwd=tmp_kanban)
+        assert result["success"] is True
+        assert result["data"]["task_id"] == "TASK-001"
+        assert len(result["data"]["dimensions"]) == 3
+        assert result["data"]["average"] == 8.0
+
+    def test_applicable_false_excluded(self, tmp_kanban, sample_task_file):
+        """Dimensions with applicable=false are excluded from average."""
+        task_file = tmp_kanban / ".kanban" / "tasks" / "TASK-001.json"
+        task_data = json.loads(task_file.read_text())
+        task_data["phase"] = "plan_review"
+        task_data["iteration"] = 1
+        task_file.write_text(json.dumps(task_data))
+
+        report_dir = (
+            tmp_kanban / ".kanban" / "tasks" / "TASK-001"
+            / "iteration-1"
+        )
+        report_dir.mkdir(parents=True, exist_ok=True)
+
+        (report_dir / "requirement_clarity_report.json").write_text(json.dumps({
+            "dimension": "requirement_clarity", "score": 9.0,
+            "findings": [], "issues": [], "applicable": True,
+        }))
+        (report_dir / "research_completeness_report.json").write_text(json.dumps({
+            "dimension": "research_completeness", "score": 5.0,
+            "findings": [], "issues": [], "applicable": False,
+        }))
+
+        result = _run("evaluator", "collect-plan-review", "TASK-001", cwd=tmp_kanban)
+        assert result["success"] is True
+        assert result["data"]["task_id"] == "TASK-001"
+        assert len(result["data"]["dimensions"]) == 1
+        assert result["data"]["dimensions"][0]["dimension"] == "requirement_clarity"
+        assert result["data"]["average"] == 9.0
+
+    def test_no_reports_returns_empty(self, tmp_kanban, sample_task_file):
+        """No reports returns empty dimensions and None average."""
+        result = _run("evaluator", "collect-plan-review", "TASK-001", cwd=tmp_kanban)
+        assert result["success"] is True
+        assert result["data"]["dimensions"] == []
+        assert result["data"]["average"] is None
+
+    def test_all_applicable_false_returns_none_average(self, tmp_kanban, sample_task_file):
+        """All dimensions with applicable=false returns None average."""
+        task_file = tmp_kanban / ".kanban" / "tasks" / "TASK-001.json"
+        task_data = json.loads(task_file.read_text())
+        task_data["phase"] = "plan_review"
+        task_data["iteration"] = 1
+        task_file.write_text(json.dumps(task_data))
+
+        report_dir = (
+            tmp_kanban / ".kanban" / "tasks" / "TASK-001"
+            / "iteration-1"
+        )
+        report_dir.mkdir(parents=True, exist_ok=True)
+
+        for dim in ["requirement_clarity", "research_completeness"]:
+            (report_dir / f"{dim}_report.json").write_text(json.dumps({
+                "dimension": dim, "score": 5.0,
+                "findings": [], "issues": [], "applicable": False,
+            }))
+
+        result = _run("evaluator", "collect-plan-review", "TASK-001", cwd=tmp_kanban)
+        assert result["success"] is True
+        assert result["data"]["dimensions"] == []
+        assert result["data"]["average"] is None
+
+    def test_extreme_scores(self, tmp_kanban, sample_task_file):
+        """Scores of 0 and 10 are handled correctly."""
+        task_file = tmp_kanban / ".kanban" / "tasks" / "TASK-001.json"
+        task_data = json.loads(task_file.read_text())
+        task_data["phase"] = "plan_review"
+        task_data["iteration"] = 1
+        task_file.write_text(json.dumps(task_data))
+
+        report_dir = (
+            tmp_kanban / ".kanban" / "tasks" / "TASK-001"
+            / "iteration-1"
+        )
+        report_dir.mkdir(parents=True, exist_ok=True)
+
+        (report_dir / "requirement_clarity_report.json").write_text(json.dumps({
+            "dimension": "requirement_clarity", "score": 0.0,
+            "findings": ["total failure"], "issues": ["critical"], "applicable": True,
+        }))
+        (report_dir / "technical_feasibility_report.json").write_text(json.dumps({
+            "dimension": "technical_feasibility", "score": 10.0,
+            "findings": ["perfect"], "issues": [], "applicable": True,
+        }))
+
+        result = _run("evaluator", "collect-plan-review", "TASK-001", cwd=tmp_kanban)
+        assert result["success"] is True
+        assert len(result["data"]["dimensions"]) == 2
+        assert result["data"]["average"] == 5.0

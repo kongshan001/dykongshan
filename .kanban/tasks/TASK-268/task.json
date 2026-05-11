@@ -1,0 +1,102 @@
+{
+  "id": "TASK-268",
+  "title": "旅行WiFi热点地图",
+  "description": "旅行WiFi热点地图\n\n## 技术栈选型\n- 前端: React 18 + TypeScript + Leaflet.js\n- 后端: FastAPI + PostgreSQL + PostGIS\n- 离线: Service Worker + IndexedDB\n\n## 核心功能清单\n1. 地图展示附近免费WiFi热点\n2. 热点详情(网络名/速度评级/密码)\n3. WiFi速度测试与用户评分\n4. 离线热点地图下载\n5. 自动连接已保存热点\n\n## 验收标准\n- AC-001: 地图即时显示周边WiFi热点\n- AC-002: 速度测试10秒内完成\n- AC-003: 离线模式可导航至缓存热点\n\n## 约束条件\n- 热点数据库覆盖100+城市\n- 地图加载<3秒\n- 移动端优先响应式设计",
+  "status": "archived",
+  "phase": "archive",
+  "iteration": 1,
+  "lightweight": false,
+  "history": [
+    {
+      "phase": "plan",
+      "status": "completed",
+      "entered_at": "2026-05-12T04:10:00Z",
+      "exited_at": "2026-05-12T04:15:00Z"
+    },
+    {
+      "phase": "plan_review",
+      "status": "completed",
+      "entered_at": "2026-05-12T04:15:00Z",
+      "exited_at": "2026-05-12T04:20:00Z"
+    },
+    {
+      "phase": "qa_spec",
+      "status": "completed",
+      "entered_at": "2026-05-12T04:20:00Z",
+      "exited_at": "2026-05-12T04:25:00Z"
+    },
+    {
+      "phase": "execute",
+      "status": "completed",
+      "entered_at": "2026-05-12T04:25:00Z",
+      "exited_at": "2026-05-12T04:30:00Z"
+    },
+    {
+      "phase": "evaluate",
+      "status": "entered",
+      "entered_at": "2026-05-12T04:30:00Z"
+    },
+    {
+      "phase": "evaluate",
+      "status": "completed",
+      "entered_at": "2026-05-12T04:30:00Z",
+      "exited_at": "2026-05-12T04:35:00Z"
+    },
+    {
+      "phase": "retrospective",
+      "status": "completed",
+      "entered_at": "2026-05-12T04:35:00Z",
+      "exited_at": "2026-05-12T04:38:00Z"
+    },
+    {
+      "phase": "user_decision",
+      "status": "completed",
+      "entered_at": "2026-05-12T04:38:00Z",
+      "exited_at": "2026-05-12T04:39:00Z"
+    },
+    {
+      "phase": "archive",
+      "status": "entered",
+      "entered_at": "2026-05-12T04:40:00Z"
+    }
+  ],
+  "scores": {
+    "pm": {
+      "score": 8.5,
+      "passed": true,
+      "report": "iteration-1/pm_report.json"
+    },
+    "qa": {
+      "score": 8.5,
+      "passed": true,
+      "report": "iteration-1/qa_report.json"
+    },
+    "code_reviewer": {
+      "score": 8.5,
+      "passed": true,
+      "report": "iteration-1/code_reviewer_report.json"
+    },
+    "designer": {
+      "score": 8.0,
+      "passed": true,
+      "report": "iteration-1/designer_report.json"
+    }
+  },
+  "score_history": [],
+  "auto_mode": {
+    "auto_brainstorm": false,
+    "auto_iteration": false,
+    "auto_lightweight": false,
+    "auto_archive": false,
+    "auto_worktree": false
+  },
+  "user_decision": {
+    "action": "approve_and_archive",
+    "decided_at": "2026-05-12T04:39:00Z"
+  },
+  "worktree": {
+    "branch": "feature/TASK-268",
+    "path": "/root/.openclaw/workspace/.kanban/tasks/TASK-268/worktree",
+    "base": "master"
+  }
+}

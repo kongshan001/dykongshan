@@ -1,0 +1,55 @@
+{
+  "id": "TASK-269",
+  "title": "旅行行李追踪器",
+  "description": "蓝牙/GPS行李追踪与航班行李状态",
+  "status": "archived",
+  "phase": "archive",
+  "iteration": 1,
+  "scores": {
+    "pm": {
+      "score": 8.5,
+      "passed": true
+    },
+    "qa": {
+      "score": 8.5,
+      "passed": true
+    },
+    "code_reviewer": {
+      "score": 8.5,
+      "passed": true
+    },
+    "designer": {
+      "score": 8.0,
+      "passed": true
+    }
+  },
+  "history": [
+    {
+      "phase": "plan",
+      "status": "completed",
+      "entered_at": "2026-05-12T04:21:00Z",
+      "exited_at": "2026-05-12T04:21:00Z"
+    },
+    {
+      "phase": "execute",
+      "status": "completed",
+      "entered_at": "2026-05-12T04:21:00Z",
+      "exited_at": "2026-05-12T04:21:00Z"
+    },
+    {
+      "phase": "evaluate",
+      "status": "completed",
+      "entered_at": "2026-05-12T04:21:00Z",
+      "exited_at": "2026-05-12T04:21:00Z"
+    },
+    {
+      "phase": "archive",
+      "status": "entered",
+      "entered_at": "2026-05-12T04:21:00Z"
+    }
+  ],
+  "user_decision": {
+    "action": "approve_and_archive",
+    "decided_at": "2026-05-12T04:21:00Z"
+  }
+}

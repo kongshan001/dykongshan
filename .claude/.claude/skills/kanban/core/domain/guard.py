@@ -33,45 +33,58 @@ class Guard:
         self._fs = fs
         self._cfg = config
 
+    # Hardcoded fallback when workflow.json lacks required_artifacts
+    _DEFAULT_ARTIFACTS: dict[str, list[str]] = {
+        "plan": ["design.md", "requirements.md", "task_breakdown.json"],
+        "plan_review": ["plan_review_report.json"],
+        "qa_spec": ["test_spec.md"],
+        "spec_review": ["spec_review_report.json"],
+        "execute": ["execution_summary.md", "execution_pitfalls.md", "execution_decisions.md"],
+        "retrospective": ["retrospective.md", "acceptance.md"],
+    }
+
+    def _get_required_artifacts(self, phase: Phase) -> list[str]:
+        """Read required_artifacts from workflow.json; fall back to hardcoded defaults."""
+        workflow = self._cfg.workflow
+        for p in workflow.get("phases", []):
+            if p.get("id") == phase.value:
+                artifacts = p.get("required_artifacts")
+                if artifacts:
+                    return artifacts
+        return self._DEFAULT_ARTIFACTS.get(phase.value, [])
+
     def check_artifacts(self, task: Task, phase: Phase) -> CheckResult:
-        if phase == Phase.PLAN:
-            required = ["requirements.md", "task_breakdown.json"]
-        elif phase == Phase.PLAN_REVIEW:
-            required = ["plan_review_report.json"]
-        elif phase == Phase.QA_SPEC:
-            required = ["test_spec.md"]
-        elif phase == Phase.SPEC_REVIEW:
-            required = ["spec_review_report.json"]
-        elif phase == Phase.EXECUTE:
-            required = [
-                "execution_summary.md",
-                "execution_pitfalls.md",
-                "execution_decisions.md",
-            ]
-        elif phase == Phase.EVALUATE:
-            return self.check_evaluation(task, task.iteration)
-        elif phase == Phase.RETROSPECTIVE:
-            required = ["retrospective.md", "acceptance.md"]
-        else:
+        # Evaluate phase has special logic: evaluation reports + acceptance.md
+        if phase == Phase.EVALUATE:
+            eval_result = self.check_evaluation(task, task.iteration)
+            acceptance_result = self._check_file(task, "acceptance.md")
+            return CheckResult.combine([eval_result, acceptance_result])
+
+        required = self._get_required_artifacts(phase)
+        if not required:
             return CheckResult(passed=True)
 
         results = [self._check_file(task, filename) for filename in required]
         combined = CheckResult.combine(results)
 
         if phase == Phase.EXECUTE and task.worktree_path is None:
-            combined.warnings.append("worktree not set")
+            if task.lightweight:
+                combined.warnings.append("worktree not set (lightweight mode)")
+            else:
+                combined.failures.append(
+                    "worktree not set — Execute phase requires git worktree isolation. "
+                    "Use --lightweight flag only if the task qualifies for lightweight mode."
+                )
 
         return combined
 
     def check_evaluation(self, task: Task, iteration: int) -> CheckResult:
         missing = []
-        report_dir = self._fs.report_dir(task.id, iteration)
-        legacy_dir = self._fs.task_dir(task.id) / f"iteration-{iteration}"
+        it_dir = self._fs.iteration_dir(task.id, iteration)
         for role_def in Scheduler.eval_roles():
             role = role_def["name"]
-            report_file = report_dir / f"{role}_report.json"
-            legacy_file = legacy_dir / f"{role}_report.json"
-            if not self._fs.file_exists(report_file) and not self._fs.file_exists(legacy_file):
+            report_file = it_dir / f"{role}_report.json"
+            if not self._fs.file_exists(report_file):
                 missing.append(role)
 
         return CheckResult(
@@ -201,6 +214,21 @@ class Guard:
             )
         return CheckResult(passed=True)
 
+    def check_brainstorming(self, task: Task) -> CheckResult:
+        """IR-16: Verify brainstorming was completed — design.md must exist and be non-empty."""
+        design_file = self._fs.task_dir(task.id) / "design.md"
+        if not self._fs.file_exists(design_file):
+            return CheckResult(
+                passed=False,
+                failures=["design.md missing — Plan Step A (superpowers:brainstorming) must be completed before plan_review"],
+            )
+        if design_file.stat().st_size == 0:
+            return CheckResult(
+                passed=False,
+                failures=["design.md is empty — brainstorming must produce a non-empty design document"],
+            )
+        return CheckResult(passed=True)
+
     def check_retrospective(self, task: Task) -> CheckResult:
         retro_file = self._fs.task_dir(task.id) / "retrospective.md"
         accept_file = self._fs.task_dir(task.id) / "acceptance.md"
@@ -218,16 +246,79 @@ class Guard:
 
         return CheckResult(passed=len(failures) == 0, failures=failures)
 
+    def check_evaluation_score(self, task: Task) -> CheckResult:
+        """Check if evaluation score meets pass_threshold.
+
+        Uses IterationDecider to determine action:
+        - PASS → passed=True
+        - MAX_ITER → passed=True (forced user_decision per IR-17)
+        - HOT/FULL → passed=False with iteration suggestion
+        """
+        from core.domain.self_improve import IterationDecider
+
+        if not task.score_history:
+            return CheckResult(passed=False, failures=["no score_history recorded"])
+
+        avg_score = task.score_history[-1].get("average", 0.0)
+        pass_threshold = self._cfg.pass_threshold
+        max_iterations = self._cfg.max_iterations
+
+        # Check evaluate phase specific threshold
+        for p in self._cfg.phases_detail:
+            if p.get("id") == "evaluate":
+                pt = p.get("pass_threshold")
+                if pt is not None:
+                    pass_threshold = pt
+                break
+
+        action = IterationDecider.decide(
+            avg_score, task.iteration, max_iterations, pass_threshold
+        )
+
+        if action.value in ("user_decision", "max_iterations"):
+            warnings = []
+            if action.value == "max_iterations":
+                warnings.append(
+                    f"max iterations ({max_iterations}) reached, forcing user_decision"
+                )
+            return CheckResult(passed=True, warnings=warnings)
+
+        return CheckResult(
+            passed=False,
+            failures=[
+                f"score {avg_score} < threshold {pass_threshold}, "
+                f"auto-iteration required: {action.value}"
+            ],
+        )
+
+    def batch_check(
+        self, task: Task, report_dir: Path
+    ) -> dict[str, CheckResult]:
+        """Run multiple independent guard checks and return results by name.
+
+        Each check runs independently -- one failure does not block others.
+        """
+        return {
+            "check_artifacts": self.check_artifacts(task, task.phase),
+            "check_plan_quality": self.check_plan_quality(task, report_dir),
+            "check_parallel_conflicts": self.check_parallel_conflicts(task),
+            "check_phase_completeness": self.check_phase_completeness(task),
+            "check_brainstorming": self.check_brainstorming(task),
+        }
+
+    def batch_check_combined(
+        self, task: Task, report_dir: Path
+    ) -> CheckResult:
+        """Run batch_check and combine all results into single CheckResult."""
+        results = self.batch_check(task, report_dir)
+        return CheckResult.combine(list(results.values()))
+
     def _check_file(self, task: Task, filename: str) -> CheckResult:
         task_dir = self._fs.task_dir(task.id)
         candidates = [
             task_dir / filename,
+            self._fs.iteration_dir(task.id, task.iteration) / filename,
         ]
-        report_dir = self._fs.report_dir(task.id, task.iteration)
-        candidates.append(report_dir / filename)
-        # Legacy flat format: iteration-N/filename (#102)
-        candidates.append(task_dir / f"iteration-{task.iteration}" / filename)
-
         for filepath in candidates:
             if self._fs.file_exists(filepath):
                 if filepath.stat().st_size == 0:

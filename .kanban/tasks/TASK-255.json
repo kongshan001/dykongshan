@@ -1,0 +1,9 @@
+{
+  "id": "TASK-255",
+  "title": "旅行紧急求助卡片",
+  "description": "生成包含当地紧急电话/大使馆/医疗信息的求助卡",
+  "status": "archived",
+  "phase": "archive",
+  "iteration": 1,
+  "history": []
+}
