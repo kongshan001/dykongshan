@@ -1,0 +1,26 @@
+{
+  "id": "TASK-303",
+  "title": "旅行景点人流量预测",
+  "description": "热门景点实时人流量、最佳游览时段推荐",
+  "status": "in_progress",
+  "phase": "plan",
+  "iteration": 1,
+  "lightweight": false,
+  "history": [
+    {
+      "phase": "plan",
+      "status": "started",
+      "started_at": 1778540553.325151
+    }
+  ],
+  "scores": {},
+  "score_history": [],
+  "auto_mode": {
+    "auto_brainstorm": false,
+    "auto_iteration": false,
+    "auto_lightweight": false,
+    "auto_archive": false,
+    "auto_worktree": false
+  },
+  "user_decision": null
+}

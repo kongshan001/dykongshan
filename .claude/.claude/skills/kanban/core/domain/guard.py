@@ -54,11 +54,9 @@ class Guard:
         return self._DEFAULT_ARTIFACTS.get(phase.value, [])
 
     def check_artifacts(self, task: Task, phase: Phase) -> CheckResult:
-        # Evaluate phase has special logic: evaluation reports + acceptance.md
+        # Evaluate phase: evaluation reports only (acceptance.md now checked in retrospective)
         if phase == Phase.EVALUATE:
-            eval_result = self.check_evaluation(task, task.iteration)
-            acceptance_result = self._check_file(task, "acceptance.md")
-            return CheckResult.combine([eval_result, acceptance_result])
+            return self.check_evaluation(task, task.iteration)
 
         required = self._get_required_artifacts(phase)
         if not required:

@@ -62,7 +62,7 @@ class TestQueryCommands:
         from core.infra.filesystem import Filesystem
         fs = Filesystem(root=tmp_kanban)
         _setup_task(fs, "TASK-001")
-        checkpoint = fs.task_dir("TASK-001") / "checkpoint.json"
+        checkpoint = fs.task_dir("TASK-001") / "progress.json"
         fs.ensure_dir(checkpoint.parent)
         checkpoint.write_text(json.dumps({
             "ST-001": {"status": "completed"},

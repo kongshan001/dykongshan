@@ -1,4 +1,5 @@
 from __future__ import annotations
+from datetime import datetime, timezone
 from pathlib import Path
 from core.infra.filesystem import Filesystem
 
@@ -18,14 +19,25 @@ class ProgressTracker:
         data[subtask_id] = {"status": "in_progress", "started": True}
         self._fs.write_json(checkpoint, data)
 
-    def subtask_done(self, task_id: str, subtask_id: str) -> None:
+    def subtask_done(
+        self,
+        task_id: str,
+        subtask_id: str,
+        commit_hash: str | None = None,
+        files: list[str] | None = None,
+    ) -> None:
         checkpoint = self._checkpoint_file(task_id)
         data = (
             self._fs.read_json(checkpoint)
             if self._fs.file_exists(checkpoint)
             else {}
         )
-        data[subtask_id] = {"status": "completed"}
+        entry: dict = {"status": "completed", "completed_at": self._now_iso()}
+        if commit_hash:
+            entry["commit_hash"] = commit_hash
+        if files:
+            entry["files"] = files
+        data[subtask_id] = entry
         self._fs.write_json(checkpoint, data)
 
     def progress(self, task_id: str) -> dict:
@@ -40,4 +52,8 @@ class ProgressTracker:
         return {"total": total, "completed": completed}
 
     def _checkpoint_file(self, task_id: str) -> Path:
-        return self._fs.task_dir(task_id) / "checkpoint.json"
+        return self._fs.task_dir(task_id) / "progress.json"
+
+    @staticmethod
+    def _now_iso() -> str:
+        return datetime.now(timezone.utc).isoformat()

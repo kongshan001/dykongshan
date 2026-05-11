@@ -303,23 +303,15 @@ Plan 阶段分两步：**需求澄清（brainstorming）** → **任务拆解（
    - 目标: 至少 40% 的 subtask 标记为 parallelizable
 
 8. **从 plan.md 生成 task_breakdown.json (LLM 驱动):**
-   - plan.md 由外部技能 (writing-plans) 产出，格式不可控，**禁止用 regex 解析**
-   - 使用 LLM 将 plan.md 转换为 task_breakdown.json:
-     1. 检查 plan.md 存在: `python3 -m core plan inspect "$task_id"`
-     2. 将 plan.md 内容 + 以下 system prompt 发给当前 LLM 生成 JSON:
-
-        ```
-        You are a plan-to-JSON converter. Parse the implementation plan into task_breakdown.json.
-        Output ONLY valid JSON, no markdown fences. Schema: { "task_name": "kebab-case",
-        "subtasks": [{"id": "ST-001", "title": "...", "description": "...", "priority": 1,
-        "estimated_files": [...], "dependencies": []}] }
-        Extract every file path. Infer dependencies: if Task B modifies a file created
-        in Task A, add ST-00A to Task B's dependencies.
-        ```
-
-     3. 将 LLM 输出保存: `echo '<llm_json>' | python3 -m core plan save "$task_id"`
-     - CLI 自动校验 JSON schema（subtasks 非空、每个含 id/title/estimated_files）
-   - 生成的 `task_breakdown.json` 供 executor 做依赖排序和并行调度
+   - writing-plans 已产出 bite-sized tasks，每个 Task 章节包含完整文件路径、代码和依赖信息
+   - 使用 LLM 从 plan.md 提取 task_breakdown.json，作为机器可读索引:
+     - task_name: 从 plan.md 标题提取
+     - subtasks: 每个 Task 章节映射为一个 subtask
+     - estimated_files: 从 Task 的 "Files:" 块提取路径列表（Create/Modify/Test）
+     - dependencies: 从 Task 描述中的前置引用推断
+     - parallelizable: 无依赖 + 无共享文件冲突的 task 标记为 true
+   - **注意**: task_breakdown.json 只含元数据（id/title/files/deps/parallelizable），
+     不重复 plan.md 中已有的具体代码和实现细节
 9. **从 plan.md + design.md 生成 requirements.md (LLM 驱动):**
    - 同样用 LLM 从 design.md 和 plan.md 提取: 功能需求 (FR-N)、非功能需求、技术约束、验收标准
    - 产出 `{task_dir}/requirements.md`
@@ -514,8 +506,18 @@ AskUserQuestion(
         6. 所有 step 完成后，记录完成状态
         ```
      c. 检查 plan.md 中该 Task 指定的文件是否已生成
-     d. 成功 -> `python3 -m core subtask update "$task_id" "$subtask_id" completed`
-     e. 失败 -> `python3 -m core subtask update "$task_id" "$subtask_id" failed`
+     d. **每个 subtask 完成后强制执行 git commit + progress 更新 (Issue #123):**
+        ```bash
+        cd "{wt_path}"
+        git add {changed_files}
+        git commit -m "feat({subtask_id}): {subtask_title} ({task_id}, iteration {iter})"
+        COMMIT_HASH=$(git rev-parse HEAD)
+        python3 -m core subtask done "{task_id}" "{subtask_id}" --commit-hash "$COMMIT_HASH"
+        ```
+        目的: 崩溃后可基于 progress.json 和 git log 恢复进度 (Issue #123)。
+        progress.json 记录: commit hash、文件清单、完成时间。
+     e. 成功 -> `python3 -m core subtask update "$task_id" "$subtask_id" completed`
+     f. 失败 -> `python3 -m core subtask update "$task_id" "$subtask_id" failed`
    - 缺失文件则重试该 Task (最多 2 次，每次提供更详细提示)
 6. 所有 subtask 完成后，单独调度一个 **报告 Agent**:
    ```
@@ -592,7 +594,11 @@ AskUserQuestion(
    ```
 7. `python3 -m core evaluator collect-scores "$task_id"` -- 展示评分
 8. `python3 -m core workflow complete-phase "$task_id"`
-9. **立即进入自迭代判断 — 不可跳过**
+9. **评估改善建议提取:**
+   - 评分收集完成后，编排器从 4 个评估报告的 improvement_suggestions 字段提取建议
+   - 每条建议生成为 C 类条目（C-001, C-002, ...）写入 progress.json
+   - C 类条目在下次迭代前由编排器自动处理: 纳入 plan 修订或标记为已处理
+10. **立即进入自迭代判断 — 不可跳过**
 
 #### 自迭代判断 (HARD-GATE)
 
@@ -1047,13 +1053,17 @@ Dashboard 源路径: .claude/skills/kanban/dashboard/ (server.js 从此目录启
 1. 执行 `python3 -m core subtask start "$task_id" "$subtask_id"`
 2. 在 `{task_dir}/progress.json` 中记录 subtask 开始时间和状态
 
-### `/kanban subtask done <task_id> <subtask_id>`
+### `/kanban subtask done <task_id> <subtask_id> [--commit-hash <hash>]`
 
-标记 subtask 完成，触发 git commit 并记录到 progress.json。
+标记 subtask 完成，记录 commit 信息到 progress.json。
 
-1. 执行 `python3 -m core subtask done "$task_id" "$subtask_id"`
-2. 在 worktree 中执行 `git add -A` + `git commit -m "feat(ST-xxx): subtask_title (TASK-NNN)"`
-3. 将 commit hash 和变更文件列表记录到 progress.json
+1. 执行 `python3 -m core subtask done "$task_id" "$subtask_id" [--commit-hash "$hash"]`
+2. 更新 `{task_dir}/progress.json`，记录:
+   - `status: "completed"` — 完成状态
+   - `commit_hash` — git commit SHA（通过 --commit-hash 传入）
+   - `files` — 变更文件列表（通过 --files 传入）
+   - `completed_at` — 完成时间戳
+3. 崩溃恢复用途: 可基于 progress.json + git log 恢复进度 (Issue #123)
 
 ### `/kanban progress <task_id>`
 
@@ -1062,6 +1072,12 @@ Dashboard 源路径: .claude/skills/kanban/dashboard/ (server.js 从此目录启
 1. 执行 `python3 -m core progress "$task_id"`
 2. 读取 `{task_dir}/progress.json` 展示每个 subtask 的状态、时间、commit hash
 3. 如果没有 progress.json，回退到迭代评分趋势展示
+
+**C 类前缀（评估建议条目）:**
+- 格式: C-001, C-002, ...
+- 来源: Evaluate 阶段从评估报告自动提取
+- 处理: 编排器在下次迭代前列出 C 类待办，决定是否纳入 subtask
+- 记录在 progress.json 中，与 subtask 进度并列
 
 ### `/kanban clean <task_id>|--all|--before <date>`
 

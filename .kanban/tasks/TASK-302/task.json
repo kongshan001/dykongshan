@@ -1,0 +1,26 @@
+{
+  "id": "TASK-302",
+  "title": "旅行签证进度追踪",
+  "description": "签证申请进度查询、材料清单管理、到期提醒",
+  "status": "in_progress",
+  "phase": "plan",
+  "iteration": 1,
+  "lightweight": false,
+  "history": [
+    {
+      "phase": "plan",
+      "status": "started",
+      "started_at": 1778540553.2387588
+    }
+  ],
+  "scores": {},
+  "score_history": [],
+  "auto_mode": {
+    "auto_brainstorm": false,
+    "auto_iteration": false,
+    "auto_lightweight": false,
+    "auto_archive": false,
+    "auto_worktree": false
+  },
+  "user_decision": null
+}

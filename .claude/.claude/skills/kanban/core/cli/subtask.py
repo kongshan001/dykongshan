@@ -13,6 +13,7 @@ from pathlib import Path
 from core.infra.filesystem import Filesystem
 from core.infra.config import Config
 from core.domain.task import TaskManager
+from core.domain.progress import ProgressTracker
 
 
 def _resolve(task_id: str) -> tuple[Filesystem, TaskManager, dict]:
@@ -175,11 +176,40 @@ def dispatch(args: list[str]) -> dict:
     if sub == "done":
         if len(args) < 3:
             return {"error": "task_id and subtask_id required"}
-        return {
+
+        task_id = args[1]
+        subtask_id = args[2]
+        commit_hash: str | None = None
+        files: list[str] | None = None
+
+        # Parse optional --commit-hash and --files flags
+        remaining = args[3:]
+        i = 0
+        while i < len(remaining):
+            if remaining[i] == "--commit-hash" and i + 1 < len(remaining):
+                commit_hash = remaining[i + 1]
+                i += 2
+            elif remaining[i] == "--files" and i + 1 < len(remaining):
+                files = [f.strip() for f in remaining[i + 1].split(",") if f.strip()]
+                i += 2
+            else:
+                i += 1
+
+        root = Filesystem.find_project_root()
+        fs = Filesystem(root=root)
+        tracker = ProgressTracker(fs)
+        tracker.subtask_done(task_id, subtask_id, commit_hash=commit_hash, files=files)
+
+        result: dict = {
             "subcommand": "done",
-            "task_id": args[1],
-            "subtask_id": args[2],
+            "task_id": task_id,
+            "subtask_id": subtask_id,
             "status": "completed",
         }
+        if commit_hash:
+            result["commit_hash"] = commit_hash
+        if files:
+            result["files"] = files
+        return result
 
     return {"error": f"unknown subtask subcommand: {sub}"}

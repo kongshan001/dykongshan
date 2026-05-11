@@ -1,0 +1,26 @@
+{
+  "id": "TASK-306",
+  "title": "旅行海边安全指南",
+  "description": "潮汐时间表、离岸流预警、救生员位置",
+  "status": "in_progress",
+  "phase": "plan",
+  "iteration": 1,
+  "lightweight": false,
+  "history": [
+    {
+      "phase": "plan",
+      "status": "started",
+      "started_at": 1778540553.6253018
+    }
+  ],
+  "scores": {},
+  "score_history": [],
+  "auto_mode": {
+    "auto_brainstorm": false,
+    "auto_iteration": false,
+    "auto_lightweight": false,
+    "auto_archive": false,
+    "auto_worktree": false
+  },
+  "user_decision": null
+}
