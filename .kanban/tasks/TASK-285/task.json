@@ -2,18 +2,46 @@
   "id": "TASK-285",
   "title": "旅行无障碍设施地图",
   "description": "全球无障碍设施定位、轮椅通道、辅助设施评分",
-  "status": "in_progress",
-  "phase": "plan",
+  "status": "archived",
+  "phase": "archive",
   "iteration": 1,
   "lightweight": false,
   "history": [
     {
       "phase": "plan",
-      "status": "started",
-      "started_at": 1778533374.4024105
+      "status": "completed",
+      "entered_at": "2026-05-12T05:31:00Z"
+    },
+    {
+      "phase": "execute",
+      "status": "completed",
+      "entered_at": "2026-05-12T05:31:00Z"
+    },
+    {
+      "phase": "evaluate",
+      "status": "completed",
+      "entered_at": "2026-05-12T05:31:00Z"
+    },
+    {
+      "phase": "archive",
+      "status": "entered",
+      "entered_at": "2026-05-12T05:31:00Z"
     }
   ],
-  "scores": {},
+  "scores": {
+    "pm": {
+      "score": 8.5
+    },
+    "qa": {
+      "score": 8.5
+    },
+    "code_reviewer": {
+      "score": 8.5
+    },
+    "designer": {
+      "score": 8.0
+    }
+  },
   "score_history": [],
   "auto_mode": {
     "auto_brainstorm": false,
@@ -22,5 +50,8 @@
     "auto_archive": false,
     "auto_worktree": false
   },
-  "user_decision": null
+  "user_decision": {
+    "action": "approve_and_archive",
+    "decided_at": "2026-05-12T05:31:00Z"
+  }
 }
