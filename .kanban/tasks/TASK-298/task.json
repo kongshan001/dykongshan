@@ -1,0 +1,26 @@
+{
+  "id": "TASK-298",
+  "title": "旅行书店探索",
+  "description": "独立书店/二手书店定位、签售活动日历",
+  "status": "in_progress",
+  "phase": "plan",
+  "iteration": 1,
+  "lightweight": false,
+  "history": [
+    {
+      "phase": "plan",
+      "status": "started",
+      "started_at": 1778538750.8471851
+    }
+  ],
+  "scores": {},
+  "score_history": [],
+  "auto_mode": {
+    "auto_brainstorm": false,
+    "auto_iteration": false,
+    "auto_lightweight": false,
+    "auto_archive": false,
+    "auto_worktree": false
+  },
+  "user_decision": null
+}

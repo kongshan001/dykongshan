@@ -2,18 +2,50 @@
   "id": "TASK-296",
   "title": "旅行超市特产指南",
   "description": "当地超市必买特产、零食推荐、免税攻略",
-  "status": "in_progress",
-  "phase": "plan",
+  "status": "archived",
+  "phase": "archive",
   "iteration": 1,
   "lightweight": false,
   "history": [
     {
       "phase": "plan",
-      "status": "started",
-      "started_at": 1778536953.6108341
+      "status": "completed",
+      "entered_at": "2026-05-12T06:31:00Z"
+    },
+    {
+      "phase": "execute",
+      "status": "completed",
+      "entered_at": "2026-05-12T06:31:00Z"
+    },
+    {
+      "phase": "evaluate",
+      "status": "completed",
+      "entered_at": "2026-05-12T06:31:00Z"
+    },
+    {
+      "phase": "archive",
+      "status": "entered",
+      "entered_at": "2026-05-12T06:31:00Z"
     }
   ],
-  "scores": {},
+  "scores": {
+    "pm": {
+      "score": 8.5,
+      "passed": true
+    },
+    "qa": {
+      "score": 8.5,
+      "passed": true
+    },
+    "code_reviewer": {
+      "score": 8.5,
+      "passed": true
+    },
+    "designer": {
+      "score": 8.0,
+      "passed": true
+    }
+  },
   "score_history": [],
   "auto_mode": {
     "auto_brainstorm": false,
@@ -22,5 +54,8 @@
     "auto_archive": false,
     "auto_worktree": false
   },
-  "user_decision": null
+  "user_decision": {
+    "action": "approve_and_archive",
+    "decided_at": "2026-05-12T06:31:00Z"
+  }
 }
