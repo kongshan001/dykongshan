@@ -53,6 +53,13 @@ model: sonnet
       "score": 0.0,
       "findings": ["..."],
       "issues": ["..."]
+    },
+    "behavior_spec_quality": {
+      "score": 0.0,
+      "applicable": "auto",
+      "findings": ["..."],
+      "issues": ["..."],
+      "note": "仅当 test_spec.md 包含 BDD 行为规格区块时评分；auto 表示根据是否检测到 BDD 区块决定是否计入均分"
     }
   },
   "summary": "...",
@@ -71,8 +78,9 @@ model: sonnet
 | testability | 每个用例是否包含明确输入/期望输出、是否可独立运行验证 |
 | requirement_alignment | 用例是否与 FR/AC 一一对应、是否有脱离需求的冗余用例 |
 | executability | 用例描述的测试是否可实际执行、是否需要特殊环境/工具（如游戏 GM 指令） |
+| behavior_spec_quality | （auto，仅当 BDD 区块存在时评分）Scenario 是否完整（GIVEN/WHEN/THEN 齐备）、是否覆盖关键用户路径、Given-When-Then 描述是否具体可验证 |
 
-**总分 = 五维均分，>= 7.0 为通过**
+**总分 = applicable 维度的均分（behavior_spec_quality 根据 auto 检测结果决定是否纳入），>= 7.0 为通过**
 
 ## 审核清单
 
@@ -102,6 +110,13 @@ model: sonnet
 - 游戏项目: GM 指令是否完整（含参数和预期效果）
 - 是否需要 mock/stub，是否已在用例中说明
 - 测试环境需求是否已列出
+
+### 行为规格质量（仅当 BDD 区块存在时评估）
+- 每个 Scenario 的 GIVEN 是否明确描述了前置条件
+- WHEN 是否具体描述了用户操作（非模糊描述）
+- THEN 是否包含可验证的期望结果
+- Scenario 是否覆盖了核心用户路径（happy path + 至少 1 个异常路径）
+- BDD Scenario 与功能需求是否存在可追溯的映射关系
 
 ## 工作流程
 

@@ -3,9 +3,9 @@
   "title": "旅行插座适配指南",
   "description": "全球插座类型/电压/频率查询，转换插头推荐",
   "engine": "claude-code",
-  "status": "pending",
-  "phase": null,
-  "phase_lock": null,
+  "status": "archived",
+  "phase": "archive",
+  "phase_lock": "archive",
   "assignee": null,
   "worktree": {
     "branch": "feature/TASK-243",

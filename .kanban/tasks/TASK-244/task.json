@@ -3,9 +3,9 @@
   "title": "旅行小费文化指南",
   "description": "各国小费习俗、金额标准、哪些场景该给小费",
   "engine": "claude-code",
-  "status": "pending",
-  "phase": null,
-  "phase_lock": null,
+  "status": "archived",
+  "phase": "archive",
+  "phase_lock": "archive",
   "assignee": null,
   "worktree": {
     "branch": "feature/TASK-244",

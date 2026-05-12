@@ -36,7 +36,7 @@ Archive 阶段。由编排器在归档阶段调度，与 workflow.json 中 archi
 
 从调度上下文中获取:
 - `task_id` — 任务 ID
-- `report_dir` — 报告目录 (`.kanban/reports/${task_id}/iteration-${iteration}/`)
+- `report_dir` — 报告目录 (`.kanban/${task_id}/iteration-${iteration}/`)
 - `iteration` — 当前迭代编号
 - `KANBAN_DIR` — kanban 根目录
 

@@ -1,16 +1,65 @@
 {
   "id": "TASK-304",
   "title": "旅行当地交通卡攻略",
-  "description": "各国交通卡充值、余额查询、优惠政策",
-  "status": "in_progress",
-  "phase": "plan",
+  "description": "旅行当地交通卡攻略\n\n## 技术栈选型\n- 前端: React 18 + TypeScript\n- 后端: FastAPI + SQLite\n- 数据: JSON静态数据\n\n## 核心功能清单\n1. 全球30+城市交通卡介绍\n2. 充值方式与余额查询指南\n3. 优惠政策与游客通票推荐\n4. 交通卡使用注意事项\n\n## 验收标准\n- AC-001: 覆盖至少30个城市\n- AC-002: 信息准确可读\n- AC-003: 支持离线浏览\n\n## 约束条件\n- 响应<1s\n- 数据季度更新",
+  "status": "archived",
+  "phase": "archive",
   "iteration": 1,
-  "lightweight": false,
+  "lightweight": true,
   "history": [
     {
       "phase": "plan",
       "status": "started",
       "started_at": 1778540553.4150271
+    },
+    {
+      "phase": "plan",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:00:00Z",
+      "exited_at": "2026-05-13T04:01:00Z"
+    },
+    {
+      "phase": "plan_review",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:01:00Z",
+      "exited_at": "2026-05-13T04:02:00Z"
+    },
+    {
+      "phase": "qa_spec",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:02:00Z",
+      "exited_at": "2026-05-13T04:03:00Z"
+    },
+    {
+      "phase": "spec_review",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:03:00Z",
+      "exited_at": "2026-05-13T04:04:00Z"
+    },
+    {
+      "phase": "execute",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:04:00Z",
+      "exited_at": "2026-05-13T04:10:00Z",
+      "duration_seconds": 360
+    },
+    {
+      "phase": "evaluate",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:10:00Z",
+      "exited_at": "2026-05-13T04:15:00Z"
+    },
+    {
+      "phase": "retrospective",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:15:00Z",
+      "exited_at": "2026-05-13T04:16:00Z"
+    },
+    {
+      "phase": "user_decision",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:16:00Z",
+      "exited_at": "2026-05-13T04:16:05Z"
     }
   ],
   "scores": {},
@@ -22,5 +71,9 @@
     "auto_archive": false,
     "auto_worktree": false
   },
-  "user_decision": null
+  "user_decision": {
+    "action": "approve_and_archive",
+    "decided_at": "2026-05-13T04:16:05Z"
+  },
+  "phase_lock": "archive"
 }

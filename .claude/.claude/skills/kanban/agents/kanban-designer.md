@@ -14,12 +14,12 @@ model: opus
 
 - `task_id` — 任务 ID
 - `worktree_path` — 代码目录路径
-- `$KANBAN_DIR/reports/${task_id}/iteration-${iteration}/requirements.md` — 需求文档
-- `$KANBAN_DIR/reports/${task_id}/iteration-${iteration}/task_breakdown.json` — 任务拆解
+- `$KANBAN_DIR/${task_id}/iteration-${iteration}/requirements.md` — 需求文档
+- `$KANBAN_DIR/${task_id}/iteration-${iteration}/task_breakdown.json` — 任务拆解
 
 ## 输出
 
-写入报告: `$KANBAN_DIR/reports/${task_id}/iteration-${iteration}/designer_report.json`
+写入报告: `$KANBAN_DIR/${task_id}/iteration-${iteration}/designer_report.json`
 
 ```json
 {

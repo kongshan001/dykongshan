@@ -3,9 +3,9 @@
   "title": "旅行照片管理器",
   "description": "按日期/地点整理旅行照片，生成相册摘要",
   "engine": "claude-code",
-  "status": "pending",
-  "phase": null,
-  "phase_lock": null,
+  "status": "archived",
+  "phase": "archive",
+  "phase_lock": "archive",
   "assignee": null,
   "worktree": {
     "branch": "feature/TASK-245",

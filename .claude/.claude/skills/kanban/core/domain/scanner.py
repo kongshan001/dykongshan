@@ -54,6 +54,7 @@ class ScanReport:
     has_kanban: bool = False
     agent_conflicts: list[AgentConflict] = field(default_factory=list)
     existing_skills: list[str] = field(default_factory=list)
+    testing_skills: list[str] = field(default_factory=list)
     infrastructure_gaps: list[InfrastructureGap] = field(default_factory=list)
     recommendations: list[str] = field(default_factory=list)
 
@@ -65,6 +66,7 @@ def scan_project(root: Path) -> ScanReport:
     report.has_kanban = (root / ".kanban").exists()
     report.agent_conflicts = _detect_agent_conflicts(root)
     report.existing_skills = _detect_skills(root)
+    report.testing_skills = _detect_testing_skills(root)
     report.infrastructure_gaps = _detect_infrastructure_gaps(root, report.language)
     report.recommendations = _generate_recommendations(report)
 
@@ -157,6 +159,21 @@ def _detect_skills(root: Path) -> list[str]:
     return sorted(skills)
 
 
+def _detect_testing_skills(root: Path) -> list[str]:
+    """Detect testing-related skills that could integrate with kanban workflow."""
+    skills_dir = root / ".claude" / "skills"
+    if not skills_dir.exists():
+        return []
+    test_keywords = ["test", "pytest", "unittest", "tdd", "spec", "qa", "coverage", "mock"]
+    testing = []
+    for skill_dir in skills_dir.iterdir():
+        if skill_dir.is_dir() and skill_dir.name != KANBAN_SKILL_NAME:
+            name_lower = skill_dir.name.lower()
+            if any(kw in name_lower for kw in test_keywords):
+                testing.append(skill_dir.name)
+    return sorted(testing)
+
+
 def _detect_infrastructure_gaps(root: Path, language: str) -> list[InfrastructureGap]:
     gaps = []
 
@@ -172,31 +189,53 @@ def _detect_infrastructure_gaps(root: Path, language: str) -> list[Infrastructur
 
 
 def _check_python_infra(root: Path) -> list[InfrastructureGap]:
+    import subprocess
     gaps = []
     has_pyproject = (root / "pyproject.toml").exists()
 
-    if not (root / ".pylintrc").exists() and not has_pyproject:
+    # Check pylint: actual execution
+    try:
+        result = subprocess.run(["pylint", "--version"], capture_output=True, timeout=10)
+        pylint_ok = result.returncode == 0
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        pylint_ok = False
+
+    if not pylint_ok and not (root / ".pylintrc").exists():
         gaps.append(InfrastructureGap(
             category="linting", tool="pylint",
             config_file=".pylintrc",
             detected=False,
-            suggestion="建议添加 pylint 配置以进行代码静态分析",
+            suggestion="建议安装 pylint: pip install pylint",
         ))
 
-    if not (root / "pytest.ini").exists() and not (root / "setup.cfg").exists() and not has_pyproject:
+    # Check pytest: actual execution
+    try:
+        result = subprocess.run(["pytest", "--version"], capture_output=True, timeout=10)
+        pytest_ok = result.returncode == 0
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        pytest_ok = False
+
+    if not pytest_ok:
         gaps.append(InfrastructureGap(
             category="testing", tool="pytest",
             config_file="pytest.ini",
             detected=False,
-            suggestion="建议添加 pytest 配置以进行单元测试",
+            suggestion="建议安装 pytest: pip install pytest",
         ))
 
-    if not (root / ".coveragerc").exists() and not has_pyproject:
+    # Check coverage: actual execution
+    try:
+        result = subprocess.run(["coverage", "--version"], capture_output=True, timeout=10)
+        cov_ok = result.returncode == 0
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        cov_ok = False
+
+    if not cov_ok and not has_pyproject:
         gaps.append(InfrastructureGap(
             category="testing", tool="coverage",
             config_file=".coveragerc",
             detected=False,
-            suggestion="建议添加 coverage 配置以追踪测试覆盖率",
+            suggestion="建议安装 coverage: pip install coverage",
         ))
 
     return gaps
@@ -277,6 +316,7 @@ def _check_domain_infra(root: Path, language: str) -> list[InfrastructureGap]:
                 suggestion="游戏项目建议添加 GM 指令系统，方便 QA 调测（如创建 gm_commands.py/j模块，包含常用调试指令）",
             ))
 
+    gaps.extend(_check_gitignore(root, output_dir))
     return gaps
 
 
@@ -299,3 +339,23 @@ def _generate_recommendations(report: ScanReport) -> list[str]:
         recs.append("项目尚未初始化 kanban，运行 /kanban init 完成初始化")
 
     return recs
+
+
+def _check_gitignore(root: Path, output_dir: str) -> list[InfrastructureGap]:
+    import fnmatch
+    gaps = []
+    gitignore = root / ".gitignore"
+    if not gitignore.exists():
+        return gaps
+    lines = gitignore.read_text(encoding="utf-8").split("\n")
+    for line in lines:
+        pat = line.strip()
+        if pat and not pat.startswith("#"):
+            if fnmatch.fnmatch(output_dir, pat) or fnmatch.fnmatch(f"{output_dir}/", pat):
+                gaps.append(InfrastructureGap(
+                    category="domain", tool="gitignore", config_file=".gitignore",
+                    detected=False,
+                    suggestion=f"output_dir '{output_dir}' 被 .gitignore 排除，Agent 需 git add -f 或修改 .gitignore",
+                ))
+                break
+    return gaps

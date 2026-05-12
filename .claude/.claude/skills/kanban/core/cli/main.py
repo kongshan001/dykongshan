@@ -110,6 +110,26 @@ def _cmd_check_env(args: list[str]) -> dict:
     config_ok = (kanban_dir / "config.json").is_file()
     workflow_ok = (kanban_dir / "workflow.json").is_file()
 
+    gitignore = root / ".gitignore"
+    if gitignore.exists():
+        import fnmatch
+        output_dir = "src"
+        cfg_file = kanban_dir / "config.json"
+        if cfg_file.is_file():
+            try:
+                output_dir = json.loads(cfg_file.read_text(encoding="utf-8")).get("output_dir", "src")
+            except: pass
+        for line in gitignore.read_text(encoding="utf-8").split("\n"):
+            pat = line.strip()
+            if pat and not pat.startswith("#"):
+                if fnmatch.fnmatch(output_dir, pat) or fnmatch.fnmatch(f"{output_dir}/", pat):
+                    anomalies.append({
+                        "type": "gitignore_conflict", "pattern": pat,
+                        "message": f"output_dir '{output_dir}' excluded by .gitignore",
+                        "fix": f"Remove '{pat}' from .gitignore or use git add -f",
+                    })
+                    break
+
     healthy = config_ok and workflow_ok and len(anomalies) == 0
     return {
         "project_root": str(root),

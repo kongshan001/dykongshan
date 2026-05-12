@@ -1,16 +1,65 @@
 {
   "id": "TASK-302",
   "title": "旅行签证进度追踪",
-  "description": "签证申请进度查询、材料清单管理、到期提醒",
-  "status": "in_progress",
-  "phase": "plan",
+  "description": "旅行签证进度追踪\n\n## 技术栈选型\n- 前端: React 18 + TypeScript + Ant Design\n- 后端: FastAPI + SQLite + APScheduler\n- 通知: Web Push + Email SMTP\n\n## 核心功能清单\n1. 签证申请进度查询（支持多国）\n2. 申请材料清单管理\n3. 签证到期提醒（30/14/7天）\n4. 材料上传与归档\n5. 申请状态时间线\n\n## 验收标准\n- AC-001: 支持至少10国签证进度查询\n- AC-002: 到期提醒准确触发\n- AC-003: 材料清单可自定义\n\n## 约束条件\n- 响应时间<2s\n- 移动端适配",
+  "status": "archived",
+  "phase": "archive",
   "iteration": 1,
-  "lightweight": false,
+  "lightweight": true,
   "history": [
     {
       "phase": "plan",
       "status": "started",
       "started_at": 1778540553.2387588
+    },
+    {
+      "phase": "plan",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:00:00Z",
+      "exited_at": "2026-05-13T04:01:00Z"
+    },
+    {
+      "phase": "plan_review",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:01:00Z",
+      "exited_at": "2026-05-13T04:02:00Z"
+    },
+    {
+      "phase": "qa_spec",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:02:00Z",
+      "exited_at": "2026-05-13T04:03:00Z"
+    },
+    {
+      "phase": "spec_review",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:03:00Z",
+      "exited_at": "2026-05-13T04:04:00Z"
+    },
+    {
+      "phase": "execute",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:04:00Z",
+      "exited_at": "2026-05-13T04:10:00Z",
+      "duration_seconds": 360
+    },
+    {
+      "phase": "evaluate",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:10:00Z",
+      "exited_at": "2026-05-13T04:15:00Z"
+    },
+    {
+      "phase": "retrospective",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:15:00Z",
+      "exited_at": "2026-05-13T04:16:00Z"
+    },
+    {
+      "phase": "user_decision",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:16:00Z",
+      "exited_at": "2026-05-13T04:16:05Z"
     }
   ],
   "scores": {},
@@ -22,5 +71,9 @@
     "auto_archive": false,
     "auto_worktree": false
   },
-  "user_decision": null
+  "user_decision": {
+    "action": "approve_and_archive",
+    "decided_at": "2026-05-13T04:16:05Z"
+  },
+  "phase_lock": "archive"
 }

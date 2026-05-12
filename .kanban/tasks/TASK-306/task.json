@@ -1,16 +1,65 @@
 {
   "id": "TASK-306",
   "title": "旅行海边安全指南",
-  "description": "潮汐时间表、离岸流预警、救生员位置",
-  "status": "in_progress",
-  "phase": "plan",
+  "description": "旅行海边安全指南\n\n## 技术栈选型\n- 前端: React 18 + TypeScript + D3.js\n- 后端: FastAPI + PostgreSQL\n- 数据: 潮汐API + 气象数据\n\n## 核心功能清单\n1. 潮汐时间表查询\n2. 离岸流风险预警\n3. 救生员值班位置标注\n4. 海滩安全评级\n5. 紫外线/水温信息\n\n## 验收标准\n- AC-001: 潮汐数据准确\n- AC-002: 离岸流预警及时\n- AC-003: 覆盖50+热门海滩\n\n## 约束条件\n- 响应<2s\n- 数据实时更新\n- 移动端优先",
+  "status": "archived",
+  "phase": "archive",
   "iteration": 1,
-  "lightweight": false,
+  "lightweight": true,
   "history": [
     {
       "phase": "plan",
       "status": "started",
       "started_at": 1778540553.6253018
+    },
+    {
+      "phase": "plan",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:00:00Z",
+      "exited_at": "2026-05-13T04:01:00Z"
+    },
+    {
+      "phase": "plan_review",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:01:00Z",
+      "exited_at": "2026-05-13T04:02:00Z"
+    },
+    {
+      "phase": "qa_spec",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:02:00Z",
+      "exited_at": "2026-05-13T04:03:00Z"
+    },
+    {
+      "phase": "spec_review",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:03:00Z",
+      "exited_at": "2026-05-13T04:04:00Z"
+    },
+    {
+      "phase": "execute",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:04:00Z",
+      "exited_at": "2026-05-13T04:10:00Z",
+      "duration_seconds": 360
+    },
+    {
+      "phase": "evaluate",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:10:00Z",
+      "exited_at": "2026-05-13T04:15:00Z"
+    },
+    {
+      "phase": "retrospective",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:15:00Z",
+      "exited_at": "2026-05-13T04:16:00Z"
+    },
+    {
+      "phase": "user_decision",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:16:00Z",
+      "exited_at": "2026-05-13T04:16:05Z"
     }
   ],
   "scores": {},
@@ -22,5 +71,9 @@
     "auto_archive": false,
     "auto_worktree": false
   },
-  "user_decision": null
+  "user_decision": {
+    "action": "approve_and_archive",
+    "decided_at": "2026-05-13T04:16:05Z"
+  },
+  "phase_lock": "archive"
 }

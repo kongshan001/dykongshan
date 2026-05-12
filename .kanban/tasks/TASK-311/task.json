@@ -1,0 +1,26 @@
+{
+  "id": "TASK-311",
+  "title": "旅行紧急联系人卡片",
+  "description": "一键生成含当地紧急电话/大使馆/医疗的求助卡",
+  "status": "in_progress",
+  "phase": "plan",
+  "iteration": 1,
+  "lightweight": false,
+  "history": [
+    {
+      "phase": "plan",
+      "status": "started",
+      "started_at": 1778618153.9469147
+    }
+  ],
+  "scores": {},
+  "score_history": [],
+  "auto_mode": {
+    "auto_brainstorm": false,
+    "auto_iteration": false,
+    "auto_lightweight": false,
+    "auto_archive": false,
+    "auto_worktree": false
+  },
+  "user_decision": null
+}

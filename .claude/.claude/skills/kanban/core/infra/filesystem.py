@@ -76,8 +76,13 @@ class Filesystem:
         return self._kanban_dir / "workflow.json"
 
     def read_json(self, path: Path) -> dict[str, Any]:
-        with open(path, encoding="utf-8") as f:
-            return json.load(f)
+        try:
+            with open(path, encoding="utf-8") as f:
+                return json.load(f)
+        except json.JSONDecodeError as e:
+            raise ValueError(
+                f"Invalid JSON in {path} at line {e.lineno}: {e.msg}"
+            ) from e
 
     def write_json(self, path: Path, data: dict[str, Any]) -> None:
         self.ensure_dir(path.parent)

@@ -3,9 +3,9 @@
   "title": "旅行签证查询助手",
   "description": "各国签证要求、办理流程、所需材料清单",
   "engine": "claude-code",
-  "status": "pending",
-  "phase": null,
-  "phase_lock": null,
+  "status": "archived",
+  "phase": "archive",
+  "phase_lock": "archive",
   "assignee": null,
   "worktree": {
     "branch": "feature/TASK-242",

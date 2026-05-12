@@ -14,12 +14,12 @@ model: opus
 
 - `task_id` — 任务 ID
 - `worktree_path` — 代码目录路径
-- `$KANBAN_DIR/reports/${task_id}/iteration-${iteration}/requirements.md` — 需求文档
-- `$KANBAN_DIR/reports/${task_id}/iteration-${iteration}/task_breakdown.json` — 任务拆解
+- `$KANBAN_DIR/${task_id}/iteration-${iteration}/requirements.md` — 需求文档
+- `$KANBAN_DIR/${task_id}/iteration-${iteration}/task_breakdown.json` — 任务拆解
 
 ## 输出
 
-写入报告: `$KANBAN_DIR/reports/${task_id}/iteration-${iteration}/code_reviewer_report.json`
+写入报告: `$KANBAN_DIR/${task_id}/iteration-${iteration}/code_reviewer_report.json`
 
 ```json
 {
@@ -75,6 +75,7 @@ model: opus
 - 错误处理是否完善
 - 是否存在注入、XSS 等安全风险
 - 测试是否覆盖核心逻辑和边界情况
+- 类型注解一致性: 检查函数返回类型注解与实际返回值是否匹配（如 Dict[str, int] vs float 字段）
 - 是否符合项目既有的代码风格
 
 ## 重要

@@ -3,8 +3,8 @@
   "title": "旅行行程冲突检测引擎",
   "description": "--desc",
   "engine": "claude-code",
-  "status": "plan",
-  "phase": "plan",
+  "status": "archived",
+  "phase": "archive",
   "phase_lock": "archive",
   "assignee": null,
   "worktree": {

@@ -5,6 +5,7 @@ from core.types import Task, Phase
 from core.infra.filesystem import Filesystem
 from core.infra.config import Config
 from core.infra.scheduler import Scheduler
+from core.domain.guard import Guard, CheckResult
 from core.domain.self_improve import IterationDecider, IterationAction
 
 
@@ -13,9 +14,10 @@ class TransitionError(Exception):
 
 
 class WorkflowEngine:
-    def __init__(self, fs: Filesystem, config: Config):
+    def __init__(self, fs: Filesystem, config: Config, guard: Guard | None = None):
         self._fs = fs
         self._cfg = config
+        self._guard = guard
 
     def transition(self, task: Task, target: Phase) -> Phase:
         current_idx = Scheduler.PHASE_ORDER.index(task.phase)
@@ -30,6 +32,22 @@ class WorkflowEngine:
             raise TransitionError(
                 f"Cannot skip phase: {task.phase.value} -> {target.value}"
             )
+
+        # Built-in guard check (IR-01: Guard 不可绕过)
+        if self._guard:
+            guard_result = self._guard.check_artifacts(task, task.phase)
+            if not guard_result.passed:
+                raise TransitionError(
+                    f"Guard blocked transition {task.phase.value} -> {target.value}: "
+                    + "; ".join(guard_result.failures)
+                )
+            phase_check = self._guard.check_phase_completeness(task)
+            if not phase_check.passed:
+                raise TransitionError(
+                    f"Phase completeness check failed: "
+                    + "; ".join(phase_check.failures)
+                )
+
         return target
 
     def complete_phase(self, task: Task) -> Task:

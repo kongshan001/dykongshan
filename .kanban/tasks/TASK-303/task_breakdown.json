@@ -1,0 +1,45 @@
+{
+  "task_id": "TASK-303",
+  "iteration": 1,
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "客流数据模型",
+      "status": "pending",
+      "depends": []
+    },
+    {
+      "id": "ST-002",
+      "title": "预测算法",
+      "status": "pending",
+      "depends": [
+        "ST-001"
+      ]
+    },
+    {
+      "id": "ST-003",
+      "title": "热力图渲染",
+      "status": "pending",
+      "depends": [
+        "ST-001"
+      ]
+    },
+    {
+      "id": "ST-004",
+      "title": "推荐引擎",
+      "status": "pending",
+      "depends": [
+        "ST-002"
+      ]
+    },
+    {
+      "id": "ST-005",
+      "title": "前端界面",
+      "status": "pending",
+      "depends": [
+        "ST-003",
+        "ST-004"
+      ]
+    }
+  ]
+}

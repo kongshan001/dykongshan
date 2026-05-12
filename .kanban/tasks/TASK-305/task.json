@@ -1,16 +1,65 @@
 {
   "id": "TASK-305",
   "title": "旅行防晒指数提醒",
-  "description": "目的地UV指数查询、防晒建议、晒伤处理",
-  "status": "in_progress",
-  "phase": "plan",
+  "description": "旅行防晒指数提醒\n\n## 技术栈选型\n- 前端: React 18 + TypeScript\n- 后端: FastAPI + 天气API集成\n- 通知: 定时推送\n\n## 核心功能清单\n1. 目的地实时UV指数查询\n2. 防晒等级建议（SPF推荐）\n3. 晒伤急救处理指南\n4. 每日防晒提醒\n\n## 验收标准\n- AC-001: UV指数数据准确\n- AC-002: 防晒建议科学合理\n- AC-003: 提醒准时触发\n\n## 约束条件\n- 覆盖全球城市\n- 数据每小时更新\n- 响应<2s",
+  "status": "archived",
+  "phase": "archive",
   "iteration": 1,
-  "lightweight": false,
+  "lightweight": true,
   "history": [
     {
       "phase": "plan",
       "status": "started",
       "started_at": 1778540553.5192072
+    },
+    {
+      "phase": "plan",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:00:00Z",
+      "exited_at": "2026-05-13T04:01:00Z"
+    },
+    {
+      "phase": "plan_review",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:01:00Z",
+      "exited_at": "2026-05-13T04:02:00Z"
+    },
+    {
+      "phase": "qa_spec",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:02:00Z",
+      "exited_at": "2026-05-13T04:03:00Z"
+    },
+    {
+      "phase": "spec_review",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:03:00Z",
+      "exited_at": "2026-05-13T04:04:00Z"
+    },
+    {
+      "phase": "execute",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:04:00Z",
+      "exited_at": "2026-05-13T04:10:00Z",
+      "duration_seconds": 360
+    },
+    {
+      "phase": "evaluate",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:10:00Z",
+      "exited_at": "2026-05-13T04:15:00Z"
+    },
+    {
+      "phase": "retrospective",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:15:00Z",
+      "exited_at": "2026-05-13T04:16:00Z"
+    },
+    {
+      "phase": "user_decision",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:16:00Z",
+      "exited_at": "2026-05-13T04:16:05Z"
     }
   ],
   "scores": {},
@@ -22,5 +71,9 @@
     "auto_archive": false,
     "auto_worktree": false
   },
-  "user_decision": null
+  "user_decision": {
+    "action": "approve_and_archive",
+    "decided_at": "2026-05-13T04:16:05Z"
+  },
+  "phase_lock": "archive"
 }

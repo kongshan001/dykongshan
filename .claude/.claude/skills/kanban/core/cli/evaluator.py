@@ -32,20 +32,18 @@ def _collect_scores(fs: Filesystem, tm: TaskManager, task_id: str) -> dict:
 
     scores = []
     for it in range(1, task.iteration + 1):
-        it_dir = fs.iteration_dir(task_id, it)
-        if not it_dir.exists():
+        report_dir = fs.report_dir(task_id, it)
+        if not report_dir.exists():
             continue
 
         for role in ["code_reviewer", "qa", "pm", "designer"]:
-            rf = it_dir / f"{role}_report.json"
+            rf = report_dir / f"{role}_report.json"
             if fs.file_exists(rf):
                 data = fs.read_json(rf)
                 scores.append({
                     "role": role,
                     "iteration": it,
-                    "total": data.get("total",
-                                       data.get("score",
-                                                data.get("overall", 0))),
+                    "total": data.get("total", data.get("score", data.get("overall", 0))),
                 })
 
     avg = round(sum(s["total"] for s in scores) / len(scores), 2) if scores else None
@@ -111,12 +109,12 @@ def _collect_plan_review_scores(
 
     dimensions = []
     for it in range(1, task.iteration + 1):
-        it_dir = fs.iteration_dir(task_id, it)
-        if not it_dir.exists():
+        report_dir = fs.report_dir(task_id, it)
+        if not report_dir.exists():
             continue
 
         for dim in _PLAN_REVIEW_DIMENSIONS:
-            rf = it_dir / f"{dim}_report.json"
+            rf = report_dir / f"{dim}_report.json"
             if fs.file_exists(rf):
                 data = fs.read_json(rf)
                 applicable = data.get("applicable", True)

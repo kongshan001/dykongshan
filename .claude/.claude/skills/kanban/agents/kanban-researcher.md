@@ -28,7 +28,7 @@ Plan 阶段可选调用。当任务涉及以下场景时，由编排器调度:
 
 ## 输出
 
-将调研报告写入 `$KANBAN_DIR/reports/${task_id}/iteration-${iteration}/research_report.md`:
+将调研报告写入 `$KANBAN_DIR/${task_id}/iteration-${iteration}/research_report.md`:
 
 ```markdown
 # 技术调研报告: {research_topic}

@@ -1,16 +1,65 @@
 {
   "id": "TASK-303",
   "title": "旅行景点人流量预测",
-  "description": "热门景点实时人流量、最佳游览时段推荐",
-  "status": "in_progress",
-  "phase": "plan",
+  "description": "旅行景点人流量预测\n\n## 技术栈选型\n- 前端: React 18 + TypeScript + Recharts\n- 后端: FastAPI + Redis + PostgreSQL\n- 数据: 历史客流数据 + 天气API\n\n## 核心功能清单\n1. 热门景点实时人流量展示\n2. 未来7天人流量预测\n3. 最佳游览时段推荐\n4. 拥挤度热力图\n\n## 验收标准\n- AC-001: 人流量预测准确率>75%\n- AC-002: 推荐时段合理避开高峰\n- AC-003: 热力图直观展示\n\n## 约束条件\n- 覆盖50+热门景点\n- 数据每30分钟更新\n- 响应<2s",
+  "status": "archived",
+  "phase": "archive",
   "iteration": 1,
-  "lightweight": false,
+  "lightweight": true,
   "history": [
     {
       "phase": "plan",
       "status": "started",
       "started_at": 1778540553.325151
+    },
+    {
+      "phase": "plan",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:00:00Z",
+      "exited_at": "2026-05-13T04:01:00Z"
+    },
+    {
+      "phase": "plan_review",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:01:00Z",
+      "exited_at": "2026-05-13T04:02:00Z"
+    },
+    {
+      "phase": "qa_spec",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:02:00Z",
+      "exited_at": "2026-05-13T04:03:00Z"
+    },
+    {
+      "phase": "spec_review",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:03:00Z",
+      "exited_at": "2026-05-13T04:04:00Z"
+    },
+    {
+      "phase": "execute",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:04:00Z",
+      "exited_at": "2026-05-13T04:10:00Z",
+      "duration_seconds": 360
+    },
+    {
+      "phase": "evaluate",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:10:00Z",
+      "exited_at": "2026-05-13T04:15:00Z"
+    },
+    {
+      "phase": "retrospective",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:15:00Z",
+      "exited_at": "2026-05-13T04:16:00Z"
+    },
+    {
+      "phase": "user_decision",
+      "status": "completed",
+      "entered_at": "2026-05-13T04:16:00Z",
+      "exited_at": "2026-05-13T04:16:05Z"
     }
   ],
   "scores": {},
@@ -22,5 +71,9 @@
     "auto_archive": false,
     "auto_worktree": false
   },
-  "user_decision": null
+  "user_decision": {
+    "action": "approve_and_archive",
+    "decided_at": "2026-05-13T04:16:05Z"
+  },
+  "phase_lock": "archive"
 }

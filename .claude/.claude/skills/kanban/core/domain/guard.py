@@ -54,7 +54,7 @@ class Guard:
         return self._DEFAULT_ARTIFACTS.get(phase.value, [])
 
     def check_artifacts(self, task: Task, phase: Phase) -> CheckResult:
-        # Evaluate phase: evaluation reports only (acceptance.md now checked in retrospective)
+        # Evaluate phase: only check evaluation reports (acceptance.md checked in retrospective)
         if phase == Phase.EVALUATE:
             return self.check_evaluation(task, task.iteration)
 
@@ -63,6 +63,9 @@ class Guard:
             return CheckResult(passed=True)
 
         results = [self._check_file(task, filename) for filename in required]
+        if phase == Phase.EXECUTE:
+            results.append(self._check_test_files(task))
+            results.append(self._check_tdd_evidence(task))
         combined = CheckResult.combine(results)
 
         if phase == Phase.EXECUTE and task.worktree_path is None:
@@ -78,10 +81,10 @@ class Guard:
 
     def check_evaluation(self, task: Task, iteration: int) -> CheckResult:
         missing = []
-        it_dir = self._fs.iteration_dir(task.id, iteration)
+        report_dir = self._fs.report_dir(task.id, iteration)
         for role_def in Scheduler.eval_roles():
             role = role_def["name"]
-            report_file = it_dir / f"{role}_report.json"
+            report_file = report_dir / f"{role}_report.json"
             if not self._fs.file_exists(report_file):
                 missing.append(role)
 
@@ -108,6 +111,24 @@ class Guard:
             return CheckResult(passed=False, failures=["test_spec.md missing"])
         if spec_file.stat().st_size == 0:
             return CheckResult(passed=False, failures=["test_spec.md is empty"])
+        # IR-119: verify acceptance criteria have test case coverage
+        req_file = self._fs.task_dir(task.id) / "requirements.md"
+        if self._fs.file_exists(req_file):
+            spec_content = spec_file.read_text(encoding="utf-8")
+            req_content = req_file.read_text(encoding="utf-8")
+            warnings: list[str] = []
+            import re
+            ac_section = re.search(r'## 验收标准\n\n(.*?)(?:\n##|\Z)', req_content, re.DOTALL)
+            if ac_section:
+                for line in ac_section.group(1).split('\n'):
+                    line = line.strip()
+                    if line.startswith('- AC-'):
+                        ac_id = line.split(':', 1)[0].lstrip('- ').strip()
+                        ac_text = line.split(':', 1)[1].strip()[:60] if ':' in line else line
+                        if ac_text.lower() not in spec_content.lower():
+                            warnings.append(f"{ac_id} not covered by test spec")
+            if warnings:
+                return CheckResult(passed=True, warnings=warnings)
         return CheckResult(passed=True)
 
     def check_parallel_conflicts(self, task: Task) -> CheckResult:
@@ -315,8 +336,12 @@ class Guard:
         task_dir = self._fs.task_dir(task.id)
         candidates = [
             task_dir / filename,
-            self._fs.iteration_dir(task.id, task.iteration) / filename,
         ]
+        iteration_dir = self._fs.iteration_dir(task.id, task.iteration)
+        candidates.append(iteration_dir / filename)
+        report_dir = iteration_dir / "reports"
+        candidates.append(report_dir / filename)
+
         for filepath in candidates:
             if self._fs.file_exists(filepath):
                 if filepath.stat().st_size == 0:
@@ -324,3 +349,92 @@ class Guard:
                 return CheckResult(passed=True)
 
         return CheckResult(passed=False, failures=[f"{filename} missing"])
+
+    def _check_test_files(self, task: Task) -> CheckResult:
+        """IR-10: Verify test files exist alongside implementation files."""
+        if not task.worktree_path:
+            return CheckResult(passed=True)
+        wt = Path(task.worktree_path)
+        cfg = self._cfg
+        output_dir = cfg.raw.get("output_dir", "src")
+        code_dir = wt / output_dir
+        if not code_dir.exists():
+            return CheckResult(passed=True)
+        test_patterns = ["test_*.py", "*_test.py", "*.test.js", "*.spec.ts"]
+        source_patterns = ["*.py", "*.js", "*.ts"]
+        source_files: list[Path] = []
+        for pat in source_patterns:
+            source_files.extend(code_dir.rglob(pat))
+        test_files: list[Path] = []
+        for pat in test_patterns:
+            test_files.extend(code_dir.rglob(pat))
+        if source_files and not test_files:
+            return CheckResult(
+                passed=False,
+                failures=["no test files found — IR-10 requires tests for all code changes"],
+            )
+        return CheckResult(passed=True)
+
+    def _check_tdd_evidence(self, task: Task) -> CheckResult:
+        """Verify TDD evidence table in execution_summary.md.
+
+        Checks that the TDD evidence table exists and each row shows
+        RED=FAIL (not PASS), proving tests were written before code.
+        """
+        summary_file = (
+            self._fs.iteration_dir(task.id, task.iteration)
+            / "execution_summary.md"
+        )
+        if not self._fs.file_exists(summary_file):
+            return CheckResult(
+                passed=False,
+                failures=["execution_summary.md missing — cannot verify TDD evidence"],
+            )
+        content = summary_file.read_text(encoding="utf-8")
+
+        # Look for the TDD evidence table header
+        if "## TDD 执行证据" not in content:
+            return CheckResult(
+                passed=False,
+                failures=[
+                    "TDD evidence table missing in execution_summary.md — "
+                    "must contain '## TDD 执行证据' section with per-feature RED→GREEN evidence"
+                ],
+            )
+
+        # Extract table rows (lines starting with | after the header)
+        tdd_section = content.split("## TDD 执行证据")[1]
+        if "## " in tdd_section:
+            tdd_section = tdd_section.split("## ")[0]
+
+        rows = [line.strip() for line in tdd_section.split("\n")
+                if line.strip().startswith("|") and "RED" not in line
+                and "---|---" not in line and "功能点" not in line]
+
+        if not rows:
+            return CheckResult(
+                passed=False,
+                failures=["TDD evidence table has no data rows — each feature point needs a RED→GREEN evidence row"],
+            )
+
+        # Check each row for RED=FAIL evidence
+        failures = []
+        for row in rows:
+            cells = [c.strip() for c in row.split("|")[1:-1]]
+            if len(cells) < 5:
+                continue
+            feature = cells[0]
+            red_result = cells[2]
+            if "PASS" in red_result.upper() and "FAIL" not in red_result.upper():
+                failures.append(
+                    f"{feature}: RED phase was PASS — test did not fail before implementation, "
+                    "TDD not correctly executed (test didn't catch missing feature)"
+                )
+            elif "FAIL" not in red_result.upper():
+                failures.append(
+                    f"{feature}: RED phase result unclear — must show FAIL with reason, got '{red_result}'"
+                )
+
+        if failures:
+            return CheckResult(passed=False, failures=failures)
+        return CheckResult(passed=True)

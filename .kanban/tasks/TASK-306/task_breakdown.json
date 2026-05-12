@@ -1,0 +1,44 @@
+{
+  "task_id": "TASK-306",
+  "iteration": 1,
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "潮汐数据集成",
+      "status": "pending",
+      "depends": []
+    },
+    {
+      "id": "ST-002",
+      "title": "离岸流预警算法",
+      "status": "pending",
+      "depends": [
+        "ST-001"
+      ]
+    },
+    {
+      "id": "ST-003",
+      "title": "安全评级系统",
+      "status": "pending",
+      "depends": [
+        "ST-001"
+      ]
+    },
+    {
+      "id": "ST-004",
+      "title": "救生员位置服务",
+      "status": "pending",
+      "depends": []
+    },
+    {
+      "id": "ST-005",
+      "title": "前端界面",
+      "status": "pending",
+      "depends": [
+        "ST-002",
+        "ST-003",
+        "ST-004"
+      ]
+    }
+  ]
+}

@@ -16,11 +16,11 @@ model: opus
 - `task_title` — 任务标题
 - `task_description` — 原始任务描述
 - `worktree_path` — 代码目录路径
-- `$KANBAN_DIR/reports/${task_id}/iteration-${iteration}/requirements.md` — 需求文档
+- `$KANBAN_DIR/${task_id}/iteration-${iteration}/requirements.md` — 需求文档
 
 ## 输出
 
-写入报告: `$KANBAN_DIR/reports/${task_id}/iteration-${iteration}/pm_report.json`
+写入报告: `$KANBAN_DIR/${task_id}/iteration-${iteration}/pm_report.json`
 
 ```json
 {

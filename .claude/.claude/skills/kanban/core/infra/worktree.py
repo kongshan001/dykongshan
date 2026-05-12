@@ -31,6 +31,12 @@ class Worktree:
             raise WorktreeError(
                 f"Failed to create worktree for {task_id}: {e}"
             ) from e
+        # Verify .git exists after creation
+        if not (path / ".git").exists():
+            raise WorktreeError(
+                f"Worktree created at {path} but .git directory missing. "
+                f"Git operations (commit/push) will fail."
+            )
         return path
 
     def remove(self, task_id: str, force: bool = False) -> None:

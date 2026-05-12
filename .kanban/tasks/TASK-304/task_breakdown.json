@@ -1,0 +1,45 @@
+{
+  "task_id": "TASK-304",
+  "iteration": 1,
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "交通卡数据收集",
+      "status": "pending",
+      "depends": []
+    },
+    {
+      "id": "ST-002",
+      "title": "城市卡详情页",
+      "status": "pending",
+      "depends": [
+        "ST-001"
+      ]
+    },
+    {
+      "id": "ST-003",
+      "title": "通票推荐算法",
+      "status": "pending",
+      "depends": [
+        "ST-001"
+      ]
+    },
+    {
+      "id": "ST-004",
+      "title": "离线缓存",
+      "status": "pending",
+      "depends": [
+        "ST-002"
+      ]
+    },
+    {
+      "id": "ST-005",
+      "title": "前端界面",
+      "status": "pending",
+      "depends": [
+        "ST-002",
+        "ST-003"
+      ]
+    }
+  ]
+}

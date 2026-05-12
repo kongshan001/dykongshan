@@ -74,6 +74,8 @@ class TaskManager:
         for t in tasks:
             s = t.get("status", "unknown")
             by_status[s] = by_status.get(s, 0) + 1
+        # Sort by priority descending (higher priority first)
+        tasks.sort(key=lambda t: t.get("priority", 5), reverse=True)
         return {"total": len(tasks), "by_status": by_status, "tasks": tasks}
 
     def update(self, task_id: str, **kwargs) -> Task:
@@ -127,7 +129,13 @@ class TaskManager:
         return f"{Consts.TASK_ID_PREFIX}{max(nums) + 1:03d}"
 
     def _read_task(self, path: Path) -> Task:
-        data = self._fs.read_json(path)
+        import json as _json
+        try:
+            data = self._fs.read_json(path)
+        except (_json.JSONDecodeError, Exception) as e:
+            raise TaskNotFoundError(
+                f"Failed to parse task file {path}: {e}"
+            ) from e
         # Parse auto_mode from JSON
         auto_mode_data = data.get("auto_mode", {})
         if isinstance(auto_mode_data, dict):

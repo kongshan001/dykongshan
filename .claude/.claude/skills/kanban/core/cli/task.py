@@ -145,6 +145,8 @@ def cmd_create(args: list[str]) -> dict:
     parser.add_argument("--desc", nargs="*", default=[], help="Task description")
     parser.add_argument("--auto-mode", nargs="*", default=[], dest="auto_mode",
                         help="Auto-mode flags: all, brainstorm, iteration, lightweight, archive, worktree")
+    parser.add_argument("--priority", type=int, default=5, dest="priority",
+                        help="Task priority (0-10, default 5)")
 
     parsed = parser.parse_args(args)
     title = " ".join(parsed.title) if parsed.title else "Untitled"
@@ -177,8 +179,9 @@ def cmd_create(args: list[str]) -> dict:
 
     _, _, tm = _resolve()
     task = tm.create(title, desc)
-    # Apply auto_mode and advance to plan phase
-    tm.update(task.id, phase="plan", status="in_progress", auto_mode=auto_mode)
+    priority = max(0, min(10, parsed.priority))
+    # Apply auto_mode, priority and advance to plan phase
+    tm.update(task.id, phase="plan", status="in_progress", auto_mode=auto_mode, priority=priority)
     return {
         "id": task.id,
         "title": task.title,
@@ -209,7 +212,7 @@ def cmd_show(args: list[str]) -> dict:
         "id": task.id, "title": task.title,
         "description": task.description,
         "status": task.status.value, "phase": task.phase.value,
-        "iteration": task.iteration,
+        "iteration": task.iteration, "priority": task.priority,
     }
 
 

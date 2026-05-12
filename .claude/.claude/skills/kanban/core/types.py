@@ -69,6 +69,7 @@ class Task:
     status: TaskStatus = TaskStatus.PENDING
     phase: Phase = Phase.PLAN
     iteration: int = 1
+    priority: int = 5
     worktree_path: Optional[str] = None
     lightweight: bool = False
     history: list[dict] = field(default_factory=list)

@@ -6,7 +6,7 @@ from core.infra.config import Config
 from core.infra.git import Git, GitError
 from core.infra.worktree import Worktree, WorktreeError
 from core.domain.task import TaskManager, TaskNotFoundError
-from core.domain.workflow import WorkflowEngine
+from core.domain.workflow import WorkflowEngine, TransitionError
 from core.domain.guard import Guard, CheckResult
 from core.domain.nlp import parse_nlp
 from core.domain.recovery import recover_list, recover_check_timeout, resume_task, rollback_task
@@ -156,7 +156,8 @@ def _resolve() -> tuple[Filesystem, Config, TaskManager, WorkflowEngine]:
     fs = Filesystem(root=root)
     cfg = Config(fs)
     tm = TaskManager(fs, cfg)
-    we = WorkflowEngine(fs, cfg)
+    guard = Guard(fs, cfg)
+    we = WorkflowEngine(fs, cfg, guard=guard)
     return fs, cfg, tm, we
 
 
@@ -193,29 +194,6 @@ def cmd_run(args: list[str]) -> dict:
             }
         target = next_p
 
-    # Guard check before transition (fix #83)
-    guard = Guard(fs, cfg)
-    guard_result = guard.check_artifacts(task, task.phase)
-    if not guard_result.passed:
-        return {
-            "task_id": task_id,
-            "phase": task.phase.value,
-            "message": "guard check failed",
-            "guard_failures": guard_result.failures,
-            "guard_warnings": guard_result.warnings,
-        }
-
-    # Verify previous phase was completed (no skip)
-    phase_check = guard.check_phase_completeness(task)
-    if not phase_check.passed:
-        return {
-            "task_id": task_id,
-            "phase": task.phase.value,
-            "message": "phase completeness check failed",
-            "skipped_phases": phase_check.failures,
-            "hint": "call complete-phase before advancing to next phase",
-        }
-
     # IR-16: brainstorming gate before plan → plan_review
     brainstorming = None
     if task.phase == Phase.PLAN and target == Phase.PLAN_REVIEW:
@@ -235,7 +213,14 @@ def cmd_run(args: list[str]) -> dict:
                 ),
             }
 
-    new_phase = we.transition(task, target)
+    try:
+        new_phase = we.transition(task, target)
+    except TransitionError as e:
+        return {
+            "task_id": task_id,
+            "phase": task.phase.value,
+            "message": str(e),
+        }
     tm.update(task_id, phase=new_phase.value)
     agents = _get_agents_for_phase(fs, new_phase.value,
                                      task_description=task.description)
@@ -526,10 +511,22 @@ def cmd_workflow(args: list[str]) -> dict:
         if len(args) < 2:
             return {"error": "task_id required"}
         task = tm.show(args[1])
-        if len(args) >= 3:
-            avg_score = float(args[2])
-        else:
-            # Auto-read from task score_history
+        # Parse --avg-score flag (or positional fallback for backward compat)
+        avg_score = None
+        for i, arg in enumerate(args):
+            if arg == "--avg-score" and i + 1 < len(args):
+                try:
+                    avg_score = float(args[i + 1])
+                except (ValueError, TypeError):
+                    return {"error": f"invalid --avg-score value: {args[i+1]}"}
+                break
+        if avg_score is None and len(args) >= 3:
+            # Backward compat: positional avg_score as args[2]
+            try:
+                avg_score = float(args[2])
+            except (ValueError, TypeError):
+                return {"error": f"invalid avg_score value: {args[2]}"}
+        if avg_score is None:
             if task.score_history:
                 latest = task.score_history[-1]
                 avg_score = latest.get("average", 0.0)

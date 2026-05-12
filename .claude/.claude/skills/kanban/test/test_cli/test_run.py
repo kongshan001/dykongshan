@@ -199,6 +199,15 @@ class TestCLIRun:
 
     def test_workflow_transition_persists_phase_to_disk(self, tmp_kanban, sample_task_file):
         """cmd_workflow transition must persist the new phase to task.json (#101/#100)."""
+        # Set up required artifacts so guard check in transition() passes
+        task_dir = tmp_kanban / ".kanban" / "tasks" / "TASK-001"
+        task_dir.mkdir(exist_ok=True)
+        (task_dir / "design.md").write_text("# Design\n\ndesign content")
+        (task_dir / "requirements.md").write_text("# Requirements\n\nreq content")
+        (task_dir / "task_breakdown.json").write_text(json.dumps({
+            "subtasks": [{"id": "ST-001", "title": "test", "priority": 1}]
+        }))
+
         result = _run("workflow", "transition", "TASK-001", "plan_review", cwd=tmp_kanban)
         assert result["success"] is True
         assert result["data"]["to"] == "plan_review"
