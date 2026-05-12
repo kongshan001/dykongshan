@@ -1,0 +1,44 @@
+{
+  "task_id": "TASK-308",
+  "iteration": 1,
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "物品重量数据库",
+      "status": "pending",
+      "depends": []
+    },
+    {
+      "id": "ST-002",
+      "title": "行李箱模型",
+      "status": "pending",
+      "depends": [
+        "ST-001"
+      ]
+    },
+    {
+      "id": "ST-003",
+      "title": "限额查询API",
+      "status": "pending",
+      "depends": [
+        "ST-002"
+      ]
+    },
+    {
+      "id": "ST-004",
+      "title": "费用计算引擎",
+      "status": "pending",
+      "depends": [
+        "ST-003"
+      ]
+    },
+    {
+      "id": "ST-005",
+      "title": "前端界面",
+      "status": "pending",
+      "depends": [
+        "ST-004"
+      ]
+    }
+  ]
+}

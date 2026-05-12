@@ -1,0 +1,44 @@
+{
+  "task_id": "TASK-307",
+  "iteration": 1,
+  "subtasks": [
+    {
+      "id": "ST-001",
+      "title": "数据模型设计",
+      "status": "pending",
+      "depends": []
+    },
+    {
+      "id": "ST-002",
+      "title": "登机牌解析引擎",
+      "status": "pending",
+      "depends": [
+        "ST-001"
+      ]
+    },
+    {
+      "id": "ST-003",
+      "title": "离线存储模块",
+      "status": "pending",
+      "depends": [
+        "ST-002"
+      ]
+    },
+    {
+      "id": "ST-004",
+      "title": "推送通知服务",
+      "status": "pending",
+      "depends": [
+        "ST-003"
+      ]
+    },
+    {
+      "id": "ST-005",
+      "title": "前端界面",
+      "status": "pending",
+      "depends": [
+        "ST-004"
+      ]
+    }
+  ]
+}
