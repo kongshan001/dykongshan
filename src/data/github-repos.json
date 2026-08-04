@@ -4761,7 +4761,7 @@
     "has_wiki": true,
     "has_pages": true,
     "has_discussions": false,
-    "forks_count": 0,
+    "forks_count": 1,
     "mirror_url": null,
     "archived": false,
     "disabled": false,
@@ -4774,7 +4774,7 @@
     "pull_request_creation_policy": "all",
     "topics": [],
     "visibility": "public",
-    "forks": 0,
+    "forks": 1,
     "open_issues": 1,
     "watchers": 0,
     "default_branch": "main"
